@@ -59,6 +59,13 @@ const routes = [
       { path: 'shipping', name: 'SellerShipping', component: () => import('@/views/seller/Shipping.vue'), meta: { requiresAuth: true } },
       { path: 'coupons', name: 'SellerCoupons', component: () => import('@/views/seller/Coupons.vue'), meta: { requiresAuth: true } },
       { path: 'settings', name: 'SellerSettings', component: () => import('@/views/seller/Settings.vue'), meta: { requiresAuth: true } },
+      { path: 'profile', name: 'SellerProfile', component: () => import('@/views/seller/Profile.vue'), meta: { requiresAuth: true } },
+      { path: 'reports', name: 'SellerReports', component: () => import('@/views/seller/Reports.vue'), meta: { requiresAuth: true } },
+      { path: 'messages', name: 'SellerMessages', component: () => import('@/views/seller/Messages.vue'), meta: { requiresAuth: true } },
+      { path: 'returns', name: 'SellerReturns', component: () => import('@/views/seller/Returns.vue'), meta: { requiresAuth: true } },
+      { path: 'promotions', name: 'SellerPromotions', component: () => import('@/views/seller/Promotions.vue'), meta: { requiresAuth: true } },
+      { path: 'categories', name: 'SellerCategories', component: () => import('@/views/seller/Categories.vue'), meta: { requiresAuth: true } },
+      { path: 'inventory', name: 'SellerInventory', component: () => import('@/views/seller/Inventory.vue'), meta: { requiresAuth: true } },
     ]
   },
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
