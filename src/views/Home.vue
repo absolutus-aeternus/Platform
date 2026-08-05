@@ -17,9 +17,9 @@
           <router-link to="/category">View All</router-link>
         </div>
         <div class="category-grid">
-          <div v-for="cat in categories" :key="cat" class="category-card" @click="$router.push(`/search?category=${cat}`)">
-            <div class="category-icon">{{ cat[0] }}</div>
-            <span>{{ cat }}</span>
+          <div v-for="cat in categories" :key="cat.id" class="category-card" @click="$router.push(`/search?category=${cat.id}`)">
+            <div class="category-icon" :style="{ background: cat.color || '#fe2c55' }">{{ cat.name[0] }}</div>
+            <span>{{ cat.name }}</span>
           </div>
         </div>
       </div>
@@ -32,7 +32,8 @@
           <h2>Daily Deals</h2>
           <router-link to="/discounts">More</router-link>
         </div>
-        <div class="product-grid">
+        <div v-if="loading" class="loading">Loading...</div>
+        <div v-else class="product-grid">
           <div v-for="product in products" :key="product.id" class="product-card" @click="$router.push(`/product/${product.id}`)">
             <div class="product-image">
               <div class="product-img-placeholder">{{ product.name[0] }}</div>
@@ -40,7 +41,7 @@
             <div class="product-info">
               <h3>{{ product.name }}</h3>
               <div class="product-price">${{ product.price }}</div>
-              <div class="product-sales">Sold {{ product.sales }}</div>
+              <div class="product-sales">Sold {{ product.sales_count || 0 }}</div>
             </div>
           </div>
         </div>
@@ -54,11 +55,11 @@
           <h2>Popular Stores</h2>
         </div>
         <div class="store-grid">
-          <div v-for="store in stores" :key="store.id" class="store-card" @click="$router.push(`/store/${store.id}`)">
+          <div v-for="store in sellers" :key="store.id" class="store-card" @click="$router.push(`/store/${store.id}`)">
             <div class="store-avatar">{{ store.name[0] }}</div>
             <h4>{{ store.name }}</h4>
-            <p>Products: {{ store.products }}</p>
-            <p>Sales: {{ store.sales }}</p>
+            <p>Products: {{ store.goods_count || 0 }}</p>
+            <p>Sales: {{ store.sales_count || 0 }}</p>
           </div>
         </div>
       </div>
@@ -92,28 +93,29 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
 
-const categories = ref([
-  'Food & Beverage', 'Men\'s Clothing', 'Women\'s Clothing', 'Electronics',
-  'Home Appliances', 'Sports & Outdoors', 'Beauty & Health', 'Kids & Toys',
-  'Jewelry & Watches', 'Bags & Luggage'
-])
+const categories = ref([])
+const products = ref([])
+const sellers = ref([])
+const loading = ref(true)
 
-const products = ref([
-  { id: 1, name: 'COOFANDY Mens Shawl Collar Long Cardigan', price: '34.60', sales: '26,042' },
-  { id: 2, name: 'ANBOTA Kids Lion Onesie Halloween Costume', price: '27.34', sales: '25,806' },
-  { id: 3, name: 'Thermajohn Mens Thermal Underwear Pants', price: '16.05', sales: '11,751' },
-  { id: 4, name: 'KwikSafety Safety Glasses Protective Eyewear', price: '35.87', sales: '21,966' },
-  { id: 5, name: 'ZZB Tablet 10 Inch Android 11 Tablet', price: '68.97', sales: '25,276' },
-  { id: 6, name: 'Portable Bluetooth Speaker Wireless Soundbar', price: '24.99', sales: '18,432' },
-])
-
-const stores = ref([
-  { id: 1, name: 'Dw專賣', products: 195, sales: '98,034' },
-  { id: 2, name: '陳陳專賣', products: 120, sales: '45,023' },
-  { id: 3, name: '電子秘境', products: 88, sales: '32,109' },
-  { id: 4, name: 'Attraction•奢潮', products: 65, sales: '21,456' },
-])
+onMounted(async () => {
+  try {
+    const [catRes, prodRes, sellerRes] = await Promise.all([
+      fetchCategories(),
+      fetchProducts({ limit: 8 }),
+      fetchSellers()
+    ])
+    categories.value = catRes.data || []
+    products.value = prodRes.data || []
+    sellers.value = sellerRes.data || []
+  } catch (e) {
+    console.error('Failed to load data:', e)
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>
@@ -127,10 +129,11 @@ const stores = ref([
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 .section-header h2 { font-size: 24px; }
 .section-header a { color: #fe2c55; text-decoration: none; }
+.loading { text-align: center; padding: 40px; color: #999; }
 .category-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
 .category-card { background: #fff; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .category-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-.category-icon { width: 50px; height: 50px; background: #fe2c55; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin: 0 auto 10px; }
+.category-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #fff; margin: 0 auto 10px; }
 .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .product-card { background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .product-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }

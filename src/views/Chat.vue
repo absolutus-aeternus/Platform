@@ -21,18 +21,21 @@
             <h3>{{ activeChatData?.name || 'Select a conversation' }}</h3>
           </div>
           
-          <div class="chat-messages">
-            <div v-for="msg in messages" :key="msg.id" class="message" :class="{ own: msg.own }">
+          <div class="chat-messages" ref="messagesContainer">
+            <div v-if="messages.length === 0" class="empty-chat">
+              <p>No messages yet. Start a conversation!</p>
+            </div>
+            <div v-for="msg in messages" :key="msg.id" class="message" :class="{ own: msg.is_own }">
               <div class="message-bubble">
-                <p>{{ msg.text }}</p>
-                <span class="message-time">{{ msg.time }}</span>
+                <p>{{ msg.message }}</p>
+                <span class="message-time">{{ formatTime(msg.created_at) }}</span>
               </div>
             </div>
           </div>
           
           <div class="chat-input">
             <input v-model="newMessage" type="text" placeholder="Type a message..." @keyup.enter="sendMessage">
-            <button @click="sendMessage">
+            <button @click="sendMessage" :disabled="!newMessage.trim()">
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
@@ -43,34 +46,109 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import { useUserStore } from '@/store/user'
+import { supabase } from '@/services/supabase'
 
-const activeChat = ref(1)
+const userStore = useUserStore()
+const activeChat = ref(null)
 const newMessage = ref('')
-
-const chats = ref([
-  { id: 1, name: 'Dw專賣', lastMessage: 'How can I help you?', time: '10:30' },
-  { id: 2, name: 'Customer Service', lastMessage: 'Welcome to TikTok Shop!', time: '09:15' },
-])
-
-const messages = ref([
-  { id: 1, text: 'Hello! How can I help you today?', time: '10:30', own: false },
-  { id: 2, text: 'I have a question about my order', time: '10:31', own: true },
-  { id: 3, text: 'Sure! Please provide your order number', time: '10:32', own: false },
-])
+const messages = ref([])
+const chats = ref([])
+const messagesContainer = ref(null)
 
 const activeChatData = computed(() => chats.value.find(c => c.id === activeChat.value))
 
-const sendMessage = () => {
-  if (!newMessage.value.trim()) return
-  messages.value.push({
-    id: Date.now(),
-    text: newMessage.value,
-    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    own: true
-  })
-  newMessage.value = ''
+const formatTime = (timestamp) => {
+  if (!timestamp) return ''
+  const date = new Date(timestamp)
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
+  })
+}
+
+const loadMessages = async () => {
+  if (!userStore.supabaseUser || !activeChat.value) return
+  
+  try {
+    const { data } = await supabase
+      .from('chat_messages')
+      .select('*')
+      .or(`and(sender_id.eq.${userStore.supabaseUser.id},seller_id.eq.${activeChat.value}),and(receiver_id.eq.${userStore.supabaseUser.id},seller_id.eq.${activeChat.value})`)
+      .order('created_at')
+    
+    messages.value = (data || []).map(msg => ({
+      ...msg,
+      is_own: msg.sender_id === userStore.supabaseUser.id
+    }))
+    scrollToBottom()
+  } catch (e) {
+    console.error('Failed to load messages:', e)
+  }
+}
+
+const loadChats = async () => {
+  try {
+    const { data: sellers } = await supabase.from('sellers').select('id, name').limit(5)
+    chats.value = (sellers || []).map(s => ({
+      id: s.id,
+      name: s.name,
+      lastMessage: 'Click to start chatting',
+      time: ''
+    }))
+    if (chats.value.length > 0) {
+      activeChat.value = chats.value[0].id
+    }
+  } catch (e) {
+    console.error('Failed to load chats:', e)
+  }
+}
+
+const sendMessage = async () => {
+  if (!newMessage.value.trim() || !userStore.supabaseUser || !activeChat.value) return
+  
+  try {
+    const { error } = await supabase.from('chat_messages').insert({
+      sender_id: userStore.supabaseUser.id,
+      seller_id: activeChat.value,
+      message: newMessage.value,
+      message_type: 'text'
+    })
+    
+    if (error) throw error
+    
+    messages.value.push({
+      id: Date.now(),
+      message: newMessage.value,
+      is_own: true,
+      created_at: new Date().toISOString()
+    })
+    newMessage.value = ''
+    scrollToBottom()
+  } catch (e) {
+    console.error('Failed to send message:', e)
+    alert('Failed to send message')
+  }
+}
+
+onMounted(async () => {
+  await loadChats()
+  if (activeChat.value) {
+    await loadMessages()
+  }
+})
+
+// Watch for active chat changes
+import { watch } from 'vue'
+watch(activeChat, () => {
+  if (activeChat.value) loadMessages()
+})
 </script>
 
 <style scoped>
@@ -87,6 +165,7 @@ const sendMessage = () => {
 .chat-time { font-size: 11px; color: #999; }
 .chat-header { padding: 15px 20px; border-bottom: 1px solid #eee; }
 .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+.empty-chat { text-align: center; color: #999; padding: 40px; }
 .message { display: flex; }
 .message.own { justify-content: flex-end; }
 .message-bubble { max-width: 70%; padding: 10px 15px; border-radius: 15px; background: #f0f0f0; }
@@ -96,4 +175,5 @@ const sendMessage = () => {
 .chat-input { display: flex; padding: 15px; border-top: 1px solid #eee; }
 .chat-input input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; font-size: 14px; }
 .chat-input button { width: 40px; height: 40px; background: #fe2c55; color: #fff; border: none; border-radius: 50%; margin-left: 10px; cursor: pointer; }
+.chat-input button:disabled { background: #ccc; cursor: not-allowed; }
 </style>
