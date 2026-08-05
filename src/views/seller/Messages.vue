@@ -1,49 +1,197 @@
 <template>
-  <div class="messages">
-    <h1>Messages</h1>
-    <div v-if="loading" class="loading">Loading...</div>
-    <div v-else-if="messages.length === 0" class="empty">No messages</div>
-    <div v-else class="message-list">
-      <div v-for="msg in messages" :key="msg.id" class="message-card" :class="{ unread: !msg.is_read }">
-        <div class="msg-header">
-          <span class="msg-from">{{ msg.sender_name || 'Customer' }}</span>
-          <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
+  <div class="seller-messages">
+    <h1>Customer Messages</h1>
+    
+    <div class="messages-layout">
+      <!-- Conversation List -->
+      <div class="conv-list">
+        <div v-if="loading" class="loading">Loading...</div>
+        <div v-else-if="conversations.length === 0" class="empty">No messages</div>
+        <div v-else>
+          <div v-for="conv in conversations" :key="conv.id" 
+               class="conv-item" :class="{ active: activeConv?.id === conv.id }"
+               @click="selectConversation(conv)">
+            <div class="conv-avatar">{{ conv.customer_email?.[0]?.toUpperCase() || 'C' }}</div>
+            <div class="conv-info">
+              <span class="conv-name">{{ conv.customer_email || 'Customer' }}</span>
+              <p class="conv-preview">{{ conv.lastMessage?.substring(0, 30) || 'No messages' }}</p>
+            </div>
+            <span v-if="conv.unread" class="unread-dot"></span>
+          </div>
         </div>
-        <p class="msg-content">{{ msg.message }}</p>
+      </div>
+      
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <div v-if="!activeConv" class="no-chat">
+          <i class="fas fa-inbox"></i>
+          <p>Select a conversation</p>
+        </div>
+        <template v-else>
+          <div class="chat-header">
+            <h4>{{ activeConv.customer_email || 'Customer' }}</h4>
+          </div>
+          <div class="messages" ref="messagesRef">
+            <div v-for="msg in messages" :key="msg.id" class="msg" :class="{ own: msg.is_own }">
+              <div class="msg-bubble">
+                <p>{{ msg.message }}</p>
+                <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <input v-model="newMessage" placeholder="Type a reply..." @keyup.enter="sendMessage">
+            <button @click="sendMessage" :disabled="!newMessage.trim()">Send</button>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
 
 const userStore = useUserStore()
-const messages = ref([])
 const loading = ref(true)
+const conversations = ref([])
+const messages = ref([])
+const activeConv = ref(null)
+const newMessage = ref('')
+const messagesRef = ref(null)
 
-const formatTime = (t) => t ? new Date(t).toLocaleString() : ''
+const formatTime = (t) => t ? new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesRef.value) messagesRef.value.scrollTop = messagesRef.value.scrollHeight
+  })
+}
 
 onMounted(async () => {
   if (!userStore.supabaseUser) { loading.value = false; return }
+  
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
-  if (seller) {
-    const { data } = await supabase.from('chat_messages').select('*').eq('seller_id', seller.id).order('created_at', { ascending: false })
-    messages.value = data || []
-  }
+  if (!seller) { loading.value = false; return }
+  
+  // Get all messages for this seller
+  const { data: msgs } = await supabase
+    .from('chat_messages')
+    .select('*, users(email)')
+    .eq('seller_id', seller.id)
+    .order('created_at', { ascending: false })
+  
+  // Group by sender
+  const convMap = new Map()
+  ;(msgs || []).forEach(msg => {
+    const senderId = msg.sender_id
+    if (!convMap.has(senderId)) {
+      convMap.set(senderId, {
+        id: senderId,
+        customer_email: msg.users?.email || 'Customer',
+        lastMessage: msg.message,
+        unread: !msg.is_read && msg.sender_id !== userStore.supabaseUser.id
+      })
+    }
+  })
+  
+  conversations.value = Array.from(convMap.values())
   loading.value = false
 })
+
+const selectConversation = async (conv) => {
+  activeConv.value = conv
+  
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  if (!seller) return
+  
+  const { data } = await supabase
+    .from('chat_messages')
+    .select('*')
+    .eq('seller_id', seller.id)
+    .eq('sender_id', conv.id)
+    .order('created_at')
+  
+  messages.value = (data || []).map(msg => ({
+    ...msg,
+    is_own: false
+  }))
+  
+  // Also get seller's replies
+  const { data: replies } = await supabase
+    .from('chat_messages')
+    .select('*')
+    .eq('seller_id', seller.id)
+    .eq('receiver_id', conv.id)
+    .order('created_at')
+  
+  messages.value = [...messages.value, ...(replies || []).map(msg => ({
+    ...msg,
+    is_own: true
+  }))].sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+  
+  scrollToBottom()
+}
+
+const sendMessage = async () => {
+  if (!newMessage.value.trim() || !activeConv.value) return
+  
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  if (!seller) return
+  
+  const text = newMessage.value.trim()
+  newMessage.value = ''
+  
+  await supabase.from('chat_messages').insert({
+    sender_id: userStore.supabaseUser.id,
+    receiver_id: activeConv.value.id,
+    seller_id: seller.id,
+    message: text,
+    message_type: 'text',
+    is_read: false
+  })
+  
+  messages.value.push({
+    id: Date.now(),
+    message: text,
+    is_own: true,
+    created_at: new Date().toISOString()
+  })
+  
+  scrollToBottom()
+}
 </script>
 
 <style scoped>
 h1 { margin-bottom: 25px; }
-.loading, .empty { text-align: center; padding: 40px; color: #999; }
-.message-card { background: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.message-card.unread { border-left: 3px solid #fe2c55; }
-.msg-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-.msg-from { font-weight: 600; }
-.msg-time { color: #999; font-size: 12px; }
-.msg-content { color: #666; font-size: 14px; }
+.messages-layout { display: grid; grid-template-columns: 280px 1fr; height: 60vh; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.conv-list { border-right: 1px solid #eee; overflow-y: auto; }
+.loading, .empty { text-align: center; padding: 30px; color: #999; }
+.conv-item { display: flex; align-items: center; gap: 10px; padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f5f5f5; position: relative; }
+.conv-item:hover { background: #f8f8f8; }
+.conv-item.active { background: #fff5f5; border-left: 3px solid #fe2c55; }
+.conv-avatar { width: 35px; height: 35px; background: #fe2c55; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+.conv-info { flex: 1; min-width: 0; }
+.conv-name { font-size: 13px; font-weight: 600; display: block; }
+.conv-preview { font-size: 12px; color: #999; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unread-dot { width: 8px; height: 8px; background: #fe2c55; border-radius: 50%; position: absolute; right: 10px; }
+.chat-area { display: flex; flex-direction: column; }
+.no-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; }
+.no-chat i { font-size: 40px; margin-bottom: 10px; color: #ddd; }
+.chat-header { padding: 15px 20px; border-bottom: 1px solid #eee; }
+.chat-header h4 { margin: 0; font-size: 14px; }
+.messages { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+.msg { display: flex; max-width: 75%; }
+.msg.own { align-self: flex-end; }
+.msg-bubble { padding: 8px 12px; border-radius: 12px; background: #f0f0f0; }
+.msg.own .msg-bubble { background: #fe2c55; color: #fff; }
+.msg-bubble p { margin: 0 0 3px; font-size: 13px; }
+.msg-time { font-size: 10px; color: #999; }
+.msg.own .msg-time { color: rgba(255,255,255,0.7); }
+.chat-input { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #eee; }
+.chat-input input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+.chat-input button { padding: 8px 15px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.chat-input button:disabled { background: #ccc; }
 </style>

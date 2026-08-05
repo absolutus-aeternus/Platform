@@ -126,12 +126,14 @@
       </div>
     </footer>
   </div>
+  <ChatWidget :sellerId="chatSellerId" :sellerName="chatSellerName" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import ChatWidget from '@/components/ChatWidget.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -140,6 +142,14 @@ const showLang = ref(false)
 const currentLang = ref('English')
 
 const languages = ['English', 'Deutsch', 'français', 'Русский', 'Español', 'Português', 'Italiano', 'Melayu', 'Afrikaans', 'Ελληνικά', '中文繁體', '中文简体', 'Türkçe', '日本語', '한국어', 'ภาษาไทย', 'Filipino', 'العربية', 'Tiếng Việt', 'हिन्दी', 'Bahasa Indonesia']
+
+const chatSellerId = ref(null)
+const chatSellerName = ref(null)
+
+provide('setChatSeller', (id, name) => {
+  chatSellerId.value = id
+  chatSellerName.value = name
+})
 
 const handleSearch = () => {
   if (searchQuery.value.trim()) {

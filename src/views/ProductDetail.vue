@@ -46,6 +46,7 @@
                 <p>{{ product.sellers?.goods_count || 0 }} Products</p>
               </div>
               <button class="btn-visit" @click="$router.push(`/store/${product.seller_id}`)">Visit Store</button>
+              <button class="btn-chat" @click="chatWithSeller"><i class="fas fa-comments"></i> Chat</button>
             </div>
           </div>
         </div>
@@ -70,10 +71,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+
+const setChatSeller = inject('setChatSeller')
 
 const route = useRoute()
 const router = useRouter()
@@ -127,6 +130,12 @@ const buyNow = async () => {
   await addToCart()
   router.push('/checkout')
 }
+
+const chatWithSeller = () => {
+  if (product.value?.sellers) {
+    setChatSeller(product.value.seller_id, product.value.sellers.name)
+  }
+}
 </script>
 
 <style scoped>
@@ -151,7 +160,8 @@ const buyNow = async () => {
 .btn-buy { flex: 1; padding: 14px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
 .store-info { display: flex; align-items: center; gap: 15px; padding: 20px; background: #f8f8f8; border-radius: 8px; }
 .store-avatar { width: 50px; height: 50px; background: #fe2c55; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.btn-visit { margin-left: auto; padding: 8px 20px; border: 1px solid #fe2c55; color: #fe2c55; background: none; border-radius: 4px; cursor: pointer; }
+.btn-visit { padding: 8px 20px; border: 1px solid #fe2c55; color: #fe2c55; background: none; border-radius: 4px; cursor: pointer; }
+.btn-chat { padding: 8px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px; }
 .product-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
 .product-tabs button { padding: 12px 25px; background: none; border: none; font-size: 16px; cursor: pointer; color: #666; border-bottom: 2px solid transparent; margin-bottom: -2px; }
 .product-tabs button.active { color: #fe2c55; border-bottom-color: #fe2c55; }
