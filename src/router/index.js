@@ -47,12 +47,18 @@ const routes = [
   {
     path: '/seller',
     component: () => import('@/layouts/SellerLayout.vue'),
-    meta: { requiresAuth: true, requiresSeller: true },
     children: [
-      { path: '', name: 'SellerDashboard', component: () => import('@/views/seller/Dashboard.vue') },
-      { path: 'products', name: 'SellerProducts', component: () => import('@/views/seller/Products.vue') },
-      { path: 'orders', name: 'SellerOrders', component: () => import('@/views/seller/Orders.vue') },
-      { path: 'analytics', name: 'SellerAnalytics', component: () => import('@/views/seller/Analytics.vue') },
+      { path: '', name: 'SellerDashboard', component: () => import('@/views/seller/Dashboard.vue'), meta: { requiresAuth: true } },
+      { path: 'login', name: 'SellerLogin', component: () => import('@/views/seller/Login.vue') },
+      { path: 'products', name: 'SellerProducts', component: () => import('@/views/seller/ProductList.vue'), meta: { requiresAuth: true } },
+      { path: 'product/add', name: 'SellerProductAdd', component: () => import('@/views/seller/ProductAdd.vue'), meta: { requiresAuth: true } },
+      { path: 'orders', name: 'SellerOrders', component: () => import('@/views/seller/Orders.vue'), meta: { requiresAuth: true } },
+      { path: 'analytics', name: 'SellerAnalytics', component: () => import('@/views/seller/Analytics.vue'), meta: { requiresAuth: true } },
+      { path: 'finance', name: 'SellerFinance', component: () => import('@/views/seller/Finance.vue'), meta: { requiresAuth: true } },
+      { path: 'customers', name: 'SellerCustomers', component: () => import('@/views/seller/Customers.vue'), meta: { requiresAuth: true } },
+      { path: 'shipping', name: 'SellerShipping', component: () => import('@/views/seller/Shipping.vue'), meta: { requiresAuth: true } },
+      { path: 'coupons', name: 'SellerCoupons', component: () => import('@/views/seller/Coupons.vue'), meta: { requiresAuth: true } },
+      { path: 'settings', name: 'SellerSettings', component: () => import('@/views/seller/Settings.vue'), meta: { requiresAuth: true } },
     ]
   },
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
@@ -69,7 +75,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token') || localStorage.getItem('sb-*-auth-token')
   if (to.meta.requiresAuth && !token) {
-    next('/login')
+    if (to.path.startsWith('/seller')) {
+      next('/seller/login')
+    } else {
+      next('/login')
+    }
   } else {
     next()
   }
