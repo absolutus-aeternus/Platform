@@ -1,49 +1,99 @@
 <template>
   <div class="dashboard">
     <h1>My Dashboard</h1>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <i class="fas fa-box"></i>
-        <div>
-          <h3>{{ stats.orders }}</h3>
-          <p>Total Orders</p>
+    <div v-if="loading" class="loading">Loading...</div>
+    <template v-else>
+      <div class="stats-grid">
+        <div class="stat-card" @click="$router.push('/user/orders')">
+          <i class="fas fa-box"></i>
+          <div>
+            <h3>{{ stats.orders }}</h3>
+            <p>Total Orders</p>
+          </div>
+        </div>
+        <div class="stat-card" @click="$router.push('/user/wallet')">
+          <i class="fas fa-wallet"></i>
+          <div>
+            <h3>${{ stats.balance }}</h3>
+            <p>Wallet Balance</p>
+          </div>
+        </div>
+        <div class="stat-card" @click="$router.push('/user/favorites')">
+          <i class="fas fa-heart"></i>
+          <div>
+            <h3>{{ stats.favorites }}</h3>
+            <p>Favorites</p>
+          </div>
+        </div>
+        <div class="stat-card" @click="$router.push('/user/notifications')">
+          <i class="fas fa-bell"></i>
+          <div>
+            <h3>{{ stats.notifications }}</h3>
+            <p>Notifications</p>
+          </div>
         </div>
       </div>
-      <div class="stat-card">
-        <i class="fas fa-wallet"></i>
-        <div>
-          <h3>${{ stats.balance }}</h3>
-          <p>Wallet Balance</p>
+      <div class="user-info">
+        <h2>Profile</h2>
+        <div class="info-row">
+          <span>Email</span>
+          <span>{{ userStore.supabaseUser?.email || 'N/A' }}</span>
+        </div>
+        <div class="info-row">
+          <span>Role</span>
+          <span>Member</span>
+        </div>
+        <div class="info-row">
+          <span>KYC Status</span>
+          <span class="kyc-badge">Verified</span>
         </div>
       </div>
-      <div class="stat-card">
-        <i class="fas fa-heart"></i>
-        <div>
-          <h3>{{ stats.favorites }}</h3>
-          <p>Favorites</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <i class="fas fa-bell"></i>
-        <div>
-          <h3>{{ stats.notifications }}</h3>
-          <p>Notifications</p>
-        </div>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '@/store/user'
+import { supabase } from '@/services/supabase'
+
+const userStore = useUserStore()
 const stats = ref({ orders: 0, balance: '0.00', favorites: 0, notifications: 0 })
+const loading = ref(true)
+
+onMounted(async () => {
+  if (!userStore.supabaseUser) { loading.value = false; return }
+  const uid = userStore.supabaseUser.id
+  try {
+    const [ordersRes, walletRes, favRes, notifRes] = await Promise.all([
+      supabase.from('orders').select('id').eq('user_id', uid),
+      supabase.from('wallets').select('balance').eq('user_id', uid).single(),
+      supabase.from('favorites').select('id').eq('user_id', uid),
+      supabase.from('notifications').select('id').eq('user_id', uid).eq('is_read', false)
+    ])
+    stats.value.orders = ordersRes.data?.length || 0
+    stats.value.balance = walletRes.data?.balance || '0.00'
+    stats.value.favorites = favRes.data?.length || 0
+    stats.value.notifications = notifRes.data?.length || 0
+  } catch (e) {
+    console.error('Failed to load dashboard:', e)
+  }
+  loading.value = false
+})
 </script>
 
 <style scoped>
 h1 { margin-bottom: 25px; }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.stat-card { background: #fff; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.loading { text-align: center; padding: 40px; color: #999; }
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
+.stat-card { background: #fff; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
 .stat-card i { font-size: 32px; color: #fe2c55; }
 .stat-card h3 { font-size: 24px; margin-bottom: 5px; }
 .stat-card p { color: #666; }
+.user-info { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.user-info h2 { margin-bottom: 20px; }
+.info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.info-row:last-child { border-bottom: none; }
+.kyc-badge { background: #d4edda; color: #155724; padding: 2px 10px; border-radius: 10px; font-size: 13px; }
 </style>
