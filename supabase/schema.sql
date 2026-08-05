@@ -291,3 +291,98 @@ INSERT INTO system_params (code, value, description) VALUES
 ('usdt_rate', '1.00', 'USDT exchange rate'),
 ('min_recharge', '10', 'Minimum recharge amount'),
 ('min_withdraw', '50', 'Minimum withdraw amount');
+
+-- Additional tables for complete platform
+
+-- Evaluations/Reviews table
+CREATE TABLE IF NOT EXISTS evaluations (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  order_id UUID REFERENCES orders(id),
+  user_id UUID REFERENCES users(id),
+  product_id UUID REFERENCES products(id),
+  rating INT DEFAULT 5,
+  comment TEXT,
+  images JSONB DEFAULT '[]',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Subscribers table
+CREATE TABLE IF NOT EXISTS subscribers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  user_id UUID REFERENCES users(id),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Withdrawals table
+CREATE TABLE IF NOT EXISTS withdrawals (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  amount DECIMAL(12,2) NOT NULL,
+  coin VARCHAR(20),
+  blockchain_name VARCHAR(50),
+  address TEXT,
+  fee DECIMAL(12,2) DEFAULT 0,
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Recharges table
+CREATE TABLE IF NOT EXISTS recharges (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  amount DECIMAL(12,2) NOT NULL,
+  coin VARCHAR(20),
+  blockchain_name VARCHAR(50),
+  tx_hash VARCHAR(255),
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Order logs table
+CREATE TABLE IF NOT EXISTS order_logs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  order_id UUID REFERENCES orders(id),
+  action VARCHAR(50),
+  details TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Lottery table
+CREATE TABLE IF NOT EXISTS lotteries (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name VARCHAR(255),
+  description TEXT,
+  prize TEXT,
+  start_date TIMESTAMPTZ,
+  end_date TIMESTAMPTZ,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- User activity/heartbeat table
+CREATE TABLE IF NOT EXISTS user_activity (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  last_active TIMESTAMPTZ DEFAULT NOW(),
+  ip_address VARCHAR(45),
+  user_agent TEXT
+);
+
+-- Add more blockchain channels
+INSERT INTO blockchain_channels (coin, blockchain_name, fee, is_active) VALUES
+('USDC', 'TRC20', 1.00, true),
+('ETH', 'ERC20', 1909.04, true),
+('BTC', 'BTC', 64707.28, true);
+
+-- Add more system params
+INSERT INTO system_params (code, value, description) VALUES
+('usdt_rate', '1.00', 'USDT exchange rate'),
+('min_recharge', '10', 'Minimum recharge amount'),
+('min_withdraw', '50', 'Minimum withdraw amount'),
+('lottery_enabled', 'true', 'Enable lottery feature'),
+('chat_enabled', 'true', 'Enable live chat'),
+('subscribe_enabled', 'true', 'Enable newsletter subscription');

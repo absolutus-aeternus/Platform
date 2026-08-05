@@ -182,3 +182,124 @@ export const fetchSystemParam = async (code) => {
     .single()
   return { data: data?.value, error }
 }
+
+// Additional service functions
+
+export const createEvaluation = async (evaluationData) => {
+  const { data, error } = await supabase.from('evaluations').insert(evaluationData)
+  return { data, error }
+}
+
+export const fetchEvaluations = async (productId) => {
+  const { data, error } = await supabase
+    .from('evaluations')
+    .select('*, users(email)')
+    .eq('product_id', productId)
+    .order('created_at', { ascending: false })
+  return { data, error }
+}
+
+export const subscribe = async (email, userId) => {
+  const { data, error } = await supabase.from('subscribers').upsert({ email, user_id: userId })
+  return { data, error }
+}
+
+export const createWithdrawal = async (withdrawalData) => {
+  const { data, error } = await supabase.from('withdrawals').insert(withdrawalData)
+  return { data, error }
+}
+
+export const fetchWithdrawals = async (userId) => {
+  const { data, error } = await supabase
+    .from('withdrawals')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+  return { data, error }
+}
+
+export const createRecharge = async (rechargeData) => {
+  const { data, error } = await supabase.from('recharges').insert(rechargeData)
+  return { data, error }
+}
+
+export const fetchRecharges = async (userId) => {
+  const { data, error } = await supabase
+    .from('recharges')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+  return { data, error }
+}
+
+export const updateOrderStatus = async (orderId, status) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', orderId)
+  return { data, error }
+}
+
+export const fetchOrderDetail = async (orderId) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*), users(email)')
+    .eq('id', orderId)
+    .single()
+  return { data, error }
+}
+
+export const logOrderActivity = async (orderId, action, details) => {
+  const { data, error } = await supabase.from('order_logs').insert({
+    order_id: orderId,
+    action,
+    details
+  })
+  return { data, error }
+}
+
+export const fetchLotteries = async () => {
+  const { data, error } = await supabase
+    .from('lotteries')
+    .select('*')
+    .eq('is_active', true)
+  return { data, error }
+}
+
+export const updateUserActivity = async (userId, ip, userAgent) => {
+  const { data, error } = await supabase.from('user_activity').upsert({
+    user_id: userId,
+    last_active: new Date().toISOString(),
+    ip_address: ip,
+    user_agent: userAgent
+  })
+  return { data, error }
+}
+
+export const fetchSellerInfo = async (sellerId) => {
+  const { data, error } = await supabase
+    .from('sellers')
+    .select('*, products(count)')
+    .eq('id', sellerId)
+    .single()
+  return { data, error }
+}
+
+export const searchProducts = async (keyword, filters = {}) => {
+  let query = supabase.from('products').select('*, sellers(name)')
+  if (keyword) query = query.ilike('name', `%${keyword}%`)
+  if (filters.category) query = query.eq('category_id', filters.category)
+  if (filters.minPrice) query = query.gte('price', filters.minPrice)
+  if (filters.maxPrice) query = query.lte('price', filters.maxPrice)
+  if (filters.sort === 'price') query = query.order('price')
+  if (filters.sort === 'sales') query = query.order('sales_count', { ascending: false })
+  const { data, error } = await query.limit(filters.limit || 20)
+  return { data, error }
+}
+
+export const searchSellers = async (keyword) => {
+  let query = supabase.from('sellers').select('*')
+  if (keyword) query = query.ilike('name', `%${keyword}%`)
+  const { data, error } = await query.limit(20)
+  return { data, error }
+}

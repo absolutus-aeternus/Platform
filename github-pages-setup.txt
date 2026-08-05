@@ -1,0 +1,14 @@
+=== GitHub Pages Setup ===
+
+Your code is pushed to: https://github.com/absolutus-aeternus/Platform
+
+Enable GitHub Pages:
+
+1. Go to: https://github.com/absolutus-aeternus/Platform/settings/pages
+2. Source: Select "GitHub Actions"
+3. Click "Save"
+
+Your site will be live at:
+https://absolutus-aeternus.github.io/Platform/
+
+The GitHub Actions workflow will auto-deploy on every push to main.
