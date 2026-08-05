@@ -1,6 +1,6 @@
-# 🛍️ TikTok Shop Clone — E-Commerce Platform
+# 🛍️ TikTok Shop Clone — Full-Stack E-Commerce Platform
 
-Full-stack e-commerce platform inspired by TikTok Shop / TK-Alliance. Built with Vue.js 3, Express.js, and Supabase.
+Complete e-commerce platform inspired by TikTok Shop / TK-Alliance. Built with Vue.js 3, Express.js, Supabase, and deployable to GitHub Pages.
 
 ## 🚀 Tech Stack
 
@@ -8,43 +8,60 @@ Full-stack e-commerce platform inspired by TikTok Shop / TK-Alliance. Built with
 |-------|-----------|
 | **Frontend** | Vue.js 3 + Pinia + Vue Router |
 | **Backend** | Express.js + JWT Authentication |
-| **Database** | Supabase (PostgreSQL) |
-| **Styling** | Custom CSS (Tailwind-ready) |
+| **Database** | Supabase (PostgreSQL) with RLS |
+| **Styling** | Custom CSS + Tailwind-ready |
 | **Build** | Vite 5 |
+| **Deploy** | GitHub Pages (auto-deploy) |
 
 ## 📦 Features
 
-### 🌐 Buyer Portal
+### 🌐 Buyer Portal (24 pages)
+- Home with categories, daily deals, popular stores, hot deals
 - Product catalog with 22 categories
-- Product search & filtering
+- Product search & filtering (price, sales)
 - Shopping cart (add/remove/quantity)
-- Checkout with crypto payment (USDT/USDC/BTC/ETH)
-- Order management (history, tracking)
-- Wallet system (balance, rebate, frozen funds)
-- Address book
+- Checkout with crypto payment (8 exchanges)
+- Order management (history, detail, return, evaluation)
+- Wallet system (balance, recharge, withdraw)
+- Address book (CRUD)
 - Favorites / Wishlist
+- Followed shops
 - Live chat with sellers
 - Notifications center
+- Credit/loan service
+- Multi-language support (22 languages)
 
-### 🏪 Seller Portal
+### 🏪 Seller Portal (21 pages)
 - Seller dashboard with analytics
-- Product management (CRUD)
-- Order processing
+- Product management (CRUD, inventory)
+- Order processing with status updates
+- Finance (revenue, balance, transactions)
+- Customer management with order stats
+- Shipping settings
+- Coupon & promotion management
 - Store profile & settings
-- Revenue tracking
+- Reports (sales, products, customers)
+- Live chat & messages
+- Returns management
+
+### 🔐 Admin Panel (21 pages)
+- Dashboard with stats, charts, recent orders
+- Product management with search/filter/pagination
+- Order management with status filters
+- User management with roles
+- Transaction volume & history
+- System settings (general, payment, features)
+- Banner management
+- Blockchain channel management
+- Activity logs
+- Sales/Product/Customer reports
 
 ### 💳 Payment Integration
-- Binance
-- Huobi
-- OKX
-- KraKen
-- Coinbase
-- MetaMask
-- KuCoin
-- Bitfinex
+- Binance, Huobi, OKX, KraKen, Coinbase, MetaMask, KuCoin, Bitfinex
+- Blockchain: USDC (ERC20/TRC20), USDT (ERC20/TRC20), ETH, BTC
 
 ### 💬 Live Chat Module
-- Real-time messaging (Supabase Realtime)
+- Real-time messaging via Supabase
 - Chat history
 - Unread message counter
 - Seller-buyer communication
@@ -52,89 +69,68 @@ Full-stack e-commerce platform inspired by TikTok Shop / TK-Alliance. Built with
 ### 🔒 Security
 - JWT authentication
 - Supabase Row Level Security (RLS)
-- Password hashing (bcrypt)
+- Password validation (6-20 chars)
 - CORS protection
 - Input validation
+- CAPTCHA slider on seller login
 
 ## 📂 Project Structure
 
 ```
 platform/
 ├── src/
-│   ├── views/              # Page components
-│   │   ├── Home.vue        # Landing page
-│   │   ├── Login.vue       # Buyer login
-│   │   ├── Register.vue    # Buyer registration
-│   │   ├── ProductDetail.vue
-│   │   ├── Cart.vue
-│   │   ├── Checkout.vue
-│   │   ├── Chat.vue        # Live chat
-│   │   ├── Category.vue
-│   │   ├── Search.vue
-│   │   ├── Discounts.vue
-│   │   ├── Credit.vue      # Loan service
-│   │   ├── Store.vue       # Seller store page
-│   │   ├── Verification.vue # Entry gate
-│   │   ├── user/           # Buyer dashboard
-│   │   │   ├── Dashboard.vue
-│   │   │   ├── Orders.vue
-│   │   │   ├── Wallet.vue
-│   │   │   ├── Favorites.vue
-│   │   │   ├── Addresses.vue
-│   │   │   ├── Notifications.vue
-│   │   │   └── Settings.vue
-│   │   └── seller/         # Seller dashboard
-│   │       ├── Dashboard.vue
-│   │       ├── Products.vue
-│   │       ├── Orders.vue
-│   │       └── Analytics.vue
+│   ├── views/              # 66 page components
+│   │   ├── Home.vue
+│   │   ├── Login.vue / Register.vue
+│   │   ├── ProductDetail.vue / Cart.vue / Checkout.vue
+│   │   ├── Chat.vue / Search.vue / Store.vue
+│   │   ├── user/           # 14 buyer pages
+│   │   ├── seller/         # 21 seller pages
+│   │   └── admin/          # 21 admin pages
 │   ├── layouts/
 │   │   ├── MainLayout.vue  # Public layout
 │   │   ├── UserLayout.vue  # Buyer layout
-│   │   └── SellerLayout.vue # Seller layout
-│   ├── store/
-│   │   └── user.js         # Pinia state management
-│   ├── services/
-│   │   └── supabase.js     # Supabase client & helpers
-│   ├── router/
-│   │   └── index.js        # Vue Router (25+ routes)
-│   ├── api/
-│   │   └── index.js        # Axios instance
-│   └── assets/
-│       └── css/main.css    # Global styles
-├── server/
-│   └── index.js            # Express.js API server
-├── supabase/
-│   └── schema.sql          # Database schema (15 tables)
+│   │   ├── SellerLayout.vue # Seller layout
+│   │   └── AdminLayout.vue # Admin layout
+│   ├── store/user.js       # Pinia state
+│   ├── services/supabase.js # 38 Supabase functions
+│   ├── router/index.js     # 75+ routes
+│   └── assets/css/main.css
+├── server/index.js         # Express API (20 endpoints)
+├── supabase/schema.sql     # 23 tables + RLS + sample data
 ├── dist/                   # Production build
-├── index.html              # Entry HTML
-├── vite.config.js          # Vite configuration
-├── tailwind.config.js      # Tailwind CSS config
-└── package.json
+└── .github/workflows/deploy.yml
 ```
 
 ## 🗄️ Database Schema
 
-15 tables with Row Level Security:
+23 tables with Row Level Security:
 
 | Table | Description |
 |-------|-------------|
-| `users` | User accounts (buyer/seller) |
+| `users` | User accounts |
 | `sellers` | Seller store profiles |
 | `categories` | Product categories (22) |
 | `products` | Product listings |
-| `cart_items` | Shopping cart items |
+| `cart_items` | Shopping cart |
 | `orders` | Order records |
 | `order_items` | Order line items |
 | `addresses` | Shipping addresses |
 | `wallets` | User wallet (balance/rebate/frozen) |
 | `chat_messages` | Live chat messages |
-| `favorites` | Product favorites/wishlist |
+| `favorites` | Product favorites |
 | `followed_sellers` | Seller follows |
 | `blockchain_channels` | Crypto payment channels |
 | `banners` | Homepage banners |
 | `system_params` | System configuration |
 | `notifications` | User notifications |
+| `evaluations` | Product reviews |
+| `subscribers` | Newsletter subscribers |
+| `withdrawals` | Withdrawal records |
+| `recharges` | Recharge records |
+| `order_logs` | Order activity logs |
+| `lotteries` | Lottery/rewards |
+| `user_activity` | User heartbeat |
 
 ## 🛠️ Setup
 
@@ -150,27 +146,26 @@ npm install
 ```
 
 ### 2. Configure Supabase
-Update `src/services/supabase.js` with your credentials:
+Update `src/services/supabase.js`:
 ```js
 const supabaseUrl = 'https://YOUR_PROJECT.supabase.co'
 const supabaseAnonKey = 'YOUR_ANON_KEY'
 ```
 
 ### 3. Run Database Schema
-Execute `supabase/schema.sql` in your Supabase SQL Editor.
+Execute `supabase/schema.sql` in Supabase SQL Editor.
 
 ### 4. Start Development
 ```bash
-# Terminal 1: Backend
-node server/index.js
-
-# Terminal 2: Frontend
-npm run dev
+npm run dev    # Frontend (port 3000)
+node server/index.js  # Backend (port 5000)
 ```
 
-### 5. Build for Production
+### 5. Build & Deploy
 ```bash
 npm run build
+git add -A && git commit -m "Update" && git push
+# Auto-deploys to GitHub Pages
 ```
 
 ## 🔌 API Endpoints
@@ -183,62 +178,36 @@ npm run build
 | POST | `/api/user/info` | Get user profile |
 
 ### Products
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/sellerGoods/recommend_new` | Get recommended products |
+| POST | `/api/sellerGoods/recommend_new` | Recommended products |
 | POST | `/api/sellerGoods/search-keyword` | Search products |
 | POST | `/api/category/recommend` | Get categories |
+| POST | `/api/seller/list` | Get sellers |
 
 ### Cart & Orders
-| Method | Endpoint | Description |
-|--------|----------|-------------|
 | POST | `/api/cart/list` | Get cart items |
 | POST | `/api/cart/add` | Add to cart |
 | POST | `/api/address/list` | Get addresses |
 
 ### Chat
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/newOnlinechat/unread` | Get unread count |
-| POST | `/api/newOnlinechat/list` | Get chat list |
+| POST | `/api/newOnlinechat/unread` | Unread count |
+| POST | `/api/newOnlinechat/list` | Chat list |
 
 ### Wallet
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/wallet/getUsdt` | Get wallet balance |
-| POST | `/api/channelBlockchain/list` | Get crypto channels |
+| POST | `/api/wallet/getUsdt` | Wallet balance |
+| POST | `/api/channelBlockchain/list` | Crypto channels |
 
-## 📱 Screenshots
+## 🌐 Live Demo
 
-| Page | Description |
-|------|-------------|
-| Home | Landing page with categories, deals, stores |
-| Login | Email/password authentication |
-| Product | Product detail with add-to-cart |
-| Cart | Shopping cart with quantity controls |
-| Checkout | Order summary with crypto payment |
-| Chat | Live messaging with sellers |
-| Dashboard | User orders, wallet, favorites |
-| Seller | Store management & analytics |
-
-## 🔐 Environment Variables
-
-```env
-VITE_SUPABASE_URL=https://your_project.supabase.co
-VITE_SUPABASE_ANON_KEY=your_anon_key
-JWT_SECRET=your_jwt_secret
-PORT=5000
-```
+**GitHub Pages:** https://absolutus-aeternus.github.io/Platform/
 
 ## 📄 License
 
-MIT License — Free to use and modify.
+MIT License
 
 ## 👨‍💻 Author
 
 **absolutus-aeternus**
 - GitHub: [@absolutus-aeternus](https://github.com/absolutus-aeternus)
-- Email: Panas.dingin@gmail.com
 
 ---
 
