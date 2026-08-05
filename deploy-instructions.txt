@@ -1,0 +1,33 @@
+=== CLOUDFLARE DEPLOY INSTRUCTIONS ===
+
+Your Account ID: f891a7b56743e4fb41751c507e3c1c3d
+Your Workers.dev: absolutus-aeternus.workers.dev
+
+=== STEP 1: Create API Token ===
+
+1. Go to: https://dash.cloudflare.com/profile/api-tokens
+2. Click "Create Token"
+3. Select "Cloudflare Pages: Edit" template
+4. Or create custom token with:
+   - Account > Cloudflare Pages > Edit
+   - Account > Workers Scripts > Edit
+5. Click "Continue to summary" > "Create Token"
+6. Copy the token (starts with cfat_)
+
+=== STEP 2: Deploy ===
+
+Option A: Run this command with your new token:
+CLOUDFLARE_API_TOKEN=<YOUR_NEW_TOKEN> npx wrangler pages deploy dist --project-name=tk-shop-platform
+
+Option B: Set GitHub Secrets for auto-deploy:
+1. Go to: https://github.com/absolutus-aeternus/Platform/settings/secrets/actions
+2. Add secret: CLOUDFLARE_API_TOKEN = <YOUR_NEW_TOKEN>
+3. Add secret: CLOUDFLARE_ACCOUNT_ID = f891a7b56743e4fb41751c507e3c1c3d
+4. Then every push to main will auto-deploy!
+
+=== STEP 3: Verify ===
+
+After deploy, your site will be at:
+- https://tk-shop-platform.pages.dev
+- https://tk-shop-platform.absolutus-aeternus.workers.dev
+
