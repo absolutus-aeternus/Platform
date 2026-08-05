@@ -196,6 +196,26 @@ git add -A && git commit -m "Update" && git push
 | POST | `/api/wallet/getUsdt` | Wallet balance |
 | POST | `/api/channelBlockchain/list` | Crypto channels |
 
+## 🔐 Login Portals
+
+### Buyer Portal
+- **URL:** `/#/login`
+- **Email:** Panas.dingin@gmail.com
+- **Password:** Qilin13579@
+- **Features:** Orders, Wallet, Favorites, Chat, Notifications
+
+### Seller Portal
+- **URL:** `/seller/login`
+- **Email:** Panas.dingin@gmail.com
+- **Password:** Qilin13579@
+- **Features:** Products, Orders, Finance, Analytics, Customers, Shipping
+
+### Admin Panel
+- **URL:** `/admin`
+- **Email:** Panas.dingin@gmail.com
+- **Password:** Qilin13579@
+- **Features:** Dashboard, Products, Orders, Users, Transactions, Settings
+
 ## 🌐 Live Demo
 
 **GitHub Pages:** https://absolutus-aeternus.github.io/Platform/
