@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 50" width="100%" height="auto" style="max-width: 340px;">
+ <defs>
+ <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+ <stop offset="0%" stop-color="#FFEA00" />
+ <stop offset="100%" stop-color="#FF9900" />
+ </linearGradient>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+ <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.7"/>
+ </filter>
+ </defs>
+ <g filter="url(#shadow)" font-family="'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="32">
+ <!-- Ikon Keranjang Belanja (DI DEPAN) -->
+ <path d="M 5 14 L 10 14 L 14 26 L 32 26 L 36 17 L 12 17 M 15 30 A 2 2 0 1 1 15 30.01 M 29 30 A 2 2 0 1 1 29 30.01"
+ stroke="#FFC700" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+ <!-- Teks ALLIANCE (Putih) -->
+ <text x="48" y="36" fill="#FFFFFF" stroke="#111111" stroke-width="1.5" letter-spacing="1">ALLIANCE</text>
+ <!-- Teks HUB (Kuning) -->
+ <text x="228" y="36" fill="url(#yellowGrad)" stroke="#111111" stroke-width="1.5" letter-spacing="1">HUB</text>
+ </g>
+</svg>

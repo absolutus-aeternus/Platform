@@ -2,9 +2,9 @@
   <div class="verification-page">
     <div class="bg-video"></div>
     <div class="content">
-      <div class="logo">TikTok Shop</div>
+      <div class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-verify" /></div>
       <div class="white-box">
-        <h1>Your business starts with TikTok Shop</h1>
+        <h1>Your business starts with ALLIANCEHUB</h1>
         <p>What are you waiting for?</p>
       </div>
       <div class="black-box">
@@ -30,6 +30,7 @@ const enterSite = () => {
 .bg-video { position: absolute; inset: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.02)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>'); opacity: 0.5; }
 .content { position: relative; z-index: 1; text-align: center; }
 .logo { font-size: 36px; font-weight: 800; color: #fe2c55; margin-bottom: 30px; }
+.logo-img-verify { height: 3rem; width: auto; object-fit: contain; }
 .white-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 12px; padding: 30px; margin-bottom: 20px; }
 .white-box h1 { color: #fff; font-size: 28px; margin-bottom: 10px; }
 .white-box p { color: rgba(255,255,255,0.7); }

@@ -3,26 +3,35 @@
     <div class="container">
       <h1>Checkout</h1>
       
-      <div class="checkout-grid">
+      <div v-if="userStore.cart.length === 0" class="empty">
+        <p>Your cart is empty</p>
+        <router-link to="/" class="btn-primary">Continue Shopping</router-link>
+      </div>
+      
+      <div v-else class="checkout-grid">
         <div class="checkout-main">
           <div class="section">
             <h2>Shipping Address</h2>
-            <div class="address-card">
-              <p><strong>{{ address.contacts }}</strong></p>
-              <p>{{ address.phone }}</p>
-              <p>{{ address.address }}, {{ address.city }}, {{ address.province }}, {{ address.country }} {{ address.postcode }}</p>
+            <div v-if="addresses.length === 0" class="no-address">
+              <p>No address found. Please add one in your profile.</p>
+              <router-link to="/user/addresses" class="btn-link">Add Address</router-link>
+            </div>
+            <div v-else class="address-card">
+              <p><strong>{{ selectedAddress.contacts }}</strong></p>
+              <p>{{ selectedAddress.phone }}</p>
+              <p>{{ selectedAddress.address }}, {{ selectedAddress.city }}, {{ selectedAddress.province }}, {{ selectedAddress.country }} {{ selectedAddress.postcode }}</p>
             </div>
           </div>
           
           <div class="section">
             <h2>Order Items</h2>
             <div v-for="item in userStore.cart" :key="item.id" class="order-item">
-              <div class="item-img">{{ item.name[0] }}</div>
+              <div class="item-img">{{ (item.products?.name || item.name || 'P')[0] }}</div>
               <div class="item-info">
-                <h4>{{ item.name }}</h4>
+                <h4>{{ item.products?.name || item.name || 'Product' }}</h4>
                 <p>Qty: {{ item.quantity }}</p>
               </div>
-              <div class="item-price">${{ (parseFloat(item.price) * item.quantity).toFixed(2) }}</div>
+              <div class="item-price">${{ ((item.products?.price || item.price || 0) * item.quantity).toFixed(2) }}</div>
             </div>
           </div>
           
@@ -51,8 +60,8 @@
             <span>Total</span>
             <span>${{ subtotal }}</span>
           </div>
-          <button class="btn-place-order" @click="placeOrder">
-            Place Order
+          <button class="btn-place-order" @click="placeOrder" :disabled="ordering || addresses.length === 0">
+            {{ ordering ? 'Placing Order...' : 'Place Order' }}
           </button>
         </div>
       </div>
@@ -61,43 +70,97 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import { supabase, fetchAddresses, createOrder } from '@/services/supabase'
 
 const router = useRouter()
 const userStore = useUserStore()
 
-const address = ref({
-  contacts: 'Ibu kartini',
-  phone: '62|81234567890',
-  address: 'Jalan konoha 99',
-  city: 'Kota Makassar',
-  province: 'Sulawesi Selatan',
-  country: 'Indonesia',
-  postcode: '88909'
-})
-
+const addresses = ref([])
+const selectedAddress = ref({})
 const paymentMethods = ['Binance', 'Huobi', 'OKX', 'Coinbase', 'MetaMask', 'KuCoin']
 const selectedPayment = ref('Binance')
+const ordering = ref(false)
 
 const subtotal = computed(() => {
-  return userStore.cart.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2)
+  return userStore.cart.reduce((sum, item) => {
+    const price = item.products?.price || item.price || 0
+    return sum + price * item.quantity
+  }, 0).toFixed(2)
 })
 
-const placeOrder = () => {
-  alert('Order placed successfully!')
-  userStore.clearCart()
-  router.push('/user/orders')
+onMounted(async () => {
+  if (userStore.supabaseUser) {
+    const { data } = await fetchAddresses(userStore.supabaseUser.id)
+    addresses.value = data || []
+    if (addresses.value.length > 0) {
+      selectedAddress.value = addresses.value.find(a => a.is_default) || addresses.value[0]
+    }
+  }
+})
+
+const placeOrder = async () => {
+  if (!userStore.supabaseUser || addresses.value.length === 0) return
+  
+  ordering.value = true
+  try {
+    const orderNo = 'ORD-' + Date.now()
+    // Get seller_id from first cart item's product
+    const firstProduct = userStore.cart[0]?.products
+    const sellerId = firstProduct?.seller_id || null
+    
+    const orderData = {
+      order_no: orderNo,
+      user_id: userStore.supabaseUser.id,
+      seller_id: sellerId,
+      total_amount: parseFloat(subtotal.value),
+      status: 'pending',
+      payment_method: selectedPayment.value,
+      payment_status: 'unpaid',
+      shipping_address: selectedAddress.value
+    }
+    
+    const { data: order, error } = await createOrder(orderData)
+    if (error) throw error
+    
+    // Create order items
+    for (const item of userStore.cart) {
+      const price = item.products?.price || item.price || 0
+      await supabase.from('order_items').insert({
+        order_id: order[0].id,
+        product_id: item.product_id || item.id,
+        product_name: item.products?.name || item.name,
+        product_price: price,
+        quantity: item.quantity,
+        total_price: price * item.quantity
+      })
+    }
+    
+    // Clear cart
+    await supabase.from('cart_items').delete().eq('user_id', userStore.supabaseUser.id)
+    userStore.clearCart()
+    
+    window.__toast?.show('Order placed successfully!')
+    router.push('/user/orders')
+  } catch (e) {
+    window.__toast?.show('Failed to place order: ' + e.message)
+  }
+  ordering.value = false
 }
 </script>
 
 <style scoped>
 .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
 h1 { margin-bottom: 30px; }
+.empty { text-align: center; padding: 60px 0; }
+.btn-primary { background: #fe2c55; color: #fff; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
 .checkout-grid { display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
 .section { background: #fff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .section h2 { font-size: 18px; margin-bottom: 15px; }
+.no-address { text-align: center; padding: 20px; }
+.btn-link { color: #fe2c55; text-decoration: none; }
 .address-card { padding: 15px; background: #f8f8f8; border-radius: 8px; }
 .order-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
 .item-img { width: 60px; height: 60px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ccc; border-radius: 4px; }
@@ -112,4 +175,17 @@ h1 { margin-bottom: 30px; }
 .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; }
 .summary-row.total { font-size: 18px; font-weight: 700; color: #fe2c55; border-top: 1px solid #eee; padding-top: 15px; }
 .btn-place-order { width: 100%; padding: 14px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 15px; }
+.btn-place-order:disabled { background: #ccc; cursor: not-allowed; }
+@media (max-width: 768px) {
+  .checkout-grid { grid-template-columns: 1fr; }
+  .payment-options { grid-template-columns: 1fr 1fr; }
+  .checkout-summary { position: static; }
+  .order-item { flex-wrap: wrap; }
+  .item-img { width: 50px; height: 50px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 10px; }
+  .section { padding: 15px; }
+  .payment-options { grid-template-columns: 1fr; }
+}
 </style>

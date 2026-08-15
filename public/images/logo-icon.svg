@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9900"/>
+      <stop offset="100%" style="stop-color:#e68a00"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="10" fill="#131921"/>
+  <g transform="translate(8, 8) scale(0.55)">
+    <path d="M8 8 L16 8 L28 48 L52 48 L60 20 L20 20" fill="none" stroke="#FF9900" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 4 L8 8" fill="none" stroke="#FF9900" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="32" cy="56" r="5" fill="#FF9900"/>
+    <circle cx="50" cy="56" r="5" fill="#FF9900"/>
+    <rect x="28" y="24" width="16" height="14" rx="2" fill="#FF9900" opacity="0.3"/>
+  </g>
+  <text x="24" y="44" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="800" fill="#FF9900">AH</text>
+</svg>

@@ -3,12 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TikTok Shop - Global E-Commerce Platform</title>
-  <meta name="description" content="Shop millions of products with fast shipping and secure payments. Your one-stop e-commerce destination.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>AllianceHub — Partner Global Dropshippers</title>
+  <meta name="description" content="Shop millions of products with fast shipping and secure payments. Your one-stop e-commerce destination for electronics, fashion, home & living, beauty, and more.">
+  <meta name="keywords" content="e-commerce, marketplace, dropshipping, electronics, fashion, deals, online shopping">
+  <meta name="author" content="AllianceHub">
+  <meta property="og:title" content="AllianceHub — Partner Global Dropshippers">
+  <meta property="og:description" content="Shop millions of products with fast shipping and secure payments.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://alliancehub.pages.dev">
+  <meta property="og:image" content="https://alliancehub.pages.dev/images/logo-alliance.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AllianceHub — Partner Global Dropshippers">
+  <meta name="twitter:description" content="Shop millions of products with fast shipping and secure payments.">
+  <meta name="theme-color" content="#131921">
+  <link rel="icon" type="image/png" href="/favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://cfzmdvymqqnrzrytcrie.supabase.co">
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(){
+      var id = window.__CLARITY_PROJECT_ID__ || '';
+      if (id) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", id);
+      }
+    })();
+  </script>
 </head>
 <body>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
+
+  <!-- OneSignal Web Push SDK -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      var appId = window.__ONESIGNAL_APP_ID__ || '';
+      if (appId) {
+        await OneSignal.init({ appId: appId });
+      }
+    });
+  </script>
 </body>
 </html>

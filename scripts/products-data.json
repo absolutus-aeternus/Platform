@@ -1,0 +1,2459 @@
+{
+  "beauty": [
+    {
+      "name": "Essence Mascara Lash Princess",
+      "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+      "price": 9.99,
+      "original_price": 11.16,
+      "discount": 10,
+      "rating": 2.56,
+      "review_count": 100,
+      "stock": 99,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp"
+      ],
+      "brand": "Essence",
+      "category": "beauty"
+    },
+    {
+      "name": "Eyeshadow Palette with Mirror",
+      "description": "The Eyeshadow Palette with Mirror offers a versatile range of eyeshadow shades for creating stunning eye looks. With a built-in mirror, it's convenient for on-the-go makeup application.",
+      "price": 19.99,
+      "original_price": 24.43,
+      "discount": 18,
+      "rating": 2.86,
+      "review_count": 100,
+      "stock": 34,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp"
+      ],
+      "brand": "Glamour Beauty",
+      "category": "beauty"
+    },
+    {
+      "name": "Powder Canister",
+      "description": "The Powder Canister is a finely milled setting powder designed to set makeup and control shine. With a lightweight and translucent formula, it provides a smooth and matte finish.",
+      "price": 14.99,
+      "original_price": 16.63,
+      "discount": 9,
+      "rating": 4.64,
+      "review_count": 100,
+      "stock": 89,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/powder-canister/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp"
+      ],
+      "brand": "Velvet Touch",
+      "category": "beauty"
+    },
+    {
+      "name": "Red Lipstick",
+      "description": "The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish.",
+      "price": 12.99,
+      "original_price": 14.79,
+      "discount": 12,
+      "rating": 4.36,
+      "review_count": 100,
+      "stock": 91,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp"
+      ],
+      "brand": "Chic Cosmetics",
+      "category": "beauty"
+    },
+    {
+      "name": "Red Nail Polish",
+      "description": "The Red Nail Polish offers a rich and glossy red hue for vibrant and polished nails. With a quick-drying formula, it provides a salon-quality finish at home.",
+      "price": 8.99,
+      "original_price": 10.15,
+      "discount": 11,
+      "rating": 4.32,
+      "review_count": 100,
+      "stock": 79,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp"
+      ],
+      "brand": "Nail Couture",
+      "category": "beauty"
+    },
+    {
+      "name": "Calvin Klein CK One",
+      "description": "CK One by Calvin Klein is a classic unisex fragrance, known for its fresh and clean scent. It's a versatile fragrance suitable for everyday wear.",
+      "price": 49.99,
+      "original_price": 50.95,
+      "discount": 1,
+      "rating": 4.37,
+      "review_count": 100,
+      "stock": 29,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/2.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/3.webp"
+      ],
+      "brand": "Calvin Klein",
+      "category": "beauty"
+    },
+    {
+      "name": "Chanel Coco Noir Eau De",
+      "description": "Coco Noir by Chanel is an elegant and mysterious fragrance, featuring notes of grapefruit, rose, and sandalwood. Perfect for evening occasions.",
+      "price": 129.99,
+      "original_price": 155.7,
+      "discount": 16,
+      "rating": 4.26,
+      "review_count": 100,
+      "stock": 58,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/2.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/3.webp"
+      ],
+      "brand": "Chanel",
+      "category": "beauty"
+    },
+    {
+      "name": "Dior J'adore",
+      "description": "J'adore by Dior is a luxurious and floral fragrance, known for its blend of ylang-ylang, rose, and jasmine. It embodies femininity and sophistication.",
+      "price": 89.99,
+      "original_price": 105.52,
+      "discount": 14,
+      "rating": 3.8,
+      "review_count": 100,
+      "stock": 98,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/1.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/2.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/3.webp"
+      ],
+      "brand": "Dior",
+      "category": "beauty"
+    },
+    {
+      "name": "Dolce Shine Eau de",
+      "description": "Dolce Shine by Dolce & Gabbana is a vibrant and fruity fragrance, featuring notes of mango, jasmine, and blonde woods. It's a joyful and youthful scent.",
+      "price": 69.99,
+      "original_price": 70.43,
+      "discount": 0,
+      "rating": 3.96,
+      "review_count": 100,
+      "stock": 4,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/1.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/2.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/3.webp"
+      ],
+      "brand": "Dolce & Gabbana",
+      "category": "beauty"
+    },
+    {
+      "name": "Gucci Bloom Eau de",
+      "description": "Gucci Bloom by Gucci is a floral and captivating fragrance, with notes of tuberose, jasmine, and Rangoon creeper. It's a modern and romantic scent.",
+      "price": 79.99,
+      "original_price": 93.44,
+      "discount": 14,
+      "rating": 2.74,
+      "review_count": 100,
+      "stock": 91,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/1.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/2.webp",
+        "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/3.webp"
+      ],
+      "brand": "Gucci",
+      "category": "beauty"
+    }
+  ],
+  "home-living": [
+    {
+      "name": "Annibale Colombo Bed",
+      "description": "The Annibale Colombo Bed is a luxurious and elegant bed frame, crafted with high-quality materials for a comfortable and stylish bedroom.",
+      "price": 1899.99,
+      "original_price": 2078.08,
+      "discount": 8,
+      "rating": 4.77,
+      "review_count": 100,
+      "stock": 88,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/1.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/2.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/3.webp"
+      ],
+      "brand": "Annibale Colombo",
+      "category": "home-living"
+    },
+    {
+      "name": "Annibale Colombo Sofa",
+      "description": "The Annibale Colombo Sofa is a sophisticated and comfortable seating option, featuring exquisite design and premium upholstery for your living room.",
+      "price": 2499.99,
+      "original_price": 2920.55,
+      "discount": 14,
+      "rating": 3.92,
+      "review_count": 100,
+      "stock": 60,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/1.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/2.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/3.webp"
+      ],
+      "brand": "Annibale Colombo",
+      "category": "home-living"
+    },
+    {
+      "name": "Bedside Table African Cherry",
+      "description": "The Bedside Table in African Cherry is a stylish and functional addition to your bedroom, providing convenient storage space and a touch of elegance.",
+      "price": 299.99,
+      "original_price": 370.77,
+      "discount": 19,
+      "rating": 2.87,
+      "review_count": 100,
+      "stock": 64,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/1.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/2.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/3.webp"
+      ],
+      "brand": "Furniture Co.",
+      "category": "home-living"
+    },
+    {
+      "name": "Knoll Saarinen Executive Conference Chair",
+      "description": "The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design.",
+      "price": 499.99,
+      "original_price": 510.25,
+      "discount": 2,
+      "rating": 4.88,
+      "review_count": 100,
+      "stock": 26,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/1.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/2.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/3.webp"
+      ],
+      "brand": "Knoll",
+      "category": "home-living"
+    },
+    {
+      "name": "Wooden Bathroom Sink With Mirror",
+      "description": "The Wooden Bathroom Sink with Mirror is a unique and stylish addition to your bathroom, featuring a wooden sink countertop and a matching mirror.",
+      "price": 799.99,
+      "original_price": 877.18,
+      "discount": 8,
+      "rating": 3.59,
+      "review_count": 100,
+      "stock": 7,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/1.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/2.webp",
+        "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/3.webp"
+      ],
+      "brand": "Bath Trends",
+      "category": "home-living"
+    },
+    {
+      "name": "Decoration Swing",
+      "description": "The Decoration Swing is a charming addition to your home decor. Crafted with intricate details, it adds a touch of elegance and whimsy to any room.",
+      "price": 59.99,
+      "original_price": 66.96,
+      "discount": 10,
+      "rating": 3.16,
+      "review_count": 100,
+      "stock": 47,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/1.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/2.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Family Tree Photo Frame",
+      "description": "The Family Tree Photo Frame is a sentimental and stylish way to display your cherished family memories. With multiple photo slots, it tells the story of your loved ones.",
+      "price": 29.99,
+      "original_price": 35.23,
+      "discount": 14,
+      "rating": 4.53,
+      "review_count": 100,
+      "stock": 77,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/family-tree-photo-frame/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/family-tree-photo-frame/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "House Showpiece Plant",
+      "description": "The House Showpiece Plant is an artificial plant that brings a touch of nature to your home without the need for maintenance. It adds greenery and style to any space.",
+      "price": 39.99,
+      "original_price": 43.21,
+      "discount": 7,
+      "rating": 4.67,
+      "review_count": 100,
+      "stock": 28,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/1.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/2.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Plant Pot",
+      "description": "The Plant Pot is a stylish container for your favorite plants. With a sleek design, it complements your indoor or outdoor garden, adding a modern touch to your plant display.",
+      "price": 14.99,
+      "original_price": 16.09,
+      "discount": 6,
+      "rating": 3.01,
+      "review_count": 100,
+      "stock": 59,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/1.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/2.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Table Lamp",
+      "description": "The Table Lamp is a functional and decorative lighting solution for your living space. With a modern design, it provides both ambient and task lighting, enhancing the atmosphere.",
+      "price": 49.99,
+      "original_price": 53.8,
+      "discount": 7,
+      "rating": 3.55,
+      "review_count": 100,
+      "stock": 9,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/table-lamp/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/home-decoration/table-lamp/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Bamboo Spatula",
+      "description": "The Bamboo Spatula is a versatile kitchen tool made from eco-friendly bamboo. Ideal for flipping, stirring, and serving various dishes.",
+      "price": 7.99,
+      "original_price": 8.22,
+      "discount": 2,
+      "rating": 3.27,
+      "review_count": 100,
+      "stock": 37,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/bamboo-spatula/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/bamboo-spatula/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Black Aluminium Cup",
+      "description": "The Black Aluminium Cup is a stylish and durable cup suitable for both hot and cold beverages. Its sleek black design adds a modern touch to your drinkware collection.",
+      "price": 5.99,
+      "original_price": 7.1,
+      "discount": 15,
+      "rating": 4.46,
+      "review_count": 100,
+      "stock": 75,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/1.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/2.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Black Whisk",
+      "description": "The Black Whisk is a kitchen essential for whisking and beating ingredients. Its ergonomic handle and sleek design make it a practical and stylish tool.",
+      "price": 9.99,
+      "original_price": 11.13,
+      "discount": 10,
+      "rating": 3.9,
+      "review_count": 100,
+      "stock": 73,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-whisk/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-whisk/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Boxed Blender",
+      "description": "The Boxed Blender is a powerful and compact blender perfect for smoothies, shakes, and more. Its convenient design and multiple functions make it a versatile kitchen appliance.",
+      "price": 39.99,
+      "original_price": 43.12,
+      "discount": 7,
+      "rating": 4.56,
+      "review_count": 100,
+      "stock": 9,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/1.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/2.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Carbon Steel Wok",
+      "description": "The Carbon Steel Wok is a versatile cooking pan suitable for stir-frying, saut\u00e9ing, and deep frying. Its sturdy construction ensures even heat distribution for delicious meals.",
+      "price": 29.99,
+      "original_price": 32.09,
+      "discount": 6,
+      "rating": 4.05,
+      "review_count": 100,
+      "stock": 40,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/carbon-steel-wok/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/carbon-steel-wok/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Chopping Board",
+      "description": "The Chopping Board is an essential kitchen accessory for food preparation. Made from durable material, it provides a safe and hygienic surface for cutting and chopping.",
+      "price": 12.99,
+      "original_price": 14.12,
+      "discount": 8,
+      "rating": 3.7,
+      "review_count": 100,
+      "stock": 14,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/chopping-board/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/chopping-board/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Citrus Squeezer Yellow",
+      "description": "The Citrus Squeezer in Yellow is a handy tool for extracting juice from citrus fruits. Its vibrant color adds a cheerful touch to your kitchen gadgets.",
+      "price": 8.99,
+      "original_price": 10.23,
+      "discount": 12,
+      "rating": 4.63,
+      "review_count": 100,
+      "stock": 22,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/citrus-squeezer-yellow/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/citrus-squeezer-yellow/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Egg Slicer",
+      "description": "The Egg Slicer is a convenient tool for slicing boiled eggs evenly. It's perfect for salads, sandwiches, and other dishes where sliced eggs are desired.",
+      "price": 6.99,
+      "original_price": 8.2,
+      "discount": 14,
+      "rating": 3.09,
+      "review_count": 100,
+      "stock": 40,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/egg-slicer/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/egg-slicer/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Electric Stove",
+      "description": "The Electric Stove provides a portable and efficient cooking solution. Ideal for small kitchens or as an additional cooking surface for various culinary needs.",
+      "price": 49.99,
+      "original_price": 58.15,
+      "discount": 14,
+      "rating": 4.11,
+      "review_count": 100,
+      "stock": 21,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/1.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/2.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Fine Mesh Strainer",
+      "description": "The Fine Mesh Strainer is a versatile tool for straining liquids and sifting dry ingredients. Its fine mesh ensures efficient filtering for smooth cooking and baking.",
+      "price": 9.99,
+      "original_price": 10.35,
+      "discount": 3,
+      "rating": 3.04,
+      "review_count": 100,
+      "stock": 85,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/fine-mesh-strainer/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/fine-mesh-strainer/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Fork",
+      "description": "The Fork is a classic utensil for various dining and serving purposes. Its durable and ergonomic design makes it a reliable choice for everyday use.",
+      "price": 3.99,
+      "original_price": 4.34,
+      "discount": 8,
+      "rating": 3.11,
+      "review_count": 100,
+      "stock": 7,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/fork/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/fork/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Glass",
+      "description": "The Glass is a versatile and elegant drinking vessel suitable for a variety of beverages. Its clear design allows you to enjoy the colors and textures of your drinks.",
+      "price": 4.99,
+      "original_price": 5.42,
+      "discount": 7,
+      "rating": 4.02,
+      "review_count": 100,
+      "stock": 46,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/glass/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/glass/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Grater Black",
+      "description": "The Grater in Black is a handy kitchen tool for grating cheese, vegetables, and more. Its sleek design and sharp blades make food preparation efficient and easy.",
+      "price": 10.99,
+      "original_price": 11.4,
+      "discount": 3,
+      "rating": 3.21,
+      "review_count": 100,
+      "stock": 84,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/grater-black/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/grater-black/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Hand Blender",
+      "description": "The Hand Blender is a versatile kitchen appliance for blending, pureeing, and mixing. Its compact design and powerful motor make it a convenient tool for various recipes.",
+      "price": 34.99,
+      "original_price": 42.17,
+      "discount": 17,
+      "rating": 3.86,
+      "review_count": 100,
+      "stock": 84,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/hand-blender/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/hand-blender/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Ice Cube Tray",
+      "description": "The Ice Cube Tray is a practical accessory for making ice cubes in various shapes. Perfect for keeping your drinks cool and adding a fun element to your beverages.",
+      "price": 5.99,
+      "original_price": 6.03,
+      "discount": 0,
+      "rating": 4.71,
+      "review_count": 100,
+      "stock": 13,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/ice-cube-tray/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/ice-cube-tray/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Kitchen Sieve",
+      "description": "The Kitchen Sieve is a versatile tool for sifting and straining dry and wet ingredients. Its fine mesh design ensures smooth results in your cooking and baking.",
+      "price": 7.99,
+      "original_price": 9.85,
+      "discount": 18,
+      "rating": 3.09,
+      "review_count": 100,
+      "stock": 68,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/kitchen-sieve/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/kitchen-sieve/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Knife",
+      "description": "The Knife is an essential kitchen tool for chopping, slicing, and dicing. Its sharp blade and ergonomic handle make it a reliable choice for food preparation.",
+      "price": 14.99,
+      "original_price": 18.47,
+      "discount": 18,
+      "rating": 3.26,
+      "review_count": 100,
+      "stock": 7,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/knife/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/knife/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Lunch Box",
+      "description": "The Lunch Box is a convenient and portable container for packing and carrying your meals. With compartments for different foods, it's perfect for on-the-go dining.",
+      "price": 12.99,
+      "original_price": 14.49,
+      "discount": 10,
+      "rating": 4.93,
+      "review_count": 100,
+      "stock": 94,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/lunch-box/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/lunch-box/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Microwave Oven",
+      "description": "The Microwave Oven is a versatile kitchen appliance for quick and efficient cooking, reheating, and defrosting. Its compact size makes it suitable for various kitchen setups.",
+      "price": 89.99,
+      "original_price": 102.41,
+      "discount": 12,
+      "rating": 4.82,
+      "review_count": 100,
+      "stock": 59,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/1.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/2.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/3.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Mug Tree Stand",
+      "description": "The Mug Tree Stand is a stylish and space-saving solution for organizing your mugs. Keep your favorite mugs easily accessible and neatly displayed in your kitchen.",
+      "price": 15.99,
+      "original_price": 17.62,
+      "discount": 9,
+      "rating": 2.64,
+      "review_count": 100,
+      "stock": 88,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/mug-tree-stand/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/mug-tree-stand/1.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/mug-tree-stand/2.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Pan",
+      "description": "The Pan is a versatile and essential cookware item for frying, saut\u00e9ing, and cooking various dishes. Its non-stick coating ensures easy food release and cleanup.",
+      "price": 24.99,
+      "original_price": 25.76,
+      "discount": 3,
+      "rating": 2.79,
+      "review_count": 100,
+      "stock": 90,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/pan/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/pan/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Plate",
+      "description": "The Plate is a classic and essential dishware item for serving meals. Its durable and stylish design makes it suitable for everyday use or special occasions.",
+      "price": 3.99,
+      "original_price": 4.3,
+      "discount": 7,
+      "rating": 3.65,
+      "review_count": 100,
+      "stock": 66,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/plate/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/plate/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Red Tongs",
+      "description": "The Red Tongs are versatile kitchen tongs suitable for various cooking and serving tasks. Their vibrant color adds a pop of excitement to your kitchen utensils.",
+      "price": 6.99,
+      "original_price": 8.18,
+      "discount": 14,
+      "rating": 4.42,
+      "review_count": 100,
+      "stock": 82,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/red-tongs/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/red-tongs/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Silver Pot With Glass Cap",
+      "description": "The Silver Pot with Glass Cap is a stylish and functional cookware item for boiling, simmering, and preparing delicious meals. Its glass cap allows you to monitor cooking progress.",
+      "price": 39.99,
+      "original_price": 42.41,
+      "discount": 5,
+      "rating": 3.22,
+      "review_count": 100,
+      "stock": 40,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/silver-pot-with-glass-cap/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/silver-pot-with-glass-cap/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Slotted Turner",
+      "description": "The Slotted Turner is a kitchen utensil designed for flipping and turning food items. Its slotted design allows excess liquid to drain, making it ideal for frying and saut\u00e9ing.",
+      "price": 8.99,
+      "original_price": 10.38,
+      "discount": 13,
+      "rating": 3.4,
+      "review_count": 100,
+      "stock": 88,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/slotted-turner/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/slotted-turner/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Spice Rack",
+      "description": "The Spice Rack is a convenient organizer for your spices and seasonings. Keep your kitchen essentials within reach and neatly arranged with this stylish spice rack.",
+      "price": 19.99,
+      "original_price": 22.74,
+      "discount": 12,
+      "rating": 4.87,
+      "review_count": 100,
+      "stock": 79,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/spice-rack/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/spice-rack/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Spoon",
+      "description": "The Spoon is a versatile kitchen utensil for stirring, serving, and tasting. Its ergonomic design and durable construction make it an essential tool for every kitchen.",
+      "price": 4.99,
+      "original_price": 5.07,
+      "discount": 1,
+      "rating": 4.03,
+      "review_count": 100,
+      "stock": 59,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/spoon/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/spoon/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Tray",
+      "description": "The Tray is a functional and decorative item for serving snacks, appetizers, or drinks. Its stylish design makes it a versatile accessory for entertaining guests.",
+      "price": 16.99,
+      "original_price": 18.36,
+      "discount": 7,
+      "rating": 4.62,
+      "review_count": 100,
+      "stock": 71,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/tray/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/tray/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Wooden Rolling Pin",
+      "description": "The Wooden Rolling Pin is a classic kitchen tool for rolling out dough for baking. Its smooth surface and sturdy handles make it easy to achieve uniform thickness.",
+      "price": 11.99,
+      "original_price": 13.29,
+      "discount": 9,
+      "rating": 2.92,
+      "review_count": 100,
+      "stock": 80,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/wooden-rolling-pin/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/wooden-rolling-pin/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    },
+    {
+      "name": "Yellow Peeler",
+      "description": "The Yellow Peeler is a handy tool for peeling fruits and vegetables with ease. Its bright yellow color adds a cheerful touch to your kitchen gadgets.",
+      "price": 5.99,
+      "original_price": 6.84,
+      "discount": 12,
+      "rating": 4.24,
+      "review_count": 100,
+      "stock": 35,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/yellow-peeler/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/kitchen-accessories/yellow-peeler/1.webp"
+      ],
+      "brand": "",
+      "category": "home-living"
+    }
+  ],
+  "health": [
+    {
+      "name": "Apple",
+      "description": "Fresh and crisp apples, perfect for snacking or incorporating into various recipes.",
+      "price": 1.99,
+      "original_price": 2.28,
+      "discount": 12,
+      "rating": 4.19,
+      "review_count": 100,
+      "stock": 8,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/apple/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Beef Steak",
+      "description": "High-quality beef steak, great for grilling or cooking to your preferred level of doneness.",
+      "price": 12.99,
+      "original_price": 14.37,
+      "discount": 9,
+      "rating": 4.47,
+      "review_count": 100,
+      "stock": 86,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/beef-steak/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/beef-steak/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Cat Food",
+      "description": "Nutritious cat food formulated to meet the dietary needs of your feline friend.",
+      "price": 8.99,
+      "original_price": 9.94,
+      "discount": 9,
+      "rating": 3.13,
+      "review_count": 100,
+      "stock": 46,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/cat-food/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/cat-food/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Chicken Meat",
+      "description": "Fresh and tender chicken meat, suitable for various culinary preparations.",
+      "price": 9.99,
+      "original_price": 11.58,
+      "discount": 13,
+      "rating": 3.19,
+      "review_count": 100,
+      "stock": 97,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/1.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/2.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Cooking Oil",
+      "description": "Versatile cooking oil suitable for frying, saut\u00e9ing, and various culinary applications.",
+      "price": 4.99,
+      "original_price": 5.5,
+      "discount": 9,
+      "rating": 4.8,
+      "review_count": 100,
+      "stock": 10,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Cucumber",
+      "description": "Crisp and hydrating cucumbers, ideal for salads, snacks, or as a refreshing side.",
+      "price": 1.49,
+      "original_price": 1.49,
+      "discount": 0,
+      "rating": 4.07,
+      "review_count": 100,
+      "stock": 84,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/cucumber/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/cucumber/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Dog Food",
+      "description": "Specially formulated dog food designed to provide essential nutrients for your canine companion.",
+      "price": 10.99,
+      "original_price": 12.25,
+      "discount": 10,
+      "rating": 4.55,
+      "review_count": 100,
+      "stock": 71,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/dog-food/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/dog-food/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Eggs",
+      "description": "Fresh eggs, a versatile ingredient for baking, cooking, or breakfast.",
+      "price": 2.99,
+      "original_price": 3.36,
+      "discount": 11,
+      "rating": 2.53,
+      "review_count": 100,
+      "stock": 9,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/eggs/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/eggs/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Fish Steak",
+      "description": "Quality fish steak, suitable for grilling, baking, or pan-searing.",
+      "price": 14.99,
+      "original_price": 15.65,
+      "discount": 4,
+      "rating": 3.78,
+      "review_count": 100,
+      "stock": 74,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/fish-steak/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/fish-steak/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Green Bell Pepper",
+      "description": "Fresh and vibrant green bell pepper, perfect for adding color and flavor to your dishes.",
+      "price": 1.29,
+      "original_price": 1.29,
+      "discount": 0,
+      "rating": 3.25,
+      "review_count": 100,
+      "stock": 33,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/green-bell-pepper/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/green-bell-pepper/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Green Chili Pepper",
+      "description": "Spicy green chili pepper, ideal for adding heat to your favorite recipes.",
+      "price": 0.99,
+      "original_price": 1.0,
+      "discount": 1,
+      "rating": 3.66,
+      "review_count": 100,
+      "stock": 3,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/green-chili-pepper/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/green-chili-pepper/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Honey Jar",
+      "description": "Pure and natural honey in a convenient jar, perfect for sweetening beverages or drizzling over food.",
+      "price": 6.99,
+      "original_price": 8.17,
+      "discount": 14,
+      "rating": 3.97,
+      "review_count": 100,
+      "stock": 34,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/honey-jar/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/honey-jar/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Ice Cream",
+      "description": "Creamy and delicious ice cream, available in various flavors for a delightful treat.",
+      "price": 5.49,
+      "original_price": 6.01,
+      "discount": 8,
+      "rating": 3.39,
+      "review_count": 100,
+      "stock": 27,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/ice-cream/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/ice-cream/1.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/ice-cream/2.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/ice-cream/3.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Juice",
+      "description": "Refreshing fruit juice, packed with vitamins and great for staying hydrated.",
+      "price": 3.99,
+      "original_price": 4.54,
+      "discount": 12,
+      "rating": 3.94,
+      "review_count": 100,
+      "stock": 50,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/juice/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/juice/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Kiwi",
+      "description": "Nutrient-rich kiwi, perfect for snacking or adding a tropical twist to your dishes.",
+      "price": 2.49,
+      "original_price": 2.94,
+      "discount": 15,
+      "rating": 4.93,
+      "review_count": 100,
+      "stock": 99,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/kiwi/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/kiwi/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Lemon",
+      "description": "Zesty and tangy lemons, versatile for cooking, baking, or making refreshing beverages.",
+      "price": 0.79,
+      "original_price": 0.87,
+      "discount": 9,
+      "rating": 3.53,
+      "review_count": 100,
+      "stock": 31,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/lemon/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/lemon/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Milk",
+      "description": "Fresh and nutritious milk, a staple for various recipes and daily consumption.",
+      "price": 3.49,
+      "original_price": 4.05,
+      "discount": 13,
+      "rating": 2.61,
+      "review_count": 100,
+      "stock": 27,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/milk/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/milk/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Mulberry",
+      "description": "Sweet and juicy mulberries, perfect for snacking or adding to desserts and cereals.",
+      "price": 4.99,
+      "original_price": 5.73,
+      "discount": 12,
+      "rating": 4.95,
+      "review_count": 100,
+      "stock": 99,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/mulberry/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/mulberry/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Nescafe Coffee",
+      "description": "Quality coffee from Nescafe, available in various blends for a rich and satisfying cup.",
+      "price": 7.99,
+      "original_price": 8.12,
+      "discount": 1,
+      "rating": 4.82,
+      "review_count": 100,
+      "stock": 57,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/nescafe-coffee/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/nescafe-coffee/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Potatoes",
+      "description": "Versatile and starchy potatoes, great for roasting, mashing, or as a side dish.",
+      "price": 2.29,
+      "original_price": 2.42,
+      "discount": 5,
+      "rating": 4.81,
+      "review_count": 100,
+      "stock": 13,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/potatoes/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/potatoes/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Protein Powder",
+      "description": "Nutrient-packed protein powder, ideal for supplementing your diet with essential proteins.",
+      "price": 19.99,
+      "original_price": 21.63,
+      "discount": 7,
+      "rating": 4.18,
+      "review_count": 100,
+      "stock": 80,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/protein-powder/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/protein-powder/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Red Onions",
+      "description": "Flavorful and aromatic red onions, perfect for adding depth to your savory dishes.",
+      "price": 1.99,
+      "original_price": 2.21,
+      "discount": 9,
+      "rating": 4.2,
+      "review_count": 100,
+      "stock": 82,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/red-onions/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/red-onions/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Rice",
+      "description": "High-quality rice, a staple for various cuisines and a versatile base for many dishes.",
+      "price": 5.99,
+      "original_price": 6.6,
+      "discount": 9,
+      "rating": 3.18,
+      "review_count": 100,
+      "stock": 59,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/rice/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/rice/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Soft Drinks",
+      "description": "Assorted soft drinks in various flavors, perfect for refreshing beverages.",
+      "price": 1.99,
+      "original_price": 2.41,
+      "discount": 17,
+      "rating": 4.75,
+      "review_count": 100,
+      "stock": 53,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/soft-drinks/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/soft-drinks/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Strawberry",
+      "description": "Sweet and succulent strawberries, great for snacking, desserts, or blending into smoothies.",
+      "price": 3.99,
+      "original_price": 4.04,
+      "discount": 1,
+      "rating": 3.08,
+      "review_count": 100,
+      "stock": 46,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/strawberry/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/strawberry/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Tissue Paper Box",
+      "description": "Convenient tissue paper box for everyday use, providing soft and absorbent tissues.",
+      "price": 2.49,
+      "original_price": 2.87,
+      "discount": 13,
+      "rating": 2.69,
+      "review_count": 100,
+      "stock": 86,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/1.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/2.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    },
+    {
+      "name": "Water",
+      "description": "Pure and refreshing bottled water, essential for staying hydrated throughout the day.",
+      "price": 0.99,
+      "original_price": 1.16,
+      "discount": 14,
+      "rating": 4.96,
+      "review_count": 100,
+      "stock": 53,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/water/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/groceries/water/1.webp"
+      ],
+      "brand": "",
+      "category": "health"
+    }
+  ],
+  "electronics": [
+    {
+      "name": "Apple MacBook Pro 14 Inch Space Grey",
+      "description": "The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.",
+      "price": 1999.99,
+      "original_price": 2098.41,
+      "discount": 4,
+      "rating": 3.65,
+      "review_count": 100,
+      "stock": 24,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/1.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/2.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/3.webp"
+      ],
+      "brand": "Apple",
+      "category": "electronics"
+    },
+    {
+      "name": "Asus Zenbook Pro Dual Screen Laptop",
+      "description": "The Asus Zenbook Pro Dual Screen Laptop is a high-performance device with dual screens, providing productivity and versatility for creative professionals.",
+      "price": 1799.99,
+      "original_price": 2025.65,
+      "discount": 11,
+      "rating": 3.95,
+      "review_count": 100,
+      "stock": 45,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/1.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/2.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/3.webp"
+      ],
+      "brand": "Asus",
+      "category": "electronics"
+    },
+    {
+      "name": "Huawei Matebook X Pro",
+      "description": "The Huawei Matebook X Pro is a slim and stylish laptop with a high-resolution touchscreen display, offering a premium experience for users on the go.",
+      "price": 1399.99,
+      "original_price": 1544.9,
+      "discount": 9,
+      "rating": 4.98,
+      "review_count": 100,
+      "stock": 75,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/1.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/2.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/3.webp"
+      ],
+      "brand": "Huawei",
+      "category": "electronics"
+    },
+    {
+      "name": "Lenovo Yoga 920",
+      "description": "The Lenovo Yoga 920 is a 2-in-1 convertible laptop with a flexible hinge, allowing you to use it as a laptop or tablet, offering versatility and portability.",
+      "price": 1099.99,
+      "original_price": 1177.09,
+      "discount": 6,
+      "rating": 2.86,
+      "review_count": 100,
+      "stock": 40,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/1.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/2.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/3.webp"
+      ],
+      "brand": "Lenovo",
+      "category": "electronics"
+    },
+    {
+      "name": "New DELL XPS 13 9300 Laptop",
+      "description": "The New DELL XPS 13 9300 Laptop is a compact and powerful device, featuring a virtually borderless InfinityEdge display and high-end performance for various tasks.",
+      "price": 1499.99,
+      "original_price": 1702.41,
+      "discount": 11,
+      "rating": 2.67,
+      "review_count": 100,
+      "stock": 74,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/1.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/2.webp",
+        "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/3.webp"
+      ],
+      "brand": "Dell",
+      "category": "electronics"
+    },
+    {
+      "name": "Amazon Echo Plus",
+      "description": "The Amazon Echo Plus is a smart speaker with built-in Alexa voice control. It features premium sound quality and serves as a hub for controlling smart home devices.",
+      "price": 99.99,
+      "original_price": 113.72,
+      "discount": 12,
+      "rating": 4.99,
+      "review_count": 100,
+      "stock": 61,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/1.webp",
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/2.webp"
+      ],
+      "brand": "Amazon",
+      "category": "electronics"
+    },
+    {
+      "name": "Apple Airpods",
+      "description": "The Apple Airpods offer a seamless wireless audio experience. With easy pairing, high-quality sound, and Siri integration, they are perfect for on-the-go listening.",
+      "price": 129.99,
+      "original_price": 153.91,
+      "discount": 15,
+      "rating": 4.15,
+      "review_count": 100,
+      "stock": 67,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/1.webp",
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/2.webp",
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/3.webp"
+      ],
+      "brand": "Apple",
+      "category": "electronics"
+    }
+  ],
+  "fashion": [
+    {
+      "name": "Blue & Black Check Shirt",
+      "description": "The Blue & Black Check Shirt is a stylish and comfortable men's shirt featuring a classic check pattern. Made from high-quality fabric, it's suitable for both casual and semi-formal occasions.",
+      "price": 29.99,
+      "original_price": 35.43,
+      "discount": 15,
+      "rating": 3.64,
+      "review_count": 100,
+      "stock": 38,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/3.webp"
+      ],
+      "brand": "Fashion Trends",
+      "category": "fashion"
+    },
+    {
+      "name": "Gigabyte Aorus Men Tshirt",
+      "description": "The Gigabyte Aorus Men Tshirt is a cool and casual shirt for gaming enthusiasts. With the Aorus logo and sleek design, it's perfect for expressing your gaming style.",
+      "price": 24.99,
+      "original_price": 25.23,
+      "discount": 0,
+      "rating": 3.18,
+      "review_count": 100,
+      "stock": 90,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/3.webp"
+      ],
+      "brand": "Gigabyte",
+      "category": "fashion"
+    },
+    {
+      "name": "Man Plaid Shirt",
+      "description": "The Man Plaid Shirt is a timeless and versatile men's shirt with a classic plaid pattern. Its comfortable fit and casual style make it a wardrobe essential for various occasions.",
+      "price": 34.99,
+      "original_price": 43.47,
+      "discount": 19,
+      "rating": 3.46,
+      "review_count": 100,
+      "stock": 82,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/3.webp"
+      ],
+      "brand": "Classic Wear",
+      "category": "fashion"
+    },
+    {
+      "name": "Man Short Sleeve Shirt",
+      "description": "The Man Short Sleeve Shirt is a breezy and stylish option for warm days. With a comfortable fit and short sleeves, it's perfect for a laid-back yet polished look.",
+      "price": 19.99,
+      "original_price": 21.46,
+      "discount": 6,
+      "rating": 2.9,
+      "review_count": 100,
+      "stock": 2,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/3.webp"
+      ],
+      "brand": "Casual Comfort",
+      "category": "fashion"
+    },
+    {
+      "name": "Men Check Shirt",
+      "description": "The Men Check Shirt is a classic and versatile shirt featuring a stylish check pattern. Suitable for various occasions, it adds a smart and polished touch to your wardrobe.",
+      "price": 27.99,
+      "original_price": 31.58,
+      "discount": 11,
+      "rating": 2.72,
+      "review_count": 100,
+      "stock": 95,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/3.webp"
+      ],
+      "brand": "Urban Chic",
+      "category": "fashion"
+    },
+    {
+      "name": "Nike Air Jordan 1 Red And Black",
+      "description": "The Nike Air Jordan 1 in Red and Black is an iconic basketball sneaker known for its stylish design and high-performance features, making it a favorite among sneaker enthusiasts and athletes.",
+      "price": 149.99,
+      "original_price": 156.44,
+      "discount": 4,
+      "rating": 4.77,
+      "review_count": 100,
+      "stock": 7,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/3.webp"
+      ],
+      "brand": "Nike",
+      "category": "fashion"
+    },
+    {
+      "name": "Nike Baseball Cleats",
+      "description": "Nike Baseball Cleats are designed for maximum traction and performance on the baseball field. They provide stability and support for players during games and practices.",
+      "price": 79.99,
+      "original_price": 97.6,
+      "discount": 18,
+      "rating": 3.88,
+      "review_count": 100,
+      "stock": 12,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/3.webp"
+      ],
+      "brand": "Nike",
+      "category": "fashion"
+    },
+    {
+      "name": "Puma Future Rider Trainers",
+      "description": "The Puma Future Rider Trainers offer a blend of retro style and modern comfort. Perfect for casual wear, these trainers provide a fashionable and comfortable option for everyday use.",
+      "price": 89.99,
+      "original_price": 93.94,
+      "discount": 4,
+      "rating": 4.9,
+      "review_count": 100,
+      "stock": 90,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/3.webp"
+      ],
+      "brand": "Puma",
+      "category": "fashion"
+    },
+    {
+      "name": "Sports Sneakers Off White & Red",
+      "description": "The Sports Sneakers in Off White and Red combine style and functionality, making them a fashionable choice for sports enthusiasts. The red and off-white color combination adds a bold and energetic touch.",
+      "price": 119.99,
+      "original_price": 126.27,
+      "discount": 4,
+      "rating": 4.77,
+      "review_count": 100,
+      "stock": 17,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/3.webp"
+      ],
+      "brand": "Off White",
+      "category": "fashion"
+    },
+    {
+      "name": "Sports Sneakers Off White Red",
+      "description": "Another variant of the Sports Sneakers in Off White Red, featuring a unique design. These sneakers offer style and comfort for casual occasions.",
+      "price": 109.99,
+      "original_price": 110.03,
+      "discount": 0,
+      "rating": 4.69,
+      "review_count": 100,
+      "stock": 62,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/3.webp"
+      ],
+      "brand": "Off White",
+      "category": "fashion"
+    }
+  ],
+  "jewelry": [
+    {
+      "name": "Brown Leather Belt Watch",
+      "description": "The Brown Leather Belt Watch is a stylish timepiece with a classic design. Featuring a genuine leather strap and a sleek dial, it adds a touch of sophistication to your look.",
+      "price": 89.99,
+      "original_price": 95.72,
+      "discount": 5,
+      "rating": 4.19,
+      "review_count": 100,
+      "stock": 32,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/3.webp"
+      ],
+      "brand": "Fashion Timepieces",
+      "category": "jewelry"
+    },
+    {
+      "name": "Longines Master Collection",
+      "description": "The Longines Master Collection is an elegant and refined watch known for its precision and craftsmanship. With a timeless design, it's a symbol of luxury and sophistication.",
+      "price": 1499.99,
+      "original_price": 1812.46,
+      "discount": 17,
+      "rating": 3.87,
+      "review_count": 100,
+      "stock": 100,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/3.webp"
+      ],
+      "brand": "Longines",
+      "category": "jewelry"
+    },
+    {
+      "name": "Rolex Cellini Date Black Dial",
+      "description": "The Rolex Cellini Date with Black Dial is a classic and prestigious watch. With a black dial and date complication, it exudes sophistication and is a symbol of Rolex's heritage.",
+      "price": 8999.99,
+      "original_price": 9877.07,
+      "discount": 8,
+      "rating": 4.97,
+      "review_count": 100,
+      "stock": 40,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/3.webp"
+      ],
+      "brand": "Rolex",
+      "category": "jewelry"
+    },
+    {
+      "name": "Rolex Cellini Moonphase",
+      "description": "The Rolex Cellini Moonphase is a masterpiece of horology, featuring a moon phase complication and exquisite design. It reflects Rolex's commitment to precision and elegance.",
+      "price": 12999.99,
+      "original_price": 15761.38,
+      "discount": 17,
+      "rating": 2.58,
+      "review_count": 100,
+      "stock": 36,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/3.webp"
+      ],
+      "brand": "Rolex",
+      "category": "jewelry"
+    },
+    {
+      "name": "Rolex Datejust",
+      "description": "The Rolex Datejust is an iconic and versatile timepiece with a date window. Known for its timeless design and reliability, it's a symbol of Rolex's watchmaking excellence.",
+      "price": 10999.99,
+      "original_price": 11426.19,
+      "discount": 3,
+      "rating": 3.66,
+      "review_count": 100,
+      "stock": 86,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/3.webp"
+      ],
+      "brand": "Rolex",
+      "category": "jewelry"
+    },
+    {
+      "name": "Rolex Submariner Watch",
+      "description": "The Rolex Submariner is a legendary dive watch with a rich history. Known for its durability and water resistance, it's a symbol of adventure and exploration.",
+      "price": 13999.99,
+      "original_price": 14744.59,
+      "discount": 5,
+      "rating": 2.69,
+      "review_count": 100,
+      "stock": 55,
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/thumbnail.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/1.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/2.webp",
+        "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/3.webp"
+      ],
+      "brand": "Rolex",
+      "category": "jewelry"
+    }
+  ],
+  "sports": [
+    {
+      "name": "Yoga Mat Premium Non-Slip 6mm Thick",
+      "description": "Extra thick yoga mat with alignment lines, non-slip texture, eco-friendly TPE material. Includes carrying strap.",
+      "price": 24.99,
+      "original_price": 34.99,
+      "discount": 30,
+      "rating": 4.0,
+      "review_count": 330,
+      "stock": 280,
+      "images": [
+        "https://picsum.photos/seed/YogaMatPremiumNon/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Resistance Bands Set of 5 Levels",
+      "description": "Premium latex resistance bands with 5 tension levels (10-50lbs). Includes door anchor and exercise guide.",
+      "price": 12.99,
+      "original_price": 18.19,
+      "discount": 30,
+      "rating": 4.9,
+      "review_count": 159,
+      "stock": 309,
+      "images": [
+        "https://picsum.photos/seed/ResistanceBandsSet/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Adjustable Dumbbell Set 5-52.5 lbs",
+      "description": "Space-saving adjustable dumbbells with quick-change weight selector. Replaces 15 sets of dumbbells.",
+      "price": 89.99,
+      "original_price": 125.99,
+      "discount": 30,
+      "rating": 4.8,
+      "review_count": 98,
+      "stock": 248,
+      "images": [
+        "https://picsum.photos/seed/AdjustableDumbbell/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Insulated Water Bottle 32oz Stainless Steel",
+      "description": "Double-wall vacuum insulated water bottle. Keeps drinks cold 24h or hot 12h. BPA-free, leak-proof.",
+      "price": 19.99,
+      "original_price": 27.99,
+      "discount": 30,
+      "rating": 4.2,
+      "review_count": 142,
+      "stock": 492,
+      "images": [
+        "https://picsum.photos/seed/InsulatedWaterBott/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Jump Rope Speed Cable with Counter",
+      "description": "Ball bearing speed jump rope with digital counter. Adjustable length, anti-slip handles.",
+      "price": 9.99,
+      "original_price": 13.99,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 125,
+      "stock": 275,
+      "images": [
+        "https://picsum.photos/seed/JumpRopeSpeedCabl/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Foam Roller Deep Tissue Massage",
+      "description": "High-density EVA foam roller for muscle recovery. Textured surface for deep tissue massage.",
+      "price": 15.99,
+      "original_price": 22.39,
+      "discount": 30,
+      "rating": 4.2,
+      "review_count": 252,
+      "stock": 402,
+      "images": [
+        "https://picsum.photos/seed/FoamRollerDeepTis/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Pull-Up Bar Doorway No Screws",
+      "description": "Heavy-duty doorway pull-up bar. No screws needed, supports up to 440lbs. Multiple grip positions.",
+      "price": 22.99,
+      "original_price": 32.19,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 143,
+      "stock": 193,
+      "images": [
+        "https://picsum.photos/seed/Pull-UpBarDoorway/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Exercise Ball Anti-Burst 65cm",
+      "description": "Anti-burst exercise ball with pump. Non-slip surface, rated for 2000lbs. Perfect for core workouts.",
+      "price": 14.99,
+      "original_price": 20.99,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 95,
+      "stock": 245,
+      "images": [
+        "https://picsum.photos/seed/ExerciseBallAnti-B/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Kettlebell Cast Iron 20lb",
+      "description": "Solid cast iron kettlebell with powder-coated handle. Wide grip for comfortable use.",
+      "price": 29.99,
+      "original_price": 41.99,
+      "discount": 30,
+      "rating": 4.2,
+      "review_count": 372,
+      "stock": 122,
+      "images": [
+        "https://picsum.photos/seed/KettlebellCastIron/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    },
+    {
+      "name": "Fitness Tracker Watch IP68 Waterproof",
+      "description": "Advanced fitness tracker with heart rate, blood oxygen, sleep tracking. 14-day battery life.",
+      "price": 34.99,
+      "original_price": 48.99,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 57,
+      "stock": 207,
+      "images": [
+        "https://picsum.photos/seed/FitnessTrackerWatc/400/400"
+      ],
+      "brand": "",
+      "category": "sports"
+    }
+  ],
+  "toys-games": [
+    {
+      "name": "Building Blocks STEM Set 500 Pieces",
+      "description": "Creative building block set with 500 pieces in various shapes and colors. Develops STEM skills.",
+      "price": 29.99,
+      "original_price": 41.99,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 375,
+      "stock": 425,
+      "images": [
+        "https://picsum.photos/seed/BuildingBlocksSTEM/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Remote Control Car 4WD Off-Road",
+      "description": "High-speed 4WD RC car with 2.4GHz controller. Reaches 30mph, 30-min runtime.",
+      "price": 39.99,
+      "original_price": 55.99,
+      "discount": 30,
+      "rating": 4.1,
+      "review_count": 541,
+      "stock": 491,
+      "images": [
+        "https://picsum.photos/seed/RemoteControlCar4/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Board Game Strategy Family Night",
+      "description": "Award-winning strategy board game for 2-6 players. Ages 10+, 60-min play time.",
+      "price": 24.99,
+      "original_price": 34.99,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 357,
+      "stock": 207,
+      "images": [
+        "https://picsum.photos/seed/BoardGameStrategy/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Puzzle 1000 Pieces Landscape",
+      "description": "Premium 1000-piece jigsaw puzzle with stunning landscape artwork. Finished size 27x20 inches.",
+      "price": 14.99,
+      "original_price": 20.99,
+      "discount": 30,
+      "rating": 4.4,
+      "review_count": 144,
+      "stock": 294,
+      "images": [
+        "https://picsum.photos/seed/Puzzle1000PiecesL/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Drone with 4K Camera Foldable",
+      "description": "Foldable drone with 4K HD camera, GPS return, 30-min flight time. Perfect for beginners.",
+      "price": 79.99,
+      "original_price": 111.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 463,
+      "stock": 113,
+      "images": [
+        "https://picsum.photos/seed/Dronewith4KCamera/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "LEGO Technic Racing Car Set",
+      "description": "Advanced LEGO Technic racing car with working steering, suspension, and V8 engine.",
+      "price": 49.99,
+      "original_price": 69.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 536,
+      "stock": 386,
+      "images": [
+        "https://picsum.photos/seed/LEGOTechnicRacing/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Card Game Exploding Kittens",
+      "description": "The wildly popular card game for 2-5 players. Easy to learn, 15-min games.",
+      "price": 19.99,
+      "original_price": 27.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 546,
+      "stock": 296,
+      "images": [
+        "https://picsum.photos/seed/CardGameExploding/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    },
+    {
+      "name": "Action Figure Collectible Set",
+      "description": "Premium collectible action figures with articulated joints and accessories. Set of 6.",
+      "price": 34.99,
+      "original_price": 48.99,
+      "discount": 30,
+      "rating": 4.9,
+      "review_count": 299,
+      "stock": 149,
+      "images": [
+        "https://picsum.photos/seed/ActionFigureCollec/400/400"
+      ],
+      "brand": "",
+      "category": "toys-games"
+    }
+  ],
+  "automotive": [
+    {
+      "name": "Car Phone Mount Dashboard Holder",
+      "description": "Universal car phone mount with strong suction cup. Compatible with all smartphones 4-7 inches.",
+      "price": 12.99,
+      "original_price": 18.19,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 495,
+      "stock": 445,
+      "images": [
+        "https://picsum.photos/seed/CarPhoneMountDash/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Dash Cam Front and Rear 1080P",
+      "description": "Dual dash camera with 1080P front and rear recording. Night vision, G-sensor, loop recording.",
+      "price": 49.99,
+      "original_price": 69.99,
+      "discount": 30,
+      "rating": 4.1,
+      "review_count": 91,
+      "stock": 141,
+      "images": [
+        "https://picsum.photos/seed/DashCamFrontandR/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Car Vacuum Cleaner Cordless 12V",
+      "description": "Powerful cordless car vacuum with HEPA filter. 12V high-power motor, wet/dry use.",
+      "price": 29.99,
+      "original_price": 41.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 316,
+      "stock": 266,
+      "images": [
+        "https://picsum.photos/seed/CarVacuumCleanerC/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "LED Headlight Bulbs H11 Pair",
+      "description": "Super bright LED headlight bulbs 6000K white. 12000 lumens, plug and play installation.",
+      "price": 34.99,
+      "original_price": 48.99,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 387,
+      "stock": 437,
+      "images": [
+        "https://picsum.photos/seed/LEDHeadlightBulbs/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Car Seat Covers Full Set Leather",
+      "description": "Premium leather car seat covers, full set for 5 seats. Universal fit, airbag compatible.",
+      "price": 59.99,
+      "original_price": 83.99,
+      "discount": 30,
+      "rating": 4.8,
+      "review_count": 268,
+      "stock": 318,
+      "images": [
+        "https://picsum.photos/seed/CarSeatCoversFull/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Tire Pressure Monitoring System",
+      "description": "Wireless TPMS with 4 external sensors. Real-time pressure and temperature monitoring.",
+      "price": 24.99,
+      "original_price": 34.99,
+      "discount": 30,
+      "rating": 4.1,
+      "review_count": 71,
+      "stock": 421,
+      "images": [
+        "https://picsum.photos/seed/TirePressureMonito/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Car Jump Starter Portable 20000mAh",
+      "description": "Portable car jump starter with 20000mAh battery. Can start up to 8L gas engines.",
+      "price": 44.99,
+      "original_price": 62.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 436,
+      "stock": 186,
+      "images": [
+        "https://picsum.photos/seed/CarJumpStarterPor/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    },
+    {
+      "name": "Windshield Sun Shade Foldable",
+      "description": "Reflective windshield sun shade. Keeps car cool, protects dashboard from UV damage.",
+      "price": 14.99,
+      "original_price": 20.99,
+      "discount": 30,
+      "rating": 4.4,
+      "review_count": 134,
+      "stock": 384,
+      "images": [
+        "https://picsum.photos/seed/WindshieldSunShade/400/400"
+      ],
+      "brand": "",
+      "category": "automotive"
+    }
+  ],
+  "books": [
+    {
+      "name": "Atomic Habits by James Clear",
+      "description": "The #1 New York Times bestseller about building good habits and breaking bad ones.",
+      "price": 16.99,
+      "original_price": 23.79,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 355,
+      "stock": 305,
+      "images": [
+        "https://picsum.photos/seed/AtomicHabitsbyJam/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "The 48 Laws of Power by Robert Greene",
+      "description": "The definitive manual for anyone interested in gaining, observing, or defending against power.",
+      "price": 18.99,
+      "original_price": 26.59,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 437,
+      "stock": 287,
+      "images": [
+        "https://picsum.photos/seed/The48LawsofPower/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "Rich Dad Poor Dad by Robert Kiyosaki",
+      "description": "What the rich teach their kids about money that the poor and middle class do not.",
+      "price": 14.99,
+      "original_price": 20.99,
+      "discount": 30,
+      "rating": 4.8,
+      "review_count": 308,
+      "stock": 358,
+      "images": [
+        "https://picsum.photos/seed/RichDadPoorDadby/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "Think and Grow Rich by Napoleon Hill",
+      "description": "The landmark bestseller that has inspired millions to achieve their financial dreams.",
+      "price": 12.99,
+      "original_price": 18.19,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 455,
+      "stock": 305,
+      "images": [
+        "https://picsum.photos/seed/ThinkandGrowRich/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "The Psychology of Money",
+      "description": "Timeless lessons on wealth, greed, and happiness by Morgan Housel.",
+      "price": 17.99,
+      "original_price": 25.19,
+      "discount": 30,
+      "rating": 4.1,
+      "review_count": 131,
+      "stock": 181,
+      "images": [
+        "https://picsum.photos/seed/ThePsychologyofMo/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "Sapiens by Yuval Noah Harari",
+      "description": "A brief history of humankind that explores how Homo sapiens came to dominate the world.",
+      "price": 19.99,
+      "original_price": 27.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 443,
+      "stock": 293,
+      "images": [
+        "https://picsum.photos/seed/SapiensbyYuvalNoa/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "The Art of War by Sun Tzu",
+      "description": "The classic treatise on military strategy, now applied to business and life.",
+      "price": 9.99,
+      "original_price": 13.99,
+      "discount": 30,
+      "rating": 4.4,
+      "review_count": 334,
+      "stock": 384,
+      "images": [
+        "https://picsum.photos/seed/TheArtofWarbySu/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    },
+    {
+      "name": "Deep Work by Cal Newport",
+      "description": "Rules for focused success in a distracted world. A guide to meaningful productivity.",
+      "price": 15.99,
+      "original_price": 22.39,
+      "discount": 30,
+      "rating": 4.5,
+      "review_count": 255,
+      "stock": 405,
+      "images": [
+        "https://picsum.photos/seed/DeepWorkbyCalNew/400/400"
+      ],
+      "brand": "",
+      "category": "books"
+    }
+  ],
+  "bags": [
+    {
+      "name": "Leather Crossbody Bag Women Quilted",
+      "description": "Elegant quilted leather crossbody bag with gold chain strap. Multiple compartments.",
+      "price": 29.99,
+      "original_price": 41.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 453,
+      "stock": 303,
+      "images": [
+        "https://picsum.photos/seed/LeatherCrossbodyBa/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Laptop Backpack Anti-Theft USB Charging",
+      "description": "Anti-theft laptop backpack with USB charging port. Fits 15.6 inch laptops. Water-resistant.",
+      "price": 34.99,
+      "original_price": 48.99,
+      "discount": 30,
+      "rating": 4.4,
+      "review_count": 244,
+      "stock": 194,
+      "images": [
+        "https://picsum.photos/seed/LaptopBackpackAnti/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Travel Duffel Bag Weekender 60L",
+      "description": "Large capacity weekender duffel bag with shoe compartment. Water-resistant, foldable.",
+      "price": 39.99,
+      "original_price": 55.99,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 207,
+      "stock": 457,
+      "images": [
+        "https://picsum.photos/seed/TravelDuffelBagWe/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Canvas Tote Bag Women Large",
+      "description": "Heavy-duty canvas tote bag with inner pockets. Perfect for shopping, beach, or daily use.",
+      "price": 19.99,
+      "original_price": 27.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 433,
+      "stock": 183,
+      "images": [
+        "https://picsum.photos/seed/CanvasToteBagWome/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Men Messenger Bag Vintage Leather",
+      "description": "Vintage-style leather messenger bag with adjustable strap. Fits 14 inch laptops.",
+      "price": 44.99,
+      "original_price": 62.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 56,
+      "stock": 306,
+      "images": [
+        "https://picsum.photos/seed/MenMessengerBagVi/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Clear Stadium Bag NFL Approved",
+      "description": "Clear PVC stadium bag, NFL and concert approved. 12x12x6 inches, with zipper closure.",
+      "price": 12.99,
+      "original_price": 18.19,
+      "discount": 30,
+      "rating": 4.9,
+      "review_count": 429,
+      "stock": 279,
+      "images": [
+        "https://picsum.photos/seed/ClearStadiumBagNF/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Rolling Laptop Briefcase on Wheels",
+      "description": "Rolling laptop briefcase with telescoping handle. Fits 17 inch laptops, padded compartment.",
+      "price": 54.99,
+      "original_price": 76.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 143,
+      "stock": 193,
+      "images": [
+        "https://picsum.photos/seed/RollingLaptopBrief/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    },
+    {
+      "name": "Mini Backpack Purse Women Cute",
+      "description": "Mini faux leather backpack purse with multiple pockets. Convertible shoulder/backpack.",
+      "price": 22.99,
+      "original_price": 32.19,
+      "discount": 30,
+      "rating": 4.8,
+      "review_count": 498,
+      "stock": 148,
+      "images": [
+        "https://picsum.photos/seed/MiniBackpackPurse/400/400"
+      ],
+      "brand": "",
+      "category": "bags"
+    }
+  ],
+  "pet-supplies": [
+    {
+      "name": "Automatic Pet Feeder 4L Programmable",
+      "description": "Smart automatic pet feeder with 4L capacity, programmable timer, portion control.",
+      "price": 39.99,
+      "original_price": 55.99,
+      "discount": 30,
+      "rating": 4.3,
+      "review_count": 53,
+      "stock": 403,
+      "images": [
+        "https://picsum.photos/seed/AutomaticPetFeeder/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Dog Bed Orthopedic Memory Foam",
+      "description": "Orthopedic dog bed with memory foam base. Waterproof liner, removable washable cover.",
+      "price": 49.99,
+      "original_price": 69.99,
+      "discount": 30,
+      "rating": 4.2,
+      "review_count": 342,
+      "stock": 492,
+      "images": [
+        "https://picsum.photos/seed/DogBedOrthopedicM/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Cat Tree Tower Multi-Level Scratching",
+      "description": "Multi-level cat tree with scratching posts, hammock, and condos. Sisal-covered posts.",
+      "price": 59.99,
+      "original_price": 83.99,
+      "discount": 30,
+      "rating": 4.1,
+      "review_count": 261,
+      "stock": 411,
+      "images": [
+        "https://picsum.photos/seed/CatTreeTowerMulti/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Pet Grooming Kit Professional",
+      "description": "Professional pet grooming kit with clippers, scissors, comb, and nail trimmer.",
+      "price": 24.99,
+      "original_price": 34.99,
+      "discount": 30,
+      "rating": 4.0,
+      "review_count": 60,
+      "stock": 310,
+      "images": [
+        "https://picsum.photos/seed/PetGroomingKitPro/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Retractable Dog Leash 16ft",
+      "description": "Heavy-duty retractable dog leash for dogs up to 110lbs. One-button lock mechanism.",
+      "price": 14.99,
+      "original_price": 20.99,
+      "discount": 30,
+      "rating": 4.6,
+      "review_count": 136,
+      "stock": 486,
+      "images": [
+        "https://picsum.photos/seed/RetractableDogLeas/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Interactive Dog Toy Ball Automatic",
+      "description": "Automatic rolling ball toy with 3 modes. Keeps dogs entertained for hours.",
+      "price": 19.99,
+      "original_price": 27.99,
+      "discount": 30,
+      "rating": 4.2,
+      "review_count": 342,
+      "stock": 192,
+      "images": [
+        "https://picsum.photos/seed/InteractiveDogToy/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Cat Litter Box Self-Cleaning",
+      "description": "Automatic self-cleaning cat litter box with app control. Odor-free, quiet operation.",
+      "price": 79.99,
+      "original_price": 111.99,
+      "discount": 30,
+      "rating": 4.7,
+      "review_count": 527,
+      "stock": 177,
+      "images": [
+        "https://picsum.photos/seed/CatLitterBoxSelf-/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    },
+    {
+      "name": "Pet Water Fountain 2L Stainless Steel",
+      "description": "Stainless steel pet water fountain with 3 filtration modes. Ultra-quiet pump.",
+      "price": 22.99,
+      "original_price": 32.19,
+      "discount": 30,
+      "rating": 4.0,
+      "review_count": 160,
+      "stock": 410,
+      "images": [
+        "https://picsum.photos/seed/PetWaterFountain2/400/400"
+      ],
+      "brand": "",
+      "category": "pet-supplies"
+    }
+  ]
+}
