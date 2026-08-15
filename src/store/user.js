@@ -22,8 +22,10 @@ export const useUserStore = defineStore('user', {
     }, 0),
     isSeller: (state) => state.role === 'SELLER',
     isAdmin: (state) => state.role === 'ADMIN',
+    isSuperAdmin: (state) => state.role === 'SUPER_ADMIN',,
     isMember: (state) => state.role === 'MEMBER',
     effectiveMode: (state) => {
+      if (state.role === 'SUPER_ADMIN') return 'super-admin'
       if (state.role === 'ADMIN') return 'admin'
       if (state.role === 'SELLER') return state.portalMode === 'seller' ? 'seller' : 'buyer'
       return 'buyer'

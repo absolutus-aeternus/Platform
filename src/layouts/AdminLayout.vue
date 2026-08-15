@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2 class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:#fe2c55;font-weight:400">Admin</span></h2>
+        <h2 class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:#fe2c55;font-weight:400">Super Admin</span></h2>
         <button class="toggle-btn" @click="sidebarCollapsed = !sidebarCollapsed">
           <i class="fas fa-bars"></i>
         </button>
@@ -23,6 +23,10 @@
           <router-link to="/admin" class="nav-item">
             <i class="fas fa-tachometer-alt"></i>
             <span v-show="!sidebarCollapsed">Dashboard</span>
+          </router-link>
+          <router-link to="/admin/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
+            <i class="fas fa-user-shield"></i>
+            <span v-show="!sidebarCollapsed">Manage Admins</span>
           </router-link>
         </div>
         

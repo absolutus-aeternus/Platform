@@ -107,9 +107,10 @@ const routes = [
   {
     path: '/admin',
     component: () => import('@/layouts/AdminLayout.vue'),
-    meta: { requiresAuth: true, requiresAdmin: true },
+    meta: { requiresAuth: true, requiresAdmin: true, requiresSuperAdmin: true },
     children: [
       { path: '', name: 'AdminDashboard', component: () => import('@/views/admin/Dashboard.vue') },
+      { path: 'manage-admins', name: 'ManageAdmins', component: () => import('@/views/admin/ManageAdmins.vue'), meta: { requiresAuth: true, requiresSuperAdmin: true } },
       { path: 'products', name: 'AdminProducts', component: () => import('@/views/admin/Products.vue') },
       { path: 'orders', name: 'AdminOrders', component: () => import('@/views/admin/Orders.vue') },
       { path: 'categories', name: 'AdminCategories', component: () => import('@/views/admin/Categories.vue') },
@@ -195,6 +196,7 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // Admin portal: only ADMIN
+    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN' && role !== 'ADMIN')
     if (to.meta.requiresAdmin && role !== 'ADMIN') {
       return next(role === 'SELLER' ? '/seller' : '/user')
     }
