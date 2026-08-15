@@ -76,4 +76,15 @@ h1 { margin-bottom: 25px; }
 .notif-content h4 { margin-bottom: 5px; }
 .notif-content p { color: #666; font-size: 14px; margin-bottom: 5px; }
 .notif-time { color: #999; font-size: 12px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .card { padding: 1rem; }
+  .form-group input { font-size: 16px; }
+}
+
 </style>

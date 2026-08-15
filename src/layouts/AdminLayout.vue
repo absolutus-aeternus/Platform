@@ -275,4 +275,18 @@ const logout = async () => {
   .main-content { margin-left: 0; }
   .menu-toggle { display: block; }
 }
+
+/* Admin Responsive */
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar { width: 100%; position: fixed; bottom: 0; left: 0; right: 0; height: auto; flex-direction: row; z-index: 100; }
+  .sidebar-header { display: none; }
+  .nav-section { flex-direction: row; overflow-x: auto; }
+  .nav-title { display: none; }
+  .nav-item { flex-direction: column; padding: 0.5rem; font-size: 0.625rem; min-width: 48px; text-align: center; }
+  .nav-item i { margin: 0; }
+  .admin-main { margin-left: 0; padding-bottom: 60px; }
+  .sidebar-collapsed-btn { display: none; }
+}
+
 </style>

@@ -84,4 +84,15 @@ h1 { margin-bottom: 25px; }
 .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
 .order-footer { display: flex; justify-content: space-between; padding: 15px 20px; border-top: 1px solid #f0f0f0; }
 .order-total { font-weight: 700; color: #fe2c55; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .card { padding: 1rem; }
+  .form-group input { font-size: 16px; }
+}
+
 </style>

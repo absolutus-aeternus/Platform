@@ -70,4 +70,15 @@ h1 { margin-bottom: 25px; }
 .product-info h3 { font-size: 14px; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .price { color: #fe2c55; font-size: 18px; font-weight: 700; }
 .btn-remove { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: #fff; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .card { padding: 1rem; }
+  .form-group input { font-size: 16px; }
+}
+
 </style>

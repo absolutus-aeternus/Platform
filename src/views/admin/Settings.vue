@@ -98,4 +98,24 @@ const saveSettings = async () => {
 .toggle-text { font-weight: 500; font-size: 14px; }
 .save-toast { position: fixed; bottom: 30px; right: 30px; background: #28a745; color: #fff; padding: 14px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; animation: slideIn 0.3s ease; }
 @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .filters { flex-direction: column; gap: 0.5rem; }
+  .filters input, .filters select { width: 100%; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .card { padding: 1rem; }
+  .modal { width: 95vw; margin: 1rem; }
+  .form-group input, .form-group select { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  th, td { padding: 6px 8px; font-size: 11px; }
+  .btn-sm { padding: 3px 8px; font-size: 11px; }
+}
+
 </style>

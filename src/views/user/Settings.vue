@@ -97,4 +97,15 @@ h1 { margin-bottom: 25px; }
 .danger-zone { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
 .danger-zone h3 { color: #ff4757; margin-bottom: 15px; }
 .btn-logout { padding: 10px 25px; background: none; color: #ff4757; border: 1px solid #ff4757; border-radius: 4px; cursor: pointer; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .card { padding: 1rem; }
+  .form-group input { font-size: 16px; }
+}
+
 </style>

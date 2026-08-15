@@ -103,4 +103,23 @@ h1 { margin-bottom: 25px; }
 .order-body p { margin-bottom: 5px; }
 .order-actions { padding: 15px 20px; border-top: 1px solid #f0f0f0; }
 .order-actions button { padding: 8px 16px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .filters { flex-direction: column; gap: 0.5rem; }
+  .filters input, .filters select { width: 100%; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .card { padding: 1rem; }
+  .btn-primary { padding: 0.5rem 1rem; font-size: 0.8125rem; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  th, td { padding: 6px 8px; font-size: 11px; }
+  .btn-sm { padding: 3px 8px; font-size: 11px; }
+}
+
 </style>

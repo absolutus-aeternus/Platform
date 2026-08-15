@@ -159,4 +159,15 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .modal-actions button { padding: 10px 20px; border-radius: 4px; cursor: pointer; }
 .btn-primary { background: #fe2c55; color: #fff; border: none; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .card { padding: 1rem; }
+  .form-group input { font-size: 16px; }
+}
+
 </style>

@@ -87,4 +87,21 @@ h1 i { color: var(--brand-primary); }
 .desc-cell { max-width: 200px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; }
 .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text-muted); }
 .empty-state i { font-size: 3rem; color: #ddd; margin-bottom: 1rem; display: block; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  .product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem; }
+  .card { padding: 1rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .form-group input { font-size: 16px; }
+  .btn-primary { padding: 0.5rem 1rem; font-size: 0.8125rem; }
+}
+@media (max-width: 480px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .fc-img { height: 100px; }
+}
+
 </style>

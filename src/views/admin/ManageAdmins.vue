@@ -186,4 +186,24 @@ th { background: #f8f8f8; font-weight: 600; }
 .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
 .error-msg { color: #dc3545; margin-top: 8px; font-size: 13px; }
 .success-msg { color: #28a745; margin-top: 8px; font-size: 13px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .page-header h1 { font-size: 1.25rem; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 10px; }
+  .filters { flex-direction: column; gap: 0.5rem; }
+  .filters input, .filters select { width: 100%; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .card { padding: 1rem; }
+  .modal { width: 95vw; margin: 1rem; }
+  .form-group input, .form-group select { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  th, td { padding: 6px 8px; font-size: 11px; }
+  .btn-sm { padding: 3px 8px; font-size: 11px; }
+}
+
 </style>
