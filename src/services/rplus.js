@@ -1,6 +1,6 @@
 // Rating Plus Service - uses main Supabase
 const RP_URL = import.meta.env.VITE_SUPABASE_URL || 'https://cfzmdvymqqnrzrytcrie.supabase.co'
-const RP_KEY = import…_KEY || ''
+const RP_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 const headers = () => ({
   'apikey': RP_KEY,
