@@ -210,12 +210,9 @@ const latestReviews = ref([])
 const topSellers = ref([])
 
 onMounted(async () => {
-  try {
-
   // Fetch all real data from Supabase
   const [ordersRes, productsRes, usersRes, sellersRes, catsRes, evalsRes, walletsRes] = await Promise.all([
-    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false   } catch(e) { console.warn('Dashboard.vue:', e) }
-}).limit(10),
+    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(10),
     supabase.from('products').select('*, sellers(name)').order('sales_count', { ascending: false }).limit(10),
     supabase.from('users').select('id, role, created_at'),
     supabase.from('sellers').select('*').order('sales_count', { ascending: false }),

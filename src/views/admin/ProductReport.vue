@@ -44,10 +44,7 @@ const filtered = computed(() => {
 })
 
 onMounted(async () => {
-  try {
-
-  const { data } = await supabase.from('products').select('*, categories(name)').order('sales_count', { ascending: false   } catch(e) { console.warn('ProductReport.vue:', e) }
-})
+  const { data } = await supabase.from('products').select('*, categories(name)').order('sales_count', { ascending: false })
   products.value = data || []
 })
 </script>
