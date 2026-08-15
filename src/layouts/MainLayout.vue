@@ -4,8 +4,7 @@
     <div class="top-bar">
       <div class="container top-bar-inner">
         <div class="top-bar-left">
-          </router-link>
-        </div>
+                  </div>
         <div class="top-bar-right">
           <router-link to="/discounts" class="top-link">Today's Deals</router-link>
           <router-link to="/help" class="top-link">Customer Service</router-link>
@@ -99,8 +98,7 @@
           <router-link to="/how-to-buy" class="sub-link">How to Buy</router-link>
         </div>
         <div class="sub-right">
-          </router-link>
-        </div>
+                  </div>
       </div>
     </nav>
 
@@ -179,7 +177,7 @@
               <ul>
                 <li><router-link to="/merchant-settled">Sell on AllianceHub</router-link></li>
                 <li><router-link to="/seller/login">Seller Login</router-link></li>
-                <li><router-link to="/register">Create Account</router-link></li>
+                                <li><router-link to="/register">Create Account</router-link></li>
               </ul>
             </div>
             <div class="footer-col">
