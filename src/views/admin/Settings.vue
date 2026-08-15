@@ -54,6 +54,7 @@ onMounted(async () => {
   settings.value.chatEnabled = map.chat_enabled !== 'false'
   settings.value.lotteryEnabled = map.lottery_enabled !== 'false'
   settings.value.subscribeEnabled = map.subscribe_enabled !== 'false'
+  } catch(e) { console.warn('Settings load error:', e) }
 })
 
 const saveSettings = async () => {
