@@ -4,7 +4,6 @@ compatibility_date = "2024-01-01"
 
 [vars]
 VITE_SUPABASE_URL = "https://cfzmdvymqqnrzrytcrie.supabase.co"
-VITE_R2_PUBLIC_URL = "https://f838c28297b3b.backblazeb2.com/alliancehub-assets"
-VITE_R2_BUCKET_NAME = "alliancehub-assets"
-B2_ACCOUNT_ID = "838c28297b3b"
-B2_BUCKET_NAME = "alliancehub-assets"
+VITE_R2_PUBLIC_URL = "https://f005.backblazeb2.com/alliance-hub"
+VITE_R2_BUCKET_NAME = "alliance-hub"
+B2_BUCKET_NAME = "alliance-hub"
