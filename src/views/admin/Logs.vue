@@ -1,5 +1,6 @@
 <template>
-  <div class="admin-logs">
+  <div v-if="loading" class="loading">Loading...</div>
+<div v-else class="admin-logs">
     <div class="page-header"><h1>Activity Logs</h1><button class="btn-refresh" @click="load"><i class="fas fa-sync-alt"></i> Refresh</button></div>
     <div class="filters">
       <input v-model="search" placeholder="Search logs...">

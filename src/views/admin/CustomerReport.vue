@@ -73,8 +73,11 @@ const filtered = computed(() => {
 })
 
 onMounted(async () => {
+  try {
+
   const [u, o, s] = await Promise.all([
-    supabase.from('users').select('*').order('created_at', { ascending: false }),
+    supabase.from('users').select('*').order('created_at', { ascending: false   } catch(e) { console.warn('CustomerReport.vue:', e) }
+}),
     supabase.from('orders').select('user_id, total_amount'),
     supabase.from('sellers').select('id')
   ])

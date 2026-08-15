@@ -54,8 +54,11 @@ const pendingCount = computed(() => transactions.value.filter(t => t.status === 
 const completedCount = computed(() => transactions.value.filter(t => t.status === 'completed' || t.status === 'confirmed').length)
 
 onMounted(async () => {
+  try {
+
   const [orders, recharges, withdrawals] = await Promise.all([
-    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(100),
+    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false   } catch(e) { console.warn('Transactions.vue:', e) }
+}).limit(100),
     supabase.from('recharges').select('*, users(email)').order('created_at', { ascending: false }).limit(100),
     supabase.from('withdrawals').select('*, users(email)').order('created_at', { ascending: false }).limit(100)
   ])
