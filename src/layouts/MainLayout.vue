@@ -4,8 +4,6 @@
     <div class="top-bar">
       <div class="container top-bar-inner">
         <div class="top-bar-left">
-          <router-link to="/ratingplus" class="top-link promo-top">
-            <i class="fas fa-star"></i> Rating Plus — Shop & Earn
           </router-link>
         </div>
         <div class="top-bar-right">
@@ -101,8 +99,6 @@
           <router-link to="/how-to-buy" class="sub-link">How to Buy</router-link>
         </div>
         <div class="sub-right">
-          <router-link to="/ratingplus" class="sub-link promo-link">
-            <i class="fas fa-star"></i> Rating Plus — Shop & Earn
           </router-link>
         </div>
       </div>
@@ -183,7 +179,6 @@
               <ul>
                 <li><router-link to="/merchant-settled">Sell on AllianceHub</router-link></li>
                 <li><router-link to="/seller/login">Seller Login</router-link></li>
-                <li><router-link to="/ratingplus">Rating Plus Program</router-link></li>
                 <li><router-link to="/register">Create Account</router-link></li>
               </ul>
             </div>
