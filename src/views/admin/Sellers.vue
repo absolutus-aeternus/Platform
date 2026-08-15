@@ -110,8 +110,10 @@ const filteredSellers = computed(() => {
 
 const loadSellers = async () => {
   loading.value = true
-  const { data } = await supabase.from('sellers').select('*, users(email)').order('created_at', { ascending: false })
+  try { const { data } = await supabase.from('sellers').select('*, users(email)').order('created_at', { ascending: false })
   sellers.value = data || []
+  } catch(e) { console.warn('Sellers load error:', e) }
+  finally { loading.value = false }
   loading.value = false
 }
 

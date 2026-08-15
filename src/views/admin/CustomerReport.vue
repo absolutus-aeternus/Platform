@@ -37,6 +37,7 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const users = ref([])
+const loading = ref(true)
 const orders = ref([])
 const sellers = ref([])
 const search = ref('')

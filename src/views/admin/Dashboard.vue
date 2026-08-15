@@ -188,6 +188,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 import { fetchRplusStats } from '@/services/rplus'
 
+const loading = ref(true)
 const stats = ref([
   { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: '#fe2c55', change: '', trend: 'up' },
   { label: 'Total Orders', value: '0', icon: 'fas fa-shopping-cart', color: '#4ecdc4', change: '', trend: 'up' },

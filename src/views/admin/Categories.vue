@@ -111,8 +111,10 @@ const filteredCategories = computed(() => {
 
 const loadCategories = async () => {
   loading.value = true
-  const { data } = await supabase.from('categories').select('*').order('sort_order')
+  try { const { data } = await supabase.from('categories').select('*').order('sort_order')
   categories.value = data || []
+  } catch(e) { console.warn('Categories load error:', e) }
+  finally { loading.value = false }
   loading.value = false
 }
 

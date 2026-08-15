@@ -42,7 +42,7 @@ const settings = ref({
 
 onMounted(async () => {
   const codes = ['customer_service_url','mall_max_goods_number_in_order','seller_apply_url','recharge_url','withdraw_url','usdt_rate','min_recharge','min_withdraw','lottery_enabled','chat_enabled','subscribe_enabled']
-  const { data } = await supabase.from('system_params').select('code,value').in('code', codes)
+  try { const { data } = await supabase.from('system_params').select('code,value').in('code', codes)
   const map = {}; (data || []).forEach(p => { map[p.code] = p.value })
   settings.value.customerServiceUrl = map.customer_service_url || ''
   settings.value.maxItems = parseInt(map.mall_max_goods_number_in_order) || 999

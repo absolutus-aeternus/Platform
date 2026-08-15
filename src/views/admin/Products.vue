@@ -71,6 +71,7 @@ import { ref, onMounted } from 'vue'
 import { supabase, fetchCategories } from '@/services/supabase'
 
 const products = ref([])
+const loading = ref(true)
 const categories = ref([])
 const search = ref('')
 const statusFilter = ref('')
@@ -87,6 +88,8 @@ const loadProducts = async () => {
   
   const { data, count } = await query.range((page.value - 1) * 20, page.value * 20 - 1).order('created_at', { ascending: false })
   products.value = data || []
+  } catch(e) { console.warn('Products load error:', e) }
+  finally { loading.value = false }
   total.value = count || 0
 }
 

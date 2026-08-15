@@ -74,8 +74,10 @@ const timeAgo = (t) => { const d = new Date(t), now = new Date(), diff = now - d
 
 const load = async () => {
   loading.value = true
-  const { data } = await supabase.from('users').select('*').order('created_at', { ascending: false })
+  try { const { data } = await supabase.from('users').select('*').order('created_at', { ascending: false })
   users.value = data || []
+  } catch(e) { console.warn('Users load error:', e) }
+  finally { loading.value = false }
   loading.value = false
 }
 const viewUser = (u) => { selectedUser.value = u }

@@ -35,6 +35,7 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const orders = ref([])
+const loading = ref(true)
 const dateFrom = ref('')
 const dateTo = ref('')
 

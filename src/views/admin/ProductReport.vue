@@ -23,6 +23,7 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const products = ref([])
+const loading = ref(true)
 const categories = ref([])
 const search = ref('')
 const statusFilter = ref('')

@@ -55,8 +55,10 @@ const form = ref({ title: '', image_url: '', link: '', type: 'pc', sort_order: 0
 
 const load = async () => {
   loading.value = true
-  const { data } = await supabase.from('banners').select('*').order('sort_order')
+  try { const { data } = await supabase.from('banners').select('*').order('sort_order')
   banners.value = data || []
+  } catch(e) { console.warn('Banners load error:', e) }
+  finally { loading.value = false }
   loading.value = false
 }
 const openModal = (b) => {
