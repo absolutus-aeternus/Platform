@@ -1,8 +1,8 @@
 // Rating Plus Supabase Service
 // Shared connection for all admin panels
 
-const RP_URL = import.meta.env.VITE_RPLUS_URL || 'https://pkfddwovxitqfiblzgwd.supabase.co'
-const RP_KEY = import.meta.env.VITE_RPLUS_KEY || ''
+const RP_URL = import.meta.env.VITE_SUPABASE_URL || 'https://cfzmdvymqqnrzrytcrie.supabase.co'
+const RP_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 const headers = () => ({
   'apikey': RP_KEY,

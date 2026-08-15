@@ -43,7 +43,7 @@
       <div class="rplus-quick-links">
         <router-link to="/admin/rating-plus/users" class="rplus-link"><i class="fas fa-users-cog"></i> R+ User Management</router-link>
         <router-link to="/admin/rating-plus/chat" class="rplus-link"><i class="fas fa-headset"></i> R+ Live Chat</router-link>
-        <a href="/ratingplus.html" target="_blank" class="rplus-link"><i class="fas fa-external-link-alt"></i> R+ Landing Page</a>
+        <a href="/ratingplus" target="_blank" class="rplus-link"><i class="fas fa-external-link-alt"></i> R+ Landing Page</a>
       </div>
     </div>
 
