@@ -9,6 +9,5 @@ VITE_R2_BUCKET_NAME = "alliance-hub"
 B2_BUCKET_NAME = "alliance-hub"
 B2_BUCKET_ID = "c8d3e82c42680279a70b031b"
 
-# Cron trigger - setiap hari jam 02:00 WIB (18:00 UTC)
-[[triggers]]
+[triggers]
 crons = ["0 18 * * *"]
