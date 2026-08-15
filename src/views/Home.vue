@@ -383,7 +383,7 @@ onUnmounted(() => {
 .side-card small { font-size: 0.6875rem; opacity: 0.85; }
 
 /* Flash Sale */
-.flash-section { background: #fff; padding: 0.5rem 0; margin-top: 0.25rem; }
+.flash-section { background: #fff; padding: 0.35rem 0; margin-top: 0.25rem; }
 .flash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
 .flash-left { display: flex; align-items: center; gap: 0.75rem; }
 .flash-icon { font-size: 1rem; color: #FF9900; }
