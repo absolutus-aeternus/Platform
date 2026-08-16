@@ -70,9 +70,14 @@
       </div>
     </div>
   </div>
+
+<!-- Loading State -->
+<div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
 </template>
 
 <script setup>
+import { ref } from "vue"
+const loading = ref(false)
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'

@@ -92,7 +92,7 @@
               :src="img" 
               :class="{ active: selectedImage === i }"
               @click="selectedImage = i"
-            >
+             alt="AllianceHub">
           </div>
         </div>
 

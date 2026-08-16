@@ -1,3 +1,4 @@
+import '@/assets/design-system.css'
 import '@/assets/responsive.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

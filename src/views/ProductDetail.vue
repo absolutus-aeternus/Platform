@@ -30,7 +30,7 @@
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
             </div>
             <div class="thumb-row" v-if="product.images?.length > 1">
-              <img v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: i === 0 }">
+              <img v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: i === 0 }" alt="AllianceHub">
             </div>
           </div>
 
@@ -68,7 +68,7 @@
               <div class="info-row" v-if="product.sellers">
                 <span class="label">Seller</span>
                 <span class="value seller-link" @click="$router.push(`/store/${product.seller_id}`)">
-                  <img v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" />
+                  <img v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" / alt="AllianceHub">
                   {{ product.sellers?.name || product.sellers?.store_name || 'View Store' }} <i class="fas fa-chevron-right"></i>
                 </span>
               </div>
