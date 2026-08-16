@@ -93,6 +93,7 @@ const handleLogin = async () => {
       const role = result.role || userStore.role
       if (role === 'ADMIN') { error.value = 'Admin accounts must use admin login'; await userStore.logout(); return }
       if (role === 'SELLER') { error.value = 'Seller accounts must use seller login'; await userStore.logout(); return }
+      if (role === 'SUPER_ADMIN') { error.value = 'Super Admin accounts must use admin login'; await userStore.logout(); return }
       router.push('/user')
     } else {
       const msg = result.msg || ''
