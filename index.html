@@ -19,97 +19,35 @@
   <link rel="icon" type="image/png" href="/favicon.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://cfzmdvymqqnrzrytcrie.supabase.co">
-
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(){
-      var id = window.__CLARITY_PROJECT_ID__ || '';
-      if (id) {
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", id);
-      }
-    })();
-  </script>
+  <script src="/js/clarity-init.js" defer></script>
 </head>
 <body>
-  
-    <!-- Static Content for SEO & Loading -->
-    <div id="app">
-      <!-- Loading Screen -->
-      <div id="loading-screen" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0a0a1a 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
-        <img src="/images/logo-alliance.svg" alt="AllianceHub" style="width:80px;height:80px;margin-bottom:24px;animation:pulse 2s infinite">
-        <h1 style="color:#fff;font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:2px">ALLIANCEHUB</h1>
-        <p style="color:rgba(255,255,255,0.6);font-size:14px;margin-bottom:32px">Partner Global Dropshippers</p>
-        <div style="width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden">
-          <div style="width:40%;height:100%;background:linear-gradient(90deg,#ee4d2d,#ff6b4a);border-radius:2px;animation:loading 1.5s ease-in-out infinite"></div>
-        </div>
-        <p style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:16px">Loading...</p>
+  <div id="app">
+    <div id="loading-screen" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0a0a1a 100%);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif">
+      <img src="/images/logo-alliance.svg" alt="AllianceHub" style="width:80px;height:80px;margin-bottom:24px;animation:pulse 2s infinite">
+      <h1 style="color:#fff;font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:2px">ALLIANCEHUB</h1>
+      <p style="color:rgba(255,255,255,0.6);font-size:14px;margin-bottom:32px">Partner Global Dropshippers</p>
+      <div style="width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden">
+        <div style="width:40%;height:100%;background:linear-gradient(90deg,#ee4d2d,#ff6b4a);border-radius:2px;animation:loading 1.5s ease-in-out infinite"></div>
       </div>
-      
-      <!-- Static SEO Content (hidden after JS loads) -->
-      <noscript>
-        <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:sans-serif">
-          <h1>AllianceHub - Global Dropshipping Marketplace</h1>
-          <p>Welcome to AllianceHub, your one-stop dropshipping platform connecting buyers and sellers worldwide.</p>
-          <h2>Our Products</h2>
-          <ul>
-            <li>Electronics & Gadgets</li>
-            <li>Fashion & Clothing</li>
-            <li>Home & Living</li>
-            <li>Beauty & Health</li>
-            <li>Sports & Outdoors</li>
-            <li>And many more categories...</li>
-          </ul>
-          <h2>Why Choose AllianceHub?</h2>
-          <ul>
-            <li>Global shipping to 200+ countries</li>
-            <li>Quality verified products</li>
-            <li>Secure payment processing</li>
-            <li>24/7 customer support</li>
-            <li>Competitive wholesale prices</li>
-          </ul>
-          <p>Visit us at <a href="https://alliancehub.dpdns.org">alliancehub.dpdns.org</a></p>
-        </div>
-      </noscript>
+      <p style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:16px">Loading...</p>
     </div>
-    
-    <style>
-      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-      @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
-    </style>
-    
+    <noscript>
+      <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:sans-serif">
+        <h1>AllianceHub - Global Dropshipping Marketplace</h1>
+        <p>Welcome to AllianceHub, your one-stop dropshipping platform connecting buyers and sellers worldwide.</p>
+        <h2>Our Products</h2>
+        <ul><li>Electronics & Gadgets</li><li>Fashion & Clothing</li><li>Home & Living</li><li>Beauty & Health</li><li>Sports & Outdoors</li></ul>
+        <h2>Why Choose AllianceHub?</h2>
+        <ul><li>Global shipping to 200+ countries</li><li>Quality verified products</li><li>Secure payment processing</li><li>24/7 customer support</li><li>Competitive wholesale prices</li></ul>
+        <p>Visit us at <a href="https://alliancehub.dpdns.org">alliancehub.dpdns.org</a></p>
+      </div>
+    </noscript>
+  </div>
+  <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}@keyframes loading{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}</style>
   <script type="module" src="/src/main.js"></script>
-
-  <!-- OneSignal Web Push SDK -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      var appId = window.__ONESIGNAL_APP_ID__ || '';
-      if (appId) {
-        await OneSignal.init({ appId: appId });
-      }
-    });
-  </script>
-
-    <script>
-      // Hide loading screen when Vue app mounts
-      const observer = new MutationObserver(() => {
-        const loading = document.getElementById('loading-screen');
-        if (loading && document.querySelector('[data-v-app]')) {
-          loading.style.display = 'none';
-          observer.disconnect();
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-      // Fallback: hide after 5 seconds
-      setTimeout(() => {
-        const loading = document.getElementById('loading-screen');
-        if (loading) loading.style.display = 'none';
-      }, 5000);
-    </script>
+  <script src="/js/onesignal-init.js" defer></script>
+  <script src="/js/loading-hide.js" defer></script>
 </body>
 </html>

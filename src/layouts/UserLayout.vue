@@ -50,31 +50,31 @@ const showSidebar = ref(false)
 const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
 </script>
 <style scoped>
-.user-header { background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 0 15px; position: sticky; top: 0; z-index: 100; }
+.user-header { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 0 15px; position: sticky; top: 0; z-index: 100; }
 .header-inner { display: flex; align-items: center; gap: 20px; height: 56px; }
 .mobile-toggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: #333; }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-.logo-icon { width: 32px; height: 32px; background: #fe2c55; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
+.logo-icon { width: 32px; height: 32px; background: #FF9900; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
 .logo-text { font-size: 18px; font-weight: 800; color: #333; }
 .logo-img-nav { height: 2rem; width: auto; object-fit: contain; }
 .header-nav { display: flex; gap: 20px; margin-left: 30px; }
 .header-nav a { color: #666; text-decoration: none; font-size: 14px; transition: color 0.2s; }
-.header-nav a:hover, .header-nav a.router-link-active { color: #fe2c55; }
+.header-nav a:hover, .header-nav a.router-link-active { color: #FF9900; }
 .header-right { margin-left: auto; }
 .btn-outline-sm { padding: 6px 14px; border: 1px solid #ddd; border-radius: 6px; color: #666; font-size: 13px; text-decoration: none; transition: all 0.2s; }
-.btn-outline-sm:hover { border-color: #fe2c55; color: #fe2c55; }
+.btn-outline-sm:hover { border-color: #FF9900; color: #FF9900; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 .main-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 24px 0; min-height: calc(100vh - 56px); }
 .sidebar { position: sticky; top: 80px; height: fit-content; }
 .sidebar-overlay { display: none; }
 .sidebar-content { display: flex; flex-direction: column; gap: 4px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #f0f0f0; margin-bottom: 8px; }
-.user-avatar { width: 36px; height: 36px; background: #fe2c55; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+.user-avatar { width: 36px; height: 36px; background: #131921; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
 .user-name { font-size: 13px; font-weight: 600; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .menu-item { padding: 10px 14px; color: #555; text-decoration: none; border-radius: 8px; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
 .menu-item i { width: 18px; text-align: center; font-size: 14px; }
-.menu-item:hover { background: #fff8f0; color: #fe2c55; }
-.menu-item.router-link-active { background: #fe2c55; color: #fff; }
+.menu-item:hover { background: #f5f5f5; color: #131921; }
+.menu-item.router-link-active { background: #131921; color: #fff; }
 .main-content { min-height: 60vh; }
 @media (max-width: 768px) {
   .mobile-toggle { display: block; }

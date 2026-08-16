@@ -49,14 +49,14 @@ import { ref } from 'vue'
 const showSidebar = ref(false)
 </script>
 <style scoped>
-.seller-header { background: #1a1a2e; color: #fff; padding: 0 15px; position: sticky; top: 0; z-index: 100; }
+.seller-header { background: #131921; color: #fff; padding: 0 15px; position: sticky; top: 0; z-index: 100; }
 .header-inner { display: flex; align-items: center; gap: 20px; height: 56px; }
 .mobile-toggle { display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-.logo-icon { width: 32px; height: 32px; background: #fe2c55; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
+.logo-icon { width: 32px; height: 32px; background: #FF9900; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
 .logo-text { font-size: 18px; font-weight: 800; color: #fff; }
 .logo-img-nav { height: 2rem; width: auto; object-fit: contain; }
-.logo-sub { font-size: 11px; color: #fe2c55; background: rgba(254,44,85,0.15); padding: 2px 8px; border-radius: 4px; }
+.logo-sub { font-size: 11px; color: #FF9900; background: rgba(255,153,0,0.15); padding: 2px 8px; border-radius: 4px; }
 .header-nav { display: flex; gap: 20px; margin-left: 30px; }
 .header-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
 .header-nav a:hover, .header-nav a.router-link-active { color: #fff; }
@@ -70,8 +70,8 @@ const showSidebar = ref(false)
 .sidebar-content { display: flex; flex-direction: column; gap: 4px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .menu-item { padding: 10px 14px; color: #555; text-decoration: none; border-radius: 8px; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
 .menu-item i { width: 18px; text-align: center; font-size: 14px; }
-.menu-item:hover { background: #fff8f0; color: #fe2c55; }
-.menu-item.router-link-active { background: #fe2c55; color: #fff; }
+.menu-item:hover { background: #f5f5f5; color: #131921; }
+.menu-item.router-link-active { background: #131921; color: #fff; }
 .main-content { min-height: 60vh; }
 @media (max-width: 768px) {
   .mobile-toggle { display: block; }

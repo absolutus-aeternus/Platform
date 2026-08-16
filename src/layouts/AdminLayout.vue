@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2 class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:#fe2c55;font-weight:400">Super Admin</span></h2>
+        <h2 class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:#FF9900;font-weight:400">Super Admin</span></h2>
         <button class="toggle-btn" @click="sidebarCollapsed = !sidebarCollapsed">
           <i class="fas fa-bars"></i>
         </button>
@@ -232,14 +232,14 @@ const logout = async () => {
 .admin-layout { display: flex; min-height: 100vh; }
 
 /* Sidebar */
-.sidebar { width: 250px; background: #2a3f54; color: #fff; transition: width 0.3s; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+.sidebar { width: 250px; background: #232f3e; color: #fff; transition: width 0.3s; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
 .sidebar-collapsed .sidebar { width: 70px; }
 .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
 .logo-img-admin { height: 1.5rem; width: auto; object-fit: contain; }
 .toggle-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 18px; }
 .sidebar-user { display: flex; align-items: center; gap: 12px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.user-avatar { width: 40px; height: 40px; background: #fe2c55; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.user-avatar { width: 40px; height: 40px; background: #FF9900; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
 .user-info h4 { font-size: 13px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .role { font-size: 11px; color: rgba(255,255,255,0.6); }
 .sidebar-nav { padding: 10px 0; }
@@ -250,7 +250,7 @@ const logout = async () => {
 .nav-item i { width: 20px; text-align: center; font-size: 14px; }
 
 /* Main Content */
-.main-content { flex: 1; margin-left: 250px; transition: margin-left 0.3s; background: #f7f7f7; }
+.main-content { flex: 1; margin-left: 250px; transition: margin-left 0.3s; background: #EAEDED; }
 .sidebar-collapsed .main-content { margin-left: 70px; }
 
 /* Top Bar */
@@ -258,16 +258,16 @@ const logout = async () => {
 .topbar-left { display: flex; align-items: center; gap: 15px; }
 .menu-toggle { background: none; border: none; font-size: 18px; cursor: pointer; color: #666; display: none; }
 .breadcrumb { font-size: 14px; color: #666; }
-.breadcrumb a { color: #fe2c55; text-decoration: none; }
+.breadcrumb a { color: #FF9900; text-decoration: none; }
 .topbar-right { display: flex; align-items: center; gap: 20px; }
 .search-box { position: relative; }
 .search-box input { padding: 8px 15px 8px 35px; border: 1px solid #ddd; border-radius: 20px; font-size: 13px; width: 200px; }
 .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #999; font-size: 13px; }
 .topbar-actions { display: flex; align-items: center; gap: 15px; }
 .action-btn { position: relative; background: none; border: none; font-size: 18px; cursor: pointer; color: #666; }
-.badge { position: absolute; top: -5px; right: -5px; background: #fe2c55; color: #fff; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.badge { position: absolute; top: -5px; right: -5px; background: #FF9900; color: #fff; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 .user-dropdown { display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
-.user-avatar-sm { width: 30px; height: 30px; background: #fe2c55; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.user-avatar-sm { width: 30px; height: 30px; background: #FF9900; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
 .user-dropdown span { font-size: 13px; color: #666; }
 .dropdown-menu { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 180px; z-index: 100; }
 .dropdown-menu a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #333; text-decoration: none; font-size: 13px; }

@@ -40,17 +40,6 @@ export default {
         _e.n++;
         globalThis._rl.set(_ip, _e);
         if (_e.n > RL_LIMIT) return json({ error: 'Rate limit exceeded' }, { status: 429, ...corsHeaders });
-        // BUG #6 FIX: Stricter rate limit for sensitive endpoints (10 req/min)
-        const sensitivePaths = ['/api/checkout', '/api/upload/presign', '/api/log/login'];
-        if (sensitivePaths.some(p => path.startsWith(p))) {
-          const sKey = 'srl:' + _ip + path;
-          if (!globalThis._srl) globalThis._srl = new Map();
-          const se = globalThis._srl.get(sKey) || { n: 0, t: _now + 60000 };
-          if (_now > se.t) { se.n = 0; se.t = _now + 60000; }
-          se.n++;
-          globalThis._srl.set(sKey, se);
-          if (se.n > 10) return json({ error: 'Rate limit exceeded for this endpoint' }, { status: 429, ...corsHeaders });
-        }
         if (globalThis._rl.size > 5000) { for (const [k, v] of globalThis._rl) { if (_now > v.t) globalThis._rl.delete(k); } }
       }
     } catch (rlErr) {
@@ -190,9 +179,7 @@ export default {
 
       // ─── Algolia Search ───
       if (path === '/api/search' && method === 'GET') {
-        // BUG #5 FIX: Sanitize search input
-        const rawQuery = url.searchParams.get('q') || '';
-        const query = rawQuery.replace(/[<>"'\\]/g, '').substring(0, 200).trim();
+        const query = url.searchParams.get('q') || '';
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '20'), 50);
         if (!query) return json({ hits: [] }, corsHeaders);
         try {

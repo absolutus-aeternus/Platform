@@ -1,4 +1,7 @@
-/api/*  https://alliancehub-api.absolutus-aeternus.workers.dev/api/:splat  200
-/.env  /404.html  404
-/.git  /404.html  404
-/.git/*  /404.html  404
+/.env /404 301
+/.git/* /404 301
+/.gitignore /404 301
+/.env.* /404 301
+/node_modules/* /404 301
+/package.json /404 301
+/wrangler.toml /404 301
