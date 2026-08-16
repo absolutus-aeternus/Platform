@@ -22,7 +22,7 @@
         
         <button type="submit" class="btn-submit" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
-          {{ loading ? 'Authenticating...' : '🔐 Admin Login' }}
+          {{ loading ? 'Authenticating...' : 'Admin Login' }}
         </button>
         
         <div v-if="error" class="error-msg"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>

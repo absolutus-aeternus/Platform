@@ -24,11 +24,11 @@
       <h3 style="margin-bottom:12px;font-size:16px">⭐ Rating Plus Stats</h3>
       <div class="rplus-stats-grid">
         <div class="rplus-stat-card">
-          <div class="rplus-stat-icon" style="background:rgba(255,77,0,.1);color:#ff4d00">👥</div>
+          <div class="rplus-stat-icon" style="background:rgba(255,77,0,.1);color:#ff4d00"><i class="fas fa-users"></i></div>
           <div><strong>{{ rplusStats.users }}</strong><small>R+ Users</small></div>
         </div>
         <div class="rplus-stat-card">
-          <div class="rplus-stat-icon" style="background:rgba(0,230,138,.1);color:#00e68a">✅</div>
+          <div class="rplus-stat-icon" style="background:rgba(0,230,138,.1);color:#00e68a"><i class="fas fa-check-circle"></i></div>
           <div><strong>{{ rplusStats.approved }}</strong><small>Approved</small></div>
         </div>
         <div class="rplus-stat-card">
@@ -36,7 +36,7 @@
           <div><strong>{{ rplusStats.pending }}</strong><small>Pending</small></div>
         </div>
         <div class="rplus-stat-card">
-          <div class="rplus-stat-icon" style="background:rgba(124,92,255,.1);color:#7c5cff">💬</div>
+          <div class="rplus-stat-icon" style="background:rgba(124,92,255,.1);color:#7c5cff"><i class="fas fa-comments"></i></div>
           <div><strong>{{ rplusStats.messages }}</strong><small>Messages</small></div>
         </div>
       </div>
