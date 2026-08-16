@@ -1,0 +1,173 @@
+<template>
+  <div class="sa-page">
+    <div class="sa-header">
+      <h1><i class="fas fa-users-cog"></i> User Management</h1>
+      <button class="btn-primary" @click="showAdd = true"><i class="fas fa-plus"></i> Add User</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <input v-model="search" placeholder="Search email..." class="filter-input" @input="loadUsers">
+      <select v-model="roleFilter" class="filter-select" @change="loadUsers">
+        <option value="">All Roles</option>
+        <option value="MEMBER">Member</option>
+        <option value="SELLER">Seller</option>
+        <option value="ADMIN">Admin</option>
+        <option value="SUPER_ADMIN">Super Admin</option>
+      </select>
+    </div>
+
+    <!-- Users Table -->
+    <div class="section-card">
+      <div class="table-wrap">
+        <table class="sa-table">
+          <thead>
+            <tr>
+              <th>Email</th><th>Role</th><th>Joined</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="u in users" :key="u.id">
+              <td><strong>{{ u.email }}</strong></td>
+              <td>
+                <select :value="u.role" @change="changeRole(u, $event.target.value)" class="role-select" :class="u.role?.toLowerCase()">
+                  <option value="MEMBER">Member</option>
+                  <option value="SELLER">Seller</option>
+                  <option value="ADMIN">Admin</option>
+                  <option value="SUPER_ADMIN">Super Admin</option>
+                </select>
+              </td>
+              <td>{{ formatDate(u.created_at) }}</td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <button class="btn-sm" @click="resetPassword(u)" title="Reset Password"><i class="fas fa-key"></i></button>
+                <button class="btn-sm btn-danger" @click="deleteUser(u)" v-if="u.role !== 'SUPER_ADMIN'" title="Delete"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <button @click="page > 1 && (page--, loadUsers())" :disabled="page <= 1">Prev</button>
+        <span>Page {{ page }}</span>
+        <button @click="page++, loadUsers()">Next</button>
+      </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div v-if="showAdd" class="modal-overlay" @click.self="showAdd = false">
+      <div class="modal">
+        <h3>Add New User</h3>
+        <form @submit.prevent="createUser">
+          <div class="form-group"><label>Email</label><input v-model="newUser.email" type="email" required></div>
+          <div class="form-group"><label>Password</label><input v-model="newUser.password" type="password" required minlength="6"></div>
+          <div class="form-group"><label>Role</label>
+            <select v-model="newUser.role">
+              <option value="MEMBER">Member</option>
+              <option value="SELLER">Seller</option>
+              <option value="ADMIN">Admin</option>
+              <option value="SUPER_ADMIN">Super Admin</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" @click="showAdd = false" class="btn-secondary">Cancel</button>
+            <button type="submit" class="btn-primary">Create User</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/services/supabase'
+
+const users = ref([])
+const search = ref('')
+const roleFilter = ref('')
+const page = ref(1)
+const showAdd = ref(false)
+const newUser = ref({ email: '', password: '', role: 'MEMBER' })
+
+const loadUsers = async () => {
+  let q = supabase.from('users').select('id,email,role,created_at').order('created_at', { ascending: false }).range((page.value - 1) * 20, page.value * 20 - 1)
+  if (roleFilter.value) q = q.eq('role', roleFilter.value)
+  if (search.value) q = q.ilike('email', '%' + search.value + '%')
+  const { data } = await q
+  users.value = data || []
+}
+
+const changeRole = async (u, newRole) => {
+  if (!confirm('Change ' + u.email + ' to ' + newRole + '?')) { loadUsers(); return }
+  await supabase.from('users').update({ role: newRole }).eq('id', u.id)
+  u.role = newRole
+}
+
+const createUser = async () => {
+  const { error } = await supabase.auth.admin.createUser({
+    email: newUser.value.email, password: newUser.value.password, email_confirm: true
+  })
+  if (error) { alert(error.message); return }
+  // Set role
+  const { data: u } = await supabase.from('users').select('id').eq('email', newUser.value.email).single()
+  if (u) await supabase.from('users').update({ role: newUser.value.role }).eq('id', u.id)
+  showAdd.value = false
+  newUser.value = { email: '', password: '', role: 'MEMBER' }
+  loadUsers()
+}
+
+const deleteUser = async (u) => {
+  if (!confirm('Permanently delete ' + u.email + '?')) return
+  await supabase.from('users').delete().eq('id', u.id)
+  loadUsers()
+}
+
+const resetPassword = async (u) => {
+  const pw = prompt('New password for ' + u.email + ':')
+  if (!pw || pw.length < 6) return
+  await supabase.auth.admin.updateUserById(u.id, { password: pw })
+  alert('Password updated!')
+}
+
+const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'
+onMounted(loadUsers)
+</script>
+
+<style scoped>
+.sa-page { padding: 24px; max-width: 1400px; margin: 0 auto; }
+.sa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.sa-header h1 { font-size: 24px; color: #1a1a2e; display: flex; align-items: center; gap: 10px; }
+.filters { display: flex; gap: 12px; margin-bottom: 20px; }
+.filter-input { padding: 10px 14px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; width: 300px; }
+.filter-select { padding: 10px 14px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; }
+.section-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.table-wrap { overflow-x: auto; }
+.sa-table { width: 100%; border-collapse: collapse; }
+.sa-table th { text-align: left; padding: 10px 12px; background: #f8f9fa; font-size: 12px; color: #666; text-transform: uppercase; }
+.sa-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+.role-select { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #ddd; }
+.role-select.member { background: #dfe6e9; color: #636e72; }
+.role-select.seller { background: #dfe6e9; color: #0984e3; }
+.role-select.admin { background: #ffeaa7; color: #d35400; }
+.role-select.super_admin { background: #fdcb6e; color: #e17055; }
+.status-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.status-badge.active { background: #d4edda; color: #155724; }
+.btn-primary { padding: 10px 20px; background: #6c5ce7; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-primary:hover { background: #5a4bd1; }
+.btn-secondary { padding: 10px 20px; background: #f0f0f0; color: #444; border: none; border-radius: 8px; cursor: pointer; }
+.btn-sm { padding: 6px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #f0f0f0; color: #444; margin-right: 4px; }
+.btn-sm:hover { background: #6c5ce7; color: #fff; }
+.btn-danger { background: #ff7675; color: #fff; }
+.btn-danger:hover { background: #d63031; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; }
+.pagination button { padding: 8px 16px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; }
+.pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal { background: #fff; border-radius: 16px; padding: 32px; width: 440px; max-width: 90vw; }
+.modal h3 { margin-bottom: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+.form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+.form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+</style>
