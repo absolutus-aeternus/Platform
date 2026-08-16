@@ -70,20 +70,16 @@ export default {
             login_type: body.login_type || 'login', login_status: body.login_status || 'success',
             page_url: body.page_url || '', referrer: request.headers.get('Referer') || '',
             is_vpn: false, is_proxy: false, is_tor: false, threat_score: 0,
+            logged_at: new Date().toISOString()
           };
           const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
-          // Try login_logs table first, fallback to system_params
-          let stored = false;
-          try {
-            const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/login_logs', { method: 'POST', headers: h, body: JSON.stringify(record) });
-            if (resp.ok) stored = true;
-          } catch {}
-          if (!stored) {
-            // Fallback: store in system_params
-            const logKey = 'ip_log_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
-            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: JSON.stringify({ code: logKey, value: JSON.stringify(record), description: 'IP Log' }) });
-          }
+          const logKey = 'ip_log_' + Date.now();
+          const spBody = JSON.stringify({ code: logKey, value: JSON.stringify(record), description: 'IP Log' });
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: spBody });
           return json({ ok: true, ip: ip }, corsHeaders);
+        } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
+      }
+
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
