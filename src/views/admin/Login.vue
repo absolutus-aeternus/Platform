@@ -60,7 +60,7 @@ const handleLogin = async () => {
     if (result.success) {
       const userRole = result.role || userStore.role
 
-      if (userRole !== 'ADMIN') {
+      if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN') {
         error.value = 'Access denied. Administrator privileges required.'
         await userStore.logout()
         return
