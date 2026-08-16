@@ -201,9 +201,12 @@
                 <span class="pay-icon"><i class="fab fa-cc-visa"></i> Visa</span>
                 <span class="pay-icon"><i class="fab fa-cc-mastercard"></i> Mastercard</span>
                 <span class="pay-icon"><i class="fab fa-cc-paypal"></i> PayPal</span>
-                <span class="pay-icon"><i class="fab fa-cc-apple-pay"></i> Apple Pay</span>
-                <span class="pay-icon"><i class="fab fa-google-pay"></i> Google Pay</span>
-                <span class="pay-icon"><i class="fab fa-bitcoin"></i> Crypto</span>
+                <span class="pay-icon"><i class="fab fa-bitcoin"></i> Binance</span>
+                <span class="pay-icon"><i class="fas fa-exchange-alt"></i> OKX</span>
+                <span class="pay-icon"><i class="fas fa-coins"></i> Coinbase</span>
+                <span class="pay-icon"><i class="fab fa-ethereum"></i> MetaMask</span>
+                <span class="pay-icon"><i class="fas fa-chart-line"></i> KuCoin</span>
+                <span class="pay-icon"><i class="fas fa-water"></i> Kraken</span>
               </div>
             </div>
           </div>
