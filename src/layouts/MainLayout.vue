@@ -273,11 +273,11 @@ const navCategories = computed(() => categories.value.slice(0, 10))
 
 const setLocale = (code) => { locale.value = code; localStorage.setItem('locale', code); showLang.value = false }
 const subscribeNewsletter = () => {
-  if (newsletterEmail.value && newsletterEmail.value.includes(@)) {
-    window.__toast?.show(Subscribed successfully!, success)
-    newsletterEmail.value = 
+  if (newsletterEmail.value && newsletterEmail.value.indexOf("@") > 0) {
+    window.__toast && window.__toast.show("Subscribed successfully!", "success")
+    newsletterEmail.value = ""
   } else {
-    window.__toast?.show(Please enter a valid email, error)
+    window.__toast && window.__toast.show("Please enter a valid email", "error")
   }
 }
 let searchTimer = null
