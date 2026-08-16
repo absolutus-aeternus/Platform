@@ -100,9 +100,10 @@ const handleLogin = async () => {
       router.push('/user')
     } else {
       const msg = result.msg || ''
-      if (msg.includes('Invalid')) logLoginEvent({ email: email.value, login_status: 'failed', login_type: 'login' });
-      error.value = 'Invalid email or password'
-      else if (msg.includes('not confirmed')) error.value = 'Please confirm your email first'
+      if (msg.includes('Invalid')) {
+        logLoginEvent({ email: email.value, login_status: 'failed', login_type: 'login' });
+        error.value = 'Invalid email or password'
+      } else if (msg.includes('not confirmed')) error.value = 'Please confirm your email first'
       else error.value = msg || 'Login failed'
     }
   } catch { error.value = 'An error occurred' }
