@@ -151,18 +151,7 @@
       <div class="back-to-top" @click="scrollToTop" role="button" tabindex="0" aria-label="Back to top" @keyup.enter="scrollToTop">
         <span>Back to top</span>
       </div>
-      <div class="footer-newsletter">
-        <div class="container newsletter-inner">
-          <div class="newsletter-text">
-            <h4><i class="fas fa-envelope"></i> Subscribe to our newsletter</h4>
-            <p>Get the latest deals and updates delivered to your inbox.</p>
-          </div>
-          <div class="newsletter-form">
-            <input type="email" v-model="newsletterEmail" placeholder="Enter your email" aria-label="Email address" />
-            <button class="btn-subscribe" @click="subscribeNewsletter">Subscribe</button>
-          </div>
-        </div>
-      </div>
+
       <div class="footer-main">
         <div class="container">
           <div class="footer-grid">
@@ -207,6 +196,12 @@
                 <span class="pay-icon"><i class="fab fa-ethereum"></i> MetaMask</span>
                 <span class="pay-icon"><i class="fas fa-chart-line"></i> KuCoin</span>
                 <span class="pay-icon"><i class="fas fa-water"></i> Kraken</span>
+                <span class="pay-icon"><i class="fas fa-bolt"></i> Bybit</span>
+                <span class="pay-icon"><i class="fas fa-gem"></i> Gate.io</span>
+                <span class="pay-icon"><i class="fas fa-fire"></i> HTX</span>
+                <span class="pay-icon"><i class="fas fa-shield-alt"></i> Bitget</span>
+                <span class="pay-icon"><i class="fas fa-globe"></i> MEXC</span>
+                <span class="pay-icon"><i class="fas fa-link"></i> Crypto.com</span>
               </div>
             </div>
           </div>
@@ -222,13 +217,7 @@
             <router-link to="/terms">Terms of Service</router-link>
             <router-link to="/contact">Contact</router-link>
           </div>
-          <div class="footer-bottom-social">
-            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-          </div>
+
         </div>
       </div>
     </footer>
@@ -275,14 +264,6 @@ const currentLang = computed(() => languages.find(l => l.code === locale.value) 
 const navCategories = computed(() => categories.value.slice(0, 10))
 
 const setLocale = (code) => { locale.value = code; localStorage.setItem('locale', code); showLang.value = false }
-const subscribeNewsletter = () => {
-  if (newsletterEmail.value && newsletterEmail.value.indexOf("@") > 0) {
-    window.__toast && window.__toast.show("Subscribed successfully!", "success")
-    newsletterEmail.value = ""
-  } else {
-    window.__toast && window.__toast.show("Please enter a valid email", "error")
-  }
-}
 let searchTimer = null
 const doSearch = () => {
   clearTimeout(searchTimer)
@@ -401,17 +382,6 @@ onMounted(async () => {
 .back-to-top:hover { background: #485769; }
 .back-to-top span { color: #fff; font-size: 0.8125rem; }
 .footer { background: #232f3e; }
-.footer-newsletter { background: #1a2332; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.newsletter-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-.newsletter-text h4 { color: #fff; font-size: 1rem; margin: 0 0 0.25rem; }
-.newsletter-text h4 i { color: #FF9900; margin-right: 0.5rem; }
-.newsletter-text p { color: #aaa; font-size: 0.8125rem; margin: 0; }
-.newsletter-form { display: flex; gap: 0; flex-shrink: 0; }
-.newsletter-form input { padding: 0.625rem 1rem; border: 1px solid #444; background: #0f1923; color: #fff; border-radius: 4px 0 0 4px; font-size: 0.875rem; min-width: 240px; outline: none; }
-.newsletter-form input:focus { border-color: #FF9900; }
-.newsletter-form input::placeholder { color: #666; }
-.btn-subscribe { padding: 0.625rem 1.25rem; background: #FF9900; color: #111; border: none; border-radius: 0 4px 4px 0; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: background 0.15s; }
-.btn-subscribe:hover { background: #e88a00; }
 .footer-main { padding: 2.5rem 0; }
 .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
 .footer-col h4 { font-size: 0.9375rem; font-weight: 700; margin: 0 0 1rem; color: #fff; }
@@ -429,16 +399,10 @@ onMounted(async () => {
 .footer-bottom-links { display: flex; gap: 1.5rem; }
 .footer-bottom-links a { color: #888; font-size: 0.75rem; text-decoration: none; transition: color 0.15s; }
 .footer-bottom-links a:hover { color: #FF9900; }
-.footer-bottom-social { display: flex; gap: 0.75rem; }
-.footer-bottom-social a { color: #888; font-size: 1rem; transition: color 0.15s; }
-.footer-bottom-social a:hover { color: #FF9900; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
-  .newsletter-inner { flex-direction: column; text-align: center; }
-  .newsletter-form { width: 100%; }
-  .newsletter-form input { flex: 1; min-width: auto; }
   .orders-action { display: none; }
 }
 @media (max-width: 768px) {
@@ -459,9 +423,6 @@ onMounted(async () => {
   .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .footer-bottom-inner { flex-direction: column; text-align: center; }
   .footer-bottom-links { justify-content: center; }
-  .footer-bottom-social { justify-content: center; }
-  .newsletter-form { flex-direction: column; }
-  .newsletter-form input { border-radius: 4px; }
   .btn-subscribe { border-radius: 4px; }
   .payment-grid { grid-template-columns: repeat(2, 1fr); }
 }
