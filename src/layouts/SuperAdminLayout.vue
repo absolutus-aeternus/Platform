@@ -4,7 +4,19 @@
       <div class="sidebar-header">
         <img src="/images/logo-alliance.svg" alt="AllianceHub" class="sidebar-logo">
         <span class="sidebar-title">Super Admin</span>
-      </div>
+      </div><!-- Portal Switcher -->
+<div class="portal-switcher">
+  <div class="switcher-label">Switch Portal</div>
+  <div class="switcher-grid">
+    <router-link to="/user" class="switcher-btn"><i class="fas fa-shopping-cart"></i><span>Buyer</span></router-link>
+    <router-link to="/seller" class="switcher-btn"><i class="fas fa-store"></i><span>Seller</span></router-link>
+    <router-link to="/admin" class="switcher-btn"><i class="fas fa-shield-alt"></i><span>Admin</span></router-link>
+    <router-link to="/superadmin" class="switcher-btn active"><i class="fas fa-crown"></i><span>Super</span></router-link>
+    <router-link to="/ratingplus" class="switcher-btn"><i class="fas fa-star"></i><span>R+</span></router-link>
+    <router-link to="/" class="switcher-btn"><i class="fas fa-home"></i><span>Site</span></router-link>
+  </div>
+</div>
+
       <nav class="sidebar-nav">
         <!-- Main -->
         <div class="nav-section">
@@ -182,4 +194,12 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .logout-btn:hover { background: rgba(255,255,255,0.1); color: #ff7675; }
 .sa-main { flex: 1; margin-left: 260px; min-height: 100vh; }
 @media (max-width: 1023px) { .sa-sidebar { width: 60px; } .sidebar-title, .nav-label, .nav-item span, .user-info div { display: none; } .nav-item { justify-content: center; padding: 10px; } .nav-item i { width: auto; } .sa-main { margin-left: 60px; } }
+
+.portal-switcher { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.switcher-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; letter-spacing: 1px; }
+.switcher-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.switcher-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 8px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6); text-decoration: none; font-size: 10px; transition: all 0.2s; }
+.switcher-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+.switcher-btn.active { background: #6c5ce7; color: white; }
+.switcher-btn i { font-size: 14px; }
 </style>

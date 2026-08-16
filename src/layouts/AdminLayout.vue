@@ -9,7 +9,14 @@
         </button>
       </div>
       
-      <div class="sidebar-user">
+      <div class="portal-switcher" v-if="userStore.isSuperAdmin" style="padding:8px;background:#1a1a2e;display:flex;gap:8px;justify-content:center">
+  <router-link to="/superadmin" style="color:#f39c12;font-size:12px;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link>
+  <router-link to="/seller" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-store"></i> Seller</router-link>
+  <router-link to="/user" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link>
+  <router-link to="/ratingplus" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-star"></i> RatingPlus</router-link>
+  <router-link to="/" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-home"></i> Site</router-link>
+</div>
+<div class="sidebar-user">
         <div class="user-avatar">{{ userEmail[0]?.toUpperCase() || 'A' }}</div>
         <div class="user-info" v-show="!sidebarCollapsed">
           <h4>{{ userEmail }}</h4>

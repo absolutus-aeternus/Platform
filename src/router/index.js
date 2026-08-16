@@ -235,7 +235,7 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS') {
       return next(role === 'ADMIN' ? '/admin' : role === 'SUPER_ADMIN' ? '/superadmin' : role === 'SELLER' ? '/seller' : '/user')
     }
-    if (to.meta.requiresSeller && role !== 'SELLER') {
+    if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
       return next(role === 'ADMIN' ? '/admin' : '/user')
     }
 
@@ -243,18 +243,18 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
       return next(role === 'SELLER' ? '/seller' : '/user')
     }
-    if (to.meta.requiresAdmin && role !== 'ADMIN') {
+    if (to.meta.requiresAdmin && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
       return next(role === 'SELLER' ? '/seller' : '/user')
     }
 
     // Member portal: only MEMBER
-    if (to.meta.requiresMember && role !== 'MEMBER') {
+    if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
       return next(role === 'ADMIN' ? '/admin' : '/seller')
     }
 
     // ── Logged-in user visiting login/register pages → redirect to their portal ──
     const loginPages = ['/login', '/register', '/login/admin', '/seller/login']
-    if (loginPages.includes(to.path)) {
+    if (loginPages.includes(to.path) && role !== 'SUPER_ADMIN') {
       if (role === 'SUPER_ADMIN') return next('/admin')
       if (role === 'ADMIN') return next('/admin')
       if (role === 'SELLER') return next('/seller')

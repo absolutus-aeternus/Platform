@@ -1,4 +1,11 @@
-<template>
+<template><div v-if="userStore.isSuperAdmin" style="padding:8px;background:#1a1a2e;display:flex;gap:8px;justify-content:center">
+  <router-link to="/superadmin" style="color:#f39c12;font-size:12px;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link>
+  <router-link to="/admin" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-shield-alt"></i> Admin</router-link>
+  <router-link to="/user" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link>
+  <router-link to="/ratingplus" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-star"></i> R+</router-link>
+  <router-link to="/" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-home"></i> Site</router-link>
+</div>
+
   <div class="seller-layout">
     <header class="seller-header">
       <div class="container header-inner">
@@ -36,6 +43,8 @@
   </div>
 </template>
 <script setup>
+import { useUserStore } from "@/store/user"
+const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
 </script>
