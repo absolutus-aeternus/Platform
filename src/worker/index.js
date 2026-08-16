@@ -81,7 +81,7 @@ export default {
           if (!stored) {
             // Fallback: store in system_params
             const logKey = 'ip_log_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
-            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: JSON.stringify({ code: logKey, value: JSON.stringify(record) }) });
+            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: JSON.stringify({ code: logKey, value: JSON.stringify(record), description: 'IP Log' }) });
           }
           return json({ ok: true, ip: ip }, corsHeaders);
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
