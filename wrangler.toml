@@ -7,10 +7,15 @@ VITE_SUPABASE_URL = "https://cfzmdvymqqnrzrytcrie.supabase.co"
 VITE_R2_PUBLIC_URL = "/api/file"
 VITE_R2_BUCKET_NAME = "alliancehub"
 B2_BUCKET_NAME = "alliancehub"
-B2_BUCKET_ID = "c8d3e82c42680279a70b031b"
 VITE_ALGOLIA_APP_ID = "GLRKXLGDD9"
-VITE_ALGOLIA_SEARCH_KEY = "383df1809e4a5bed8888e8cf6726b38e"
-CRON_JOB_TOKEN = "mLSjn9fbD5GlLOHcE/hc+yJKu0AQtsvOwaetnklAgqA="
+
+# NOTE: All sensitive keys moved to Wrangler Secrets
+# Run: wrangler secret put VITE_SUPABASE_ANON_KEY
+# Run: wrangler secret put VITE_ALGOLIA_SEARCH_KEY
+# Run: wrangler secret put CRON_JOB_TOKEN
+# Run: wrangler secret put B2_KEY_ID
+# Run: wrangler secret put B2_APPLICATION_KEY
+# Run: wrangler secret put B2_BUCKET_ID
 
 [triggers]
 crons = ["0 18 * * *"]

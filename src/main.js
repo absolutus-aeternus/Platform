@@ -51,4 +51,10 @@ document.addEventListener('error', (e) => {
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
+
+// BUG #17: Global error handler
+app.config.errorHandler = (err, instance, info) => {
+  console.error('Vue error:', err, info)
+  if (window.__toast) window.__toast.show('Something went wrong', 'error')
+}
 app.mount('#app')

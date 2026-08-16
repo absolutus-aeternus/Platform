@@ -157,7 +157,7 @@ export const useUserStore = defineStore('user', {
 
         // Bug #4: Sync store state immediately
         if (updates.username) this.userInfo.username = updates.username
-        if (updates.role) this.role = updates.role
+        // SECURITY: Do not allow client-side role changes
 
         return { success: true }
       } catch (e) {

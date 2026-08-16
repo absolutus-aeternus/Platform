@@ -1,2 +1,4 @@
-/.git/*  /404.html  302
-/.env    /404.html  302
+/api/*  https://alliancehub-api.absolutus-aeternus.workers.dev/api/:splat  200
+/.env  /404.html  404
+/.git  /404.html  404
+/.git/*  /404.html  404
