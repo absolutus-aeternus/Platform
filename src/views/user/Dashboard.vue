@@ -48,6 +48,16 @@
           <span class="kyc-badge">Verified</span>
         </div>
       </div>
+      <div class="quick-links" style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <router-link to="/merchant-settled" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#ee4d2d,#ff6b4a);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
+          <i class="fas fa-store" style="font-size:20px"></i>
+          <div><div>Become a Seller</div><small style="opacity:0.8;font-weight:400">Start your dropshipping business</small></div>
+        </router-link>
+        <router-link to="/ratingplus" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#ff4d00,#ff6b4a);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
+          <i class="fas fa-star" style="font-size:20px"></i>
+          <div><div>Join Rating Plus</div><small style="opacity:0.8;font-weight:400">Earn money daily</small></div>
+        </router-link>
+      </div>
     </template>
   </div>
 </template>

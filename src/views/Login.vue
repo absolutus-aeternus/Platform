@@ -63,6 +63,7 @@
       <div class="login-footer">
         <p>Don't have an account? <router-link to="/register">Register</router-link></p>
         <p><router-link to="/merchant-settled" class="seller-link"><i class="fas fa-store"></i> Register as Seller</router-link></p>
+        <p><router-link to="/ratingplus" class="seller-link" style="color: #ff4d00 !important"><i class="fas fa-star"></i> Join Rating Plus — Earn Money</router-link></p>
       </div>
     </div>
   </div>
