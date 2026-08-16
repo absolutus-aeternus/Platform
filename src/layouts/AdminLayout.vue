@@ -13,7 +13,7 @@
         <div class="user-avatar">{{ userEmail[0]?.toUpperCase() || 'A' }}</div>
         <div class="user-info" v-show="!sidebarCollapsed">
           <h4>{{ userEmail }}</h4>
-          <span class="role">Administrator</span>
+          <span class="role">{{ userStore.isSuperAdmin ? 'Super Admin' : 'Administrator' }}</span>
         </div>
       </div>
       
