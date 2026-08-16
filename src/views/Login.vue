@@ -62,10 +62,7 @@
 
       <div class="login-footer">
         <p>Don't have an account? <router-link to="/register">Register</router-link></p>
-        <div class="portal-links">
-          <router-link to="/seller/login"><i class="fas fa-store"></i> Seller Login</router-link>
-          <router-link to="/login/admin"><i class="fas fa-shield-alt"></i> Admin</router-link>
-        </div>
+        <p><router-link to="/merchant-settled" class="seller-link"><i class="fas fa-store"></i> Register as Seller</router-link></p>
       </div>
     </div>
   </div>
@@ -148,9 +145,7 @@ const handleLogin = async () => {
 .login-footer { text-align: center; padding-top: 20px; border-top: 1px solid #f0f0f0; }
 .login-footer p { font-size: 13px; color: #888; margin-bottom: 12px; }
 .login-footer a { color: var(--primary, #ee4d2d); font-weight: 600; text-decoration: none; }
-.portal-links { display: flex; justify-content: center; gap: 20px; }
-.portal-links a { font-size: 12px; color: #aaa; display: flex; align-items: center; gap: 4px; }
-.portal-links a:hover { color: var(--primary, #ee4d2d); }
+
 .animate-in { animation: slideUp 0.5s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) { .login-card { padding: 28px 20px; } .logo-text { font-size: 20px; } }
