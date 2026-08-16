@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', {
     isAdmin: (state) => state.role === 'ADMIN',
     isSuperAdmin: (state) => state.role === 'SUPER_ADMIN',
     isMember: (state) => state.role === 'MEMBER',
+    isRatingPlus: (state) => state.role === 'RATING_PLUS',
     effectiveMode: (state) => {
       if (state.role === 'SUPER_ADMIN') return 'super-admin'
       if (state.role === 'ADMIN') return 'admin'

@@ -175,7 +175,7 @@ const routes = [
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
   { path: '/login/admin', name: 'AdminLogin', component: () => import('@/views/admin/Login.vue') },
   { path: '/register', name: 'Register', component: () => import('@/views/Register.vue') },
-  { path: '/ratingplus', name: 'RatingPlus', component: () => import('@/views/RatingPlus.vue') },
+  { path: '/ratingplus', name: 'RatingPlus', meta: { requiresAuth: true, requiresRatingPlus: true }, component: () => import('@/views/RatingPlus.vue') },
   { path: '/verification', name: 'Verification', component: () => import('@/views/Verification.vue') },
   { path: '/login-password-reset', name: 'LoginPasswordResetDirect', component: () => import('@/views/LoginPasswordReset.vue') },
   { path: '/bind-phone-bound', name: 'BindPhoneBound', component: () => import('@/views/BindPhoneBound.vue') },
@@ -231,6 +231,10 @@ router.beforeEach(async (to, from, next) => {
     const role = store.role
 
     // Seller portal: only SELLER
+        // RatingPlus portal: only RATING_PLUS
+    if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS') {
+      return next(role === 'ADMIN' ? '/admin' : role === 'SUPER_ADMIN' ? '/superadmin' : role === 'SELLER' ? '/seller' : '/user')
+    }
     if (to.meta.requiresSeller && role !== 'SELLER') {
       return next(role === 'ADMIN' ? '/admin' : '/user')
     }

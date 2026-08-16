@@ -174,7 +174,7 @@ const handleLogin = async () => {
     if (result.success) {
       const userRole = result.role || userStore.role
 
-      if (userRole !== 'SELLER') {
+      if (userRole !== 'SELLER' && userRole !== 'RATING_PLUS') {
         error.value = 'This account is not a seller. Please use the buyer login page.'
         await userStore.logout()
         return

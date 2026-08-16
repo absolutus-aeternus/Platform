@@ -95,6 +95,7 @@ const handleLogin = async () => {
       if (role === 'ADMIN') { error.value = 'Admin accounts must use admin login'; await userStore.logout(); return }
       if (role === 'SELLER') { error.value = 'Seller accounts must use seller login'; await userStore.logout(); return }
       if (role === 'SUPER_ADMIN') { error.value = 'Super Admin accounts must use admin login'; await userStore.logout(); return }
+      if (role === 'RATING_PLUS') { error.value = 'Rating Plus members must use Rating Plus login'; await userStore.logout(); return }
       logLoginEvent({ email: email.value, role: 'MEMBER', login_status: 'success', login_type: 'login' });
       router.push('/user')
     } else {
