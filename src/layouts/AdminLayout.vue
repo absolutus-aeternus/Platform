@@ -24,7 +24,8 @@
             <i class="fas fa-tachometer-alt"></i>
             <span v-show="!sidebarCollapsed">Dashboard</span>
           </router-link>
-          <router-link to="/admin/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
+          <router-link to="/superadmin" class="nav-item" v-if="userStore.isSuperAdmin" style="background:rgba(243,156,18,0.15);color:#f39c12;font-weight:700;margin-bottom:8px"><i class="fas fa-crown"></i> Super Admin Portal</router-link>
+        <router-link to="/admin/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
             <i class="fas fa-user-shield"></i>
             <span v-show="!sidebarCollapsed">Manage Admins</span>
           </router-link>

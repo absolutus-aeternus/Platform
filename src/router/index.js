@@ -80,6 +80,22 @@ const routes = [
       { path: 'settings', name: 'Settings', component: () => import('@/views/user/Settings.vue') },
     ]
   },
+
+  // Super Admin Portal
+  {
+    path: chr(39) + '/superadmin' + chr(39),
+    component: () => import(chr(39) + '@/layouts/SuperAdminLayout.vue' + chr(39)),
+    meta: { requiresAuth: true, requiresSuperAdmin: true },
+    children: [
+      { path: chr(39) + chr(39), name: chr(39) + 'SuperAdminDashboard' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Dashboard.vue' + chr(39)) },
+      { path: chr(39) + 'users' + chr(39), name: chr(39) + 'SuperAdminUsers' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Users.vue' + chr(39)) },
+      { path: chr(39) + 'settings' + chr(39), name: chr(39) + 'SuperAdminSettings' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Settings.vue' + chr(39)) },
+      { path: chr(39) + 'audit-logs' + chr(39), name: chr(39) + 'SuperAdminAuditLogs' + chr(39), component: () => import(chr(39) + '@/views/superadmin/AuditLogs.vue' + chr(39)) },
+      { path: chr(39) + 'security' + chr(39), name: chr(39) + 'SuperAdminSecurity' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Security.vue' + chr(39)) },
+      { path: chr(39) + 'feature-flags' + chr(39), name: chr(39) + 'SuperAdminFeatureFlags' + chr(39), component: () => import(chr(39) + '@/views/superadmin/FeatureFlags.vue' + chr(39)) },
+    ]
+  },
+
   { path: '/seller/login', name: 'SellerLogin', component: () => import('@/views/seller/Login.vue') },
   {
     path: '/seller',
