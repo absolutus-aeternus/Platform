@@ -72,6 +72,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import { logLoginEvent } from '@/utils/deviceLogger'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -94,10 +95,12 @@ const handleLogin = async () => {
       if (role === 'ADMIN') { error.value = 'Admin accounts must use admin login'; await userStore.logout(); return }
       if (role === 'SELLER') { error.value = 'Seller accounts must use seller login'; await userStore.logout(); return }
       if (role === 'SUPER_ADMIN') { error.value = 'Super Admin accounts must use admin login'; await userStore.logout(); return }
+      logLoginEvent({ email: email.value, role: 'MEMBER', login_status: 'success', login_type: 'login' });
       router.push('/user')
     } else {
       const msg = result.msg || ''
-      if (msg.includes('Invalid')) error.value = 'Invalid email or password'
+      if (msg.includes('Invalid')) logLoginEvent({ email: email.value, login_status: 'failed', login_type: 'login' });
+      error.value = 'Invalid email or password'
       else if (msg.includes('not confirmed')) error.value = 'Please confirm your email first'
       else error.value = msg || 'Login failed'
     }

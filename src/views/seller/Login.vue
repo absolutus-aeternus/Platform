@@ -122,6 +122,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import { logLoginEvent } from '@/utils/deviceLogger'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -178,6 +179,7 @@ const handleLogin = async () => {
         await userStore.logout()
         return
       }
+      logLoginEvent({ email: email.value, role: 'SELLER', login_status: 'success', login_type: 'login' });
       router.push('/seller')
     } else {
       error.value = result.msg || 'Login failed'

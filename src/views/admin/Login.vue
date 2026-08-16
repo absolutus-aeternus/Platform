@@ -39,6 +39,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import { logLoginEvent } from '@/utils/deviceLogger'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -65,11 +66,13 @@ const handleLogin = async () => {
         await userStore.logout()
         return
       }
+      logLoginEvent({ email: email.value, role: 'ADMIN', login_status: 'success', login_type: 'login' });
       router.push('/admin')
     } else {
       const msg = result.msg || 'Login failed'
       if (msg.includes('Invalid login credentials')) {
-        error.value = 'Invalid email or password.'
+        logLoginEvent({ email: email.value, login_status: 'failed', login_type: 'login' });
+      error.value = 'Invalid email or password.'
       } else if (msg.includes('Email not confirmed')) {
         error.value = 'Please confirm your email first.'
       } else {
