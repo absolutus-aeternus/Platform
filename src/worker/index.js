@@ -4,7 +4,7 @@ export default {
     const path = url.pathname;
     const method = request.method;
 
-    const allowedOrigins = ['https://alliancehub.dpdns.org', 'https://alliancehub.pages.dev', 'http://localhost:3000'];
+    const allowedOrigins = ['https://alliancehub.dpdns.org', 'https://alliancehub.pages.dev'];
     const origin = request.headers.get('Origin');
     const corsHeaders = {
       'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.pages.dev',
@@ -12,6 +12,20 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key',
     };
     if (method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
+
+    // Rate Limiting (60 req/min per IP)
+    const RL_LIMIT = 60;
+    const RL_WINDOW = 60000;
+    if (!globalThis._rl) globalThis._rl = new Map();
+    const _ip = request.headers.get('CF-Connecting-IP') || 'x';
+    const _now = Date.now();
+    const _e = globalThis._rl.get(_ip) || { n: 0, t: _now + RL_WINDOW };
+    if (_now > _e.t) { _e.n = 0; _e.t = _now + RL_WINDOW; }
+    _e.n++;
+    globalThis._rl.set(_ip, _e);
+    if (_e.n > RL_LIMIT) return json({ error: 'Rate limit exceeded' }, { status: 429, ...corsHeaders });
+    if (globalThis._rl.size > 5000) { for (const [k, v] of globalThis._rl) { if (_now > v.t) globalThis._rl.delete(k); } }
+
 
     try {
       // ─── Helper: Verify Supabase JWT ───
@@ -143,6 +157,8 @@ export default {
 
       // ─── Dashboard ───
       if (path === '/api/dashboard' && method === 'GET') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const [products, categories, sellers] = await Promise.all([
           fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=*,sellers(name,store_name,logo)&order=sales_count.desc&limit=20', { headers: h }).then(r => r.json()),

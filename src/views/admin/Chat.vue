@@ -211,7 +211,7 @@ const loadConversations = async () => {
           })
         })
       }
-    } catch (e) { console.log('R+ users fetch failed:', e.message) }
+    } catch (e) { console.warn('[Admin] R+ users fetch failed:', e.message) }
 
     // Get all AllianceHub chat messages
     const { data: msgs } = await supabase
@@ -317,7 +317,7 @@ const loadMessages = async (convId) => {
             sender_name: msg.sender_id === 'admin' ? 'Customer Service' : (activeConv.value?.name || 'User')
           }))
           scrollToBottom()
-        } catch (e) { console.log('R+ messages fetch failed:', e.message) }
+        } catch (e) { console.warn('[Admin] R+ messages fetch failed:', e.message) }
       }
       messagesLoading.value = false
       return

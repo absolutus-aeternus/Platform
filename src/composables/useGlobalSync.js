@@ -90,7 +90,7 @@ export function useGlobalSync() {
 
   function disconnect() {
     syncState.channels.forEach(ch => {
-      try { supabase.removeChannel(ch) } catch {}
+      try { supabase.removeChannel(ch) } catch (e) { console.warn("[GlobalSync] Error:", e.message) }
     })
     syncState.channels = []
     syncState.connected.value = false

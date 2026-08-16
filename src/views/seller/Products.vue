@@ -127,7 +127,8 @@ const deleteProduct = async (id) => {
 }
 
 const editProduct = (product) => {
-  // TODO: Implement edit
+  // Edit product - navigate to edit page
+    router.push({ name: 'SellerProductAdd', query: { edit: product.id } })
   window.__toast?.show('Edit functionality coming soon')
 }
 

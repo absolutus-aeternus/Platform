@@ -196,7 +196,9 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // Admin portal: only ADMIN
-    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN' && role !== 'ADMIN')
+    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
+      return next(role === 'SELLER' ? '/seller' : '/user')
+    }
     if (to.meta.requiresAdmin && role !== 'ADMIN') {
       return next(role === 'SELLER' ? '/seller' : '/user')
     }

@@ -60,6 +60,9 @@
             <span>Total</span>
             <span>${{ subtotal }}</span>
           </div>
+          <div v-if="error" class="checkout-error">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+          </div>
           <button class="btn-place-order" @click="placeOrder" :disabled="ordering || addresses.length === 0">
             {{ ordering ? 'Placing Order...' : 'Place Order' }}
           </button>
@@ -73,7 +76,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { supabase, fetchAddresses, createOrder } from '@/services/supabase'
+import { supabase, fetchAddresses } from '@/services/supabase'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -83,6 +86,7 @@ const selectedAddress = ref({})
 const paymentMethods = ['Binance', 'Huobi', 'OKX', 'Coinbase', 'MetaMask', 'KuCoin']
 const selectedPayment = ref('Binance')
 const ordering = ref(false)
+const error = ref(null)
 
 const subtotal = computed(() => {
   return userStore.cart.reduce((sum, item) => {
@@ -101,91 +105,75 @@ onMounted(async () => {
   }
 })
 
+const validateOrder = () => {
+  if (!userStore.supabaseUser) {
+    error.value = 'Please login to place an order'
+    return false
+  }
+  if (addresses.value.length === 0) {
+    error.value = 'Please add a shipping address'
+    return false
+  }
+  if (!selectedAddress.value?.address) {
+    error.value = 'Please select a shipping address'
+    return false
+  }
+  if (userStore.cart.length === 0) {
+    error.value = 'Your cart is empty'
+    return false
+  }
+  if (parseFloat(subtotal.value) <= 0) {
+    error.value = 'Invalid order total'
+    return false
+  }
+  error.value = null
+  return true
+}
+
 const placeOrder = async () => {
-  if (!userStore.supabaseUser || addresses.value.length === 0) return
+  if (!validateOrder()) return
   
   ordering.value = true
+  error.value = null
+  
   try {
-    const orderNo = 'ORD-' + Date.now()
-    // Get seller_id from first cart item's product
-    const firstProduct = userStore.cart[0]?.products
-    const sellerId = firstProduct?.seller_id || null
-    
-    const orderData = {
-      order_no: orderNo,
-      user_id: userStore.supabaseUser.id,
-      seller_id: sellerId,
-      total_amount: parseFloat(subtotal.value),
-      status: 'pending',
-      payment_method: selectedPayment.value,
-      payment_status: 'unpaid',
-      shipping_address: selectedAddress.value
-    }
-    
-    const { data: order, error } = await createOrder(orderData)
-    if (error) throw error
-    
-    // Create order items
-    for (const item of userStore.cart) {
-      const price = item.products?.price || item.price || 0
-      await supabase.from('order_items').insert({
-        order_id: order[0].id,
-        product_id: item.product_id || item.id,
-        product_name: item.products?.name || item.name,
-        product_price: price,
-        quantity: item.quantity,
-        total_price: price * item.quantity
+    const token = userStore.token
+    if (!token) throw new Error('Authentication required')
+
+    // Use Worker API (with auth verification)
+    const resp = await fetch(`${import.meta.env.VITE_WORKER_URL}/api/checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        total: parseFloat(subtotal.value),
+        address: selectedAddress.value,
+        payment_method: selectedPayment.value,
+        items: userStore.cart.map(item => ({
+          product_id: item.product_id || item.id,
+          quantity: item.quantity,
+          price: item.products?.price || item.price || 0
+        }))
       })
+    })
+
+    const result = await resp.json()
+    
+    if (!resp.ok) {
+      throw new Error(result.error || 'Failed to place order')
     }
+
+    // Clear local cart
+    await userStore.clearCart()
     
-    // Clear cart
-    await supabase.from('cart_items').delete().eq('user_id', userStore.supabaseUser.id)
-    userStore.clearCart()
-    
-    window.__toast?.show('Order placed successfully!')
+    window.__toast?.show('Order placed successfully!', 'success')
     router.push('/user/orders')
   } catch (e) {
-    window.__toast?.show('Failed to place order: ' + e.message)
+    error.value = e.message || 'Failed to place order'
+    window.__toast?.show(error.value, 'error')
   }
   ordering.value = false
 }
 </script>
-
-<style scoped>
-.container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
-h1 { margin-bottom: 30px; }
-.empty { text-align: center; padding: 60px 0; }
-.btn-primary { background: #fe2c55; color: #fff; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
-.checkout-grid { display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
-.section { background: #fff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.section h2 { font-size: 18px; margin-bottom: 15px; }
-.no-address { text-align: center; padding: 20px; }
-.btn-link { color: #fe2c55; text-decoration: none; }
-.address-card { padding: 15px; background: #f8f8f8; border-radius: 8px; }
-.order-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
-.item-img { width: 60px; height: 60px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ccc; border-radius: 4px; }
-.item-info { flex: 1; }
-.item-info h4 { font-size: 14px; margin-bottom: 5px; }
-.item-price { font-weight: 600; color: #fe2c55; }
-.payment-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.payment-option { display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
-.payment-option input { margin: 0; }
-.checkout-summary { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: sticky; top: 100px; }
-.checkout-summary h2 { margin-bottom: 20px; }
-.summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; }
-.summary-row.total { font-size: 18px; font-weight: 700; color: #fe2c55; border-top: 1px solid #eee; padding-top: 15px; }
-.btn-place-order { width: 100%; padding: 14px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 15px; }
-.btn-place-order:disabled { background: #ccc; cursor: not-allowed; }
-@media (max-width: 768px) {
-  .checkout-grid { grid-template-columns: 1fr; }
-  .payment-options { grid-template-columns: 1fr 1fr; }
-  .checkout-summary { position: static; }
-  .order-item { flex-wrap: wrap; }
-  .item-img { width: 50px; height: 50px; }
-}
-@media (max-width: 480px) {
-  .container { padding: 10px; }
-  .section { padding: 15px; }
-  .payment-options { grid-template-columns: 1fr; }
-}
-</style>

@@ -51,7 +51,7 @@ const truncate = (s, l) => { if (!s || s.length <= l) return s; return s.substri
 const removeProduct = (id) => { products.value = products.value.filter(p => p.id !== id); saveToStorage() }
 
 const saveToStorage = () => {
-  try { localStorage.setItem('comparison', JSON.stringify(products.value.map(p => p.id))) } catch {}
+  try { localStorage.setItem('comparison', JSON.stringify(products.value.map(p => p.id))) } catch (e) { console.warn("[Comparison] Error:", e.message) }
 }
 
 onMounted(async () => {
@@ -61,7 +61,7 @@ onMounted(async () => {
       const { data } = await supabase.from('products').select('*').in('id', ids).eq('is_active', true)
       products.value = data || []
     }
-  } catch {}
+  } catch (e) { console.warn("[Comparison] Error:", e.message) }
 })
 </script>
 

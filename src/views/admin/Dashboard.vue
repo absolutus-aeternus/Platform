@@ -311,7 +311,7 @@ onMounted(async () => {
   try {
     const rpStats = await fetchRplusStats()
     rplusStats.value = rpStats
-  } catch (e) { console.log('R+ stats fetch failed:', e.message) }
+  } catch (e) { console.warn('[Admin] R+ stats fetch failed:', e.message) }
 })
 </script>
 

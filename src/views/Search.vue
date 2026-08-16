@@ -27,14 +27,14 @@
       </div>
 
       <div v-else-if="products.length" class="product-grid">
-        <div v-for="p in products" :key="p.id" class="product-card" @click="$router.push(`/product/${p.id}`)">
+        <div v-for="p in products" :key="p.objectID || p.id" class="product-card" @click="$router.push(`/product/${p.objectID || p.id}`)">
           <div class="card-img">
             <img v-if="p.images?.[0]" :src="p.images[0]" :alt="p.name" loading="lazy">
             <div v-else class="img-placeholder">{{ p.name?.[0] || '?' }}</div>
             <span v-if="p.discount" class="badge-discount">-{{ p.discount }}%</span>
           </div>
           <div class="card-body">
-            <div class="card-title">{{ p.name }}</div>
+            <div class="card-title" v-html="p._highlightResult?.name?.value || p.name"></div>
             <div class="card-price">${{ p.price }} <span v-if="p.original_price" class="original">${{ p.original_price }}</span></div>
             <div class="card-meta">
               <span class="rating"><i class="fas fa-star"></i> {{ p.rating || '4.5' }}</span>
@@ -56,24 +56,48 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { searchProducts } from '@/services/supabase'
 
 const route = useRoute()
 const query = ref(route.query.q || '')
 const sort = ref('popular')
 const products = ref([])
 const loading = ref(true)
+const debounceTimer = ref(null)
+
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
 
 const doSearch = async () => {
   loading.value = true
   try {
-    const { data } = await searchProducts(query.value, { sort: sort.value, limit: 40 })
-    products.value = data || []
-  } catch { products.value = [] }
+    if (!query.value.trim()) {
+      // Empty query → fetch popular products from Worker
+      const resp = await fetch(`${WORKER_URL}/api/products?sort=sales&limit=40`)
+      const result = await resp.json()
+      products.value = result.data || []
+    } else {
+      // Use Algolia via Worker API
+      const resp = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(query.value)}&limit=40`)
+      const result = await resp.json()
+      products.value = result.hits || []
+    }
+  } catch (e) {
+    console.error('Search error:', e)
+    products.value = []
+  }
   loading.value = false
 }
 
-onMounted(() => { doSearch() })
+// Debounced search for auto-suggest
+const debouncedSearch = () => {
+  if (debounceTimer.value) clearTimeout(debounceTimer.value)
+  debounceTimer.value = setTimeout(() => {
+    doSearch()
+  }, 300)
+}
+
+onMounted(() => {
+  doSearch()
+})
 </script>
 
 <style scoped>
@@ -98,18 +122,4 @@ onMounted(() => { doSearch() })
 .product-card:hover { border-color: var(--primary, #ee4d2d); box-shadow: 0 2px 8px rgba(238,77,45,0.12); transform: translateY(-1px); }
 .card-img { position: relative; aspect-ratio: 1; overflow: hidden; background: #f8f8f8; }
 .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-.product-card:hover .card-img img { transform: scale(1.05); }
-.img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #ddd; background: linear-gradient(135deg, #f8f8f8, #eee); }
-.badge-discount { position: absolute; top: 0; left: 0; background: var(--primary, #ee4d2d); color: #fff; padding: 2px 4px; font-size: 11px; font-weight: 700; }
-.card-body { padding: 8px 10px 10px; }
-.card-title { font-size: 13px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; min-height: 36px; margin-bottom: 6px; }
-.card-price { font-size: 16px; font-weight: 700; color: var(--primary, #ee4d2d); margin-bottom: 4px; }
-.card-price .original { font-size: 12px; color: #999; text-decoration: line-through; font-weight: 400; margin-left: 4px; }
-.card-meta { display: flex; justify-content: space-between; font-size: 11px; color: #999; }
-.card-meta .rating { color: #ffc107; }
-.empty-state { text-align: center; padding: 80px 0; color: #999; }
-.empty-state i { font-size: 48px; color: #ddd; margin-bottom: 12px; display: block; }
-.empty-state p { margin-bottom: 20px; font-size: 16px; }
-@media (max-width: 768px) { .product-grid, .loading-state { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 480px) { .product-grid, .loading-state { grid-template-columns: repeat(2, 1fr); } .filter-tags { overflow-x: auto; } }
 </style>

@@ -31,7 +31,7 @@ export function getCurrency() {
       const found = CURRENCIES.find(c => c.code === saved)
       if (found) currentCurrency = found
     }
-  } catch {}
+  } catch (e) { console.warn("[Currency] Error:", e.message) }
   return currentCurrency
 }
 
@@ -39,7 +39,7 @@ export function setCurrency(code) {
   const found = CURRENCIES.find(c => c.code === code)
   if (found) {
     currentCurrency = found
-    try { localStorage.setItem('currency', code) } catch {}
+    try { localStorage.setItem('currency', code) } catch (e) { console.warn("[Currency] Error:", e.message) }
   }
 }
 

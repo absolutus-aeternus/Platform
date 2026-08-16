@@ -21,7 +21,7 @@ export async function sendOrderConfirmation(orderId) {
     if (!user?.email) return { success: false, error: 'User email not found' }
 
     // In production, call Supabase Edge Function or email API
-    console.log(`[Email] Order confirmation sent to ${user.email} for order ${order.order_no}`)
+    console.info(`[Email] Order confirmation sent to ${user.email} for order ${order.order_no}`)
     
     return { success: true }
   } catch (e) {
@@ -48,7 +48,7 @@ export async function sendShippingNotification(orderId, trackingNumber, carrier)
 
     if (!user?.email) return { success: false }
 
-    console.log(`[Email] Shipping notification sent to ${user.email} - Tracking: ${trackingNumber}`)
+    console.info(`[Email] Shipping notification sent to ${user.email} - Tracking: ${trackingNumber}`)
     
     return { success: true }
   } catch (e) {
@@ -81,7 +81,7 @@ export async function sendWelcomeEmail(userId) {
 
     if (!user?.email) return { success: false }
 
-    console.log(`[Email] Welcome email sent to ${user.email}`)
+    console.info(`[Email] Welcome email sent to ${user.email}`)
     
     return { success: true }
   } catch (e) {
