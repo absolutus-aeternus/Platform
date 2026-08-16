@@ -1,2 +1,2 @@
-/.git/*  /404.html  302
-/.env    /404.html  302
+# SPA fallback for history mode
+/* /index.html 200
