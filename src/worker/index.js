@@ -57,10 +57,8 @@ export default {
             email: body.email || null, role: body.role || null,
             ip_address: ip, ip_country: ipInfo.country_name || cf.country || '',
             ip_city: ipInfo.city || cf.city || '', ip_region: ipInfo.region || '',
-            ip_isp: ipInfo.org || '', ip_org: ipInfo.org || '',
-            ip_as: 'AS' + (ipInfo.asn || cf.asn || ''),
-            ip_lat: parseFloat(ipInfo.latitude || cf.latitude) || null,
-            ip_lon: parseFloat(ipInfo.longitude || cf.longitude) || null,
+            ip_isp: ipInfo.org || '', ip_as: 'AS' + (ipInfo.asn || ''),
+            ip_lat: parseFloat(ipInfo.latitude) || null, ip_lon: parseFloat(ipInfo.longitude) || null,
             device_type: body.device_type || '', device_vendor: body.device_vendor || '',
             device_model: body.device_model || '', os_name: body.os_name || '',
             os_version: body.os_version || '', browser_name: body.browser_name || '',
@@ -74,8 +72,20 @@ export default {
             is_vpn: false, is_proxy: false, is_tor: false, threat_score: 0,
           };
           const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
-          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/login_logs', { method: 'POST', headers: h, body: JSON.stringify(record) });
+          // Try login_logs table first, fallback to system_params
+          let stored = false;
+          try {
+            const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/login_logs', { method: 'POST', headers: h, body: JSON.stringify(record) });
+            if (resp.ok) stored = true;
+          } catch {}
+          if (!stored) {
+            // Fallback: store in system_params
+            const logKey = 'ip_log_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
+            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: JSON.stringify({ code: logKey, value: JSON.stringify(record) }) });
+          }
           return json({ ok: true, ip: ip }, corsHeaders);
+        } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
+      }
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
             if (path === '/api/health') {
