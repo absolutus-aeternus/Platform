@@ -203,15 +203,25 @@
 
     <ChatWidget />
   </div>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="bottom-nav" v-if="device.isMobile">
+  <router-link to="/" exact-active-class="active"><i class="fas fa-home"></i><span>Home</span></router-link>
+  <router-link to="/category" active-class="active"><i class="fas fa-th-large"></i><span>Category</span></router-link>
+  <router-link to="/cart" active-class="active"><i class="fas fa-shopping-cart"></i><span>Cart</span></router-link>
+  <router-link to="/user" active-class="active"><i class="fas fa-user"></i><span>Account</span></router-link>
+</nav>
 </template>
 
 <script setup>
+const device = useDevice()
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchCategories } from '@/services/supabase'
 import ChatWidget from '@/components/ChatWidget.vue'
+import { useDevice } from '@/composables/useDevice'
 
 const router = useRouter()
 const userStore = useUserStore()
