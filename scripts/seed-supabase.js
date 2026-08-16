@@ -10,7 +10,7 @@ const getEnv = (key) => {
 }
 
 const supabaseUrl = getEnv('VITE_SUPABASE_URL')
-const supabaseKey = getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('VITE_SUPABASE_ANON_KEY')
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('VITE_SUPABASE_ANON_KEY')
 
 console.log('URL:', supabaseUrl)
 console.log('Key length:', supabaseKey.length)

@@ -262,7 +262,11 @@ export default {
               return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
             }
             if (product.stock !== null && product.stock < item.quantity) {
-              return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock }, { status: 400, ...corsHeaders });
+              // Decrement stock
+            if (product.stock !== null) {
+              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + item.product_id, { method: 'PATCH', headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify({ stock: product.stock - item.quantity }) });
+            }
+            return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock }, { status: 400, ...corsHeaders });
             }
           }
         }
