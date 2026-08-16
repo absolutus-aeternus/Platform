@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/absolutus-aeternus/Platform#readme
+    about: Check documentation before creating an issue
