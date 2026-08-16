@@ -180,3 +180,34 @@ const placeOrder = async () => {
   ordering.value = false
 }
 </script>
+
+<style scoped>
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+.checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+.checkout-form { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.checkout-summary { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 14px; font-weight: 500; color: #555; margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #ee4d2d; box-shadow: 0 0 0 3px rgba(238,77,45,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.btn-place-order { width: 100%; padding: 14px; background: #ee4d2d; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+.btn-place-order:hover { background: #d73211; transform: translateY(-1px); }
+.btn-place-order:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.checkout-error { background: #fff5f5; color: #ff4757; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+.summary-total { font-weight: 700; font-size: 18px; color: #ee4d2d; border-bottom: none; }
+@media (max-width: 768px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .checkout-summary { position: static; }
+  .form-row { grid-template-columns: 1fr; }
+  .page-title { font-size: 1.25rem; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 8px; }
+  .checkout-form, .checkout-summary { padding: 16px; }
+  .page-title { font-size: 1.1rem; }
+  .btn-place-order { font-size: 14px; }
+}
+</style>

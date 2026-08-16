@@ -1,5 +1,6 @@
 import '@/assets/design-system.css'
 import '@/assets/responsive.css'
+import '@/assets/animations-3d.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from './router'

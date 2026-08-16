@@ -107,4 +107,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .btn-reject { color: #dc3545; border-color: #dc3545; }
 .done { font-size: 12px; color: #999; }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
+
+@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
+@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
 </style>

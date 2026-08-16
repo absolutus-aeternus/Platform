@@ -439,4 +439,6 @@ const handleRegister = async () => {
   .how-steps { grid-template-columns: 1fr; }
   .program-grid { grid-template-columns: 1fr; }
 }
+@media (max-width: 768px) { .hero { padding: 60px 16px 40px; } .hero-inner { flex-direction: column; } .hero-left, .hero-right { width: 100%; } .hero-right { display: none; } .hero-stats { grid-template-columns: repeat(2, 1fr); } .about-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .testi-grid { grid-template-columns: 1fr; } .faq-list { padding: 0 16px; } .auth-card { width: 95%; padding: 24px; } .section-title { font-size: 1.4rem; } .hero-badge { font-size: 0.7rem; } .hero-cta { padding: 12px 24px; font-size: 0.9rem; } }
+@media (max-width: 480px) { .hero { padding: 40px 12px 30px; } .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; } .hero-stat .num { font-size: 1.2rem; } .section-title { font-size: 1.2rem; } .faq-item { padding: 12px; } .hero-cta { width: 100%; justify-content: center; } .auth-card { padding: 20px; } .field input { font-size: 16px; } }
 </style>
