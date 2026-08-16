@@ -146,8 +146,6 @@ export default {
 
       // ─── Products ───
       if (path === '/api/products' && method === 'GET') {
-        // RLS ENFORCEMENT: Only show active products
-        const statusFilter = url.searchParams.get('status') || 'active';
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const category = url.searchParams.get('category');
         const search = url.searchParams.get('search');
@@ -297,58 +295,6 @@ export default {
           return json({ error: 'Invalid cron token' }, { status: 403, ...corsHeaders });
         }
         return json({ status: 'executed', timestamp: new Date().toISOString() }, corsHeaders);
-      }
-
-      
-      // ─── Admin: System Params (ADMIN ONLY) ───
-      if (path === '/api/admin/system-params' && method === 'GET') {
-        const _u = await verifyAuth(request);
-        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        // Check admin role
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
-        });
-        const roleData = await roleResp.json();
-        if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
-          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
-        }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params?order=code', { headers: h });
-        return json({ data: await resp.json() }, corsHeaders);
-      }
-
-      // ─── Admin: All Orders (ADMIN ONLY) ───
-      if (path === '/api/admin/orders' && method === 'GET') {
-        const _u = await verifyAuth(request);
-        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
-        });
-        const roleData = await roleResp.json();
-        if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
-          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
-        }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
-        const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?select=*,order_items(*,products(name,images))&order=created_at.desc&limit=' + limit, { headers: h });
-        return json({ data: await resp.json() }, corsHeaders);
-      }
-
-      // ─── Admin: All Users (ADMIN ONLY) ───
-      if (path === '/api/admin/users' && method === 'GET') {
-        const _u = await verifyAuth(request);
-        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
-        });
-        const roleData = await roleResp.json();
-        if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
-          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
-        }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
-        const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=id,email,username,role,created_at&order=created_at.desc&limit=' + limit, { headers: h });
-        return json({ data: await resp.json() }, corsHeaders);
       }
 
       return json({ error: 'Not found' }, { status: 404, ...corsHeaders });
