@@ -106,7 +106,8 @@ export default {
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
             if (path === '/api/health') {
-        return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.1' }, corsHeaders);
+        const csrfToken = generateCSRFToken();
+        return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.2' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + csrfToken + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
       }
 
       // ─── B2 File proxy ───
@@ -134,6 +135,7 @@ export default {
 
       // ─── Upload presign (auth required) ───
       if (path === '/api/upload/presign' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Unauthorized' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -243,6 +245,7 @@ export default {
 
       // ─── Checkout (AUTH REQUIRED) ───
       if (path === '/api/checkout' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
 
@@ -250,7 +253,7 @@ export default {
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         
-        // BUG #6 FIX: Validate stock before checkout
+        // BUG FIX: Validate stock before checkout (correct logic)
         if (body.items?.length) {
           for (const item of body.items) {
             const prodResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,stock,name&id=eq.' + item.product_id, {
@@ -262,13 +265,10 @@ export default {
               return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
             }
             if (product.stock !== null && product.stock < item.quantity) {
-              // Decrement stock
-            if (product.stock !== null) {
-              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + item.product_id, { method: 'PATCH', headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify({ stock: product.stock - item.quantity }) });
-            }
-            return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock }, { status: 400, ...corsHeaders });
+              return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock + ', Requested: ' + item.quantity }, { status: 400, ...corsHeaders });
             }
           }
+        }
         }
 
         const order = {
@@ -293,6 +293,22 @@ export default {
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/order_items', {
             method: 'POST', headers: h, body: JSON.stringify(items)
           });
+          // FIX: Decrement stock AFTER successful order creation
+          for (const item of body.items) {
+            try {
+              const curResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=stock&id=eq.' + item.product_id, {
+                headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
+              });
+              const curProds = await curResp.json();
+              if (curProds[0]?.stock !== null && curProds[0]?.stock !== undefined) {
+                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + item.product_id, {
+                  method: 'PATCH',
+                  headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                  body: JSON.stringify({ stock: Math.max(0, curProds[0].stock - item.quantity) })
+                });
+              }
+            } catch (stockErr) { console.warn('Stock decrement failed for', item.product_id, stockErr.message); }
+          }
         }
         return json({ order: orderData[0], order_no: orderNo }, corsHeaders);
       }
@@ -324,13 +340,13 @@ export default {
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         // Check admin role
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params?order=code', { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
       }
@@ -340,13 +356,13 @@ export default {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?select=*,order_items(*,products(name,images))&order=created_at.desc&limit=' + limit, { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
@@ -357,13 +373,13 @@ export default {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '*** ' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=id,email,username,role,created_at&order=created_at.desc&limit=' + limit, { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
@@ -374,13 +390,31 @@ export default {
       // Structured error logging (no sensitive data in response)
       const errorId = Date.now().toString(36);
       console.error(JSON.stringify({ errorId, message: err.message, path, method, timestamp: new Date().toISOString() }));
-      return json({ error: 'Internal server error', errorId, message: err.message || 'Unknown error' }, { status: 500, ...corsHeaders });
+      console.error('Worker error [' + errorId + ']:', err.message || err); return json({ error: 'Internal server error', errorId }, { status: 500, ...corsHeaders });
     }
   },
   async scheduled(event, env, ctx) {
     ctx.waitUntil(fetch('https://alliancehub-api.absolutus-aeternus.workers.dev/api/health'));
   }
 };
+
+
+// CSRF Token helpers
+function generateCSRFToken() {
+  const arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function verifyCSRFToken(request) {
+  const method = request.method;
+  if (['GET', 'HEAD', 'OPTIONS'].includes(method)) return true;
+  const token = request.headers.get('X-CSRF-Token') || '';
+  const cookie = (request.headers.get('Cookie') || '').match(/csrf=([^;]+)/);
+  if (!token || !cookie) return false;
+  return token === cookie[1];
+}
+
 
 function json(data, headers = {}) {
   const { status = 200, ...rest } = headers;
