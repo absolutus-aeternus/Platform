@@ -71,7 +71,7 @@
           </div>
           <div class="about-img-badge">
             <div class="icon"><i class="fas fa-check"></i></div>
-            <div><h4>Dipercaya 2.500+ Mitra</h4><p>Di seluruh Indonesia</p></div>
+            <div><h4>Dipercaya 2.500+ Partners</h4><p>Di seluruh Indonesia</p></div>
           </div>
         </div>
         <div class="about-content">
@@ -124,7 +124,7 @@
     <!-- Testimonialsals -->
     <section class="testimoni">
       <div class="section-header">
-        <div class="section-tag orange">Mitra We</div>
+        <div class="section-tag orange">Partners We</div>
         <h2 class="section-title">Mereka yang Sudah Merasakan</h2>
       </div>
       <div class="testi-grid">
@@ -230,7 +230,7 @@ const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavio
 const howSteps = [
   { icon: 'fas fa-user-plus', title: 'Register Akun', desc: 'Buat akun gratis dalam 1 menit. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
   { icon: 'fas fa-tasks', title: 'Choose Tasks', desc: 'Pilih tasks yang tersedia sesuai kemampuan dan waktu You.', color: 'rgba(0,230,138,0.15)' },
-  { icon: 'fas fa-check-circle', title: 'Selesaikan Tugas', desc: 'Ikuti instruksi, selesaikan tasks, dan submit bukti.', color: 'rgba(124,92,255,0.15)' },
+  { icon: 'fas fa-check-circle', title: 'Selesaikan Tasks', desc: 'Ikuti instruksi, selesaikan tasks, dan submit bukti.', color: 'rgba(124,92,255,0.15)' },
   { icon: 'fas fa-wallet', title: 'Receive Commission', desc: 'Commission langsung masuk ke dompet digital You.', color: 'rgba(0,180,216,0.15)' },
 ]
 
@@ -241,9 +241,9 @@ const programs = [
 ]
 
 const testimonials = [
-  { name: 'Sari Dewi', role: 'Mitra sejak 2024', text: 'Dalam 2 bulan, saya sudah menghasilkan lebih dari $500. Sangat fleksibel dan bisa dikerjakan dari rumah.', color: '#ff4d00' },
-  { name: 'Budi Santoso', role: 'Mitra sejak 2023', text: 'Awalnya ragu, tapi ternyata benar-benar membayar. Sekarang ini earnings utama saya.', color: '#00e68a' },
-  { name: 'Maya Putri', role: 'Mitra sejak 2024', text: 'Tugasnya mudah dan jelas. Support team juga sangat responsif. Recommended!', color: '#7c5cff' },
+  { name: 'Sari Dewi', role: 'Partners sejak 2024', text: 'Dalam 2 bulan, saya sudah menghasilkan lebih dari $500. Sangat fleksibel dan bisa dikerjakan dari rumah.', color: '#ff4d00' },
+  { name: 'Budi Santoso', role: 'Partners sejak 2023', text: 'Awalnya ragu, tapi ternyata benar-benar membayar. Sekarang ini earnings utama saya.', color: '#00e68a' },
+  { name: 'Maya Putri', role: 'Partners sejak 2024', text: 'Tasksnya mudah dan jelas. Support team juga sangat responsif. Recommended!', color: '#7c5cff' },
 ]
 
 const faqs = [
