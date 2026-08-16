@@ -106,8 +106,7 @@ export default {
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
             if (path === '/api/health') {
-        const csrfToken = generateCSRFToken();
-        return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.2' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + csrfToken + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
+        const _csrf = generateCSRFToken(); return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.2' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + _csrf + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
       }
 
       // ─── B2 File proxy ───
@@ -253,7 +252,7 @@ export default {
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         
-        // BUG FIX: Validate stock before checkout (correct logic)
+        // BUG #6 FIX: Validate stock before checkout
         if (body.items?.length) {
           for (const item of body.items) {
             const prodResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,stock,name&id=eq.' + item.product_id, {
@@ -268,7 +267,6 @@ export default {
               return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock + ', Requested: ' + item.quantity }, { status: 400, ...corsHeaders });
             }
           }
-        }
         }
 
         const order = {
@@ -293,21 +291,21 @@ export default {
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/order_items', {
             method: 'POST', headers: h, body: JSON.stringify(items)
           });
-          // FIX: Decrement stock AFTER successful order creation
-          for (const item of body.items) {
+          // FIX: Decrement stock AFTER successful order
+          for (const _item of body.items) {
             try {
-              const curResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=stock&id=eq.' + item.product_id, {
+              const _cr = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=stock&id=eq.' + _item.product_id, {
                 headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
               });
-              const curProds = await curResp.json();
-              if (curProds[0]?.stock !== null && curProds[0]?.stock !== undefined) {
-                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + item.product_id, {
+              const _cp = await _cr.json();
+              if (_cp[0]?.stock !== null) {
+                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + _item.product_id, {
                   method: 'PATCH',
                   headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-                  body: JSON.stringify({ stock: Math.max(0, curProds[0].stock - item.quantity) })
+                  body: JSON.stringify({ stock: Math.max(0, _cp[0].stock - _item.quantity) })
                 });
               }
-            } catch (stockErr) { console.warn('Stock decrement failed for', item.product_id, stockErr.message); }
+            } catch (e) { console.warn('Stock decrement error:', e.message); }
           }
         }
         return json({ order: orderData[0], order_no: orderNo }, corsHeaders);
@@ -390,7 +388,7 @@ export default {
       // Structured error logging (no sensitive data in response)
       const errorId = Date.now().toString(36);
       console.error(JSON.stringify({ errorId, message: err.message, path, method, timestamp: new Date().toISOString() }));
-      console.error('Worker error [' + errorId + ']:', err.message || err); return json({ error: 'Internal server error', errorId }, { status: 500, ...corsHeaders });
+      console.error('Error [' + errorId + ']:', err.message); return json({ error: 'Internal server error', errorId }, { status: 500, ...corsHeaders });
     }
   },
   async scheduled(event, env, ctx) {
