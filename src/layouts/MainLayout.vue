@@ -147,9 +147,21 @@
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-      <div class="back-to-top" @click="scrollToTop">
+    <footer class="footer" role="contentinfo">
+      <div class="back-to-top" @click="scrollToTop" role="button" tabindex="0" aria-label="Back to top" @keyup.enter="scrollToTop">
         <span>Back to top</span>
+      </div>
+      <div class="footer-newsletter">
+        <div class="container newsletter-inner">
+          <div class="newsletter-text">
+            <h4><i class="fas fa-envelope"></i> Subscribe to our newsletter</h4>
+            <p>Get the latest deals and updates delivered to your inbox.</p>
+          </div>
+          <div class="newsletter-form">
+            <input type="email" v-model="newsletterEmail" placeholder="Enter your email" aria-label="Email address" />
+            <button class="btn-subscribe" @click="subscribeNewsletter">Subscribe</button>
+          </div>
+        </div>
       </div>
       <div class="footer-main">
         <div class="container">
@@ -161,6 +173,7 @@
                 <li><router-link to="/blog">Blog & Guides</router-link></li>
                 <li><router-link to="/how-to-buy">How to Buy</router-link></li>
                 <li><router-link to="/comparison">Compare Products</router-link></li>
+                <li><router-link to="/contact">Contact Us</router-link></li>
               </ul>
             </div>
             <div class="footer-col">
@@ -170,6 +183,7 @@
                 <li><router-link to="/returns">Returns & Refunds</router-link></li>
                 <li><router-link to="/shipping-info">Shipping Info</router-link></li>
                 <li><router-link to="/payment-methods">Payment Methods</router-link></li>
+                <li><router-link to="/help">Help Center</router-link></li>
               </ul>
             </div>
             <div class="footer-col">
@@ -177,18 +191,19 @@
               <ul>
                 <li><router-link to="/merchant-settled">Sell on AllianceHub</router-link></li>
                 <li><router-link to="/seller/login">Seller Login</router-link></li>
-                                <li><router-link to="/register">Create Account</router-link></li>
+                <li><router-link to="/register">Create Account</router-link></li>
+                <li><router-link to="/credit">Affiliate Program</router-link></li>
               </ul>
             </div>
             <div class="footer-col">
               <h4>Payment Partners</h4>
               <div class="payment-grid">
-                <span class="pay-icon"><i class="fab fa-bitcoin"></i> Binance</span>
-                <span class="pay-icon"><i class="fas fa-exchange-alt"></i> OKX</span>
-                <span class="pay-icon"><i class="fas fa-coins"></i> Coinbase</span>
-                <span class="pay-icon"><i class="fab fa-ethereum"></i> MetaMask</span>
-                <span class="pay-icon"><i class="fas fa-chart-line"></i> KuCoin</span>
-                <span class="pay-icon"><i class="fas fa-water"></i> Kraken</span>
+                <span class="pay-icon"><i class="fab fa-cc-visa"></i> Visa</span>
+                <span class="pay-icon"><i class="fab fa-cc-mastercard"></i> Mastercard</span>
+                <span class="pay-icon"><i class="fab fa-cc-paypal"></i> PayPal</span>
+                <span class="pay-icon"><i class="fab fa-cc-apple-pay"></i> Apple Pay</span>
+                <span class="pay-icon"><i class="fab fa-google-pay"></i> Google Pay</span>
+                <span class="pay-icon"><i class="fab fa-bitcoin"></i> Crypto</span>
               </div>
             </div>
           </div>
@@ -196,7 +211,21 @@
       </div>
       <div class="footer-bottom">
         <div class="container footer-bottom-inner">
-          <p>© 2022 AllianceHub. All rights reserved.</p>
+          <div class="footer-bottom-left">
+            <p>© 2026 AllianceHub. All rights reserved.</p>
+          </div>
+          <div class="footer-bottom-links">
+            <router-link to="/privacy">Privacy Policy</router-link>
+            <router-link to="/terms">Terms of Service</router-link>
+            <router-link to="/contact">Contact</router-link>
+          </div>
+          <div class="footer-bottom-social">
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          </div>
         </div>
       </div>
     </footer>
@@ -243,6 +272,14 @@ const currentLang = computed(() => languages.find(l => l.code === locale.value) 
 const navCategories = computed(() => categories.value.slice(0, 10))
 
 const setLocale = (code) => { locale.value = code; localStorage.setItem('locale', code); showLang.value = false }
+const subscribeNewsletter = () => {
+  if (newsletterEmail.value && newsletterEmail.value.includes(@)) {
+    window.__toast?.show(Subscribed successfully!, success)
+    newsletterEmail.value = 
+  } else {
+    window.__toast?.show(Please enter a valid email, error)
+  }
+}
 let searchTimer = null
 const doSearch = () => {
   clearTimeout(searchTimer)
@@ -361,23 +398,44 @@ onMounted(async () => {
 .back-to-top:hover { background: #485769; }
 .back-to-top span { color: #fff; font-size: 0.8125rem; }
 .footer { background: #232f3e; }
+.footer-newsletter { background: #1a2332; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.newsletter-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.newsletter-text h4 { color: #fff; font-size: 1rem; margin: 0 0 0.25rem; }
+.newsletter-text h4 i { color: #FF9900; margin-right: 0.5rem; }
+.newsletter-text p { color: #aaa; font-size: 0.8125rem; margin: 0; }
+.newsletter-form { display: flex; gap: 0; flex-shrink: 0; }
+.newsletter-form input { padding: 0.625rem 1rem; border: 1px solid #444; background: #0f1923; color: #fff; border-radius: 4px 0 0 4px; font-size: 0.875rem; min-width: 240px; outline: none; }
+.newsletter-form input:focus { border-color: #FF9900; }
+.newsletter-form input::placeholder { color: #666; }
+.btn-subscribe { padding: 0.625rem 1.25rem; background: #FF9900; color: #111; border: none; border-radius: 0 4px 4px 0; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: background 0.15s; }
+.btn-subscribe:hover { background: #e88a00; }
 .footer-main { padding: 2.5rem 0; }
 .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
 .footer-col h4 { font-size: 0.9375rem; font-weight: 700; margin: 0 0 1rem; color: #fff; }
-.footer-col ul { list-style: none; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col li { margin-bottom: 0.5rem; }
 .footer-col a { color: #ddd; text-decoration: none; font-size: 0.8125rem; transition: color 0.15s; }
 .footer-col a:hover { color: #FF9900; text-decoration: underline; }
-.payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
-.pay-icon { background: rgba(255,255,255,0.08); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.75rem; color: #ccc; display: flex; align-items: center; gap: 0.5rem; }
+.payment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.pay-icon { background: rgba(255,255,255,0.08); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.75rem; color: #ccc; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s; }
+.pay-icon:hover { background: rgba(255,255,255,0.12); }
 .pay-icon i { color: #FF9900; width: 1rem; text-align: center; }
 .footer-bottom { background: #0d1117; padding: 1rem 0; }
-.footer-bottom-inner { text-align: center; }
-.footer-bottom p { font-size: 0.75rem; color: #666; margin: 0; }
+.footer-bottom-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-bottom-left p { font-size: 0.75rem; color: #666; margin: 0; }
+.footer-bottom-links { display: flex; gap: 1.5rem; }
+.footer-bottom-links a { color: #888; font-size: 0.75rem; text-decoration: none; transition: color 0.15s; }
+.footer-bottom-links a:hover { color: #FF9900; }
+.footer-bottom-social { display: flex; gap: 0.75rem; }
+.footer-bottom-social a { color: #888; font-size: 1rem; transition: color 0.15s; }
+.footer-bottom-social a:hover { color: #FF9900; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .newsletter-inner { flex-direction: column; text-align: center; }
+  .newsletter-form { width: 100%; }
+  .newsletter-form input { flex: 1; min-width: auto; }
   .orders-action { display: none; }
 }
 @media (max-width: 768px) {
@@ -396,6 +454,13 @@ onMounted(async () => {
   .sub-link { padding: 0.375rem 0.5rem; font-size: 0.75rem; }
   .sub-right { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-bottom-inner { flex-direction: column; text-align: center; }
+  .footer-bottom-links { justify-content: center; }
+  .footer-bottom-social { justify-content: center; }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-form input { border-radius: 4px; }
+  .btn-subscribe { border-radius: 4px; }
+  .payment-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
   .header-inner { gap: 0.375rem; }
