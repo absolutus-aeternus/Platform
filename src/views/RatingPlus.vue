@@ -7,23 +7,23 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-left">
-          <div class="hero-badge"><span class="dot"></span> Platform Penghasilan Digital #1</div>
+          <div class="hero-badge"><span class="dot"></span> #1 Digital Earning Platform</div>
           <h1>
             <span class="accent">Rating Plus</span><br>
-            <span class="dim">Peluang Penghasilan</span><br>
-            <span class="green">Tanpa Batas</span>
+            <span class="dim">Earning Opportunity</span><br>
+            <span class="green">Unlimited</span>
           </h1>
-          <p class="hero-sub">Bergabunglah dengan ribuan mitra kami yang telah menikmati kebebasan finansial. Cukup ponsel dan internet — kami sediakan semua.</p>
+          <p class="hero-sub">Join thousands of partners who achieved financial freedom. Just a phone and internet — we provide everything.</p>
           <div class="hero-cta-row">
             <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">
-              <i class="fas fa-comments"></i> Mulai Sekarang
+              <i class="fas fa-comments"></i> Get Started
             </button>
-            <button class="hero-cta secondary" @click="scrollTo('about')">Pelajari Lebih Lanjut →</button>
+            <button class="hero-cta secondary" @click="scrollTo('about')">Learn More →</button>
           </div>
           <div class="hero-stats">
-            <div class="hero-stat"><div class="num">2.500+</div><div class="label">Mitra Aktif</div></div>
-            <div class="hero-stat"><div class="num">150.000+</div><div class="label">Tugas Selesai</div></div>
-            <div class="hero-stat"><div class="num">98%</div><div class="label">Kepuasan</div></div>
+            <div class="hero-stat"><div class="num">2.500+</div><div class="label">Active Partners</div></div>
+            <div class="hero-stat"><div class="num">150.000+</div><div class="label">Tasks Completed</div></div>
+            <div class="hero-stat"><div class="num">98%</div><div class="label">Satisfaction</div></div>
             <div class="hero-stat"><div class="num">24/7</div><div class="label">Support</div></div>
           </div>
         </div>
@@ -49,11 +49,11 @@
             </div>
             <div class="hero-mockup-float f1">
               <div class="float-icon"><i class="fas fa-money-bill-wave"></i></div>
-              <div class="float-text"><h4>Komisi Cair</h4><p>Langsung ke rekening</p></div>
+              <div class="float-text"><h4>Instant Payout</h4><p>Direct to account</p></div>
             </div>
             <div class="hero-mockup-float f2">
               <div class="float-icon"><i class="fas fa-mobile-alt"></i></div>
-              <div class="float-text"><h4>Cukup HP</h4><p>Kerja dari mana saja</p></div>
+              <div class="float-text"><h4>Just Your Phone</h4><p>Work from anywhere</p></div>
             </div>
           </div>
         </div>
@@ -75,11 +75,11 @@
           </div>
         </div>
         <div class="about-content">
-          <h2>Program Kemitraan Eksklusif</h2>
-          <p>Rating Plus adalah ekosistem peluang digital yang menghubungkan Anda dengan berbagai tugas sederhana. Setiap tugas selesai, Anda mendapatkan komisi langsung. Tanpa modal, tanpa target, tanpa batas.</p>
+          <h2>Program Kepartnersan Eksklusif</h2>
+          <p>Rating Plus adalah ekosistem peluang digital yang menghubungkan You dengan berbagai tasks sederhana. Setiap tasks selesai, You mendapatkan komisi langsung. Tanpa modal, tanpa target, tanpa batas.</p>
           <div class="about-features">
             <div class="about-feat"><div class="ico"><i class="fas fa-clock"></i></div><span>Fleksibilitas Total</span></div>
-            <div class="about-feat"><div class="ico"><i class="fas fa-money-bill-wave"></i></div><span>Komisi Langsung</span></div>
+            <div class="about-feat"><div class="ico"><i class="fas fa-money-bill-wave"></i></div><span>Commission Langsung</span></div>
             <div class="about-feat"><div class="ico"><i class="fas fa-rocket"></i></div><span>Tanpa Modal</span></div>
             <div class="about-feat"><div class="ico"><i class="fas fa-mobile-alt"></i></div><span>Cukup Ponsel</span></div>
           </div>
@@ -92,7 +92,7 @@
       <div class="section-header">
         <div class="section-tag orange">Proses Mudah</div>
         <h2 class="section-title">4 Langkah Menuju Penghasilan Tambahan</h2>
-        <p class="section-desc">Mulai dari nol, raih hasil nyata. Semua bisa dilakukan dari ponsel Anda.</p>
+        <p class="section-desc">Mulai dari nol, raih hasil nyata. Semua bisa dilakukan dari ponsel You.</p>
       </div>
       <div class="how-steps">
         <div class="how-step" v-for="(step, i) in howSteps" :key="i">
@@ -109,7 +109,7 @@
       <div class="section-header">
         <div class="section-tag purple">Peluang</div>
         <h2 class="section-title">Peluang untuk Semua</h2>
-        <p class="section-desc">Tidak perlu pengalaman. Tidak perlu modal. Yang Anda butuhkan hanya kemauan.</p>
+        <p class="section-desc">Tidak perlu pengalaman. Tidak perlu modal. Yang You butuhkan hanya kemauan.</p>
       </div>
       <div class="program-grid">
         <div class="program-card" v-for="(prog, i) in programs" :key="i">
@@ -121,10 +121,10 @@
       </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- Testimonialsals -->
     <section class="testimoni">
       <div class="section-header">
-        <div class="section-tag orange">Mitra Kami</div>
+        <div class="section-tag orange">Mitra We</div>
         <h2 class="section-title">Mereka yang Sudah Merasakan</h2>
       </div>
       <div class="testi-grid">
@@ -156,8 +156,8 @@
     <!-- CTA Section -->
     <section class="cta-section">
       <h2>Siap Mulai?</h2>
-      <p>Bergabung sekarang dan rasakan manfaatnya dalam hitungan hari.</p>
-      <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">Daftar Sekarang — Gratis</button>
+      <p>Join sekarang dan rasakan manfaatnya dalam hitungan hari.</p>
+      <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">Register Sekarang — Gratis</button>
     </section>
 
     <!-- Auth Modal -->
@@ -166,12 +166,12 @@
         <button class="auth-close" @click="showAuth = false"><i class="fas fa-times"></i></button>
         <div class="auth-header">
           <div class="auth-brand">R+</div>
-          <h2>{{ authTab === 'login' ? 'Selamat Datang Kembali' : 'Bergabung dengan Rating Plus' }}</h2>
-          <p>{{ authTab === 'login' ? 'Masuk ke akun Anda' : 'Mulai penghasilan digital Anda' }}</p>
+          <h2>{{ authTab === 'login' ? 'Welcome Back' : 'Join Rating Plus' }}</h2>
+          <p>{{ authTab === 'login' ? 'Sign in to your account' : 'Start your digital earning journey' }}</p>
         </div>
         <div class="auth-tabs">
-          <button :class="{ active: authTab === 'login' }" @click="authTab = 'login'">Masuk</button>
-          <button :class="{ active: authTab === 'register' }" @click="authTab = 'register'">Daftar</button>
+          <button :class="{ active: authTab === 'login' }" @click="authTab = 'login'">Sign In</button>
+          <button :class="{ active: authTab === 'register' }" @click="authTab = 'register'">Register</button>
         </div>
         <div class="auth-body">
           <div v-if="authError" class="auth-error"><i class="fas fa-exclamation-circle"></i> {{ authError }}</div>
@@ -180,25 +180,25 @@
           <!-- Login Form -->
           <form v-if="authTab === 'login'" @submit.prevent="handleLogin">
             <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
-            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Masukkan password" required></div>
+            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Sign Inkan password" required></div>
             <button type="submit" class="btn-submit" :disabled="authLoading">
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
-              {{ authLoading ? 'Memproses...' : 'Masuk' }}
+              {{ authLoading ? 'Memproses...' : 'Sign In' }}
             </button>
-            <div class="form-footer">Belum punya akun? <a @click="authTab = 'register'">Daftar</a></div>
+            <div class="form-footer">Belum punya akun? <a @click="authTab = 'register'">Register</a></div>
           </form>
 
           <!-- Register Form -->
           <form v-else @submit.prevent="handleRegister">
-            <div class="field"><label>Nama Lengkap</label><input v-model="authName" type="text" placeholder="Nama Anda" required></div>
+            <div class="field"><label>Nama Lengkap</label><input v-model="authName" type="text" placeholder="Nama You" required></div>
             <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
             <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Minimal 6 karakter" required minlength="6"></div>
-            <div class="field"><label>Kode Referral (Opsional)</label><input v-model="authReferral" type="text" placeholder="Masukkan kode referral"></div>
+            <div class="field"><label>Kode Referral (Opsional)</label><input v-model="authReferral" type="text" placeholder="Sign Inkan kode referral"></div>
             <button type="submit" class="btn-submit" :disabled="authLoading">
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
-              {{ authLoading ? 'Memproses...' : 'Daftar Sekarang' }}
+              {{ authLoading ? 'Memproses...' : 'Register Sekarang' }}
             </button>
-            <div class="form-footer">Sudah punya akun? <a @click="authTab = 'login'">Masuk</a></div>
+            <div class="form-footer">Sudah punya akun? <a @click="authTab = 'login'">Sign In</a></div>
           </form>
         </div>
       </div>
@@ -228,10 +228,10 @@ const openFaq = ref(-1)
 const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
 
 const howSteps = [
-  { icon: 'fas fa-user-plus', title: 'Daftar Akun', desc: 'Buat akun gratis dalam 1 menit. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
-  { icon: 'fas fa-tasks', title: 'Pilih Tugas', desc: 'Pilih tugas yang tersedia sesuai kemampuan dan waktu Anda.', color: 'rgba(0,230,138,0.15)' },
-  { icon: 'fas fa-check-circle', title: 'Selesaikan Tugas', desc: 'Ikuti instruksi, selesaikan tugas, dan submit bukti.', color: 'rgba(124,92,255,0.15)' },
-  { icon: 'fas fa-wallet', title: 'Terima Komisi', desc: 'Komisi langsung masuk ke dompet digital Anda.', color: 'rgba(0,180,216,0.15)' },
+  { icon: 'fas fa-user-plus', title: 'Register Akun', desc: 'Buat akun gratis dalam 1 menit. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
+  { icon: 'fas fa-tasks', title: 'Choose Tasks', desc: 'Pilih tasks yang tersedia sesuai kemampuan dan waktu You.', color: 'rgba(0,230,138,0.15)' },
+  { icon: 'fas fa-check-circle', title: 'Selesaikan Tugas', desc: 'Ikuti instruksi, selesaikan tasks, dan submit bukti.', color: 'rgba(124,92,255,0.15)' },
+  { icon: 'fas fa-wallet', title: 'Receive Commission', desc: 'Commission langsung masuk ke dompet digital You.', color: 'rgba(0,180,216,0.15)' },
 ]
 
 const programs = [
@@ -242,15 +242,15 @@ const programs = [
 
 const testimonials = [
   { name: 'Sari Dewi', role: 'Mitra sejak 2024', text: 'Dalam 2 bulan, saya sudah menghasilkan lebih dari $500. Sangat fleksibel dan bisa dikerjakan dari rumah.', color: '#ff4d00' },
-  { name: 'Budi Santoso', role: 'Mitra sejak 2023', text: 'Awalnya ragu, tapi ternyata benar-benar membayar. Sekarang ini penghasilan utama saya.', color: '#00e68a' },
+  { name: 'Budi Santoso', role: 'Mitra sejak 2023', text: 'Awalnya ragu, tapi ternyata benar-benar membayar. Sekarang ini earnings utama saya.', color: '#00e68a' },
   { name: 'Maya Putri', role: 'Mitra sejak 2024', text: 'Tugasnya mudah dan jelas. Support team juga sangat responsif. Recommended!', color: '#7c5cff' },
 ]
 
 const faqs = [
   { q: 'Apakah benar-benar gratis?', a: 'Ya, pendaftaran 100% gratis. Tidak ada biaya tersembunyi.' },
-  { q: 'Bagaimana cara mencairkan komisi?', a: 'Komisi bisa ditarik ke rekening bank atau dompet digital kapan saja.' },
+  { q: 'Bagaimana cara mencairkan komisi?', a: 'Commission bisa ditarik ke rekening bank atau dompet digital kapan saja.' },
   { q: 'Berapa lama proses pencairan?', a: 'Proses pencairan instan untuk dompet digital, 1-2 hari kerja untuk bank.' },
-  { q: 'Apakah ada batasan waktu?', a: 'Tidak ada. Anda bisa mengerjakan tugas kapan saja sesuai waktu luang.' },
+  { q: 'Apakah ada batasan waktu?', a: 'Tidak ada. You bisa mengerjakan tasks kapan saja sesuai waktu luang.' },
 ]
 
 const handleLogin = async () => {
