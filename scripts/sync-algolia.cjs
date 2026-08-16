@@ -1,20 +1,32 @@
-const { algoliasearch } = require('algoliasearch');
-const { createClient } = require('@supabase/supabase-js');
+const { algoliasearch } = require("algoliasearch");
+const { createClient } = require("@supabase/supabase-js");
 
-const client = algoliasearch('GLRKXLGDD9', 'b53a5d4abd0d5908b5a875c80b44c4fc');
-const supabase = createClient(
-  'https://cfzmdvymqqnrzrytcrie.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmem1kdnltcXFucnpyeXRjcmllIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTk0OTE5MCwiZXhwIjoyMTAxNTI1MTkwfQ.or22ilKxhmeq-AOOKvZPGJb_EiGYX4qTNDxw89c5gz0'
-);
+// Read from environment variables (never hardcode keys!)
+const ALGOLIA_APP_ID = process.env.VITE_ALGOLIA_APP_ID || "GLRKXLGDD9";
+const ALGOLIA_WRITE_KEY = process.env.ALGOLIA_WRITE_KEY;
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://cfzmdvymqqnrzrytcrie.supabase.co";
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!ALGOLIA_WRITE_KEY) {
+  console.error("Missing ALGOLIA_WRITE_KEY env var");
+  process.exit(1);
+}
+if (!SUPABASE_KEY) {
+  console.error("Missing SUPABASE_SERVICE_ROLE_KEY env var");
+  process.exit(1);
+}
+
+const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_WRITE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function sync() {
-  console.log('Fetching products from Supabase...');
+  console.log("Fetching products from Supabase...");
   const { data: products, error } = await supabase
-    .from('products')
-    .select('id, name, description, price, original_price, discount, category_id, seller_id, slug, rating, review_count, sales_count, stock, images, status, is_recommended')
-    .eq('is_active', true);
-  if (error) { console.error('Supabase error:', error); process.exit(1); }
-  console.log('Found ' + products.length + ' products');
+    .from("products")
+    .select("id, name, description, price, original_price, discount, category_id, seller_id, slug, rating, review_count, sales_count, stock, images, status, is_recommended")
+    .eq("is_active", true);
+  if (error) { console.error("Supabase error:", error); process.exit(1); }
+  console.log("Found " + products.length + " products");
 
   const algoliaObjects = products.map(function(p) {
     return {
@@ -26,14 +38,9 @@ async function sync() {
     };
   });
 
-  console.log('Uploading to Algolia...');
-  const result = await client.saveObjects({ indexName: 'products', objects: algoliaObjects });
-  console.log('Synced ' + result[0].objectIDs.length + ' products to Algolia');
-
-  await client.setSettings({ indexName: 'products', indexSettings: {
-    searchableAttributes: ['name', 'description'],
-    attributesForFaceting: ['filterOnly(category_id)', 'filterOnly(seller_id)', 'filterOnly(status)', 'filterOnly(is_recommended)']
-  }});
-  console.log('Algolia settings configured');
+  console.log("Uploading to Algolia...");
+  const result = await client.saveObjects({ indexName: "products", objects: algoliaObjects });
+  console.log("Synced " + result.objectIDs.length + " products to Algolia");
 }
+
 sync().catch(console.error);
