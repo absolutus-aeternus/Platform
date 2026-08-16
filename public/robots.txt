@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /seller/
+Sitemap: https://alliancehub.dpdns.org/sitemap.xml
