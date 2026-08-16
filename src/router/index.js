@@ -83,16 +83,16 @@ const routes = [
 
   // Super Admin Portal
   {
-    path: chr(39) + '/superadmin' + chr(39),
-    component: () => import(chr(39) + '@/layouts/SuperAdminLayout.vue' + chr(39)),
+    path: ' + '/superadmin' + ',
+    component: () => import(' + '@/layouts/SuperAdminLayout.vue' + '),
     meta: { requiresAuth: true, requiresSuperAdmin: true },
     children: [
-      { path: chr(39) + chr(39), name: chr(39) + 'SuperAdminDashboard' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Dashboard.vue' + chr(39)) },
-      { path: chr(39) + 'users' + chr(39), name: chr(39) + 'SuperAdminUsers' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Users.vue' + chr(39)) },
-      { path: chr(39) + 'settings' + chr(39), name: chr(39) + 'SuperAdminSettings' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Settings.vue' + chr(39)) },
-      { path: chr(39) + 'audit-logs' + chr(39), name: chr(39) + 'SuperAdminAuditLogs' + chr(39), component: () => import(chr(39) + '@/views/superadmin/AuditLogs.vue' + chr(39)) },
-      { path: chr(39) + 'security' + chr(39), name: chr(39) + 'SuperAdminSecurity' + chr(39), component: () => import(chr(39) + '@/views/superadmin/Security.vue' + chr(39)) },
-      { path: chr(39) + 'feature-flags' + chr(39), name: chr(39) + 'SuperAdminFeatureFlags' + chr(39), component: () => import(chr(39) + '@/views/superadmin/FeatureFlags.vue' + chr(39)) },
+      { path: ' + ', name: ' + 'SuperAdminDashboard' + ', component: () => import(' + '@/views/superadmin/Dashboard.vue' + ') },
+      { path: ' + 'users' + ', name: ' + 'SuperAdminUsers' + ', component: () => import(' + '@/views/superadmin/Users.vue' + ') },
+      { path: ' + 'settings' + ', name: ' + 'SuperAdminSettings' + ', component: () => import(' + '@/views/superadmin/Settings.vue' + ') },
+      { path: ' + 'audit-logs' + ', name: ' + 'SuperAdminAuditLogs' + ', component: () => import(' + '@/views/superadmin/AuditLogs.vue' + ') },
+      { path: ' + 'security' + ', name: ' + 'SuperAdminSecurity' + ', component: () => import(' + '@/views/superadmin/Security.vue' + ') },
+      { path: ' + 'feature-flags' + ', name: ' + 'SuperAdminFeatureFlags' + ', component: () => import(' + '@/views/superadmin/FeatureFlags.vue' + ') },
     ]
   },
 
@@ -178,14 +178,18 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   // Strategi: Timeout 3 detik untuk getSession (mencegah white screen jika Supabase lambat)
   let session = null
-  try {
-    const result = await Promise.race([
-      supabase.auth.getSession(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 3000))
-    ])
-    session = result?.data?.session
-  } catch (e) {
-    console.warn('Auth check timeout, proceeding without session')
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const result = await Promise.race([
+        supabase.auth.getSession(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 5000))
+      ])
+      session = result?.data?.session
+      break
+    } catch (e) {
+      if (attempt === 0) { await new Promise(r => setTimeout(r, 500)); continue }
+      console.warn('Auth check failed after retry, proceeding without session')
+    }
   }
   const isAuthenticated = !!session?.access_token
 
