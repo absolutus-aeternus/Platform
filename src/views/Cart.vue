@@ -78,7 +78,6 @@
 <script setup>
 import { ref } from "vue"
 const loading = ref(false)
-import { ref } from 'vue'
 import { useUserStore } from '@/store/user'
 
 const userStore = useUserStore()

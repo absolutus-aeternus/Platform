@@ -79,11 +79,6 @@ export default {
           return json({ ok: true, ip: ip }, corsHeaders);
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
-
-        } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
-      }
-        } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
-      }
             if (path === '/api/health') {
         return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.1' }, corsHeaders);
       }

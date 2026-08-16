@@ -76,8 +76,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-const loading = ref(false)
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'

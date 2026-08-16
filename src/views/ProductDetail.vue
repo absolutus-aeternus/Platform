@@ -68,7 +68,7 @@
               <div class="info-row" v-if="product.sellers">
                 <span class="label">Seller</span>
                 <span class="value seller-link" @click="$router.push(`/store/${product.seller_id}`)">
-                  <img v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" / alt="AllianceHub">
+                  <img v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" alt="AllianceHub" />
                   {{ product.sellers?.name || product.sellers?.store_name || 'View Store' }} <i class="fas fa-chevron-right"></i>
                 </span>
               </div>

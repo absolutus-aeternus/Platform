@@ -34,7 +34,6 @@
 <script setup>
 import { ref } from "vue"
 const loading = ref(false)
-import { ref } from 'vue'
 const form = ref({ name: '', email: '', subject: '', message: '' })
 const sent = ref(false)
 const openChat = () => { const el = document.querySelector('.chat-widget button, [class*="chat-toggle"]'); if (el) el.click() }

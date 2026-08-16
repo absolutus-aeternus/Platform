@@ -22,7 +22,6 @@
 <script setup>
 import { ref } from "vue"
 const loading = ref(false)
-import { ref } from 'vue'
 const faqs = ref([
   { q: 'How do I become a seller?', a: 'Click "Seller Centre" in the top navigation, then register your store. No inventory needed — list products from our catalog and we handle fulfillment.', open: false },
   { q: 'How does pricing work?', a: 'Products have base prices. Your seller level determines your discount — from 0% (Bronze) to 20% (Diamond). Level up by completing more orders.', open: false },
