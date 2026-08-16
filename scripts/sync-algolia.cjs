@@ -2,7 +2,7 @@ const { algoliasearch } = require("algoliasearch");
 const { createClient } = require("@supabase/supabase-js");
 
 // Read from environment variables (never hardcode keys!)
-const ALGOLIA_APP_ID = process.env.VITE_ALGOLIA_APP_ID || "GLRKXLGDD9";
+const ALGOLIA_APP_ID = process.env.VITE_ALGOLIA_APP_ID || "process.env.VITE_ALGOLIA_APP_ID || "GLRKXLGDD9"";
 const ALGOLIA_WRITE_KEY = process.env.ALGOLIA_WRITE_KEY;
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://cfzmdvymqqnrzrytcrie.supabase.co";
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;

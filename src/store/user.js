@@ -157,6 +157,10 @@ export const useUserStore = defineStore('user', {
 
         // Bug #4: Sync store state immediately
         if (updates.username) this.userInfo.username = updates.username
+        // SECURITY: Never allow client-side role changes
+        delete updates.role
+        delete updates.kyc_status
+        delete updates.status
         // SECURITY: Do not allow client-side role changes
 
         return { success: true }

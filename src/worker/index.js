@@ -4,7 +4,7 @@ export default {
     const path = url.pathname;
     const method = request.method;
 
-    const allowedOrigins = ['https://alliancehub.dpdns.org', 'https://alliancehub.pages.dev'];
+    const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
     const origin = request.headers.get('Origin');
     const corsHeaders = {
       'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.pages.dev',
@@ -12,6 +12,13 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key',
     };
     if (method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
+
+    // Required secrets check
+    const requiredSecrets = ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY'];
+    const missingSecrets = requiredSecrets.filter(k => !env[k]);
+    if (missingSecrets.length > 0) {
+      return json({ error: 'Server misconfiguration: missing secrets', missing: missingSecrets }, { status: 500 });
+    }
 
     // Rate Limiting via Upstash Redis (persistent, fallback to memory)
     const RL_LIMIT = 60;
@@ -150,9 +157,16 @@ export default {
         const statusFilter = url.searchParams.get('status') || 'active';
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const category = url.searchParams.get('category');
+        // Validate category (UUID format)
+        if (category && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(category)) {
+          return json({ error: 'Invalid category parameter' }, { status: 400, ...corsHeaders });
+        }
         const search = url.searchParams.get('search');
-        const sort = url.searchParams.get('sort') || 'newest';
-        const limit = Math.min(parseInt(url.searchParams.get('limit') || '40'), 100);
+        const sortParam = url.searchParams.get('sort') || 'newest';
+        const allowedSorts = ['newest', 'price', 'sales', 'rating'];
+        const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
+        const rawLimit = parseInt(url.searchParams.get('limit') || '40');
+        const limit = isNaN(rawLimit) ? 40 : Math.min(Math.max(rawLimit, 1), 100);
         let q = 'select=*,sellers(name,store_name,logo)&limit=' + limit;
         if (category) q += '&category_id=eq.' + category;
         if (search) q += '&name=ilike.*' + encodeURIComponent(search) + '*';
@@ -353,8 +367,10 @@ export default {
 
       return json({ error: 'Not found' }, { status: 404, ...corsHeaders });
     } catch (err) {
-      console.error('Worker error:', err);
-      return json({ error: 'Internal server error' }, { status: 500, ...corsHeaders });
+      // Structured error logging (no sensitive data in response)
+      const errorId = Date.now().toString(36);
+      console.error(JSON.stringify({ errorId, message: err.message, path, method, timestamp: new Date().toISOString() }));
+      return json({ error: 'Internal server error', errorId, message: err.message || 'Unknown error' }, { status: 500, ...corsHeaders });
     }
   },
   async scheduled(event, env, ctx) {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://cfzmdvymqqnrzrytcrie.supabase.co';
-const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
 const PRODUCTS = [
   { name: "Wireless Bluetooth Earbuds Pro", cat: "Electronics", price: 29.99, orig: 59.99, disc: 50, stock: 1250, rating: 4.6, reviews: 2847, specs: {"Connectivity":"Bluetooth 5.3","Driver":"8mm","Battery":"8h+22h","Waterproof":"IPX5","Weight":"5.2g","Charging":"USB-C","ANC":"Yes"}, desc: "Premium wireless earbuds with Active Noise Cancellation, 40dB noise reduction. Bluetooth 5.3 with ultra-low latency. 8mm dynamic drivers deliver Hi-Fi stereo sound. IPX5 waterproof. 30-hour total battery life with charging case." },
