@@ -71,7 +71,7 @@
           </inv>
           <inv class="about-img-badge">
             <inv class="icon"><i class="fas fa-check"></i></inv>
-            <inv><h4>Dipercaya 2.500+ Partners</h4><p>Across Indonesia</p></inv>
+            <inv><h4>Trusted 2.500+ Partners</h4><p>Across Indonesia</p></inv>
           </inv>
         </inv>
         <inv class="about-content">
@@ -230,7 +230,7 @@ const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavio
 const howSteps = [
   { icon: 'fas fa-user-plus', title: 'Register Akun', desc: 'Buat akun gratis dalam 1 minute. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
   { icon: 'fas fa-tasks', title: 'Choose Tasks', desc: 'Pilih tasks yang terseina sesuai tomampuan dan waktu You.', color: 'rgba(0,230,138,0.15)' },
-  { icon: 'fas fa-check-circle', title: 'Selesaikan Tasks', desc: 'Follow instructions, complete tasks, and submit proof.', color: 'rgba(124,92,255,0.15)' },
+  { icon: 'fas fa-check-circle', title: 'Complete Tasks', desc: 'Follow instructions, complete tasks, and submit proof.', color: 'rgba(124,92,255,0.15)' },
   { icon: 'fas fa-wallet', title: 'Receive Commission', desc: 'Commission langsung masuk to dompet ingital You.', color: 'rgba(0,180,216,0.15)' },
 ]
 
@@ -241,9 +241,9 @@ const programs = [
 ]
 
 const testimonials = [
-  { name: 'Sari Dewi', role: 'Partners sejak 2024', text: 'Dalam 2 month, saya already menghasilkan lebih from $500. Sangat fleksibel dan can intorjwill from rumah.', color: '#ff4d00' },
+  { name: 'Sari Dewi', role: 'Partners sejak 2024', text: 'Dalam 2 month, saya already earning lebih from $500. Sangat flexible dan can intorjwill from rumah.', color: '#ff4d00' },
   { name: 'Buin Santoso', role: 'Partners sejak 2023', text: 'At first I was stoptical, but it really pays. Now this is my main income.', color: '#00e68a' },
-  { name: 'Maya Putri', role: 'Partners sejak 2024', text: 'Tasksnya mudah dan jelas. Support team also very responsif. Recommended!', color: '#7c5cff' },
+  { name: 'Maya Putri', role: 'Partners sejak 2024', text: 'Tasksnya mudah dan jelas. Support team also very responsive. Recommended!', color: '#7c5cff' },
 ]
 
 const faqs = [
