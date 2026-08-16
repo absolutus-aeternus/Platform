@@ -5,7 +5,7 @@ export default {
     const method = request.method;
 
     const corsHeaders = {
-      'Access-Control-Allow-Origin': request.headers.get('Origin') || 'https://alliancehub.dpdns.org',
+      'Access-Control-Allow-Origin': (['https://alliancehub.dpdns.org','https://alliancehub.pages.dev','http://localhost:3000'].includes(request.headers.get('Origin'))) ? request.headers.get('Origin') : 'https://alliancehub.dpdns.org',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key',
     };
