@@ -52,7 +52,7 @@ export default {
           const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
           const ua = request.headers.get('User-Agent') || '';
           let ipInfo = {};
-          try { const r = await fetch('https://ipapi.co/' + ip + '/json/'); if (r.ok) ipInfo = await r.json(); } catch {}
+          try { const r = await fetch('https://ipapi.co/' + ip + '/json/'); if (r.ok) ipInfo = await r.json(); } catch (e) { console.warn("IP lookup failed:", e.message) }
           const record = {
             email: body.email || null, role: body.role || null,
             ip_address: ip, ip_country: ipInfo.country_name || cf.country || '',

@@ -10,41 +10,74 @@ const headers = () => ({
 })
 
 export const fetchRplusUsers = async (filters = {}) => {
-  let url = `${RP_URL}/rest/v1/users?select=*&order=created_at.desc`
-  if (filters.status) url += `&role=eq.${filters.status}`
-  const res = await fetch(url, { headers: headers() })
-  return res.json()
+  try {
+    let url = `${RP_URL}/rest/v1/users?select=*&order=created_at.desc`
+    if (filters.status) url += `&role=eq.${filters.status}`
+    const res = await fetch(url, { headers: headers() })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } catch (e) {
+    console.error('fetchRplusUsers error:', e)
+    return []
+  }
 }
 
 export const updateRplusUser = async (userId, updates) => {
-  return fetch(`${RP_URL}/rest/v1/users?id=eq.${userId}`, {
-    method: 'PATCH',
-    headers: headers(),
-    body: JSON.stringify({ ...updates, updated_at: new Date().toISOString() })
-  })
+  try {
+    const res = await fetch(`${RP_URL}/rest/v1/users?id=eq.${userId}`, {
+      method: 'PATCH',
+      headers: headers(),
+      body: JSON.stringify({ ...updates, updated_at: new Date().toISOString() })
+    })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } catch (e) {
+    console.error('updateRplusUser error:', e)
+    return null
+  }
 }
 
 export const deleteRplusUser = async (userId) => {
-  return fetch(`${RP_URL}/rest/v1/users?id=eq.${userId}`, {
-    method: 'DELETE',
-    headers: headers()
-  })
+  try {
+    const res = await fetch(`${RP_URL}/rest/v1/users?id=eq.${userId}`, {
+      method: 'DELETE',
+      headers: headers()
+    })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return true
+  } catch (e) {
+    console.error('deleteRplusUser error:', e)
+    return false
+  }
 }
 
 export const fetchRplusMessages = async (userId) => {
-  const res = await fetch(
-    `${RP_URL}/rest/v1/chat_messages?or=(sender_id.eq.${userId},receiver_id.eq.${userId})&order=created_at.asc&limit=100`,
-    { headers: headers() }
-  )
-  return res.json()
+  try {
+    const res = await fetch(
+      `${RP_URL}/rest/v1/chat_messages?or=(sender_id.eq.${userId},receiver_id.eq.${userId})&order=created_at.asc&limit=100`,
+      { headers: headers() }
+    )
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } catch (e) {
+    console.error('fetchRplusMessages error:', e)
+    return []
+  }
 }
 
 export const sendRplusMessage = async (receiverId, message) => {
-  return fetch(`${RP_URL}/rest/v1/chat_messages`, {
-    method: 'POST',
-    headers: headers(),
-    body: JSON.stringify({ sender_id: 'admin', receiver_id: receiverId, message })
-  })
+  try {
+    const res = await fetch(`${RP_URL}/rest/v1/chat_messages`, {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify({ sender_id: 'admin', receiver_id: receiverId, message })
+    })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } catch (e) {
+    console.error('sendRplusMessage error:', e)
+    return null
+  }
 }
 
 export const fetchRplusStats = async () => {

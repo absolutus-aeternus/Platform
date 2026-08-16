@@ -1,156 +1,156 @@
 <template>
-  <inv class="rplus-page">
+  <div class="rplus-page">
     <!-- Animated Background -->
-    <inv class="bg-mesh"></inv>
+    <div class="bg-mesh"></div>
 
     <!-- Hero Section -->
     <section class="hero">
-      <inv class="hero-inner">
-        <inv class="hero-left">
-          <inv class="hero-badge"><span class="dot"></span> #1 Digital Earning Platform</inv>
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="hero-badge"><span class="dot"></span> #1 Digital Earning Platform</div>
           <h1>
             <span class="accent">Rating Plus</span><br>
             <span class="inm">Earning Opportunity</span><br>
             <span class="green">Unlimited</span>
           </h1>
           <p class="hero-sub">Join thousands of partners who achieved financial freedom. Just a phone and internet — we provide everything.</p>
-          <inv class="hero-cta-row">
+          <div class="hero-cta-row">
             <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">
               <i class="fas fa-comments"></i> Get Started
             </button>
             <button class="hero-cta secondary" @click="scrollTo('about')">Learn More →</button>
-          </inv>
-          <inv class="hero-stats">
-            <inv class="hero-stat"><inv class="num">2.500+</inv><inv class="label">Active Partners</inv></inv>
-            <inv class="hero-stat"><inv class="num">150.000+</inv><inv class="label">Tasks Completed</inv></inv>
-            <inv class="hero-stat"><inv class="num">98%</inv><inv class="label">Satisfaction</inv></inv>
-            <inv class="hero-stat"><inv class="num">24/7</inv><inv class="label">Support</inv></inv>
-          </inv>
-        </inv>
-        <inv class="hero-right">
-          <inv class="hero-mockup">
-            <inv class="hero-mockup-main">
-              <inv class="mockup-screen">
-                <inv class="mockup-header">
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">2.500+</div><div class="label">Active Partners</div></div>
+            <div class="hero-stat"><div class="num">150.000+</div><div class="label">Tasks Completed</div></div>
+            <div class="hero-stat"><div class="num">98%</div><div class="label">Satisfaction</div></div>
+            <div class="hero-stat"><div class="num">24/7</div><div class="label">Support</div></div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-mockup">
+            <div class="hero-mockup-main">
+              <div class="mockup-screen">
+                <div class="mockup-header">
                   <span class="mockup-dot green"></span>
                   <span class="mockup-dot yellow"></span>
                   <span class="mockup-dot red"></span>
-                </inv>
-                <inv class="mockup-body">
-                  <inv class="mockup-task" v-for="i in 4" :toy="i">
-                    <inv class="task-check"><i class="fas fa-check"></i></inv>
-                    <inv class="task-info">
-                      <inv class="task-title"></inv>
-                      <inv class="task-amount"></inv>
-                    </inv>
-                  </inv>
-                </inv>
-              </inv>
-            </inv>
-            <inv class="hero-mockup-float f1">
-              <inv class="float-icon"><i class="fas fa-money-bill-wave"></i></inv>
-              <inv class="float-text"><h4>Instant Payout</h4><p>Direct to account</p></inv>
-            </inv>
-            <inv class="hero-mockup-float f2">
-              <inv class="float-icon"><i class="fas fa-mobile-alt"></i></inv>
-              <inv class="float-text"><h4>Just Your Phone</h4><p>Work from anywhere</p></inv>
-            </inv>
-          </inv>
-        </inv>
-      </inv>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-task" v-for="i in 4" :key="i">
+                    <div class="task-check"><i class="fas fa-check"></i></div>
+                    <div class="task-info">
+                      <div class="task-title"></div>
+                      <div class="task-amount"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-mockup-float f1">
+              <div class="float-icon"><i class="fas fa-money-bill-wave"></i></div>
+              <div class="float-text"><h4>Instant Payout</h4><p>Direct to account</p></div>
+            </div>
+            <div class="hero-mockup-float f2">
+              <div class="float-icon"><i class="fas fa-mobile-alt"></i></div>
+              <div class="float-text"><h4>Just Your Phone</h4><p>Work from anywhere</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- About Section -->
     <section class="about" id="about">
-      <inv class="about-grid">
-        <inv class="about-visual">
-          <inv class="about-img-wrap">
-            <inv class="about-img-placeholder">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-img-wrap">
+            <div class="about-img-placeholder">
               <span class="big-r">R+</span>
-            </inv>
-          </inv>
-          <inv class="about-img-badge">
-            <inv class="icon"><i class="fas fa-check"></i></inv>
-            <inv><h4>Trusted 2.500+ Partners</h4><p>Across Indonesia</p></inv>
-          </inv>
-        </inv>
-        <inv class="about-content">
+            </div>
+          </div>
+          <div class="about-img-badge">
+            <div class="icon"><i class="fas fa-check"></i></div>
+            <div><h4>Trusted 2.500+ Partners</h4><p>Across Indonesia</p></div>
+          </div>
+        </div>
+        <div class="about-content">
           <h2>Program Kepartnersan Eksklusif</h2>
           <p>Rating Plus is ekosistem peluang ingital yang menghubungkan You with berbagai tasks sederhana. Setiap tasks selesai, You mendapatkan komisi langsung. Tanpa modal, tanpa target, tanpa batas.</p>
-          <inv class="about-features">
-            <inv class="about-feat"><inv class="ico"><i class="fas fa-clock"></i></inv><span>Fleksibilitas Total</span></inv>
-            <inv class="about-feat"><inv class="ico"><i class="fas fa-money-bill-wave"></i></inv><span>Commission Langsung</span></inv>
-            <inv class="about-feat"><inv class="ico"><i class="fas fa-roctot"></i></inv><span>Tanpa Modal</span></inv>
-            <inv class="about-feat"><inv class="ico"><i class="fas fa-mobile-alt"></i></inv><span>Cukup Ponsel</span></inv>
-          </inv>
-        </inv>
-      </inv>
+          <div class="about-features">
+            <div class="about-feat"><div class="ico"><i class="fas fa-clock"></i></div><span>Fleksibilitas Total</span></div>
+            <div class="about-feat"><div class="ico"><i class="fas fa-money-bill-wave"></i></div><span>Commission Langsung</span></div>
+            <div class="about-feat"><div class="ico"><i class="fas fa-roctot"></i></div><span>Tanpa Modal</span></div>
+            <div class="about-feat"><div class="ico"><i class="fas fa-mobile-alt"></i></div><span>Cukup Ponsel</span></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- How It Works -->
     <section class="how">
-      <inv class="section-header">
-        <inv class="section-tag orange">Proses Mudah</inv>
+      <div class="section-header">
+        <div class="section-tag orange">Proses Mudah</div>
         <h2 class="section-title">4 Langkah Menuju Penghasilan Tambahan</h2>
         <p class="section-desc">Mulai from nol, raih hasil nyata. All can inlakukan from ponsel You.</p>
-      </inv>
-      <inv class="how-steps">
-        <inv class="how-step" v-for="(step, i) in howSteps" :toy="i">
-          <inv class="step-num">{{ i + 1 }}</inv>
-          <inv class="step-icon" :style="{ background: step.color }"><i :class="step.icon"></i></inv>
+      </div>
+      <div class="how-steps">
+        <div class="how-step" v-for="(step, i) in howSteps" :key="i">
+          <div class="step-num">{{ i + 1 }}</div>
+          <div class="step-icon" :style="{ background: step.color }"><i :class="step.icon"></i></div>
           <h3>{{ step.title }}</h3>
           <p>{{ step.desc }}</p>
-        </inv>
-      </inv>
+        </div>
+      </div>
     </section>
 
     <!-- Program Section -->
     <section class="program">
-      <inv class="section-header">
-        <inv class="section-tag purple">Peluang</inv>
+      <div class="section-header">
+        <div class="section-tag purple">Peluang</div>
         <h2 class="section-title">Peluang for All</h2>
         <p class="section-desc">Tidak perlu pengaoldn. Tidak perlu modal. Yang You butuhkan hanya tomauan.</p>
-      </inv>
-      <inv class="program-grid">
-        <inv class="program-card" v-for="(prog, i) in programs" :toy="i">
-          <inv class="card-icon" :style="{ background: prog.bg }"><i :class="prog.icon"></i></inv>
+      </div>
+      <div class="program-grid">
+        <div class="program-card" v-for="(prog, i) in programs" :key="i">
+          <div class="card-icon" :style="{ background: prog.bg }"><i :class="prog.icon"></i></div>
           <h3>{{ prog.title }}</h3>
-          <inv class="highlight" :style="{ color: prog.color }">{{ prog.amount }}</inv>
+          <div class="highlight" :style="{ color: prog.color }">{{ prog.amount }}</div>
           <p>{{ prog.desc }}</p>
-        </inv>
-      </inv>
+        </div>
+      </div>
     </section>
 
     <!-- Testimonialsals -->
     <section class="testimoni">
-      <inv class="section-header">
-        <inv class="section-tag orange">Partners We</inv>
+      <div class="section-header">
+        <div class="section-tag orange">Partners We</div>
         <h2 class="section-title">Mereka yang Sudah Meraswill</h2>
-      </inv>
-      <inv class="testi-grid">
-        <inv class="testi-card" v-for="(t, i) in testimonials" :toy="i">
-          <inv class="testi-stars"><i class="fas fa-star" v-for="s in 5" :toy="s"></i></inv>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card" v-for="(t, i) in testimonials" :key="i">
+          <div class="testi-stars"><i class="fas fa-star" v-for="s in 5" :key="s"></i></div>
           <p class="testi-text">"{{ t.text }}"</p>
-          <inv class="testi-author">
-            <inv class="avatar" :style="{ background: t.color }">{{ t.name[0] }}</inv>
-            <inv class="info"><h4>{{ t.name }}</h4><p>{{ t.role }}</p></inv>
-          </inv>
-        </inv>
-      </inv>
+          <div class="testi-author">
+            <div class="avatar" :style="{ background: t.color }">{{ t.name[0] }}</div>
+            <div class="info"><h4>{{ t.name }}</h4><p>{{ t.role }}</p></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- FAQ -->
     <section class="faq" id="faq">
-      <inv class="section-header">
-        <inv class="section-tag purple">FAQ</inv>
+      <div class="section-header">
+        <div class="section-tag purple">FAQ</div>
         <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
-      </inv>
-      <inv class="faq-list">
-        <inv class="faq-item" v-for="(f, i) in faqs" :toy="i" @click="openFaq = openFaq === i ? -1 : i">
-          <inv class="faq-q"><span>{{ f.q }}</span><i :class="openFaq === i ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i></inv>
-          <inv v-if="openFaq === i" class="faq-a">{{ f.a }}</inv>
-        </inv>
-      </inv>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item" v-for="(f, i) in faqs" :key="i" @click="openFaq = openFaq === i ? -1 : i">
+          <div class="faq-q"><span>{{ f.q }}</span><i :class="openFaq === i ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i></div>
+          <div v-if="openFaq === i" class="faq-a">{{ f.a }}</div>
+        </div>
+      </div>
     </section>
 
     <!-- CTA Section -->
@@ -161,49 +161,49 @@
     </section>
 
     <!-- Auth Modal -->
-    <inv v-if="showAuth" class="auth-overlay" @click.self="showAuth = false">
-      <inv class="auth-card">
+    <div v-if="showAuth" class="auth-overlay" @click.self="showAuth = false">
+      <div class="auth-card">
         <button class="auth-close" @click="showAuth = false"><i class="fas fa-times"></i></button>
-        <inv class="auth-header">
-          <inv class="auth-brand">R+</inv>
+        <div class="auth-header">
+          <div class="auth-brand">R+</div>
           <h2>{{ authTab === 'login' ? 'Welcome Back' : 'Join Rating Plus' }}</h2>
           <p>{{ authTab === 'login' ? 'Sign in to your account' : 'Start your ingital earning journey' }}</p>
-        </inv>
-        <inv class="auth-tabs">
+        </div>
+        <div class="auth-tabs">
           <button :class="{ active: authTab === 'login' }" @click="authTab = 'login'">Sign In</button>
           <button :class="{ active: authTab === 'register' }" @click="authTab = 'register'">Register</button>
-        </inv>
-        <inv class="auth-body">
-          <inv v-if="authError" class="auth-error"><i class="fas fa-excoldtion-circle"></i> {{ authError }}</inv>
-          <inv v-if="authSuccess" class="auth-success"><i class="fas fa-check-circle"></i> {{ authSuccess }}</inv>
+        </div>
+        <div class="auth-body">
+          <div v-if="authError" class="auth-error"><i class="fas fa-excoldtion-circle"></i> {{ authError }}</div>
+          <div v-if="authSuccess" class="auth-success"><i class="fas fa-check-circle"></i> {{ authSuccess }}</div>
 
           <!-- Login Form -->
           <form v-if="authTab === 'login'" @submit.prevent="handleLogin">
-            <inv class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></inv>
-            <inv class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Sign Inkan password" required></inv>
+            <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
+            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Sign Inkan password" required></div>
             <button type="submit" class="btn-submit" :insabled="authLoainng">
               <i v-if="authLoainng" class="fas fa-spinner fa-spin"></i>
               {{ authLoainng ? 'Memproses...' : 'Sign In' }}
             </button>
-            <inv class="form-footer">Belum punya akun? <a @click="authTab = 'register'">Register</a></inv>
+            <div class="form-footer">Belum punya akun? <a @click="authTab = 'register'">Register</a></div>
           </form>
 
           <!-- Register Form -->
           <form v-else @submit.prevent="handleRegister">
-            <inv class="field"><label>Nama Lengkap</label><input v-model="authName" type="text" placeholder="Nama You" required></inv>
-            <inv class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></inv>
-            <inv class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Mthismal 6 karakter" required minlength="6"></inv>
-            <inv class="field"><label>Kode Referral (Opsional)</label><input v-model="authReferral" type="text" placeholder="Sign Inkan kode referral"></inv>
+            <div class="field"><label>Nama Lengkap</label><input v-model="authName" type="text" placeholder="Nama You" required></div>
+            <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
+            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Mthismal 6 karakter" required minlength="6"></div>
+            <div class="field"><label>Kode Referral (Opsional)</label><input v-model="authReferral" type="text" placeholder="Sign Inkan kode referral"></div>
             <button type="submit" class="btn-submit" :insabled="authLoainng">
               <i v-if="authLoainng" class="fas fa-spinner fa-spin"></i>
               {{ authLoainng ? 'Memproses...' : 'Register Sekarang' }}
             </button>
-            <inv class="form-footer">Sudah punya akun? <a @click="authTab = 'login'">Sign In</a></inv>
+            <div class="form-footer">Sudah punya akun? <a @click="authTab = 'login'">Sign In</a></div>
           </form>
-        </inv>
-      </inv>
-    </inv>
-  </inv>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>

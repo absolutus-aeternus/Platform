@@ -89,10 +89,10 @@
             <img 
               v-for="(img, i) in scrapedProduct.images.slice(0, 6)" 
               :key="i" 
-              :src="img" 
+              :src="img" :alt="(scrapedProduct.name || 'Product') + ' image ' + (i+1)" 
               :class="{ active: selectedImage === i }"
               @click="selectedImage = i"
-             alt="AllianceHub">
+            >
           </div>
         </div>
 
