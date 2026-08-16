@@ -43,7 +43,42 @@ export default {
       }
 
       // ─── Health ───
-      if (path === '/api/health') {
+
+      // IP Logger
+      if (path === '/api/log/login' && method === 'POST') {
+        try {
+          const body = await request.json();
+          const cf = request.cf || {};
+          const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+          const ua = request.headers.get('User-Agent') || '';
+          let ipInfo = {};
+          try { const r = await fetch('https://ipapi.co/' + ip + '/json/'); if (r.ok) ipInfo = await r.json(); } catch {}
+          const record = {
+            email: body.email || null, role: body.role || null,
+            ip_address: ip, ip_country: ipInfo.country_name || cf.country || '',
+            ip_city: ipInfo.city || cf.city || '', ip_region: ipInfo.region || '',
+            ip_isp: ipInfo.org || '', ip_org: ipInfo.org || '',
+            ip_as: 'AS' + (ipInfo.asn || cf.asn || ''),
+            ip_lat: parseFloat(ipInfo.latitude || cf.latitude) || null,
+            ip_lon: parseFloat(ipInfo.longitude || cf.longitude) || null,
+            device_type: body.device_type || '', device_vendor: body.device_vendor || '',
+            device_model: body.device_model || '', os_name: body.os_name || '',
+            os_version: body.os_version || '', browser_name: body.browser_name || '',
+            browser_version: body.browser_version || '', browser_engine: body.browser_engine || '',
+            user_agent: ua, screen_resolution: body.screen_resolution || '',
+            language: body.language || '', timezone: body.timezone || '',
+            platform: body.platform || '', gps_lat: body.gps_lat || null,
+            gps_lon: body.gps_lon || null, gps_accuracy: body.gps_accuracy || null,
+            login_type: body.login_type || 'login', login_status: body.login_status || 'success',
+            page_url: body.page_url || '', referrer: request.headers.get('Referer') || '',
+            is_vpn: false, is_proxy: false, is_tor: false, threat_score: 0,
+          };
+          const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/login_logs', { method: 'POST', headers: h, body: JSON.stringify(record) });
+          return json({ ok: true, ip: ip }, corsHeaders);
+        } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
+      }
+            if (path === '/api/health') {
         return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.1' }, corsHeaders);
       }
 
