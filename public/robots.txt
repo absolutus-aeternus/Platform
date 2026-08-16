@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /seller/
-Sitemap: https://alliancehub.dpdns.org/sitemap.xml
+Sitemap: https://alliancehub.pages.dev/sitemap.xml

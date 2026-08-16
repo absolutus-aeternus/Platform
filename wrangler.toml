@@ -8,6 +8,9 @@ VITE_R2_PUBLIC_URL = "/api/file"
 VITE_R2_BUCKET_NAME = "alliancehub"
 B2_BUCKET_NAME = "alliancehub"
 B2_BUCKET_ID = "c8d3e82c42680279a70b031b"
+VITE_ALGOLIA_APP_ID = "GLRKXLGDD9"
+VITE_ALGOLIA_SEARCH_KEY = "383df1809e4a5bed8888e8cf6726b38e"
+CRON_JOB_TOKEN = "mLSjn9fbD5GlLOHcE/hc+yJKu0AQtsvOwaetnklAgqA="
 
 [triggers]
 crons = ["0 18 * * *"]

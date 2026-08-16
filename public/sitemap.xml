@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://alliancehub.dpdns.org/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/category</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/search</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/login</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/register</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/how-to-buy</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://alliancehub.dpdns.org/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://alliancehub.pages.dev/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://alliancehub.pages.dev/category</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://alliancehub.pages.dev/search</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alliancehub.pages.dev/login</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://alliancehub.pages.dev/register</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://alliancehub.pages.dev/how-to-buy</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://alliancehub.pages.dev/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>
