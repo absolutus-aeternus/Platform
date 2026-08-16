@@ -81,18 +81,38 @@ const routes = [
     ]
   },
 
-  // Super Admin Portal
+    // Super Admin Portal (full access)
   {
-    path: ' + '/superadmin' + ',
-    component: () => import(' + '@/layouts/SuperAdminLayout.vue' + '),
+    path: '/superadmin',
+    component: () => import('@/layouts/SuperAdminLayout.vue'),
     meta: { requiresAuth: true, requiresSuperAdmin: true },
     children: [
-      { path: ' + ', name: ' + 'SuperAdminDashboard' + ', component: () => import(' + '@/views/superadmin/Dashboard.vue' + ') },
-      { path: ' + 'users' + ', name: ' + 'SuperAdminUsers' + ', component: () => import(' + '@/views/superadmin/Users.vue' + ') },
-      { path: ' + 'settings' + ', name: ' + 'SuperAdminSettings' + ', component: () => import(' + '@/views/superadmin/Settings.vue' + ') },
-      { path: ' + 'audit-logs' + ', name: ' + 'SuperAdminAuditLogs' + ', component: () => import(' + '@/views/superadmin/AuditLogs.vue' + ') },
-      { path: ' + 'security' + ', name: ' + 'SuperAdminSecurity' + ', component: () => import(' + '@/views/superadmin/Security.vue' + ') },
-      { path: ' + 'feature-flags' + ', name: ' + 'SuperAdminFeatureFlags' + ', component: () => import(' + '@/views/superadmin/FeatureFlags.vue' + ') },
+      { path: '', name: 'SuperAdminDashboard', component: () => import('@/views/superadmin/Dashboard.vue') },
+      { path: 'users', name: 'SuperAdminUsers', component: () => import('@/views/superadmin/Users.vue') },
+      { path: 'products', name: 'SuperAdminProducts', component: () => import('@/views/admin/Products.vue') },
+      { path: 'orders', name: 'SuperAdminOrders', component: () => import('@/views/admin/Orders.vue') },
+      { path: 'categories', name: 'SuperAdminCategories', component: () => import('@/views/admin/Categories.vue') },
+      { path: 'sellers', name: 'SuperAdminSellers', component: () => import('@/views/admin/Sellers.vue') },
+      { path: 'transactions', name: 'SuperAdminTransactions', component: () => import('@/views/admin/Transactions.vue') },
+      { path: 'wallets', name: 'SuperAdminWallets', component: () => import('@/views/admin/Wallets.vue') },
+      { path: 'withdrawals', name: 'SuperAdminWithdrawals', component: () => import('@/views/admin/Withdrawals.vue') },
+      { path: 'recharges', name: 'SuperAdminRecharges', component: () => import('@/views/admin/Recharges.vue') },
+      { path: 'banners', name: 'SuperAdminBanners', component: () => import('@/views/admin/Banners.vue') },
+      { path: 'coupons', name: 'SuperAdminCoupons', component: () => import('@/views/admin/Coupons.vue') },
+      { path: 'notifications', name: 'SuperAdminNotifications', component: () => import('@/views/admin/Notifications.vue') },
+      { path: 'chat', name: 'SuperAdminChat', component: () => import('@/views/admin/Chat.vue') },
+      { path: 'messages', name: 'SuperAdminMessages', component: () => import('@/views/admin/Messages.vue') },
+      { path: 'reports/sales', name: 'SuperAdminSalesReport', component: () => import('@/views/admin/SalesReport.vue') },
+      { path: 'reports/products', name: 'SuperAdminProductReport', component: () => import('@/views/admin/ProductReport.vue') },
+      { path: 'reports/customers', name: 'SuperAdminCustomerReport', component: () => import('@/views/admin/CustomerReport.vue') },
+      { path: 'settings', name: 'SuperAdminSettings', component: () => import('@/views/superadmin/Settings.vue') },
+      { path: 'audit-logs', name: 'SuperAdminAuditLogs', component: () => import('@/views/superadmin/AuditLogs.vue') },
+      { path: 'security', name: 'SuperAdminSecurity', component: () => import('@/views/superadmin/Security.vue') },
+      { path: 'feature-flags', name: 'SuperAdminFeatureFlags', component: () => import('@/views/superadmin/FeatureFlags.vue') },
+      { path: 'ip-logs', name: 'SuperAdminIPLogs', component: () => import('@/views/superadmin/IPLogs.vue') },
+      { path: 'blockchain', name: 'SuperAdminBlockchain', component: () => import('@/views/admin/Blockchain.vue') },
+      { path: 'scraper', name: 'SuperAdminScraper', component: () => import('@/views/admin/Scraper.vue') },
+      { path: 'logs', name: 'SuperAdminLogs', component: () => import('@/views/admin/Logs.vue') },
     ]
   },
 
