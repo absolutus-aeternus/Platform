@@ -7,7 +7,7 @@
       </div>
       <div v-else class="cat-grid">
         <div v-for="cat in categories" :key="cat.id" class="cat-card" @click="$router.push(`/search?category=${cat.id}`)">
-          <div class="cat-icon" :style="{ background: cat.color || '#ee4d2d' }">{{ cat.icon || cat.name?.[0] || '?' }}</div>
+          <div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || cat.name?.[0] || '?' }}</div>
           <h3>{{ cat.name }}</h3>
         </div>
       </div>

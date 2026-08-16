@@ -2,7 +2,7 @@
   <div class="admin-report">
     <div class="page-header"><h1>Customer Report</h1></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon" style="background:#fe2c55"><i class="fas fa-users"></i></div><div><h3>{{ users.length }}</h3><p>Total Customers</p></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#FF9900"><i class="fas fa-users"></i></div><div><h3>{{ users.length }}</h3><p>Total Customers</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#4ecdc4"><i class="fas fa-user-check"></i></div><div><h3>{{ activeUsers }}</h3><p>Active (7 days)</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#45b7d1"><i class="fas fa-shopping-bag"></i></div><div><h3>{{ buyersWithOrders }}</h3><p>Buyers</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#96ceb4"><i class="fas fa-store"></i></div><div><h3>{{ sellerCount }}</h3><p>Sellers</p></div></div>

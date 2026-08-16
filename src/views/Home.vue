@@ -458,7 +458,7 @@ onUnmounted(() => {
 .pg-badge { position: absolute; top: 0; left: 0; background: #CC0C39; color: #fff; padding: 2px 6px; font-size: 11px; font-weight: 700; }
 .pg-body { padding: 0.5rem 0.625rem 0.75rem; }
 .pg-name { font-size: 0.8125rem; color: #007185; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; min-height: 2.25rem; margin-bottom: 0.375rem; }
-.pg-card:hover .pg-name { color: #c75000; }
+.pg-card:hover .pg-name { color: #c77a00; }
 .pg-rating { display: flex; align-items: center; gap: 0.375rem; margin-bottom: 0.25rem; }
 .pg-stars { font-size: 0.625rem; color: #FF9900; }
 .pg-reviews { font-size: 0.6875rem; color: #007185; }

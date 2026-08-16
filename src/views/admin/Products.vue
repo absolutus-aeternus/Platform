@@ -78,7 +78,7 @@ const deleteProduct = async (id) => {
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-primary { padding: 8px 16px; background: #fe2c55; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-primary { padding: 8px 16px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; }
 .filters input { flex: 1; }

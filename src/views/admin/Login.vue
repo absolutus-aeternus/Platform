@@ -91,18 +91,18 @@ const handleLogin = async () => {
 .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%); position: relative; overflow: hidden; }
 .auth-bg { position: absolute; inset: 0; }
 .auth-particles { position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(254,44,85,0.1), transparent 50%), radial-gradient(circle at 70% 60%, rgba(108,92,231,0.08), transparent 50%); }
-.auth-container { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 16px; padding: 40px; width: 420px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; z-index: 2; border-top: 4px solid #fe2c55; }
+.auth-container { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 16px; padding: 40px; width: 420px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; z-index: 2; border-top: 4px solid #FF9900; }
 .auth-header { text-align: center; margin-bottom: 30px; }
 .auth-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; }
 .logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; font-size: 20px; }
 .logo-img-admin-login { height: 2rem; width: auto; object-fit: contain; }
-.admin-badge { background: #fe2c55; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.admin-badge { background: #FF9900; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
 .logo-text { font-size: 28px; font-weight: 800; color: #1a1a2e; letter-spacing: 2px; }
 .auth-header p { color: #666; font-size: 14px; }
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; color: #555; }
 .form-group input { width: 100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box; transition: all 0.2s; }
-.form-group input:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgba(254,44,85,0.1); }
+.form-group input:focus { outline: none; border-color: #FF9900; box-shadow: 0 0 0 3px rgba(254,44,85,0.1); }
 .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #1a1a2e, #2d3436); color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
 .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(26,26,46,0.4); }
 .btn-submit:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -111,7 +111,7 @@ const handleLogin = async () => {
 .error-msg { color: #ff4757; text-align: center; margin-top: 15px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .auth-footer { text-align: center; margin-top: 20px; }
 .forgot-link { color: #999; font-size: 13px; text-decoration: none; }
-.forgot-link:hover { color: #fe2c55; }
+.forgot-link:hover { color: #FF9900; }
 .animate-in { animation: slideInUp 0.5s ease; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }

@@ -43,7 +43,7 @@
           <tr v-for="seller in filteredSellers" :key="seller.id">
             <td>
               <div class="store-cell">
-                <div class="store-avatar" :style="{ background: seller.avatar_color || '#fe2c55' }">{{ seller.name[0] }}</div>
+                <div class="store-avatar" :style="{ background: seller.avatar_color || '#FF9900' }">{{ seller.name[0] }}</div>
                 <div>
                   <strong>{{ seller.name }}</strong>
                   <p class="store-desc">{{ seller.description?.substring(0, 40) || 'No description' }}</p>

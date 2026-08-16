@@ -155,7 +155,7 @@ onMounted(loadData)
 
 <style scoped>
 h1 { margin-bottom: 25px; display: inline-block; }
-.btn-add { float: right; padding: 10px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.btn-add { float: right; padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 .loading, .empty { text-align: center; padding: 40px; color: #999; clear: both; }
 .promo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; clear: both; }
 .promo-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; }
@@ -167,7 +167,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .btn-delete:hover { color: #ff4757; }
 .promo-card h3 { font-size: 16px; margin-bottom: 8px; }
 .promo-card p { font-size: 13px; color: #666; margin-bottom: 8px; }
-.promo-value { font-size: 28px; font-weight: 700; color: #fe2c55; margin: 12px 0; }
+.promo-value { font-size: 28px; font-weight: 700; color: #FF9900; margin: 12px 0; }
 .promo-dates { color: #999; font-size: 12px; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
 .modal { background: #fff; padding: 30px; border-radius: 12px; width: 500px; max-height: 90vh; overflow-y: auto; }
@@ -178,7 +178,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .modal-actions button { padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-.btn-primary { background: #fe2c55; color: #fff; border: none; }
+.btn-primary { background: #FF9900; color: #fff; border: none; }
 .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
 @media (max-width: 768px) { .promo-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
 </style>

@@ -92,7 +92,7 @@ h1 { margin-bottom: 25px; }
 .form-group input:disabled { background: #f5f5f5; color: #999; }
 .error-msg { color: #ff4757; margin-bottom: 15px; font-size: 14px; }
 .success-msg { color: #2ed573; margin-bottom: 15px; font-size: 14px; }
-.btn-save { padding: 12px 30px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+.btn-save { padding: 12px 30px; background: #FF9900; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
 .btn-save:disabled { background: #ccc; cursor: not-allowed; }
 .danger-zone { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
 .danger-zone h3 { color: #ff4757; margin-bottom: 15px; }

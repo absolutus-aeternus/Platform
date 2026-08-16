@@ -95,14 +95,14 @@ h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
 .stat-card { background: #fff; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.stat-card i { font-size: 32px; color: #fe2c55; }
+.stat-card i { font-size: 32px; color: #FF9900; }
 .stat-card h3 { font-size: 24px; margin-bottom: 5px; }
 .stat-card p { color: #666; }
 .quick-actions { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .quick-actions h2 { margin-bottom: 15px; }
 .actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
 .action-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; background: #f8f8f8; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.3s; }
-.action-card:hover { background: #fe2c55; color: #fff; }
+.action-card:hover { background: #FF9900; color: #fff; }
 .action-card i { font-size: 24px; }
 
 /* Responsive */

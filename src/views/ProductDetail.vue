@@ -130,19 +130,19 @@
               <h3 style="margin-bottom:16px;font-size:18px">Key Features</h3>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
                 <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
-                  <i class="fas fa-truck" style="color:#ee4d2d;font-size:18px"></i>
+                  <i class="fas fa-truck" style="color:#FF9900;font-size:18px"></i>
                   <div><div style="font-weight:600;font-size:13px">Free Shipping</div><div style="font-size:11px;color:#999">2-7 business days</div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
-                  <i class="fas fa-shield-alt" style="color:#ee4d2d;font-size:18px"></i>
+                  <i class="fas fa-shield-alt" style="color:#FF9900;font-size:18px"></i>
                   <div><div style="font-weight:600;font-size:13px">Buyer Protection</div><div style="font-size:11px;color:#999">Full refund if not as described</div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
-                  <i class="fas fa-undo" style="color:#ee4d2d;font-size:18px"></i>
+                  <i class="fas fa-undo" style="color:#FF9900;font-size:18px"></i>
                   <div><div style="font-weight:600;font-size:13px">Easy Returns</div><div style="font-size:11px;color:#999">30-day return policy</div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
-                  <i class="fas fa-headset" style="color:#ee4d2d;font-size:18px"></i>
+                  <i class="fas fa-headset" style="color:#FF9900;font-size:18px"></i>
                   <div><div style="font-weight:600;font-size:13px">24/7 Support</div><div style="font-size:11px;color:#999">Online customer service</div></div>
                 </div>
               </div>
@@ -229,7 +229,7 @@ const chatSeller = () => {
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #999; margin-bottom: 16px; }
 .breadcrumb a { color: #666; text-decoration: none; }
-.breadcrumb a:hover { color: var(--primary, #ee4d2d); }
+.breadcrumb a:hover { color: var(--primary, #FF9900); }
 .breadcrumb i { font-size: 10px; }
 .loading-state { padding: 40px; text-align: center; }
 .skeleton-img { width: 100%; max-width: 400px; height: 400px; background: #f0f0f0; border-radius: 8px; margin: 0 auto 20px; animation: pulse 1.5s infinite; }
@@ -242,22 +242,22 @@ const chatSeller = () => {
 .main-image { position: relative; border-radius: 8px; overflow: hidden; background: #f8f8f8; }
 .main-image img { width: 100%; aspect-ratio: 1; object-fit: cover; }
 .img-placeholder { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 80px; color: #ddd; background: linear-gradient(135deg, #f8f8f8, #eee); }
-.discount-badge { position: absolute; top: 12px; left: 12px; background: var(--primary, #ee4d2d); color: #fff; padding: 4px 10px; font-size: 14px; font-weight: 700; border-radius: 4px; }
+.discount-badge { position: absolute; top: 12px; left: 12px; background: var(--primary, #FF9900); color: #fff; padding: 4px 10px; font-size: 14px; font-weight: 700; border-radius: 4px; }
 .thumb-row { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; }
 .thumb { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
-.thumb.active, .thumb:hover { border-color: var(--primary, #ee4d2d); }
+.thumb.active, .thumb:hover { border-color: var(--primary, #FF9900); }
 .product-title { font-size: 20px; font-weight: 600; color: #222; line-height: 1.4; margin-bottom: 12px; }
 .product-stats { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; font-size: 13px; }
 .stat-rating { display: flex; align-items: center; gap: 8px; }
 .stars { color: #ffc107; font-size: 12px; }
-.rating-num { color: var(--primary, #ee4d2d); font-weight: 600; }
+.rating-num { color: var(--primary, #FF9900); font-weight: 600; }
 .divider-v { width: 1px; height: 14px; background: #ddd; }
 .review-count { color: #666; }
 .stat-sales { color: #999; }
-.price-box { background: linear-gradient(135deg, #fff5f5, #fff); padding: 16px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: baseline; gap: 12px; }
-.current-price { font-size: 28px; font-weight: 700; color: var(--primary, #ee4d2d); }
+.price-box { background: linear-gradient(135deg, #fff8f0, #fff); padding: 16px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: baseline; gap: 12px; }
+.current-price { font-size: 28px; font-weight: 700; color: var(--primary, #FF9900); }
 .original-price { font-size: 16px; color: #999; text-decoration: line-through; }
-.discount-tag { background: var(--primary, #ee4d2d); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+.discount-tag { background: var(--primary, #FF9900); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
 .info-rows { margin-bottom: 20px; }
 .info-row { display: flex; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
 .info-row .label { width: 80px; color: #999; flex-shrink: 0; }
@@ -265,7 +265,7 @@ const chatSeller = () => {
 .in-stock { color: #28a745; }
 .out-stock { color: #ff4757; }
 .seller-link { color: #007185; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-.seller-link:hover { color: #c75000; text-decoration: underline; }
+.seller-link:hover { color: #c77a00; text-decoration: underline; }
 .seller-link i { font-size: 10px; }
 .seller-mini-logo { width: 20px; height: 20px; border-radius: 3px; object-fit: cover; }
 .quantity-section { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
@@ -276,19 +276,19 @@ const chatSeller = () => {
 .qty-control button:disabled { color: #ccc; cursor: not-allowed; }
 .qty-control input { width: 50px; text-align: center; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 14px; }
 .action-row { display: flex; gap: 12px; }
-.btn-add-cart { flex: 1; padding: 14px; background: #fff; color: var(--primary, #ee4d2d); border: 2px solid var(--primary, #ee4d2d); border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
-.btn-add-cart:hover { background: #fff5f5; }
+.btn-add-cart { flex: 1; padding: 14px; background: #fff; color: var(--primary, #FF9900); border: 2px solid var(--primary, #FF9900); border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+.btn-add-cart:hover { background: #fff8f0; }
 .btn-add-cart:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
-.btn-buy-now { flex: 1; padding: 14px; background: var(--primary, #ee4d2d); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn-buy-now:hover { background: var(--primary-dark, #d73211); }
+.btn-buy-now { flex: 1; padding: 14px; background: var(--primary, #FF9900); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-buy-now:hover { background: var(--primary-dark, #e68a00); }
 .btn-buy-now:disabled { background: #ccc; cursor: not-allowed; }
 .btn-fav { width: 48px; height: 48px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 18px; color: #999; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-.btn-fav:hover { border-color: var(--primary, #ee4d2d); color: var(--primary, #ee4d2d); }
+.btn-fav:hover { border-color: var(--primary, #FF9900); color: var(--primary, #FF9900); }
 .btn-chat-seller { width: 100%; padding: 10px; background: #fff; color: #007185; border: 1px solid #007185; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; transition: all 0.2s; }
 .btn-chat-seller:hover { background: #f0f8ff; border-color: #005f73; }
 .product-tabs { display: flex; background: #fff; border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .product-tabs button { flex: 1; padding: 14px; background: none; border: none; font-size: 15px; font-weight: 500; color: #666; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
-.product-tabs button.active { color: var(--primary, #ee4d2d); border-bottom-color: var(--primary, #ee4d2d); }
+.product-tabs button.active { color: var(--primary, #FF9900); border-bottom-color: var(--primary, #FF9900); }
 .tab-content { background: #fff; border-radius: 0 0 8px 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); min-height: 200px; }
 .detail-content h3 { font-size: 16px; margin-bottom: 12px; }
 .detail-content p { color: #555; font-size: 14px; line-height: 1.7; }
@@ -296,7 +296,7 @@ const chatSeller = () => {
 .empty-reviews i { font-size: 32px; color: #ddd; margin-bottom: 8px; }
 .review-item { padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
 .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.review-avatar { width: 36px; height: 36px; background: var(--primary, #ee4d2d); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+.review-avatar { width: 36px; height: 36px; background: var(--primary, #FF9900); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
 .review-meta { flex: 1; }
 .review-user { font-weight: 600; font-size: 14px; display: block; }
 .review-stars { color: #ffc107; font-size: 11px; }

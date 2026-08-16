@@ -69,7 +69,7 @@ const filtered = computed(() => {
   return r
 })
 
-const avatarColor = (u) => { const colors = ['#fe2c55','#4ecdc4','#45b7d1','#96ceb4','#feca57','#ff6b81','#54a0ff','#5f27cd']; return colors[(u.email||'').charCodeAt(0) % colors.length] }
+const avatarColor = (u) => { const colors = ['#FF9900','#4ecdc4','#45b7d1','#96ceb4','#feca57','#ff6b81','#54a0ff','#5f27cd']; return colors[(u.email||'').charCodeAt(0) % colors.length] }
 const timeAgo = (t) => { const d = new Date(t), now = new Date(), diff = now - d; if (diff < 3600000) return Math.floor(diff/60000) + 'm ago'; if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago'; return Math.floor(diff/86400000) + 'd ago' }
 
 const load = async () => {

@@ -318,7 +318,7 @@ const handleLogin = async () => {
 }
 .login-tabs button.active {
   background: #fff;
-  color: #fe2c55;
+  color: #FF9900;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
@@ -357,7 +357,7 @@ const handleLogin = async () => {
 }
 .input-wrapper input:focus {
   outline: none;
-  border-color: #fe2c55;
+  border-color: #FF9900;
   box-shadow: 0 0 0 3px rgba(254,44,85,0.08);
   background: #fff;
 }
@@ -387,9 +387,9 @@ const handleLogin = async () => {
   color: #666;
   cursor: pointer;
 }
-.remember-me input { accent-color: #fe2c55; }
+.remember-me input { accent-color: #FF9900; }
 .forgot-link {
-  color: #fe2c55;
+  color: #FF9900;
   text-decoration: none;
   font-weight: 500;
 }
@@ -418,7 +418,7 @@ const handleLogin = async () => {
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #fe2c55, #ff6b81);
+  background: linear-gradient(90deg, #FF9900, #ff6b81);
   border-radius: 17px;
   transition: width 0.1s;
 }
@@ -426,7 +426,7 @@ const handleLogin = async () => {
   width: 34px;
   height: 34px;
   background: #fff;
-  color: #fe2c55;
+  color: #FF9900;
   border-radius: 50%;
   position: absolute;
   top: 0;
@@ -457,7 +457,7 @@ const handleLogin = async () => {
 .btn-login {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #fe2c55, #ff6b81);
+  background: linear-gradient(135deg, #FF9900, #ff6b81);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -502,7 +502,7 @@ const handleLogin = async () => {
   justify-content: center;
   gap: 6px;
   padding: 10px;
-  background: #fff5f5;
+  background: #fff8f0;
   border-radius: 8px;
 }
 
@@ -548,9 +548,9 @@ const handleLogin = async () => {
   color: #555;
 }
 .btn-social:hover {
-  border-color: #fe2c55;
-  color: #fe2c55;
-  background: #fff5f5;
+  border-color: #FF9900;
+  color: #FF9900;
+  background: #fff8f0;
 }
 
 /* Footer */
@@ -565,7 +565,7 @@ const handleLogin = async () => {
   color: #888;
 }
 .card-footer a {
-  color: #fe2c55;
+  color: #FF9900;
   text-decoration: none;
   font-weight: 600;
 }

@@ -81,7 +81,7 @@ h1 { margin-bottom: 25px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
 .stat-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .stat-card h3 { color: #666; font-size: 14px; margin-bottom: 10px; }
-.stat-value { font-size: 28px; font-weight: 700; color: #fe2c55; }
+.stat-value { font-size: 28px; font-weight: 700; color: #FF9900; }
 .section { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .section h2 { margin-bottom: 20px; }
 .loading, .empty { text-align: center; padding: 40px; color: #999; }

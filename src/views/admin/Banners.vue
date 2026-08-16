@@ -4,7 +4,7 @@
     <div v-if="loading" class="loading">Loading...</div>
     <div v-else class="banner-grid">
       <div v-for="b in banners" :key="b.id" class="banner-card" :class="{ inactive: !b.is_active }">
-        <div class="banner-preview" :style="{ background: b.gradient || 'linear-gradient(135deg, #fe2c55, #ff6b81)' }">
+        <div class="banner-preview" :style="{ background: b.gradient || 'linear-gradient(135deg, #FF9900, #ff6b81)' }">
           <h3>{{ b.title || 'Banner' }}</h3>
           <p>{{ b.link || '' }}</p>
         </div>
@@ -80,7 +80,7 @@ onMounted(load)
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-add { padding: 10px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-add { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .banner-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: all 0.3s; }
 .banner-card.inactive { opacity: 0.6; }
@@ -109,7 +109,7 @@ onMounted(load)
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; }
-.btn-save { padding: 10px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-save { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 
 /* Responsive */
 @media (max-width: 768px) {

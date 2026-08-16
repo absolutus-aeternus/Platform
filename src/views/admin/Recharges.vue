@@ -87,7 +87,7 @@ onMounted(load)
 .header-stats { display: flex; gap: 12px; }
 .stat-card { background: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
 .stat-label { display: block; font-size: 11px; color: #999; margin-bottom: 4px; }
-.stat-value { font-size: 18px; font-weight: 700; color: #fe2c55; }
+.stat-value { font-size: 18px; font-weight: 700; color: #FF9900; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
 .filters input { flex: 1; }

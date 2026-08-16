@@ -419,7 +419,7 @@ const handleSubmit = async () => {
 .settled-features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
 .sf-item { background: rgba(255,255,255,0.07); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
 .sf-item:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
-.sf-item i { font-size: 24px; color: #fe2c55; margin-bottom: 10px; display: block; }
+.sf-item i { font-size: 24px; color: #FF9900; margin-bottom: 10px; display: block; }
 .sf-item h3 { font-size: 14px; margin-bottom: 4px; }
 .sf-item p { font-size: 12px; opacity: 0.7; }
 
@@ -433,10 +433,10 @@ const handleSubmit = async () => {
   width: 32px; height: 32px; border-radius: 50%; background: #ddd; color: #999;
   display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
 }
-.step.active .step-num { background: #fe2c55; color: #fff; }
+.step.active .step-num { background: #FF9900; color: #fff; }
 .step.done .step-num { background: #28a745; color: #fff; }
 .step-label { font-size: 12px; color: #999; font-weight: 600; }
-.step.active .step-label { color: #fe2c55; }
+.step.active .step-label { color: #FF9900; }
 .step.done .step-label { color: #28a745; }
 
 /* Card */
@@ -459,19 +459,19 @@ const handleSubmit = async () => {
   width: 100%; padding: 11px 12px 11px 36px; border: 2px solid #e8e8e8; border-radius: 10px;
   font-size: 14px; box-sizing: border-box; transition: all 0.2s; background: #fafafa; font-family: inherit;
 }
-.input-wrap input:focus, .input-wrap select:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgba(254,44,85,0.08); background: #fff; }
+.input-wrap input:focus, .input-wrap select:focus { outline: none; border-color: #FF9900; box-shadow: 0 0 0 3px rgba(254,44,85,0.08); background: #fff; }
 textarea {
   width: 100%; padding: 11px 12px; border: 2px solid #e8e8e8; border-radius: 10px;
   font-size: 14px; box-sizing: border-box; transition: all 0.2s; background: #fafafa; font-family: inherit; resize: vertical;
 }
-textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgba(254,44,85,0.08); background: #fff; }
+textarea:focus { outline: none; border-color: #FF9900; box-shadow: 0 0 0 3px rgba(254,44,85,0.08); background: #fff; }
 
 /* Upload */
 .upload-area {
   border: 2px dashed #ddd; border-radius: 12px; padding: 24px; text-align: center;
   cursor: pointer; transition: all 0.2s; background: #fafafa;
 }
-.upload-area:hover { border-color: #fe2c55; background: #fff5f5; }
+.upload-area:hover { border-color: #FF9900; background: #fff8f0; }
 .upload-area.uploaded { border-style: solid; border-color: #28a745; background: #f0fff4; }
 .upload-placeholder i { font-size: 32px; color: #ccc; margin-bottom: 8px; }
 .upload-placeholder p { font-size: 14px; color: #666; margin: 0 0 4px; }
@@ -486,8 +486,8 @@ textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgb
 
 /* Checkbox */
 .form-check { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; font-size: 12px; color: #666; }
-.form-check input { margin-top: 3px; accent-color: #fe2c55; }
-.form-check a { color: #fe2c55; text-decoration: none; font-weight: 600; }
+.form-check input { margin-top: 3px; accent-color: #FF9900; }
+.form-check a { color: #FF9900; text-decoration: none; font-weight: 600; }
 
 /* Buttons */
 .btn-row { display: flex; gap: 12px; margin-top: 4px; }
@@ -497,7 +497,7 @@ textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgb
 }
 .btn-back:hover { background: #e0e0e0; }
 .btn-submit {
-  flex: 1; padding: 12px; background: linear-gradient(135deg, #fe2c55, #ff6b81); color: #fff;
+  flex: 1; padding: 12px; background: linear-gradient(135deg, #FF9900, #ff6b81); color: #fff;
   border: none; border-radius: 10px; font-size: 14px; cursor: pointer; font-weight: 600;
   display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;
   box-shadow: 0 4px 15px rgba(254,44,85,0.3);
@@ -510,7 +510,7 @@ textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgb
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Error */
-.error-msg { color: #ff4757; text-align: center; margin-top: 14px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: #fff5f5; border-radius: 8px; }
+.error-msg { color: #ff4757; text-align: center; margin-top: 14px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: #fff8f0; border-radius: 8px; }
 
 /* Success */
 .success-step { text-align: center; padding: 20px 0; }
@@ -524,7 +524,7 @@ textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgb
 .status-pending { color: #ff9800; }
 .success-note { font-size: 13px; color: #888; margin-bottom: 20px; }
 .success-actions { display: flex; gap: 12px; justify-content: center; }
-.btn-primary { padding: 10px 24px; background: #fe2c55; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+.btn-primary { padding: 10px 24px; background: #FF9900; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
 .btn-primary:hover { background: #e6254d; }
 .btn-secondary { padding: 10px 24px; background: #f0f0f0; color: #555; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
 .btn-secondary:hover { background: #e0e0e0; }
@@ -532,7 +532,7 @@ textarea:focus { outline: none; border-color: #fe2c55; box-shadow: 0 0 0 3px rgb
 /* Footer */
 .card-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
 .card-footer p { margin: 0; font-size: 13px; color: #888; }
-.card-footer a { color: #fe2c55; text-decoration: none; font-weight: 600; }
+.card-footer a { color: #FF9900; text-decoration: none; font-weight: 600; }
 
 /* Responsive */
 @media (max-width: 768px) {

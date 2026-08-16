@@ -35,7 +35,7 @@ h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
-.btn-primary { background: #fe2c55; color: #fff; padding: 10px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
+.btn-primary { background: #FF9900; color: #fff; padding: 10px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
 .loan-card { background: #fff; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
 .loan-header { display: flex; justify-content: space-between; padding: 15px 20px; background: #f8f8f8; }
 .status { padding: 4px 12px; border-radius: 12px; font-size: 12px; }

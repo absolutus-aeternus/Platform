@@ -55,6 +55,6 @@ h1 { margin-bottom: 25px; }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
 .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-.btn-submit { padding: 12px 30px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
+.btn-submit { padding: 12px 30px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
 .btn-submit:disabled { background: #ccc; }
 </style>

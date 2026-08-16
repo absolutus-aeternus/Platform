@@ -103,23 +103,23 @@ onMounted(() => {
 <style scoped>
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 .search-header { margin-bottom: 20px; }
-.search-bar { display: flex; border: 2px solid var(--primary, #ee4d2d); border-radius: 4px; overflow: hidden; background: #fff; }
+.search-bar { display: flex; border: 2px solid var(--primary, #FF9900); border-radius: 4px; overflow: hidden; background: #fff; }
 .search-bar i { padding: 12px 16px; color: #999; font-size: 16px; }
 .search-bar input { flex: 1; padding: 12px; border: none; font-size: 15px; outline: none; }
-.btn-search { padding: 12px 24px; background: var(--primary, #ee4d2d); color: #fff; border: none; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn-search:hover { background: var(--primary-dark, #d73211); }
+.btn-search { padding: 12px 24px; background: var(--primary, #FF9900); color: #fff; border: none; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-search:hover { background: var(--primary-dark, #e68a00); }
 .search-filters { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 16px; background: #fff; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
 .filter-tags { display: flex; gap: 8px; }
 .filter-tags button { padding: 6px 16px; border: 1px solid #ddd; background: #fff; border-radius: 4px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
-.filter-tags button.active { background: var(--primary, #ee4d2d); color: #fff; border-color: var(--primary, #ee4d2d); }
-.filter-tags button:hover:not(.active) { border-color: var(--primary, #ee4d2d); color: var(--primary, #ee4d2d); }
+.filter-tags button.active { background: var(--primary, #FF9900); color: #fff; border-color: var(--primary, #FF9900); }
+.filter-tags button:hover:not(.active) { border-color: var(--primary, #FF9900); color: var(--primary, #FF9900); }
 .result-count { font-size: 13px; color: #999; }
 .loading-state { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .skeleton-card { background: #f0f0f0; border-radius: 4px; aspect-ratio: 0.8; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .product-card { background: #fff; border-radius: 2px; overflow: hidden; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-.product-card:hover { border-color: var(--primary, #ee4d2d); box-shadow: 0 2px 8px rgba(238,77,45,0.12); transform: translateY(-1px); }
+.product-card:hover { border-color: var(--primary, #FF9900); box-shadow: 0 2px 8px rgba(238,77,45,0.12); transform: translateY(-1px); }
 .card-img { position: relative; aspect-ratio: 1; overflow: hidden; background: #f8f8f8; }
 .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
 

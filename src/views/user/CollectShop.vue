@@ -11,7 +11,7 @@
     <div v-else class="shop-grid">
       <div v-for="shop in shops" :key="shop.id" class="shop-card">
         <div class="shop-header">
-          <div class="avatar" :style="{ background: shop.avatar_color || '#fe2c55' }">{{ shop.sellers?.name?.[0] || 'S' }}</div>
+          <div class="avatar" :style="{ background: shop.avatar_color || '#FF9900' }">{{ shop.sellers?.name?.[0] || 'S' }}</div>
           <div class="shop-info">
             <h3>{{ shop.sellers?.name || 'Store' }}</h3>
             <p>{{ shop.sellers?.goods_count || 0 }} products • {{ shop.sellers?.sales_count || 0 }} sales</p>
@@ -60,7 +60,7 @@ const unfollow = async (shop) => {
 .empty-icon i { font-size: 40px; color: #ddd; }
 .empty-state h2 { margin: 0 0 10px; font-size: 20px; color: #333; }
 .empty-state p { color: #999; margin-bottom: 25px; }
-.btn-primary { padding: 12px 30px; background: #fe2c55; color: #fff; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; }
+.btn-primary { padding: 12px 30px; background: #FF9900; color: #fff; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; }
 .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 .shop-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: all 0.3s; }
 .shop-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
@@ -70,7 +70,7 @@ const unfollow = async (shop) => {
 .shop-info p { margin: 0; font-size: 12px; color: #999; }
 .shop-actions { display: flex; gap: 8px; }
 .btn-visit, .btn-unfollow { flex: 1; padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.btn-visit { background: #fe2c55; color: #fff; border: none; }
+.btn-visit { background: #FF9900; color: #fff; border: none; }
 .btn-unfollow { background: #fff; color: #666; border: 1px solid #ddd; }
 .btn-unfollow:hover { border-color: #dc3545; color: #dc3545; }
 </style>

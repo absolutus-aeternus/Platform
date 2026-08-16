@@ -63,7 +63,7 @@ const submitting = ref(false)
 const presets = [50, 100, 200, 500, 1000, 2000]
 
 const selectedChannel = computed(() => channels.value.find(c => c.id === selected.value))
-const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#fe2c55')
+const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#FF9900')
 
 onMounted(async () => {
   const [ch, wallet, min] = await Promise.all([
@@ -101,8 +101,8 @@ const submitRecharge = async () => {
 .section h2 { margin: 0 0 18px; font-size: 16px; color: #333; }
 .channels { display: flex; flex-direction: column; gap: 10px; }
 .channel-card { display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
-.channel-card.active { border-color: #fe2c55; background: #fff5f5; }
-.channel-card:hover { border-color: #fe2c55; }
+.channel-card.active { border-color: #FF9900; background: #fff8f0; }
+.channel-card:hover { border-color: #FF9900; }
 .ch-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
 .ch-info strong { font-size: 14px; }
 .ch-info p { margin: 2px 0 0; font-size: 12px; color: #999; }
@@ -110,24 +110,24 @@ const submitRecharge = async () => {
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
 .form-group input { width: 100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-weight: 600; }
-.form-group input:focus { outline: none; border-color: #fe2c55; }
+.form-group input:focus { outline: none; border-color: #FF9900; }
 .amount-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 20px; }
 .preset { padding: 10px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.preset.active, .preset:hover { border-color: #fe2c55; background: #fff5f5; color: #fe2c55; }
+.preset.active, .preset:hover { border-color: #FF9900; background: #fff8f0; color: #FF9900; }
 .wallet-info { background: #f8f9fa; padding: 20px; border-radius: 10px; }
 .wallet-info h3 { margin: 0 0 10px; font-size: 14px; }
 .wallet-address { background: #fff; padding: 12px; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 10px; }
 .wallet-address code { font-size: 13px; word-break: break-all; color: #333; }
 .warning { font-size: 12px; color: #856404; background: #fff3cd; padding: 8px 12px; border-radius: 6px; margin: 0; }
 .warning i { margin-right: 5px; }
-.btn-submit { width: 100%; padding: 14px; background: #fe2c55; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
+.btn-submit { width: 100%; padding: 14px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
 .btn-submit:disabled { background: #ccc; }
 .balance-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 16px; text-align: center; }
 .balance-card h3 { margin: 0 0 8px; font-size: 13px; color: #999; }
-.balance { font-size: 32px; font-weight: 700; color: #fe2c55; margin: 0; }
+.balance { font-size: 32px; font-weight: 700; color: #FF9900; margin: 0; }
 .info-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 .info-card h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 15px; font-size: 14px; }
-.info-card h3 i { color: #fe2c55; }
+.info-card h3 i { color: #FF9900; }
 .info-card ol { padding-left: 20px; margin: 0; }
 .info-card li { font-size: 13px; color: #666; margin-bottom: 8px; }
 

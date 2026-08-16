@@ -94,7 +94,7 @@ h1 { margin-bottom: 25px; }
 .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
 .form-actions { display: flex; gap: 10px; justify-content: flex-end; }
 .form-actions button { padding: 10px 25px; border-radius: 4px; cursor: pointer; }
-.btn-primary { background: #fe2c55; color: #fff; border: none; }
+.btn-primary { background: #FF9900; color: #fff; border: none; }
 .btn-primary:disabled { background: #ccc; }
 
 /* Responsive */

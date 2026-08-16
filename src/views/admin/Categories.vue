@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="cat in filteredCategories" :key="cat.id">
-            <td><div class="cat-icon" :style="{ background: cat.color || '#fe2c55' }">{{ cat.icon || cat.name[0] }}</div></td>
+            <td><div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || cat.name[0] }}</div></td>
             <td><strong>{{ cat.name }}</strong></td>
             <td>{{ cat.description || '-' }}</td>
             <td>{{ cat.product_count || 0 }}</td>
@@ -99,7 +99,7 @@ const statusFilter = ref('')
 const showModal = ref(false)
 const editing = ref(null)
 
-const form = ref({ name: '', description: '', icon: '', color: '#fe2c55', sort_order: 0, is_active: true })
+const form = ref({ name: '', description: '', icon: '', color: '#FF9900', sort_order: 0, is_active: true })
 
 const filteredCategories = computed(() => {
   let result = categories.value
@@ -127,7 +127,7 @@ const editCategory = (cat) => {
 const closeModal = () => {
   showModal.value = false
   editing.value = null
-  form.value = { name: '', description: '', icon: '', color: '#fe2c55', sort_order: 0, is_active: true }
+  form.value = { name: '', description: '', icon: '', color: '#FF9900', sort_order: 0, is_active: true }
 }
 
 const saveCategory = async () => {
@@ -162,7 +162,7 @@ onMounted(loadCategories)
 .admin-categories { padding: 0; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-add { padding: 10px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.btn-add { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .btn-add:hover { background: #e6254d; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
@@ -192,7 +192,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; }
-.btn-save { padding: 10px 20px; background: #fe2c55; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-save { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .btn-save:disabled { background: #ccc; }
 
 /* Responsive */

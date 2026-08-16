@@ -49,11 +49,11 @@
         </div>
       </div>
       <div class="quick-links" style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <router-link to="/merchant-settled" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#ee4d2d,#ff6b4a);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
+        <router-link to="/merchant-settled" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#FF9900,#FF9900);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
           <i class="fas fa-store" style="font-size:20px"></i>
           <div><div>Become a Seller</div><small style="opacity:0.8;font-weight:400">Start your dropshipping business</small></div>
         </router-link>
-        <router-link to="/ratingplus" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#ff4d00,#ff6b4a);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
+        <router-link to="/ratingplus" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#e68a00,#FF9900);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
           <i class="fas fa-star" style="font-size:20px"></i>
           <div><div>Join Rating Plus</div><small style="opacity:0.8;font-weight:400">Earn money daily</small></div>
         </router-link>
@@ -98,7 +98,7 @@ h1 { margin-bottom: 25px; }
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
 .stat-card { background: #fff; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s; }
 .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
-.stat-card i { font-size: 32px; color: #fe2c55; }
+.stat-card i { font-size: 32px; color: #FF9900; }
 .stat-card h3 { font-size: 24px; margin-bottom: 5px; }
 .stat-card p { color: #666; }
 .user-info { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
@@ -106,6 +106,14 @@ h1 { margin-bottom: 25px; }
 .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
 .info-row:last-child { border-bottom: none; }
 .kyc-badge { background: #d4edda; color: #155724; padding: 2px 10px; border-radius: 10px; font-size: 13px; }
+
+.quick-links { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.quick-link { display: flex; align-items: center; gap: 10px; padding: 16px; color: #fff; border-radius: 12px; text-decoration: none; font-weight: 600; transition: all 0.2s; }
+.quick-link:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); color: #fff; }
+.quick-link i { font-size: 20px; }
+.quick-link small { opacity: 0.8; font-weight: 400; }
+.seller-link { background: linear-gradient(135deg, #FF9900, #e68a00); }
+.rating-link { background: linear-gradient(135deg, #e68a00, #FF9900); }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }

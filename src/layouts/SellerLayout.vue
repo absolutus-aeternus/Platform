@@ -70,7 +70,7 @@ const showSidebar = ref(false)
 .sidebar-content { display: flex; flex-direction: column; gap: 4px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .menu-item { padding: 10px 14px; color: #555; text-decoration: none; border-radius: 8px; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
 .menu-item i { width: 18px; text-align: center; font-size: 14px; }
-.menu-item:hover { background: #fff5f5; color: #fe2c55; }
+.menu-item:hover { background: #fff8f0; color: #fe2c55; }
 .menu-item.router-link-active { background: #fe2c55; color: #fff; }
 .main-content { min-height: 60vh; }
 @media (max-width: 768px) {

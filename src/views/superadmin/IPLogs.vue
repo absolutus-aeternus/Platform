@@ -190,7 +190,7 @@ onMounted(loadLogs)
 .sa-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .sa-table th { text-align: left; padding: 10px 8px; background: #f8f9fa; font-size: 11px; color: #666; text-transform: uppercase; white-space: nowrap; }
 .sa-table td { padding: 8px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-.row-failed { background: #fff5f5; }
+.row-failed { background: #fff8f0; }
 .time-cell { white-space: nowrap; font-size: 12px; color: #666; }
 .ip-cell code { font-size: 12px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; }
 .role-tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #e8e8e8; color: #666; text-transform: uppercase; }

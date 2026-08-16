@@ -70,8 +70,8 @@ h1 { margin-bottom: 25px; }
 .empty-state { text-align: center; padding: 60px 0; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
 .notification-card { display: flex; gap: 15px; padding: 20px; background: #fff; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.notification-card.unread { border-left: 3px solid #fe2c55; }
-.notif-icon { width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fe2c55; }
+.notification-card.unread { border-left: 3px solid #FF9900; }
+.notif-icon { width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF9900; }
 .notif-content { flex: 1; }
 .notif-content h4 { margin-bottom: 5px; }
 .notif-content p { color: #666; font-size: 14px; margin-bottom: 5px; }

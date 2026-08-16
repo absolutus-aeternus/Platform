@@ -159,7 +159,7 @@ const toggleFollow = async () => {
 .discount-badge { position: absolute; top: 0; left: 0; background: #CC0C39; color: #fff; padding: 2px 6px; font-size: 11px; font-weight: 700; }
 .product-body { padding: 8px 10px 12px; }
 .product-name { font-size: 0.8125rem; color: #007185; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; min-height: 2.25rem; margin-bottom: 4px; }
-.product-card:hover .product-name { color: #c75000; }
+.product-card:hover .product-name { color: #c77a00; }
 .rating-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
 .stars { font-size: 0.625rem; color: #FF9900; }
 .review-count { font-size: 0.6875rem; color: #007185; }

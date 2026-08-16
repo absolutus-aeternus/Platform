@@ -86,7 +86,7 @@ onMounted(load)
 .log-item { display: flex; gap: 15px; padding: 16px 20px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; }
 .log-item:hover { background: #f8f9fa; }
 .log-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; }
-.log-icon.order { background: #fe2c55; }
+.log-icon.order { background: #FF9900; }
 .log-icon.user { background: #45b7d1; }
 .log-icon.product { background: #96ceb4; }
 .log-icon.payment { background: #feca57; color: #333; }
@@ -94,7 +94,7 @@ onMounted(load)
 .log-content { flex: 1; min-width: 0; }
 .log-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
 .log-type { padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
-.log-type.order { background: #ffe0e6; color: #fe2c55; }
+.log-type.order { background: #ffe0e6; color: #FF9900; }
 .log-type.user { background: #d1ecf1; color: #0c5460; }
 .log-type.product { background: #d4edda; color: #155724; }
 .log-type.payment { background: #fff3cd; color: #856404; }

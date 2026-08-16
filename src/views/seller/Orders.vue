@@ -88,7 +88,7 @@ onMounted(loadOrders)
 h1 { margin-bottom: 25px; }
 .order-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
 .order-tabs button { padding: 10px 25px; border: 1px solid #ddd; background: #fff; border-radius: 20px; cursor: pointer; }
-.order-tabs button.active { background: #fe2c55; color: #fff; border-color: #fe2c55; }
+.order-tabs button.active { background: #FF9900; color: #fff; border-color: #FF9900; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
@@ -102,7 +102,7 @@ h1 { margin-bottom: 25px; }
 .order-body { padding: 15px 20px; }
 .order-body p { margin-bottom: 5px; }
 .order-actions { padding: 15px 20px; border-top: 1px solid #f0f0f0; }
-.order-actions button { padding: 8px 16px; background: #fe2c55; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.order-actions button { padding: 8px 16px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 
 /* Responsive */
 @media (max-width: 768px) {
