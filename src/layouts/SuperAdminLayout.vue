@@ -6,31 +6,134 @@
         <span class="sidebar-title">Super Admin</span>
       </div>
       <nav class="sidebar-nav">
-        <router-link to="/superadmin" class="nav-item" exact-active-class="active">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </router-link>
-        <router-link to="/superadmin/users" class="nav-item" active-class="active">
-          <i class="fas fa-users-cog"></i> User Management
-        </router-link>
-        <router-link to="/superadmin/settings" class="nav-item" active-class="active">
-          <i class="fas fa-cogs"></i> System Settings
-        </router-link>
-        <router-link to="/superadmin/audit-logs" class="nav-item" active-class="active">
-          <i class="fas fa-history"></i> Audit Logs
-        </router-link>
-        <router-link to="/superadmin/security" class="nav-item" active-class="active">
-          <i class="fas fa-shield-alt"></i> Security Center
-        </router-link>
-        <router-link to="/superadmin/feature-flags" class="nav-item" active-class="active">
-          <i class="fas fa-flag"></i> Feature Flags
-        </router-link>
-        <div class="nav-divider"></div>
-        <router-link to="/admin" class="nav-item">
-          <i class="fas fa-arrow-left"></i> Admin Panel
-        </router-link>
-        <router-link to="/" class="nav-item">
-          <i class="fas fa-home"></i> Main Site
-        </router-link>
+        <!-- Main -->
+        <div class="nav-section">
+          <div class="nav-label">Main</div>
+          <router-link to="/superadmin" class="nav-item" exact-active-class="active">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </router-link>
+        </div>
+
+        <!-- Management -->
+        <div class="nav-section">
+          <div class="nav-label">Management</div>
+          <router-link to="/superadmin/users" class="nav-item" active-class="active">
+            <i class="fas fa-users-cog"></i> Users
+          </router-link>
+          <router-link to="/superadmin/products" class="nav-item" active-class="active">
+            <i class="fas fa-box"></i> Products
+          </router-link>
+          <router-link to="/superadmin/orders" class="nav-item" active-class="active">
+            <i class="fas fa-shopping-bag"></i> Orders
+          </router-link>
+          <router-link to="/superadmin/categories" class="nav-item" active-class="active">
+            <i class="fas fa-tags"></i> Categories
+          </router-link>
+          <router-link to="/superadmin/sellers" class="nav-item" active-class="active">
+            <i class="fas fa-store"></i> Sellers
+          </router-link>
+        </div>
+
+        <!-- Finance -->
+        <div class="nav-section">
+          <div class="nav-label">Finance</div>
+          <router-link to="/superadmin/transactions" class="nav-item" active-class="active">
+            <i class="fas fa-exchange-alt"></i> Transactions
+          </router-link>
+          <router-link to="/superadmin/wallets" class="nav-item" active-class="active">
+            <i class="fas fa-wallet"></i> Wallets
+          </router-link>
+          <router-link to="/superadmin/withdrawals" class="nav-item" active-class="active">
+            <i class="fas fa-money-bill-wave"></i> Withdrawals
+          </router-link>
+          <router-link to="/superadmin/recharges" class="nav-item" active-class="active">
+            <i class="fas fa-credit-card"></i> Recharges
+          </router-link>
+        </div>
+
+        <!-- Content -->
+        <div class="nav-section">
+          <div class="nav-label">Content</div>
+          <router-link to="/superadmin/banners" class="nav-item" active-class="active">
+            <i class="fas fa-image"></i> Banners
+          </router-link>
+          <router-link to="/superadmin/coupons" class="nav-item" active-class="active">
+            <i class="fas fa-ticket-alt"></i> Coupons
+          </router-link>
+          <router-link to="/superadmin/notifications" class="nav-item" active-class="active">
+            <i class="fas fa-bell"></i> Notifications
+          </router-link>
+        </div>
+
+        <!-- Communication -->
+        <div class="nav-section">
+          <div class="nav-label">Communication</div>
+          <router-link to="/superadmin/chat" class="nav-item" active-class="active">
+            <i class="fas fa-comments"></i> Chat
+          </router-link>
+          <router-link to="/superadmin/messages" class="nav-item" active-class="active">
+            <i class="fas fa-envelope"></i> Messages
+          </router-link>
+        </div>
+
+        <!-- Reports -->
+        <div class="nav-section">
+          <div class="nav-label">Reports</div>
+          <router-link to="/superadmin/reports/sales" class="nav-item" active-class="active">
+            <i class="fas fa-chart-line"></i> Sales Report
+          </router-link>
+          <router-link to="/superadmin/reports/products" class="nav-item" active-class="active">
+            <i class="fas fa-chart-bar"></i> Product Report
+          </router-link>
+          <router-link to="/superadmin/reports/customers" class="nav-item" active-class="active">
+            <i class="fas fa-chart-pie"></i> Customer Report
+          </router-link>
+        </div>
+
+        <!-- System -->
+        <div class="nav-section">
+          <div class="nav-label">System</div>
+          <router-link to="/superadmin/settings" class="nav-item" active-class="active">
+            <i class="fas fa-cogs"></i> Settings
+          </router-link>
+          <router-link to="/superadmin/audit-logs" class="nav-item" active-class="active">
+            <i class="fas fa-history"></i> Audit Logs
+          </router-link>
+          <router-link to="/superadmin/security" class="nav-item" active-class="active">
+            <i class="fas fa-shield-alt"></i> Security
+          </router-link>
+          <router-link to="/superadmin/feature-flags" class="nav-item" active-class="active">
+            <i class="fas fa-flag"></i> Feature Flags
+          </router-link>
+          <router-link to="/superadmin/ip-logs" class="nav-item" active-class="active">
+            <i class="fas fa-network-wired"></i> IP Logs
+          </router-link>
+        </div>
+
+        <!-- Tools -->
+        <div class="nav-section">
+          <div class="nav-label">Tools</div>
+          <router-link to="/superadmin/blockchain" class="nav-item" active-class="active">
+            <i class="fas fa-link"></i> Blockchain
+          </router-link>
+          <router-link to="/superadmin/scraper" class="nav-item" active-class="active">
+            <i class="fas fa-spider"></i> Scraper
+          </router-link>
+          <router-link to="/superadmin/logs" class="nav-item" active-class="active">
+            <i class="fas fa-file-alt"></i> System Logs
+          </router-link>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-section">
+          <div class="nav-label">Navigation</div>
+          <router-link to="/admin" class="nav-item">
+            <i class="fas fa-arrow-left"></i> Admin Panel
+          </router-link>
+          <router-link to="/" class="nav-item">
+            <i class="fas fa-home"></i> Main Site
+          </router-link>
+        </div>
       </nav>
       <div class="sidebar-footer">
         <div class="user-info">
@@ -59,16 +162,17 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 
 <style scoped>
 .sa-layout { display: flex; min-height: 100vh; background: #f5f6fa; }
-.sa-sidebar { width: 260px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: #fff; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; }
+.sa-sidebar { width: 260px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: #fff; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; overflow-y: auto; }
 .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .sidebar-logo { width: 32px; height: 32px; }
 .sidebar-title { font-size: 16px; font-weight: 700; color: #f39c12; }
-.sidebar-nav { flex: 1; padding: 12px; overflow-y: auto; }
-.nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; margin-bottom: 4px; transition: all 0.2s; }
+.sidebar-nav { flex: 1; padding: 12px; }
+.nav-section { margin-bottom: 8px; }
+.nav-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 8px 16px 4px; letter-spacing: 1px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 8px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; margin-bottom: 2px; transition: all 0.2s; }
 .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
 .nav-item.active { background: #6c5ce7; color: #fff; font-weight: 600; }
-.nav-item i { width: 20px; text-align: center; }
-.nav-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 12px 0; }
+.nav-item i { width: 20px; text-align: center; font-size: 14px; }
 .sidebar-footer { padding: 16px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; }
 .user-info { display: flex; align-items: center; gap: 10px; }
 .crown-icon { color: #f39c12; font-size: 20px; }
@@ -77,4 +181,5 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .logout-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 16px; padding: 8px; border-radius: 6px; }
 .logout-btn:hover { background: rgba(255,255,255,0.1); color: #ff7675; }
 .sa-main { flex: 1; margin-left: 260px; min-height: 100vh; }
+@media (max-width: 1023px) { .sa-sidebar { width: 60px; } .sidebar-title, .nav-label, .nav-item span, .user-info div { display: none; } .nav-item { justify-content: center; padding: 10px; } .nav-item i { width: auto; } .sa-main { margin-left: 60px; } }
 </style>

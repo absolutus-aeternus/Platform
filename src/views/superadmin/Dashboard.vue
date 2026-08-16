@@ -22,30 +22,33 @@
     <div class="section-card">
       <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
       <div class="quick-actions">
-        <button class="qa-btn" @click="$router.push('/admin/users')"><i class="fas fa-users-cog"></i> Manage Users</button>
-        <button class="qa-btn" @click="$router.push('/admin/settings')"><i class="fas fa-cogs"></i> System Settings</button>
-        <button class="qa-btn" @click="$router.push('/admin/audit-logs')"><i class="fas fa-history"></i> Audit Logs</button>
-        <button class="qa-btn" @click="$router.push('/admin/security')"><i class="fas fa-shield-alt"></i> Security Center</button>
-        <button class="qa-btn" @click="$router.push('/admin/feature-flags')"><i class="fas fa-flag"></i> Feature Flags</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/users')"><i class="fas fa-users-cog"></i> Users</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/products')"><i class="fas fa-box"></i> Products</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/categories')"><i class="fas fa-tags"></i> Categories</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/sellers')"><i class="fas fa-store"></i> Sellers</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/transactions')"><i class="fas fa-exchange-alt"></i> Transactions</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/settings')"><i class="fas fa-cogs"></i> Settings</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/audit-logs')"><i class="fas fa-history"></i> Audit Logs</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/security')"><i class="fas fa-shield-alt"></i> Security</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/feature-flags')"><i class="fas fa-flag"></i> Features</button>
+        <button class="qa-btn" @click="$router.push('/superadmin/ip-logs')"><i class="fas fa-network-wired"></i> IP Logs</button>
         <button class="qa-btn" @click="clearCache"><i class="fas fa-broom"></i> Clear Cache</button>
       </div>
     </div>
 
-    <!-- Recent Users -->
+    <!-- Recent Activity -->
     <div class="section-card">
-      <h3><i class="fas fa-user-clock"></i> Recent Users</h3>
+      <h3><i class="fas fa-clock"></i> Recent Activity</h3>
       <div class="table-wrap">
         <table class="sa-table">
-          <thead><tr><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
           <tbody>
-            <tr v-for="u in recentUsers" :key="u.id">
-              <td>{{ u.email }}</td>
-              <td><span class="role-badge" :class="u.role?.toLowerCase()">{{ u.role }}</span></td>
-              <td>{{ formatDate(u.created_at) }}</td>
-              <td>
-                <button class="btn-sm" @click="editUser(u)"><i class="fas fa-edit"></i></button>
-                <button class="btn-sm btn-danger" @click="deleteUser(u)" v-if="u.role !== 'SUPER_ADMIN'"><i class="fas fa-trash"></i></button>
-              </td>
+            <tr v-for="log in recentLogs" :key="log.id">
+              <td>{{ formatDate(log.created_at) }}</td>
+              <td>{{ log.email || 'System' }}</td>
+              <td>{{ log.action || log.login_type || '-' }}</td>
+              <td>{{ log.ip_address || '-' }}</td>
             </tr>
           </tbody>
         </table>
@@ -56,21 +59,9 @@
     <div class="section-card">
       <h3><i class="fas fa-heartbeat"></i> System Health</h3>
       <div class="health-grid">
-        <div class="health-item">
-          <span class="health-label">API Status</span>
-          <span class="health-status ok"><i class="fas fa-check-circle"></i> Online</span>
-        </div>
-        <div class="health-item">
-          <span class="health-label">Database</span>
-          <span class="health-status ok"><i class="fas fa-check-circle"></i> Connected</span>
-        </div>
-        <div class="health-item">
-          <span class="health-label">Storage (B2)</span>
-          <span class="health-status ok"><i class="fas fa-check-circle"></i> Active</span>
-        </div>
-        <div class="health-item">
-          <span class="health-label">Redis</span>
-          <span class="health-status ok"><i class="fas fa-check-circle"></i> Active</span>
+        <div class="health-item" v-for="h in healthChecks" :key="h.label">
+          <span class="health-label">{{ h.label }}</span>
+          <span class="health-status" :class="h.status"><i :class="h.icon"></i> {{ h.text }}</span>
         </div>
       </div>
     </div>
@@ -82,39 +73,42 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const stats = ref([])
-const recentUsers = ref([])
+const recentLogs = ref([])
+const healthChecks = ref([
+  { label: 'API Status', status: 'ok', icon: 'fas fa-check-circle', text: 'Online' },
+  { label: 'Database', status: 'ok', icon: 'fas fa-check-circle', text: 'Connected' },
+  { label: 'Storage (B2)', status: 'ok', icon: 'fas fa-check-circle', text: 'Active' },
+  { label: 'Redis', status: 'ok', icon: 'fas fa-check-circle', text: 'Active' },
+  { label: 'Algolia', status: 'ok', icon: 'fas fa-check-circle', text: 'Indexed' },
+  { label: 'Worker', status: 'ok', icon: 'fas fa-check-circle', text: 'Deployed' },
+])
 
 const loadStats = async () => {
-  const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true })
-  const { count: products } = await supabase.from('products').select('*', { count: 'exact', head: true })
-  const { count: orders } = await supabase.from('orders').select('*', { count: 'exact', head: true })
-  const { count: sellers } = await supabase.from('sellers').select('*', { count: 'exact', head: true })
-  const { count: categories } = await supabase.from('categories').select('*', { count: 'exact', head: true })
-
+  const counts = {}
+  for (const table of ['users', 'products', 'orders', 'sellers', 'categories']) {
+    const { count } = await supabase.from(table).select('*', { count: 'exact', head: true })
+    counts[table] = count || 0
+  }
   stats.value = [
-    { label: 'Total Users', value: users || 0, icon: 'fas fa-users', color: '#6c5ce7' },
-    { label: 'Products', value: products || 0, icon: 'fas fa-box', color: '#00b894' },
-    { label: 'Orders', value: orders || 0, icon: 'fas fa-shopping-bag', color: '#e17055' },
-    { label: 'Sellers', value: sellers || 0, icon: 'fas fa-store', color: '#0984e3' },
-    { label: 'Categories', value: categories || 0, icon: 'fas fa-tags', color: '#fd79a8' },
+    { label: 'Total Users', value: counts.users, icon: 'fas fa-users', color: '#6c5ce7' },
+    { label: 'Products', value: counts.products, icon: 'fas fa-box', color: '#00b894' },
+    { label: 'Orders', value: counts.orders, icon: 'fas fa-shopping-bag', color: '#e17055' },
+    { label: 'Sellers', value: counts.sellers, icon: 'fas fa-store', color: '#0984e3' },
+    { label: 'Categories', value: counts.categories, icon: 'fas fa-tags', color: '#fd79a8' },
   ]
 }
 
-const loadUsers = async () => {
-  const { data } = await supabase.from('users').select('id,email,role,created_at').order('created_at', { ascending: false }).limit(10)
-  recentUsers.value = data || []
+const loadLogs = async () => {
+  const { data } = await supabase.from('system_params').select('*').like('code', 'ip_log_%').order('created_at', { ascending: false }).limit(5)
+  recentLogs.value = (data || []).map(d => {
+    try { return { id: d.id, ...JSON.parse(d.value), created_at: d.created_at } } catch { return d }
+  })
 }
 
-const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'
-const editUser = (u) => { /* TODO: modal */ }
-const deleteUser = async (u) => {
-  if (!confirm('Delete ' + u.email + '?')) return
-  await supabase.from('users').delete().eq('id', u.id)
-  loadUsers()
-}
+const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
 const clearCache = () => { localStorage.clear(); alert('Cache cleared!') }
 
-onMounted(() => { loadStats(); loadUsers() })
+onMounted(() => { loadStats(); loadLogs() })
 </script>
 
 <style scoped>
@@ -131,22 +125,13 @@ onMounted(() => { loadStats(); loadUsers() })
 .section-card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
 .section-card h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .section-card h3 i { color: #6c5ce7; }
-.quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-.qa-btn { padding: 14px; border: 2px solid #e8e8e8; border-radius: 10px; background: #fff; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s; color: #444; }
+.quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.qa-btn { padding: 14px; border: 2px solid #e8e8e8; border-radius: 10px; background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s; color: #444; }
 .qa-btn:hover { border-color: #6c5ce7; color: #6c5ce7; background: #f8f7ff; }
 .table-wrap { overflow-x: auto; }
 .sa-table { width: 100%; border-collapse: collapse; }
 .sa-table th { text-align: left; padding: 10px 12px; background: #f8f9fa; font-size: 12px; color: #666; text-transform: uppercase; }
 .sa-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
-.role-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-.role-badge.member { background: #dfe6e9; color: #636e72; }
-.role-badge.seller { background: #dfe6e9; color: #0984e3; }
-.role-badge.admin { background: #ffeaa7; color: #d35400; }
-.role-badge.super_admin { background: #fdcb6e; color: #e17055; }
-.btn-sm { padding: 6px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #f0f0f0; color: #444; margin-right: 4px; }
-.btn-sm:hover { background: #6c5ce7; color: #fff; }
-.btn-danger { background: #ff7675; color: #fff; }
-.btn-danger:hover { background: #d63031; }
 .health-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
 .health-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; }
 .health-label { font-size: 13px; color: #666; }
