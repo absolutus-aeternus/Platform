@@ -270,5 +270,6 @@ export default {
 };
 
 function json(data, headers = {}) {
-  return new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json', ...headers } });
+  const { status = 200, ...rest } = headers;
+  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', ...rest } });
 }
