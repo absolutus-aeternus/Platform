@@ -25,12 +25,12 @@
           <!-- Image Gallery -->
           <div class="product-gallery">
             <div class="main-image">
-              <img v-if="product.images?.[0]" :src="product.images[0]" :alt="product.name">
+              <img v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name">
               <div v-else class="img-placeholder">{{ product.name?.[0] || 'P' }}</div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
             </div>
             <div class="thumb-row" v-if="product.images?.length > 1">
-              <img v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: i === 0 }" alt="AllianceHub">
+              <img v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: selectedImage === i }" @click="selectedImage = i" :alt="product.name + ' image ' + (i+1)">
             </div>
           </div>
 
@@ -112,7 +112,41 @@
         <div class="tab-content">
           <div v-if="tab === 'detail'" class="detail-content">
             <h3>Description</h3>
-            <p>{{ product.description || 'No description available.' }}</p>
+            <p style="line-height:1.8;color:#555">{{ product.description || 'No description available.' }}</p>
+            
+            <!-- Specifications -->
+            <div v-if="product.specs && Object.keys(product.specs).length > 0" style="margin-top:24px">
+              <h3 style="margin-bottom:16px;font-size:18px">Specifications</h3>
+              <table style="width:100%;border-collapse:collapse;font-size:14px">
+                <tr v-for="(val, key) in product.specs" :key="key" style="border-bottom:1px solid #f0f0f0">
+                  <td style="padding:12px 16px;color:#999;width:40%;background:#fafafa;font-weight:500">{{ key }}</td>
+                  <td style="padding:12px 16px;color:#333">{{ val }}</td>
+                </tr>
+              </table>
+            </div>
+            
+            <!-- Key Features -->
+            <div style="margin-top:24px">
+              <h3 style="margin-bottom:16px;font-size:18px">Key Features</h3>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
+                  <i class="fas fa-truck" style="color:#ee4d2d;font-size:18px"></i>
+                  <div><div style="font-weight:600;font-size:13px">Free Shipping</div><div style="font-size:11px;color:#999">2-7 business days</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
+                  <i class="fas fa-shield-alt" style="color:#ee4d2d;font-size:18px"></i>
+                  <div><div style="font-weight:600;font-size:13px">Buyer Protection</div><div style="font-size:11px;color:#999">Full refund if not as described</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
+                  <i class="fas fa-undo" style="color:#ee4d2d;font-size:18px"></i>
+                  <div><div style="font-weight:600;font-size:13px">Easy Returns</div><div style="font-size:11px;color:#999">30-day return policy</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:#f8f9fa;border-radius:8px">
+                  <i class="fas fa-headset" style="color:#ee4d2d;font-size:18px"></i>
+                  <div><div style="font-weight:600;font-size:13px">24/7 Support</div><div style="font-size:11px;color:#999">Online customer service</div></div>
+                </div>
+              </div>
+            </div>
           </div>
           <div v-if="tab === 'reviews'" class="reviews-content">
             <div v-if="reviews.length === 0" class="empty-reviews">
@@ -147,6 +181,7 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const tab = ref('detail')
+const selectedImage = ref(0)
 const quantity = ref(1)
 const product = ref(null)
 const reviews = ref([])
