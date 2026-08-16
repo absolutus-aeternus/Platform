@@ -23,6 +23,7 @@
           <div class="form-group">
             <label>Role</label>
             <select v-model="newAdmin.role">
+              <option value="SUPER_ADMIN">Super Admin</option>
               <option value="ADMIN">Admin</option>
               <option value="SELLER">Seller</option>
               <option value="MEMBER">Member</option>
