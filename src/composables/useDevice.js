@@ -10,8 +10,8 @@ export function useDevice() {
   const screenHeight = ref(window.innerHeight)
   
   // Breakpoints using matchMedia
-  const isMobile = ref(window.matchMedia('(max-width: 639px)').matches)
-  const isTablet = ref(window.matchMedia('(min-width: 640px) and (max-width: 1023px)').matches)
+  const isMobile = ref(window.matchMedia('(max-width: 768px)').matches)
+  const isTablet = ref(window.matchMedia('(min-width: 769px) and (max-width: 1023px)').matches)
   const isDesktop = ref(window.matchMedia('(min-width: 1024px)').matches)
   const isLargeDesktop = ref(window.matchMedia('(min-width: 1280px)').matches)
   
@@ -59,8 +59,8 @@ export function useDevice() {
   })
   
   // Media queries for listeners
-  const mobileQuery = window.matchMedia('(max-width: 639px)')
-  const tabletQuery = window.matchMedia('(min-width: 640px) and (max-width: 1023px)')
+  const mobileQuery = window.matchMedia('(max-width: 768px)')
+  const tabletQuery = window.matchMedia('(min-width: 769px) and (max-width: 1023px)')
   const desktopQuery = window.matchMedia('(min-width: 1024px)')
   const largeQuery = window.matchMedia('(min-width: 1280px)')
   const portraitQuery = window.matchMedia('(orientation: portrait)')

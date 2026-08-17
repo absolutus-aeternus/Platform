@@ -143,3 +143,10 @@ h4 { font-size: 1rem; font-weight: 600; line-height: 1.5; }
 .global-toast.info { background: linear-gradient(135deg, #17a2b8, #6f42c1); }
 
 @media print { .header, .footer, .chat-widget { display: none !important; } body { background: #fff; } }
+
+/* Mobile: prevent iOS zoom on input focus (font-size must be >= 16px) */
+@media (max-width: 768px) {
+  input, textarea, select, .form-input {
+    font-size: 16px !important;
+  }
+}
