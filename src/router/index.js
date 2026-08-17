@@ -202,7 +202,7 @@ router.beforeEach(async (to, from, next) => {
     try {
       const result = await Promise.race([
         supabase.auth.getSession(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 5000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 3000))
       ])
       session = result?.data?.session
       break

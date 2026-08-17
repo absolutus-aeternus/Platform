@@ -7,7 +7,7 @@ export default {
     const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
     const origin = request.headers.get('Origin');
     const corsHeaders = {
-      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.pages.dev',
+      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.dpdns.org',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key',
     };
