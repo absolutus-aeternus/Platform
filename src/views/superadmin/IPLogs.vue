@@ -219,6 +219,26 @@ onMounted(loadLogs)
 .map-link { color: #6c5ce7; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .map-link:hover { text-decoration: underline; }
 
-@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header { flex-direction: column; align-items: flex-start; }
+  .sa-header h1 { font-size: 20px; }
+  .header-actions { width: 100%; }
+  .header-actions button { flex: 1; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .filters { flex-direction: column; }
+  .filter-input { width: 100%; min-width: 0; }
+  .filter-select { width: 100%; }
+  .section-card { padding: 12px; }
+  .sa-table { min-width: 900px; }
+  .detail-grid { grid-template-columns: 1fr; padding: 16px; }
+  .modal { margin: 10px; }
+}
+@media (max-width: 480px) {
+  .sa-page { padding: 12px; }
+  .sa-header h1 { font-size: 18px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-box { padding: 12px; }
+  .stat-num { font-size: 22px; }
+}
 </style>

@@ -106,7 +106,7 @@ const loadLogs = async () => {
 }
 
 const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
-const clearCache = () => { localStorage.clear(); alert('Cache cleared!') }
+const clearCache = () => { localStorage.clear(); window.__toast?.show('Cache cleared!', 'success') }
 
 onMounted(() => { loadStats(); loadLogs() })
 </script>

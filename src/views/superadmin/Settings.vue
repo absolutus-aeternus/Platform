@@ -63,7 +63,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const settings = ref({
-  siteName: 'AllianceHub', siteUrl: 'https://alliancehub.pages.dev',
+  siteName: 'AllianceHub', siteUrl: 'https://alliancehub.dpdns.org',
   supportEmail: 'support@alliancehub.com', language: 'English',
   maintenance: false, registration: true, guestBrowsing: true,
   maxProducts: 1000, maxUpload: 10, rateLimit: 60,
@@ -86,7 +86,7 @@ const saveSettings = async () => {
   for (const [k, v] of Object.entries(settings.value)) {
     await supabase.from('system_params').upsert({ code: k, value: JSON.stringify(v) }, { onConflict: 'code' })
   }
-  alert('Settings saved!')
+  window.__toast?.show('Settings saved!', 'success')
 }
 
 onMounted(loadSettings)
@@ -109,6 +109,17 @@ onMounted(loadSettings)
 .toggle-off { padding: 6px 16px; border: none; border-radius: 20px; background: #ddd; color: #666; font-weight: 700; cursor: pointer; }
 .btn-primary { padding: 10px 20px; background: #6c5ce7; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .sa-header h1 { font-size: 20px; }
+  .settings-grid { grid-template-columns: 1fr; }
+  .section-card { padding: 16px; }
+  .form-group input, .form-group select, .form-group textarea { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .sa-page { padding: 12px; }
+  .sa-header h1 { font-size: 18px; }
+  .toggle-group { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
 </style>

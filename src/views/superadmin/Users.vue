@@ -108,13 +108,13 @@ const createUser = async () => {
   const { error } = await supabase.auth.admin.createUser({
     email: newUser.value.email, password: newUser.value.password, email_confirm: true
   })
-  if (error) { alert(error.message); return }
-  // Set role
+  if (error) { window.__toast?.show(error.message, 'error'); return }
   const { data: u } = await supabase.from('users').select('id').eq('email', newUser.value.email).single()
   if (u) await supabase.from('users').update({ role: newUser.value.role }).eq('id', u.id)
   showAdd.value = false
   newUser.value = { email: '', password: '', role: 'MEMBER' }
   loadUsers()
+  window.__toast?.show('User created successfully!', 'success')
 }
 
 const deleteUser = async (u) => {
@@ -127,7 +127,7 @@ const resetPassword = async (u) => {
   const pw = prompt('New password for ' + u.email + ':')
   if (!pw || pw.length < 6) return
   await supabase.auth.admin.updateUserById(u.id, { password: pw })
-  alert('Password updated!')
+  window.__toast?.show('Password updated!', 'success')
 }
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'
@@ -171,6 +171,23 @@ onMounted(loadUsers)
 .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
 .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
 
-@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .sa-header h1 { font-size: 20px; }
+  .filters { flex-direction: column; }
+  .filter-input { width: 100%; }
+  .filter-select { width: 100%; }
+  .section-card { padding: 16px; }
+  .sa-table { min-width: 600px; }
+  .role-select { font-size: 11px; padding: 3px 6px; }
+  .btn-sm { padding: 5px 8px; font-size: 11px; }
+  .modal { padding: 24px; }
+}
+@media (max-width: 480px) {
+  .sa-page { padding: 12px; }
+  .sa-header h1 { font-size: 18px; }
+  .pagination { flex-wrap: wrap; gap: 8px; }
+  .pagination button { padding: 6px 12px; font-size: 12px; }
+}
 </style>
