@@ -303,7 +303,7 @@ const saveToSupabase = async () => {
     if (err) throw err
     
     scrapedProduct.value.saved = true
-    alert('Product saved to database!')
+    window.__toast?.show('Product saved!', 'success')
   } catch (e) {
     error.value = 'Failed to save: ' + e.message
   }

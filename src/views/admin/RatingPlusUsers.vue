@@ -87,12 +87,12 @@ const loadUsers = async () => {
 }
 
 const updateStatus = async (user, newStatus) => {
-  try { await updateRplusUser(user.id, { status: newStatus }); user.status = newStatus } catch (e) { alert('Failed') }
+  try { await updateRplusUser(user.id, { status: newStatus }); user.status = newStatus } catch (e) { window.__toast?.show('Operation failed', 'error') }
 }
 
 const removeUser = async (user) => {
   if (!confirm(`Delete ${user.email}?`)) return
-  try { await deleteRplusUser(user.id); users.value = users.value.filter(u => u.id !== user.id) } catch (e) { alert('Failed') }
+  try { await deleteRplusUser(user.id); users.value = users.value.filter(u => u.id !== user.id) } catch (e) { window.__toast?.show('Operation failed', 'error') }
 }
 
 onMounted(loadUsers)

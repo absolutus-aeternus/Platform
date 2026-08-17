@@ -103,12 +103,12 @@ const sendMessage = async () => {
     messages.value.push({ id: Date.now(), sender_id: 'admin', message: text, created_at: new Date().toISOString() })
     await nextTick()
     if (messagesRef.value) messagesRef.value.scrollTop = messagesRef.value.scrollHeight
-  } catch (e) { alert('Failed to send') }
+  } catch (e) { window.__toast?.show('Failed to send', 'error') }
 }
 
 const approveUser = async () => {
   if (!selectedUser.value) return
-  try { await updateRplusUser(selectedUser.value.id, { status: 'approved' }); selectedUser.value.status = 'approved' } catch (e) { alert('Failed') }
+  try { await updateRplusUser(selectedUser.value.id, { status: 'approved' }); selectedUser.value.status = 'approved' } catch (e) { window.__toast?.show('Operation failed', 'error') }
 }
 
 onMounted(loadChatters)

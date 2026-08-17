@@ -39,7 +39,7 @@
           </div>
           <div class="modal-actions">
             <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button type="submit" class="btn-save">Send</button>
+            <button type="submit" class="btn-save" :disabled="saving" aria-label="Send">{{ saving ? "Sending..." : "Send" }}</button>
           </div>
         </form>
       </div>
@@ -52,6 +52,7 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const loading = ref(true)
+const saving = ref(false)
 const notifications = ref([])
 const search = ref('')
 const typeFilter = ref('')
@@ -73,6 +74,7 @@ const load = async () => {
   loading.value = false
 }
 const sendNotification = async () => {
+  saving.value = true
   if (form.value.target === 'all') {
     const { data: users } = await supabase.from('users').select('id').limit(1000)
     for (const u of users || []) {
@@ -84,9 +86,11 @@ const sendNotification = async () => {
   showModal.value = false
   form.value = { title: '', message: '', type: 'info', target: 'all' }
   await load()
+  saving.value = false
   window.__toast?.show('Notification sent!')
 }
 const deleteNotification = async (n) => { if (!confirm('Delete?')) return; await supabase.from('notifications').delete().eq('id', n.id); await load() }
+  saving.value = false
 onMounted(load)
 </script>
 

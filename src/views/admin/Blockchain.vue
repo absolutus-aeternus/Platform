@@ -38,7 +38,7 @@
           <div class="form-group"><label><input type="checkbox" v-model="form.is_active"> Active</label></div>
           <div class="modal-actions">
             <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button type="submit" class="btn-save">Save</button>
+            <button type="submit" class="btn-save" :disabled="saving" aria-label="Save">{{ saving ? "Saving..." : "Save" }}</button>
           </div>
         </form>
       </div>
@@ -51,6 +51,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const loading = ref(true)
+const saving = ref(false)
 const channels = ref([])
 const showModal = ref(false)
 const editing = ref(null)
@@ -70,12 +71,16 @@ const openModal = (ch) => {
   showModal.value = true
 }
 const saveChannel = async () => {
+  saving.value = true
   if (editing.value) await supabase.from('blockchain_channels').update(form.value).eq('id', editing.value.id)
   else await supabase.from('blockchain_channels').insert(form.value)
   showModal.value = false; await load()
+  saving.value = false
 }
 const toggleActive = async (ch) => { await supabase.from('blockchain_channels').update({ is_active: !ch.is_active }).eq('id', ch.id); await load() }
+  saving.value = false
 const deleteChannel = async (ch) => { if (!confirm('Delete channel?')) return; await supabase.from('blockchain_channels').delete().eq('id', ch.id); await load() }
+  saving.value = false
 onMounted(load)
 </script>
 

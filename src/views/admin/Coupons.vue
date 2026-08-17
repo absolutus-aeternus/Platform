@@ -46,7 +46,7 @@
           <div class="form-group"><label>Expires At</label><input v-model="form.expires_at" type="date"></div>
           <div class="modal-actions">
             <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button type="submit" class="btn-save">Create</button>
+            <button type="submit" class="btn-save" :disabled="saving" aria-label="Create">{{ saving ? "Creating..." : "Create" }}</button>
           </div>
         </form>
       </div>
@@ -59,6 +59,7 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const loading = ref(true)
+const saving = ref(false)
 const coupons = ref([])
 const search = ref('')
 const typeFilter = ref('')
@@ -79,13 +80,17 @@ const load = async () => {
   loading.value = false
 }
 const createCoupon = async () => {
+  saving.value = true
   try { await supabase.from('coupons').insert({ ...form.value, is_active: true, used_count: 0 }) } catch(_e) { console.error('Coupons.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   showModal.value = false
   form.value = { code: '', type: 'percentage', value: 0, min_order: 0, max_usage: 100, expires_at: '' }
   await load()
+  saving.value = false
 }
 const toggleActive = async (c) => { await supabase.from('coupons').update({ is_active: !c.is_active }).eq('id', c.id); await load() }
+  saving.value = false
 const deleteCoupon = async (c) => { if (!confirm(`Delete "${c.code}"?`)) return; await supabase.from('coupons').delete().eq('id', c.id); await load() }
+  saving.value = false
 onMounted(load)
 </script>
 
