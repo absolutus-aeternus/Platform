@@ -49,4 +49,10 @@ const downloadFile = (dl) => {
 .dl-info h3 { margin: 0 0 4px; font-size: 14px; }
 .dl-info p { margin: 0; font-size: 12px; color: #999; }
 .btn-download { padding: 8px 16px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+@media (max-width: 768px) {
+  .download-card { flex-wrap: wrap; gap: 10px; padding: 14px; }
+  .dl-icon { width: 40px; height: 40px; font-size: 16px; }
+  .dl-info h3 { font-size: 13px; }
+  .btn-download { width: 100%; text-align: center; }
+}
 </style>

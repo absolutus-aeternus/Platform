@@ -69,4 +69,10 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-danger:hover { border-color: #dc3545; color: #dc3545; }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .page-header h1 { font-size: 1.25rem; }
+  .filters { flex-direction: column; }
+  .filters input, .filters select { width: 100%; }
+}
 </style>
