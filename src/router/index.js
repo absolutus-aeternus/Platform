@@ -143,7 +143,7 @@ const routes = [
   {
     path: '/admin',
     component: () => import('@/layouts/AdminLayout.vue'),
-    meta: { requiresAuth: true, requiresAdmin: true, requiresSuperAdmin: true },
+    meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       { path: '', name: 'AdminDashboard', component: () => import('@/views/admin/Dashboard.vue') },
       { path: 'manage-admins', name: 'ManageAdmins', component: () => import('@/views/admin/ManageAdmins.vue'), meta: { requiresAuth: true, requiresSuperAdmin: true } },
@@ -230,24 +230,30 @@ router.beforeEach(async (to, from, next) => {
     if (!store.role) await store.fetchRole()
     const role = store.role
 
-    // Seller portal: only SELLER
-        // RatingPlus portal: only RATING_PLUS
-    if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS') {
-      return next(role === 'ADMIN' ? '/admin' : role === 'SUPER_ADMIN' ? '/superadmin' : role === 'SELLER' ? '/seller' : '/user')
+    // ── Portal access enforcement ──
+    // Priority: SuperAdmin > Admin > Seller > RatingPlus > Member
+
+    // SuperAdmin portal: ONLY SUPER_ADMIN (not ADMIN)
+    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN') {
+      return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
     }
+
+    // RatingPlus portal: only RATING_PLUS (+ SUPER_ADMIN for testing)
+    if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS' && role !== 'SUPER_ADMIN') {
+      return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
+    }
+
+    // Seller portal: only SELLER (+ SUPER_ADMIN for testing)
     if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
       return next(role === 'ADMIN' ? '/admin' : '/user')
     }
 
-    // Admin portal: only ADMIN
-    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
-      return next(role === 'SELLER' ? '/seller' : '/user')
-    }
+    // Admin portal: ADMIN + SUPER_ADMIN
     if (to.meta.requiresAdmin && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
       return next(role === 'SELLER' ? '/seller' : '/user')
     }
 
-    // Member portal: only MEMBER
+    // Member portal: only MEMBER (+ SUPER_ADMIN for testing)
     if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
       return next(role === 'ADMIN' ? '/admin' : '/seller')
     }
