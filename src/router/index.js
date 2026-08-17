@@ -197,22 +197,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
-    // Strategi: Timeout 3 detik untuk getSession (mencegah white screen jika Supabase lambat)
-    let session = null
-    for (let attempt = 0; attempt < 2; attempt++) {
-      try {
-        const result = await Promise.race([
-          supabase.auth.getSession(),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 3000))
-        ])
-        session = result?.data?.session
-        break
-      } catch (e) {
-        if (attempt === 0) { await new Promise(r => setTimeout(r, 500)); continue }
-        console.warn('Auth check failed after retry, proceeding without session')
-      }
-    }
-    const isAuthenticated = !!session?.access_token
+    // Use cached session from store (instant, no network call)
+    const store = useUserStore()
+    const isAuthenticated = store.isLoggedIn && !!store.token
 
     // ── Auth required but not logged in → redirect to correct login ──
     if (to.meta.requiresAuth && !isAuthenticated) {
@@ -226,10 +213,7 @@ router.beforeEach(async (to, from, next) => {
 
     // ── If authenticated, enforce role-based access ──
     if (isAuthenticated) {
-      const store = useUserStore()
-      // Ensure role is loaded (cached in store after login/init)
-      if (!store.role) { try { await store.fetchRole() } catch (e) { console.warn('Router: fetchRole failed:', e.message) } }
-      const role = store.role
+      const role = store.role || 'MEMBER'
 
       // ── Portal access enforcement ──
       // Priority: SuperAdmin > Admin > Seller > RatingPlus > Member
