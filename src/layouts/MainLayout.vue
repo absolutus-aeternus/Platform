@@ -235,7 +235,6 @@
 </template>
 
 <script setup>
-const device = useDevice()
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -243,6 +242,8 @@ import { useUserStore } from '@/store/user'
 import { supabase, fetchCategories } from '@/services/supabase'
 import ChatWidget from '@/components/ChatWidget.vue'
 import { useDevice } from '@/composables/useDevice'
+
+const device = useDevice()
 
 const router = useRouter()
 const userStore = useUserStore()

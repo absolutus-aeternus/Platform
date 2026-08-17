@@ -265,11 +265,53 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-// After each navigation — sync data and update title
+// After each navigation — sync data, update title & meta
 router.afterEach((to) => {
-  // Update document title
+  // Page title mapping for better SEO
+  const titleMap = {
+    'Home': 'AllianceHub — Partner Global Dropshippers',
+    'Category': 'Shop by Category — AllianceHub',
+    'Search': 'Search Products — AllianceHub',
+    'ProductDetail': 'Product Details — AllianceHub',
+    'Cart': 'Shopping Cart — AllianceHub',
+    'Checkout': 'Checkout — AllianceHub',
+    'About': 'About Us — AllianceHub',
+    'Contact': 'Contact Us — AllianceHub',
+    'Help': 'Help Center — AllianceHub',
+    'Terms': 'Terms of Service — AllianceHub',
+    'Privacy': 'Privacy Policy — AllianceHub',
+    'Login': 'Sign In — AllianceHub',
+    'Register': 'Create Account — AllianceHub',
+    'Discounts': 'Today\'s Deals — AllianceHub',
+    'Blog': 'Blog — AllianceHub',
+    'HowToBuy': 'How to Buy — AllianceHub',
+    'ShippingInfo': 'Shipping Information — AllianceHub',
+    'PaymentMethods': 'Payment Methods — AllianceHub',
+    'Returns': 'Returns & Refunds — AllianceHub',
+    'TrackOrder': 'Track Your Order — AllianceHub',
+    'Comparison': 'Compare Products — AllianceHub',
+    'MerchantSettled': 'Sell on AllianceHub — AllianceHub',
+    'Store': 'Store — AllianceHub',
+    'AllReviews': 'Customer Reviews — AllianceHub',
+    'Information': 'Information — AllianceHub',
+    'CustomerService': 'Customer Service — AllianceHub',
+  }
+
   const pageName = to.name || to.path.split('/').pop()
-  document.title = `${pageName} — AllianceHub`
+  document.title = titleMap[pageName] || `${pageName} — AllianceHub`
+
+  // Update canonical URL dynamically
+  let canonical = document.querySelector('link[rel="canonical"]')
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    document.head.appendChild(canonical)
+  }
+  canonical.href = `https://alliancehub.dpdns.org${to.fullPath}`
+
+  // Update og:url dynamically
+  let ogUrl = document.querySelector('meta[property="og:url"]')
+  if (ogUrl) ogUrl.content = `https://alliancehub.dpdns.org${to.fullPath}`
 
   // Emit navigation event for global sync
   if (window.__syncBus) {
