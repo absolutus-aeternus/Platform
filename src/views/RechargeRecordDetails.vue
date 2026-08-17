@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="padding:40px 20px;max-width:600px">
+  <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-file-invoice"></i> Recharge Details</h2>
     <div v-if="record" style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
       <div style="text-align:center;margin-bottom:24px"><span class="status-badge" :class="record.status" style="font-size:16px;padding:8px 24px">{{ record.status.toUpperCase() }}</span></div>
@@ -15,6 +16,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -24,6 +26,7 @@ onMounted(async () => {
   try {
     const { data } = await supabase.from('recharges').select('*').eq('id', route.query.id).single()
     if (data) record.value = data
+  loading.value = false
   } catch (e) { console.error('Recharge details error:', e) }
 })
 </script>

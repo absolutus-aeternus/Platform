@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="padding:40px 20px">
+  <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-history"></i> Recharge History</h2>
     <div v-if="records.length" style="background:white;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0">
       <table class="data-table">
@@ -20,6 +21,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 const records = ref([])
@@ -27,6 +29,7 @@ onMounted(async () => {
   try {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) { const { data } = await supabase.from('recharges').select('*').eq('user_id', user.id).order('created_at', { ascending: false }); if (data) records.value = data }
+  loading.value = false
   } catch (e) { console.error('Recharge record error:', e) }
 })
 </script>

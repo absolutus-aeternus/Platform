@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="padding:40px 20px">
+  <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-star"></i> All Reviews</h2>
     <div v-if="reviews.length" style="display:flex;flex-direction:column;gap:16px">
       <div v-for="r in reviews" :key="r.id" style="background:white;padding:20px;border-radius:12px;border:1px solid #e2e8f0">
@@ -15,6 +16,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -24,6 +26,7 @@ onMounted(async () => {
   try {
     const { data } = await supabase.from('evaluations').select('*, users(email)').order('created_at', { ascending: false }).limit(50)
     if (data) reviews.value = data
+  loading.value = false
   } catch (e) { console.error('All reviews error:', e) }
 })
 </script>

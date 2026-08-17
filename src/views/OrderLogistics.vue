@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="padding:40px 20px">
+  <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-truck"></i> Order Logistics</h2>
     <div v-if="order" style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
       <div class="order-header">
@@ -16,6 +17,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -34,6 +36,7 @@ onMounted(async () => { try {
       { title: 'Delivered', desc: 'Order delivered', time: data.status === 'delivered' ? new Date(data.updated_at).toLocaleString() : 'Pending' },
     ]
   }
+  loading.value = false
 } catch (e) { console.error('Logistics error:', e) }
 })
 </script>
