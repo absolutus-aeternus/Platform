@@ -107,6 +107,7 @@
         <div class="product-tabs">
           <button :class="{ active: tab === 'detail' }" @click="tab = 'detail'">Product Details</button>
           <button :class="{ active: tab === 'reviews' }" @click="tab = 'reviews'">Reviews ({{ reviews.length }})</button>
+          <button :class="{ active: tab === 'comments' }" @click="tab = 'comments'">Comments ({{ comments.length }})</button>
         </div>
 
         <div class="tab-content">
@@ -165,6 +166,66 @@
               <p class="review-text">{{ r.comment }}</p>
             </div>
           </div>
+
+          <!-- Comments Tab -->
+          <div v-if="tab === 'comments'" class="comments-content">
+            <!-- Comment Input -->
+            <div class="comment-form">
+              <div class="comment-input-row">
+                <div class="comment-avatar">{{ userStore.username?.[0]?.toUpperCase() || 'G' }}</div>
+                <div class="comment-input-wrap">
+                  <textarea v-model="newComment" placeholder="Write a comment..." rows="2" maxlength="500"></textarea>
+                  <div class="comment-form-actions">
+                    <span class="char-count">{{ newComment.length }}/500</span>
+                    <button class="btn-post-comment" @click="postComment" :disabled="!newComment.trim() || postingComment">
+                      <i class="fas fa-paper-plane"></i> {{ postingComment ? 'Posting...' : 'Post' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comments List -->
+            <div v-if="comments.length === 0" class="empty-comments">
+              <i class="fas fa-comments"></i>
+              <p>No comments yet. Start the conversation!</p>
+            </div>
+            <div v-for="c in comments" :key="c.id" class="comment-item">
+              <div class="comment-avatar">{{ (c.username || 'U')[0].toUpperCase() }}</div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-user">{{ c.username || 'Anonymous' }}</span>
+                  <span class="comment-date">{{ formatCommentDate(c.created_at) }}</span>
+                </div>
+                <p class="comment-text">{{ c.text }}</p>
+                <div class="comment-actions">
+                  <button class="comment-like" @click="likeComment(c)" :class="{ liked: c.liked }">
+                    <i :class="c.liked ? 'fas fa-heart' : 'far fa-heart'"></i> {{ c.likes || 0 }}
+                  </button>
+                  <button class="comment-reply" @click="replyTo = c.id">
+                    <i class="fas fa-reply"></i> Reply
+                  </button>
+                </div>
+                <!-- Replies -->
+                <div v-if="c.replies?.length" class="comment-replies">
+                  <div v-for="r in c.replies" :key="r.id" class="reply-item">
+                    <div class="reply-avatar">{{ (r.username || 'U')[0].toUpperCase() }}</div>
+                    <div class="reply-body">
+                      <span class="reply-user">{{ r.username || 'Anonymous' }}</span>
+                      <span class="reply-text">{{ r.text }}</span>
+                      <span class="reply-date">{{ formatCommentDate(r.created_at) }}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Reply Input -->
+                <div v-if="replyTo === c.id" class="reply-form">
+                  <input v-model="replyText" placeholder="Write a reply..." maxlength="300" @keyup.enter="postReply(c)" />
+                  <button class="btn-reply" @click="postReply(c)" :disabled="!replyText.trim()">Reply</button>
+                  <button class="btn-cancel" @click="replyTo = null">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </template>
     </div>
@@ -175,7 +236,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { fetchProductById, fetchReviews } from '@/services/supabase'
+import { supabase, fetchProductById, fetchReviews } from '@/services/supabase'
 
 const route = useRoute()
 const router = useRouter()
@@ -185,9 +246,14 @@ const selectedImage = ref(0)
 const quantity = ref(1)
 const product = ref(null)
 const reviews = ref([])
+const comments = ref([])
 const loading = ref(true)
 const adding = ref(false)
 const isFav = ref(false)
+const newComment = ref('')
+const postingComment = ref(false)
+const replyTo = ref(null)
+const replyText = ref('')
 
 onMounted(async () => {
   try {
@@ -196,10 +262,78 @@ onMounted(async () => {
     if (data) {
       const { data: revData } = await fetchReviews(route.params.id)
       reviews.value = revData || []
+      // Load comments
+      try {
+        const { data: cData } = await supabase.from('product_comments').select('*').eq('product_id', route.params.id).order('created_at', { ascending: false }).limit(100)
+        comments.value = cData || []
+      } catch (e) { console.warn('Comments load error:', e.message) }
     }
   } catch (e) { console.error('Failed to load product:', e) }
   loading.value = false
 })
+
+const formatCommentDate = (d) => {
+  if (!d) return ''
+  const diff = Date.now() - new Date(d).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'just now'
+  if (mins < 60) return mins + 'm ago'
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return hrs + 'h ago'
+  const days = Math.floor(hrs / 24)
+  if (days < 7) return days + 'd ago'
+  return new Date(d).toLocaleDateString()
+}
+
+const postComment = async () => {
+  if (!newComment.value.trim()) return
+  if (!userStore.isLoggedIn) { router.push('/login'); return }
+  postingComment.value = true
+  try {
+    const { data, error } = await supabase.from('product_comments').insert({
+      product_id: route.params.id,
+      user_id: userStore.supabaseUser.id,
+      username: userStore.username || 'User',
+      text: newComment.value.trim(),
+      likes: 0
+    }).select().single()
+    if (!error && data) {
+      comments.value.unshift(data)
+      newComment.value = ''
+      window.__toast?.show('Comment posted!', 'success')
+    }
+  } catch (e) { console.warn('Post comment error:', e.message); window.__toast?.show('Failed to post comment', 'error') }
+  postingComment.value = false
+}
+
+const likeComment = async (c) => {
+  c.liked = !c.liked
+  c.likes = (c.likes || 0) + (c.liked ? 1 : -1)
+  try {
+    await supabase.from('product_comments').update({ likes: c.likes }).eq('id', c.id)
+  } catch (e) { console.warn('Like comment error:', e.message) }
+}
+
+const postReply = async (c) => {
+  if (!replyText.value.trim()) return
+  if (!userStore.isLoggedIn) { router.push('/login'); return }
+  try {
+    const { data, error } = await supabase.from('product_comments').insert({
+      product_id: route.params.id,
+      user_id: userStore.supabaseUser.id,
+      username: userStore.username || 'User',
+      text: replyText.value.trim(),
+      parent_id: c.id,
+      likes: 0
+    }).select().single()
+    if (!error && data) {
+      if (!c.replies) c.replies = []
+      c.replies.push(data)
+      replyText.value = ''
+      replyTo.value = null
+    }
+  } catch (e) { console.warn('Post reply error:', e.message) }
+}
 
 const addToCart = async () => {
   if (!userStore.isLoggedIn) { router.push('/login'); return }
@@ -302,6 +436,47 @@ const chatSeller = () => {
 .review-stars { color: #ffc107; font-size: 11px; }
 .review-date { font-size: 12px; color: #999; }
 .review-text { font-size: 14px; color: #555; line-height: 1.6; }
+
+/* Comments */
+.comments-content { margin-top: 0; }
+.comment-form { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+.comment-input-row { display: flex; gap: 12px; }
+.comment-avatar { width: 40px; height: 40px; background: var(--primary, #FF9900); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+.comment-input-wrap { flex: 1; }
+.comment-input-wrap textarea { width: 100%; padding: 12px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; resize: vertical; min-height: 60px; font-family: inherit; box-sizing: border-box; }
+.comment-input-wrap textarea:focus { outline: none; border-color: var(--primary, #FF9900); }
+.comment-form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.char-count { font-size: 12px; color: #999; }
+.btn-post-comment { padding: 8px 20px; background: var(--primary, #FF9900); color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.btn-post-comment:hover { background: var(--primary-dark, #e68a00); }
+.btn-post-comment:disabled { background: #ccc; cursor: not-allowed; }
+.empty-comments { text-align: center; padding: 32px; color: #999; }
+.empty-comments i { font-size: 32px; color: #ddd; margin-bottom: 8px; }
+.comment-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f5f5f5; }
+.comment-item:last-child { border-bottom: none; }
+.comment-body { flex: 1; }
+.comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.comment-user { font-weight: 600; font-size: 14px; color: #333; }
+.comment-date { font-size: 12px; color: #999; }
+.comment-text { font-size: 14px; color: #555; line-height: 1.5; margin-bottom: 8px; }
+.comment-actions { display: flex; gap: 16px; }
+.comment-like, .comment-reply { background: none; border: none; font-size: 12px; color: #999; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; }
+.comment-like:hover, .comment-reply:hover { background: #f5f5f5; color: #555; }
+.comment-like.liked { color: #e74c3c; }
+.comment-like.liked i { color: #e74c3c; }
+.comment-replies { margin-top: 12px; padding-left: 16px; border-left: 2px solid #f0f0f0; }
+.reply-item { display: flex; gap: 8px; padding: 8px 0; }
+.reply-avatar { width: 28px; height: 28px; background: #6c5ce7; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; flex-shrink: 0; }
+.reply-body { flex: 1; font-size: 13px; }
+.reply-user { font-weight: 600; color: #333; margin-right: 6px; }
+.reply-text { color: #555; }
+.reply-date { font-size: 11px; color: #999; margin-left: 8px; }
+.reply-form { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+.reply-form input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; }
+.reply-form input:focus { outline: none; border-color: var(--primary, #FF9900); }
+.btn-reply { padding: 8px 16px; background: var(--primary, #FF9900); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-reply:disabled { background: #ccc; cursor: not-allowed; }
+.btn-cancel { padding: 8px 12px; background: none; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; cursor: pointer; color: #666; }
 @media (max-width: 1024px) {
   .product-main { gap: 20px; }
   .current-price { font-size: 24px; }
