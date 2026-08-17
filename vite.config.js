@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
+        '@supabase/phoenix': path.resolve(__dirname, 'node_modules/@supabase/phoenix/priv/static/phoenix.cjs.js'),
       },
     },
     server: {

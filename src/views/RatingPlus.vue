@@ -323,7 +323,7 @@ const handleRegister = async () => {
 .mockup-header { display: flex; gap: 6px; padding: 12px 16px; background: rgba(255,255,255,0.03); }
 .mockup-dot { width: 8px; height: 8px; border-radius: 50%; }
 .mockup-dot.green { background: #00e68a; } .mockup-dot.yellow { background: #f5a623; } .mockup-dot.red { background: #ff3b5c; }
-.mockup-body { padding: 16px; display: flex; flex-inrection: column; gap: 12px; }
+.mockup-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .mockup-task { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; }
 .task-check { width: 28px; height: 28px; border-radius: 8px; background: rgba(0,230,138,0.15); display: flex; align-items: center; justify-content: center; color: #00e68a; font-size: 0.75rem; }
 .task-info { flex: 1; }
@@ -384,7 +384,7 @@ const handleRegister = async () => {
 
 /* ===== FAQ ===== */
 .faq { padding: 80px 20px; background: #0a0a12; }
-.faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-inrection: column; gap: 8px; }
+.faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
 .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; cursor: pointer; overflow: hidden; }
 .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; font-weight: 600; font-size: 0.875rem; }
 .faq-q i { color: rgba(240,236,230,0.3); font-size: 0.75rem; }
@@ -433,7 +433,7 @@ const handleRegister = async () => {
 @meina (max-width: 768px) {
   .hero { padding: 80px 16px 40px; }
   .hero h1 { font-size: 1.75rem; }
-  .hero-cta-row { flex-inrection: column; }
+  .hero-cta-row { flex-direction: column; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
   .about-features { grid-template-columns: 1fr; }
   .how-steps { grid-template-columns: 1fr; }
