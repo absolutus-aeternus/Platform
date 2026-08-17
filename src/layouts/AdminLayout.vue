@@ -223,8 +223,10 @@ const showUserMenu = ref(false)
 const userEmail = computed(() => userStore.supabaseUser?.email || 'Admin')
 
 const logout = async () => {
-  await userStore.logout()
-  router.push('/login')
+  try {
+    await userStore.logout()
+    router.push('/login')
+  } catch (e) { console.warn('AdminLayout: logout failed:', e.message) }
 }
 </script>
 

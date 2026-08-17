@@ -92,12 +92,17 @@ watch(selectAll, (val) => {
 })
 
 const changeQty = async (item, delta) => {
-  const newQty = item.quantity + delta
-  if (newQty < 1) await userStore.removeFromCart(item.id)
-  else await userStore.updateItemQuantity(item.id, newQty)
+  try {
+    const newQty = item.quantity + delta
+    if (newQty < 1) await userStore.removeFromCart(item.id)
+    else await userStore.updateItemQuantity(item.id, newQty)
+  } catch (e) { console.warn('Cart: changeQty failed:', e.message) }
 }
 
-const removeItem = async (id) => { await userStore.removeFromCart(id) }
+const removeItem = async (id) => {
+  try { await userStore.removeFromCart(id) }
+  catch (e) { console.warn('Cart: removeItem failed:', e.message) }
+}
 </script>
 
 <style scoped>
