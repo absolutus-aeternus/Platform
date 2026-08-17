@@ -6,7 +6,7 @@
     </div>
 
     <div class="chat-layout">
-      <div class="chat-sidebar">
+      <div class="chat-sidebar" :class="{ hidden: !showSidebar && selectedUser }">
         <div class="sidebar-header">
           <input v-model="userSearch" type="text" placeholder="Search users..." class="sidebar-search">
         </div>
@@ -29,6 +29,7 @@
         </div>
         <template v-else>
           <div class="chat-header">
+            <button class="header-back" @click="selectedUser = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
             <div class="chat-user-info">
               <div class="user-avatar" :style="{ background: getAvatarColor(selectedUser.full_name) }">{{ (selectedUser.full_name || '?')[0].toUpperCase() }}</div>
               <div><strong>{{ selectedUser.full_name || selectedUser.email }}</strong><small>{{ selectedUser.status }}</small></div>
@@ -66,6 +67,7 @@ const selectedUser = ref(null)
 const newMessage = ref('')
 const userSearch = ref('')
 const messagesRef = ref(null)
+const showSidebar = ref(true)
 
 const filteredChatters = computed(() => {
   if (!userSearch.value) return chatters.value
@@ -86,6 +88,7 @@ const loadChatters = async () => {
 
 const selectUser = async (user) => {
   selectedUser.value = user
+  showSidebar.value = false
   try { messages.value = await fetchRplusMessages(user.id) } catch (e) { messages.value = [] }
   await nextTick()
   if (messagesRef.value) messagesRef.value.scrollTop = messagesRef.value.scrollHeight
@@ -153,5 +156,16 @@ onMounted(loadChatters)
 .chat-input:focus { outline: none; border-color: #FF9900; }
 .btn-send { width: 40px; height: 40px; background: #FF9900; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 .btn-send:disabled { background: #ccc; cursor: not-allowed; }
-@media (max-width: 768px) { .chat-layout { grid-template-columns: 1fr; } .chat-sidebar { display: none; } }
+@media (max-width: 768px) {
+  .chat-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; }
+  .chat-sidebar.hidden { display: none; }
+  .chat-header { padding: 10px 12px; }
+  .header-back { display: flex; background: none; border: none; font-size: 18px; color: #333; cursor: pointer; padding: 4px; margin-right: 8px; }
+  .messages-area { padding: 12px; }
+  .message { max-width: 85%; }
+  .chat-input-area { padding: 10px 12px; }
+  .chat-input { font-size: 16px; }
+}
+@media (min-width: 769px) { .header-back { display: none; } }
 </style>

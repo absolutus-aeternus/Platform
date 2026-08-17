@@ -3,7 +3,7 @@
     <div class="container">
       <div class="chat-container">
         <!-- Sidebar -->
-        <div class="chat-sidebar">
+        <div class="chat-sidebar" :class="{ hidden: !showSidebar && activeConv }">
           <div class="sidebar-header">
             <h3>Messages</h3>
             <span class="unread-badge" v-if="unreadCount">{{ unreadCount }}</span>
@@ -43,6 +43,7 @@
           <template v-else>
             <!-- Chat Header -->
             <div class="chat-header">
+              <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
               <div class="header-avatar">{{ activeConv.name[0].toUpperCase() }}</div>
               <div class="header-info">
                 <h4>{{ activeConv.name }}</h4>
@@ -116,6 +117,8 @@ const connectionStatus = ref('connected') // Bug #4: 'connected' | 'disconnected
 const pendingMessages = ref([]) // Bug #4: Queue for failed messages
 let pollInterval = null
 let realtimeChannel = null
+
+const showSidebar = ref(true)
 
 const filteredConversations = computed(() => {
   if (!searchQuery.value) return conversations.value
@@ -223,6 +226,7 @@ const loadMessages = async (sellerId) => {
 // Select conversation
 const selectConversation = async (conv) => {
   activeConv.value = conv
+  showSidebar.value = false
   conv.unread = false
   unreadCount.value = conversations.value.filter(c => c.unread).length
   await loadMessages(conv.id)
@@ -415,5 +419,17 @@ onUnmounted(() => {
 .chat-input button { width: 40px; height: 40px; background: #FF9900; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .chat-input button:disabled { background: #ccc; cursor: not-allowed; }
 
-@media (max-width: 768px) { .chat-container { grid-template-columns: 1fr; } .chat-sidebar { display: none; } }
+@media (max-width: 768px) {
+  .chat-container { grid-template-columns: 1fr; height: calc(100vh - 10rem); }
+  .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; display: flex; }
+  .chat-sidebar.hidden { display: none; }
+  .chat-main { width: 100%; }
+  .chat-header { padding: 12px 15px; }
+  .header-back { display: flex; background: none; border: none; font-size: 18px; color: #333; cursor: pointer; padding: 4px; margin-right: 8px; }
+  .messages-container { padding: 15px; }
+  .message { max-width: 85%; }
+  .chat-input { padding: 10px 15px; }
+  .chat-input textarea { font-size: 16px; }
+}
+@media (min-width: 769px) { .header-back { display: none; } }
 </style>

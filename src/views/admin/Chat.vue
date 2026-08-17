@@ -4,7 +4,7 @@
     
     <div class="chat-layout">
       <!-- Sidebar: All Conversations -->
-      <div class="chat-sidebar">
+      <div class="chat-sidebar" :class="{ hidden: !showSidebar && activeConv }">
         <div class="sidebar-tabs">
           <button :class="{ active: tab === 'buyers' }" @click="tab = 'buyers'">Buyers</button>
           <button :class="{ active: tab === 'sellers' }" @click="tab = 'sellers'">Sellers</button>
@@ -48,6 +48,7 @@
         <template v-else>
           <!-- Chat Header -->
           <div class="chat-header">
+            <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
             <div class="header-avatar" :class="activeConv.role">{{ activeConv.name[0].toUpperCase() }}</div>
             <div class="header-info">
               <h4>{{ activeConv.name }}</h4>
@@ -149,6 +150,7 @@ import { supabase } from '@/services/supabase'
 const loading = ref(true)
 const messagesLoading = ref(false)
 const tab = ref('all')
+const showSidebar = ref(true)
 const searchQuery = ref('')
 const conversations = ref([])
 const messages = ref([])
@@ -347,6 +349,7 @@ const loadMessages = async (convId) => {
 // Select conversation
 const selectConversation = async (conv) => {
   activeConv.value = conv
+  showSidebar.value = false
   conv.unread = false
   await loadMessages(conv.id)
 }
@@ -576,21 +579,23 @@ h1 { margin-bottom: 25px; }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .page-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-  .page-header h1 { font-size: 1.25rem; }
-  table { font-size: 12px; }
-  th, td { padding: 8px 10px; }
-  .filters { flex-direction: column; gap: 0.5rem; }
-  .filters input, .filters select { width: 100%; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .card { padding: 1rem; }
-  .modal { width: 95vw; margin: 1rem; }
-  .form-group input, .form-group select { font-size: 16px; }
+  .chat-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; }
+  .chat-sidebar.hidden { display: none; }
+  .chat-info-panel { display: none; }
+  .chat-header { padding: 12px 15px; }
+  .header-back { display: flex; background: none; border: none; font-size: 18px; color: #333; cursor: pointer; padding: 4px; margin-right: 8px; }
+  .messages-container { padding: 15px; }
+  .message { max-width: 85%; }
+  .chat-input { padding: 10px 15px; }
+  .chat-input textarea { font-size: 16px; }
+  .sidebar-tabs { flex-wrap: wrap; }
+  .sidebar-tabs button { flex: 1; min-width: 0; padding: 8px 4px; font-size: 12px; }
 }
+@media (min-width: 769px) { .header-back { display: none; } }
 @media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr !important; }
-  th, td { padding: 6px 8px; font-size: 11px; }
-  .btn-sm { padding: 3px 8px; font-size: 11px; }
+  .sidebar-tabs button { font-size: 11px; padding: 6px 4px; }
+  .conv-item { padding: 10px 12px; }
+  .conv-avatar { width: 36px; height: 36px; }
 }
-
 </style>
