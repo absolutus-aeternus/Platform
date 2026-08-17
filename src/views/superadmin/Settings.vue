@@ -1,5 +1,6 @@
 <template>
-  <div class="sa-page">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-cogs"></i> System Settings</h1>
       <button class="btn-primary" @click="saveSettings"><i class="fas fa-save"></i> Save All</button>
@@ -59,6 +60,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -76,6 +78,7 @@ const loadSettings = async () => {
   if (data) {
     data.forEach(p => {
       if (p.code && p.value) {
+  loading.value = false
         try { settings.value[p.code] = JSON.parse(p.value) } catch { settings.value[p.code] = p.value }
       }
     })

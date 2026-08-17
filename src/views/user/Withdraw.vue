@@ -43,6 +43,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchBlockchainChannels, fetchWallet, createWithdrawal, fetchWithdrawals } from '@/services/supabase'
@@ -74,6 +75,7 @@ onMounted(async () => { try {
   if (wallet.data) balance.value = parseFloat(wallet.data.balance || 0).toFixed(2)
   if (min.data) minWithdraw.value = parseFloat(min.data.value) || 50
   history.value = (hist.data || []).slice(0, 5)
+  loading.value = false
 } catch (e) { console.error("Withdraw.vue error:", e) }
 })
 

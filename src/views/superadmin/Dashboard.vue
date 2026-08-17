@@ -69,6 +69,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -101,6 +102,7 @@ const loadStats = async () => {
 const loadLogs = async () => {
   const { data } = await supabase.from('system_params').select('*').like('code', 'ip_log_%').order('created_at', { ascending: false }).limit(5)
   recentLogs.value = (data || []).map(d => {
+  loading.value = false
     try { return { id: d.id, ...JSON.parse(d.value), created_at: d.created_at } } catch { return d }
   })
 }

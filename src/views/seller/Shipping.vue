@@ -40,6 +40,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
@@ -62,6 +63,7 @@ onMounted(async () => { try {
   if (!seller) return
   const { data } = await supabase.from('orders').select('order_no, users(email), tracking_no, status, created_at').eq('seller_id', seller.id).eq('status', 'shipped').order('created_at', { ascending: false }).limit(10)
   shipments.value = (data || []).map(o => ({ id: o.order_no, order_no: o.order_no, customer: o.users?.email || 'N/A', method: 'Standard', tracking: o.tracking_no, status: o.status, date: new Date(o.created_at).toLocaleDateString() }))
+  loading.value = false
 } catch (e) { console.error("Shipping.vue error:", e) }
 })
 </script>

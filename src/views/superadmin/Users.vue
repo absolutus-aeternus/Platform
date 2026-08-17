@@ -1,5 +1,6 @@
 <template>
-  <div class="sa-page">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-users-cog"></i> User Management</h1>
       <button class="btn-primary" @click="showAdd = true"><i class="fas fa-plus"></i> Add User</button>
@@ -80,6 +81,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -97,6 +99,7 @@ const loadUsers = async () => {
     if (search.value) q = q.ilike('email', '%' + search.value + '%')
     const { data } = await q
     users.value = data || []
+  loading.value = false
   } catch (e) { console.error('Load users error:', e) }
 }
 

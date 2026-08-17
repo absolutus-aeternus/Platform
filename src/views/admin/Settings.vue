@@ -29,6 +29,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -54,6 +55,7 @@ onMounted(async () => {
   settings.value.chatEnabled = map.chat_enabled !== 'false'
   settings.value.lotteryEnabled = map.lottery_enabled !== 'false'
   settings.value.subscribeEnabled = map.subscribe_enabled !== 'false'
+  loading.value = false
   } catch(e) { console.warn('Settings load error:', e) }
 })
 
@@ -72,6 +74,7 @@ const saveSettings = async () => {
     { code: 'subscribe_enabled', value: String(settings.value.subscribeEnabled) }
   ]
   for (const u of updates) {
+  loading.value = false
     try { await supabase.from('system_params').upsert({ code: u.code, value: u.value }, { onConflict: 'code' }) } catch(_e) { console.error('Settings.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   }
   saving.value = false

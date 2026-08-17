@@ -1,5 +1,6 @@
 <template>
-  <div class="sa-page">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-network-wired"></i> IP Activity Logs</h1>
       <div class="header-actions">
@@ -104,6 +105,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -132,11 +134,13 @@ const loadLogs = async () => {
       try {
         const parsed = JSON.parse(item.value)
         return { id: item.id, ...parsed, created_at: item.created_at }
+  loading.value = false
       } catch {
         return { id: item.id, value: item.value, created_at: item.created_at }
       }
     })
     filterLogs()
+  loading.value = false
   } catch (e) {
     console.error('Failed to load logs:', e)
   }

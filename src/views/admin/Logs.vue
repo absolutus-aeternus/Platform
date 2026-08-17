@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -68,6 +69,7 @@ const load = async () => {
     ;(withdrawalLogs.data || []).forEach(w => all.push({ id: w.id, type: 'payment', action: 'Withdrawal', message: `Withdrawal $${w.amount} - ${w.status}`, created_at: w.created_at }))
     all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     logs.value = all
+  loading.value = false
   } catch (e) { console.error('Logs error:', e) }
 }
 onMounted(load)

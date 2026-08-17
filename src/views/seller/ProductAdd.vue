@@ -46,6 +46,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
@@ -77,6 +78,7 @@ const addProduct = async () => {
     })
     if (error) throw error
     router.push('/seller/products')
+  loading.value = false
   } catch (e) {
     window.__toast?.show('Failed: ' + e.message)
   }

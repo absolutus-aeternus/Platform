@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -52,6 +53,7 @@ const returnMethod = ref('refund')
 
 const submitReturn = async () => {
   if (!orderId) return window.__toast?.show('No order selected')
+  loading.value = false
   try { await supabase.from('orders').update({ status: 'return_requested', notes: `Return: ${reason.value} - ${description.value}` }).eq('id', orderId) } catch(_e) { console.error('OrderReturn.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   window.__toast?.show('Return request submitted successfully!')
   router.push('/user/orders')

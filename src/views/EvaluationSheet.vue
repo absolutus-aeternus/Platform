@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="padding:40px 20px;max-width:600px">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-edit"></i> Write Review</h2>
     <div style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
       <div class="form-group"><label>Rating</label><div style="display:flex;gap:8px"><i v-for="n in 5" :key="n" class="fas fa-star" :style="{ color: n <= rating ? '#f59e0b' : '#e2e8f0', cursor: 'pointer', fontSize: '24px' }" @click="rating = n"></i></div></div>
@@ -10,6 +11,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -25,6 +27,7 @@ const submitReview = async () => {
     if (!user) { router.push('/login'); return }
     const { error } = await supabase.from('evaluations').insert({ user_id: user.id, product_id: route.query.product, order_id: route.query.order, rating: rating.value, comment: comment.value })
     if (error) { msg.value = error.message; msgColor.value = '#dc2626' } else { msg.value = 'Review submitted!'; msgColor.value = '#059669' }
+  loading.value = false
   } catch (e) { console.error('Evaluation error:', e); msg.value = 'Failed to submit review'; msgColor.value = '#dc2626' }
 }
 </script>

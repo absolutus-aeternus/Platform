@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
@@ -48,6 +49,7 @@ onMounted(async () => { try {
     stats.value.products = products.data?.length || 0
     stats.value.customers = new Set((customers.data || []).map(c => c.user_id)).size
   }
+  loading.value = false
 } catch (e) { console.error("Reports.vue error:", e) }
 })
 </script>

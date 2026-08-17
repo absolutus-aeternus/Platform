@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchBlockchainChannels, fetchWallet, createRecharge } from '@/services/supabase'
@@ -74,6 +75,7 @@ onMounted(async () => { try {
   channels.value = ch.data || []
   if (wallet.data) balance.value = parseFloat(wallet.data.balance || 0).toFixed(2)
   if (min.data) minRecharge.value = parseFloat(min.data.value) || 10
+  loading.value = false
 } catch (e) { console.error("Recharge.vue error:", e) }
 })
 

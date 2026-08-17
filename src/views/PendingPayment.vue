@@ -23,6 +23,7 @@
   </div>
 </template>
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/services/supabase'
@@ -42,6 +43,7 @@ onMounted(async () => {
 
 const payNow = async () => {
   if (!order.value) return
+  loading.value = false
   try { await supabase.from('orders').update({ payment_method: payment.value, payment_status: 'paid', status: 'processing' }).eq('id', order.value.id) } catch(_e) { console.error('PendingPayment:', _e); window.__toast?.show('Payment failed', 'error') }
   router.push(`/pay-success?order=${order.value.order_no}`)
 }

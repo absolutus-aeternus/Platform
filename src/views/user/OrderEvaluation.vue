@@ -37,6 +37,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase, createReview as createEvaluation } from '@/services/supabase'
@@ -69,6 +70,7 @@ const submitReview = async () => {
     })
     window.__toast?.show('Review submitted! Thank you.')
     router.push('/user/orders')
+  loading.value = false
   } catch (e) { console.error('Order evaluation error:', e); window.__toast?.show('Failed to submit review', 'error') }
 }
 </script>

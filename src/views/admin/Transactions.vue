@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -47,6 +48,7 @@ const filtered = computed(() => {
   if (typeFilter.value) r = r.filter(t => t.type === typeFilter.value)
   if (statusFilter.value) r = r.filter(t => t.status === statusFilter.value)
   return r
+  loading.value = false
 } catch (e) { console.error("Transactions.vue error:", e) }
 })
 const totalVolume = computed(() => transactions.value.reduce((s, t) => s + parseFloat(t.amount || t.total_amount || 0), 0).toFixed(2))
@@ -66,6 +68,7 @@ onMounted(async () => { try {
   ;(withdrawals.data || []).forEach(w => all.push({ ...w, type: 'withdrawal', user_email: w.users?.email }))
   all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
   transactions.value = all
+  loading.value = false
 } catch (e) { console.error("Transactions.vue error:", e) }
 })
 </script>

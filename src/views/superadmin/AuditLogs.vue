@@ -1,5 +1,6 @@
 <template>
-  <div class="sa-page">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-history"></i> Audit Logs</h1>
       <button class="btn-secondary" @click="exportLogs"><i class="fas fa-download"></i> Export CSV</button>
@@ -36,6 +37,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -55,6 +57,7 @@ const loadLogs = async () => {
   try {
     const { data } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(200)
     logs.value = data || []
+  loading.value = false
   } catch (e) { console.error('Audit logs error:', e) }
 }
 

@@ -34,6 +34,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
@@ -46,6 +47,7 @@ const form = ref({
   name: '', description: '', logo: '', email: '', phone: '',
   notifyOrders: true, notifyMessages: true, notifyReviews: true, notifyLowStock: true, lowStockThreshold: 10,
   returnDays: '7', warranty: 'none', policies: ''
+  loading.value = false
 } catch (e) { console.error("Settings.vue error:", e) }
 })
 
@@ -59,6 +61,7 @@ onMounted(async () => { try {
     form.value.logo = seller.logo || ''
   }
   form.value.email = userStore.supabaseUser.email || ''
+  loading.value = false
 } catch (e) { console.error("Settings.vue error:", e) }
 })
 

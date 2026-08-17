@@ -1,5 +1,6 @@
 <template>
-  <div class="sa-page">
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+<div v-else class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-flag"></i> Feature Flags</h1>
       <button class="btn-primary" @click="saveFlags"><i class="fas fa-save"></i> Save Changes</button>
@@ -22,6 +23,7 @@
 </template>
 
 <script setup>
+const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
@@ -47,6 +49,7 @@ const loadFlags = async () => {
         if (f) f.enabled = p.value === 'true'
       })
     }
+  loading.value = false
   } catch (e) { console.error('Feature flags error:', e) }
 }
 
