@@ -197,4 +197,18 @@ onUnmounted(() => {
 .chat-window-input input:focus { outline: none; border-color: #fe2c55; }
 .chat-window-input button { width: 36px; height: 36px; background: #fe2c55; color: #fff; border: none; border-radius: 50%; cursor: pointer; }
 .chat-window-input button:disabled { background: #ccc; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .chat-widget { bottom: 4.5rem; right: 1rem; }
+  .chat-fab { width: 48px; height: 48px; padding: 6px; }
+  .chat-window { width: calc(100vw - 2rem); right: -0.5rem; height: 60vh; max-height: 400px; }
+}
+@media (max-width: 480px) {
+  .chat-window { width: calc(100vw - 1rem); right: -0.5rem; height: 55vh; }
+  .chat-window-header { padding: 12px 16px; }
+  .chat-window-header h4 { font-size: 14px; }
+  .chat-window-messages { padding: 10px; }
+  .msg-bubble p { font-size: 12px; }
+}
 </style>

@@ -432,4 +432,16 @@ onMounted(async () => {
   .header-action { padding: 0.25rem; }
   .header-action i { font-size: 1rem; }
 }
+
+/* ===== BOTTOM NAVIGATION (Mobile) ===== */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; align-items: center; height: 3.25rem; border-top: 1px solid #e5e5e5; z-index: 150; padding-bottom: env(safe-area-inset-bottom, 0); box-shadow: 0 -2px 8px rgba(0,0,0,0.06); }
+.bottom-nav a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.125rem; color: #555; text-decoration: none; font-size: 0.625rem; padding: 0.25rem 0.5rem; transition: color 0.2s; position: relative; flex: 1; }
+.bottom-nav a i { font-size: 1.125rem; }
+.bottom-nav a.active { color: #FF9900; }
+.bottom-nav a.active::after { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 1.5rem; height: 2px; background: #FF9900; border-radius: 1px; }
+
+/* ===== MOBILE MAIN CONTENT PADDING (for bottom nav) ===== */
+@media (max-width: 768px) {
+  .main-content { padding-bottom: 3.75rem; }
+}
 </style>

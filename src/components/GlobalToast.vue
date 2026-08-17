@@ -41,4 +41,8 @@ defineExpose({ show })
 .toast-leave-active { animation: slideOutRight 0.3s ease; }
 @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
+@media (max-width: 768px) {
+  .global-toast { top: auto; bottom: 5rem; left: 1rem; right: 1rem; max-width: none; font-size: 13px; padding: 12px 16px; }
+}
 </style>
