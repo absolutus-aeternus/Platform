@@ -74,15 +74,19 @@ export const useUserStore = defineStore('user', {
       // Bug #5: Load portal mode
       this._loadPortalMode()
 
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        this.token = session.access_token
-        this.supabaseUser = session.user
-        this.isLoggedIn = true
-        this.userInfo = { username: session.user.email?.split('@')[0] }
-        // Bug #3: Always fetch fresh role from DB
-        await this.fetchRole()
-        await this.fetchCart()
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session) {
+          this.token = session.access_token
+          this.supabaseUser = session.user
+          this.isLoggedIn = true
+          this.userInfo = { username: session.user.email?.split('@')[0] }
+          // Bug #3: Always fetch fresh role from DB
+          try { await this.fetchRole() } catch (e) { console.warn('fetchRole error:', e.message) }
+          try { await this.fetchCart() } catch (e) { console.warn('fetchCart error:', e.message) }
+        }
+      } catch (e) {
+        console.warn('initFromStorage: getSession failed:', e.message)
       }
 
       // Remove old listener
@@ -92,23 +96,27 @@ export const useUserStore = defineStore('user', {
 
       // Bug #3: Listen for auth changes and re-fetch role
       const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          this.token = session.access_token
-          this.supabaseUser = session.user
-          this.isLoggedIn = true
-          this.userInfo = { username: session.user.email?.split('@')[0] }
-          // Bug #3: Re-fetch role on every sign-in (catches role changes)
-          await this.fetchRole()
-        } else if (event === 'SIGNED_OUT') {
-          this.token = null
-          this.supabaseUser = null
-          this.isLoggedIn = false
-          this.role = null
-          this.userInfo = {}
-          this.cart = []
-        } else if (event === 'TOKEN_REFRESHED') {
-          // Bug #3: Re-fetch role on token refresh
-          await this.fetchRole()
+        try {
+          if (event === 'SIGNED_IN' && session) {
+            this.token = session.access_token
+            this.supabaseUser = session.user
+            this.isLoggedIn = true
+            this.userInfo = { username: session.user.email?.split('@')[0] }
+            // Bug #3: Re-fetch role on every sign-in (catches role changes)
+            try { await this.fetchRole() } catch (e) { console.warn('Auth: fetchRole failed:', e.message) }
+          } else if (event === 'SIGNED_OUT') {
+            this.token = null
+            this.supabaseUser = null
+            this.isLoggedIn = false
+            this.role = null
+            this.userInfo = {}
+            this.cart = []
+          } else if (event === 'TOKEN_REFRESHED') {
+            // Bug #3: Re-fetch role on token refresh
+            try { await this.fetchRole() } catch (e) { console.warn('Auth: fetchRole failed:', e.message) }
+          }
+        } catch (e) {
+          console.warn('Auth state change error:', e.message)
         }
       })
       this._authListener = { subscription }

@@ -196,79 +196,84 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  // Strategi: Timeout 3 detik untuk getSession (mencegah white screen jika Supabase lambat)
-  let session = null
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const result = await Promise.race([
-        supabase.auth.getSession(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 3000))
-      ])
-      session = result?.data?.session
-      break
-    } catch (e) {
-      if (attempt === 0) { await new Promise(r => setTimeout(r, 500)); continue }
-      console.warn('Auth check failed after retry, proceeding without session')
+  try {
+    // Strategi: Timeout 3 detik untuk getSession (mencegah white screen jika Supabase lambat)
+    let session = null
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const result = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout')), 3000))
+        ])
+        session = result?.data?.session
+        break
+      } catch (e) {
+        if (attempt === 0) { await new Promise(r => setTimeout(r, 500)); continue }
+        console.warn('Auth check failed after retry, proceeding without session')
+      }
     }
+    const isAuthenticated = !!session?.access_token
+
+    // ── Auth required but not logged in → redirect to correct login ──
+    if (to.meta.requiresAuth && !isAuthenticated) {
+      if (to.meta.requiresSeller) return next('/seller/login')
+      if (to.meta.requiresAdmin) return next('/login/admin')
+      if (to.meta.requiresMember) return next('/login')
+      if (to.path.startsWith('/seller')) return next('/seller/login')
+      if (to.path.startsWith('/admin')) return next('/login/admin')
+      return next('/login')
+    }
+
+    // ── If authenticated, enforce role-based access ──
+    if (isAuthenticated) {
+      const store = useUserStore()
+      // Ensure role is loaded (cached in store after login/init)
+      if (!store.role) { try { await store.fetchRole() } catch (e) { console.warn('Router: fetchRole failed:', e.message) } }
+      const role = store.role
+
+      // ── Portal access enforcement ──
+      // Priority: SuperAdmin > Admin > Seller > RatingPlus > Member
+
+      // SuperAdmin portal: ONLY SUPER_ADMIN (not ADMIN)
+      if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN') {
+        return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
+      }
+
+      // RatingPlus portal: only RATING_PLUS (+ SUPER_ADMIN for testing)
+      if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS' && role !== 'SUPER_ADMIN') {
+        return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
+      }
+
+      // Seller portal: only SELLER (+ SUPER_ADMIN for testing)
+      if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
+        return next(role === 'ADMIN' ? '/admin' : '/user')
+      }
+
+      // Admin portal: ADMIN + SUPER_ADMIN
+      if (to.meta.requiresAdmin && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
+        return next(role === 'SELLER' ? '/seller' : '/user')
+      }
+
+      // Member portal: only MEMBER (+ SUPER_ADMIN for testing)
+      if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
+        return next(role === 'ADMIN' ? '/admin' : '/seller')
+      }
+
+      // ── Logged-in user visiting login/register pages → redirect to their portal ──
+      const loginPages = ['/login', '/register', '/login/admin', '/seller/login']
+      if (loginPages.includes(to.path) && role !== 'SUPER_ADMIN') {
+        if (role === 'SUPER_ADMIN') return next('/admin')
+        if (role === 'ADMIN') return next('/admin')
+        if (role === 'SELLER') return next('/seller')
+        return next('/user')
+      }
+    }
+
+    next()
+  } catch (e) {
+    console.error('Router guard error:', e)
+    next() // Always call next() to prevent white screen
   }
-  const isAuthenticated = !!session?.access_token
-
-  // ── Auth required but not logged in → redirect to correct login ──
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    if (to.meta.requiresSeller) return next('/seller/login')
-    if (to.meta.requiresAdmin) return next('/login/admin')
-    if (to.meta.requiresMember) return next('/login')
-    if (to.path.startsWith('/seller')) return next('/seller/login')
-    if (to.path.startsWith('/admin')) return next('/login/admin')
-    return next('/login')
-  }
-
-  // ── If authenticated, enforce role-based access ──
-  if (isAuthenticated) {
-    const store = useUserStore()
-    // Ensure role is loaded (cached in store after login/init)
-    if (!store.role) await store.fetchRole()
-    const role = store.role
-
-    // ── Portal access enforcement ──
-    // Priority: SuperAdmin > Admin > Seller > RatingPlus > Member
-
-    // SuperAdmin portal: ONLY SUPER_ADMIN (not ADMIN)
-    if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN') {
-      return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
-    }
-
-    // RatingPlus portal: only RATING_PLUS (+ SUPER_ADMIN for testing)
-    if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS' && role !== 'SUPER_ADMIN') {
-      return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
-    }
-
-    // Seller portal: only SELLER (+ SUPER_ADMIN for testing)
-    if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
-      return next(role === 'ADMIN' ? '/admin' : '/user')
-    }
-
-    // Admin portal: ADMIN + SUPER_ADMIN
-    if (to.meta.requiresAdmin && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
-      return next(role === 'SELLER' ? '/seller' : '/user')
-    }
-
-    // Member portal: only MEMBER (+ SUPER_ADMIN for testing)
-    if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
-      return next(role === 'ADMIN' ? '/admin' : '/seller')
-    }
-
-    // ── Logged-in user visiting login/register pages → redirect to their portal ──
-    const loginPages = ['/login', '/register', '/login/admin', '/seller/login']
-    if (loginPages.includes(to.path) && role !== 'SUPER_ADMIN') {
-      if (role === 'SUPER_ADMIN') return next('/admin')
-      if (role === 'ADMIN') return next('/admin')
-      if (role === 'SELLER') return next('/seller')
-      return next('/user')
-    }
-  }
-
-  next()
 })
 
 // After each navigation — sync data, update title & meta

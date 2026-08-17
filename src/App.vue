@@ -53,22 +53,30 @@ const { initSync, disconnect, on: onSync } = useGlobalSync()
 // Track page visits for analytics
 const pageVisits = ref(0)
 
-onMounted(() => {
+onMounted(async () => {
   // Initialize auth
-  userStore.initFromStorage()
+  try {
+    await userStore.initFromStorage()
+  } catch (e) {
+    console.warn('App: initFromStorage failed:', e.message)
+  }
 
   // Make toast globally available
   window.__toast = toast.value
 
   // Initialize realtime sync only if user is logged in
   setTimeout(() => {
-    if (userStore.isLoggedIn && userStore.supabaseUser?.id) {
-      initSync(userStore.supabaseUser.id)
-    }
+    try {
+      if (userStore.isLoggedIn && userStore.supabaseUser?.id) {
+        initSync(userStore.supabaseUser.id)
+      }
 
-    onSync('*', (event, payload) => {
-      pageVisits.value++
-    })
+      onSync('*', (event, payload) => {
+        pageVisits.value++
+      })
+    } catch (e) {
+      console.warn('App: initSync failed:', e.message)
+    }
   }, 2000)
 })
 
