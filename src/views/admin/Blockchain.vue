@@ -60,9 +60,11 @@ const form = ref({ coin: 'USDT', blockchain_name: 'TRC20', address: '', fee: 1, 
 const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#FF9900')
 
 const load = async () => {
-  loading.value = true
-  const { data } = await supabase.from('blockchain_channels').select('*').order('coin')
-  channels.value = data || []
+  try {
+    loading.value = true
+    const { data } = await supabase.from('blockchain_channels').select('*').order('coin')
+    channels.value = data || []
+  } catch (e) { console.error('Blockchain load error:', e) }
   loading.value = false
 }
 const openModal = (ch) => {

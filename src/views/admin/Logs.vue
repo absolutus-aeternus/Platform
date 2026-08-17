@@ -56,17 +56,19 @@ const filtered = computed(() => {
 })
 
 const load = async () => {
-  const [orderLogs, rechargeLogs, withdrawalLogs] = await Promise.all([
-    supabase.from('order_logs').select('*').order('created_at', { ascending: false }).limit(100),
-    supabase.from('recharges').select('id, user_id, amount, status, created_at').order('created_at', { ascending: false }).limit(50),
-    supabase.from('withdrawals').select('id, user_id, amount, status, created_at').order('created_at', { ascending: false }).limit(50)
-  ])
-  const all = []
-  ;(orderLogs.data || []).forEach(l => all.push({ ...l, type: 'order', message: `${l.action}: ${l.details || 'Order activity'}`, action: l.action }))
-  ;(rechargeLogs.data || []).forEach(r => all.push({ id: r.id, type: 'payment', action: 'Recharge', message: `Recharge $${r.amount} - ${r.status}`, created_at: r.created_at }))
-  ;(withdrawalLogs.data || []).forEach(w => all.push({ id: w.id, type: 'payment', action: 'Withdrawal', message: `Withdrawal $${w.amount} - ${w.status}`, created_at: w.created_at }))
-  all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-  logs.value = all
+  try {
+    const [orderLogs, rechargeLogs, withdrawalLogs] = await Promise.all([
+      supabase.from('order_logs').select('*').order('created_at', { ascending: false }).limit(100),
+      supabase.from('recharges').select('id, user_id, amount, status, created_at').order('created_at', { ascending: false }).limit(50),
+      supabase.from('withdrawals').select('id, user_id, amount, status, created_at').order('created_at', { ascending: false }).limit(50)
+    ])
+    const all = []
+    ;(orderLogs.data || []).forEach(l => all.push({ ...l, type: 'order', message: `${l.action}: ${l.details || 'Order activity'}`, action: l.action }))
+    ;(rechargeLogs.data || []).forEach(r => all.push({ id: r.id, type: 'payment', action: 'Recharge', message: `Recharge $${r.amount} - ${r.status}`, created_at: r.created_at }))
+    ;(withdrawalLogs.data || []).forEach(w => all.push({ id: w.id, type: 'payment', action: 'Withdrawal', message: `Withdrawal $${w.amount} - ${w.status}`, created_at: w.created_at }))
+    all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    logs.value = all
+  } catch (e) { console.error('Logs error:', e) }
 }
 onMounted(load)
 </script>
