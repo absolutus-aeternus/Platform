@@ -2,7 +2,7 @@
   <div class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-truck"></i> Order Logistics</h2>
     <div v-if="order" style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
-      <div style="display:flex;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #e2e8f0">
+      <div class="order-header">
         <div><h3>Order #{{ order.order_no }}</h3><p style="color:#64748b;font-size:14px">Tracking: {{ order.tracking_no || 'Pending' }}</p></div>
         <span class="status-badge" :class="order.status">{{ order.status }}</span>
       </div>
@@ -50,4 +50,10 @@ onMounted(async () => {
 .status-badge.processing { background: #dbeafe; color: #1e40af; }
 .status-badge.shipped { background: #d1fae5; color: #065f46; }
 .status-badge.delivered { background: #d1fae5; color: #065f46; }
+.order-header { display: flex; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
+@media (max-width: 768px) {
+  .order-header { flex-direction: column; gap: 12px; }
+  .logistics-timeline { padding-left: 20px; }
+  .timeline-item { padding-left: 15px; }
+}
 </style>

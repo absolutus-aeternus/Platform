@@ -61,4 +61,7 @@ h1 { margin-bottom: 30px; }
 .price { color: #FF9900; font-size: 18px; font-weight: 700; }
 .original { color: #999; text-decoration: line-through; font-size: 13px; margin-left: 8px; }
 .product-sales { color: #999; font-size: 12px; }
+@media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } h1 { font-size: 1.25rem; } .img-placeholder { height: 150px; font-size: 36px; } .product-info { padding: 10px; } .product-info h3 { font-size: 13px; } .price { font-size: 16px; } }
+@media (max-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .img-placeholder { height: 120px; font-size: 28px; } .product-info { padding: 8px; } .product-info h3 { font-size: 12px; } .price { font-size: 14px; } }
 </style>

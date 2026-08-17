@@ -45,4 +45,7 @@
 .feature-card i { font-size: 36px; color: #667eea; margin-bottom: 15px; }
 .feature-card h3 { margin-bottom: 10px; }
 .feature-card p { color: #666; font-size: 14px; }
+@media (max-width: 1024px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 0; } .feature-card { padding: 20px; } .feature-card i { font-size: 28px; } }
+@media (max-width: 480px) { .features-grid { grid-template-columns: 1fr; } }
 </style>

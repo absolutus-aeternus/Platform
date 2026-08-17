@@ -50,4 +50,7 @@ h1 { margin-bottom: 25px; }
 .report-card { background: #fff; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .report-card h3 { color: #666; font-size: 14px; margin-bottom: 10px; }
 .report-card p { font-size: 24px; font-weight: 700; color: #FF9900; }
+@media (max-width: 1024px) { .report-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .report-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } h1 { font-size: 1.25rem; } .report-card p { font-size: 20px; } }
+@media (max-width: 480px) { .report-grid { grid-template-columns: 1fr; } }
 </style>
