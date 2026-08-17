@@ -34,7 +34,8 @@
             <span v-if="p.discount" class="badge-discount">-{{ p.discount }}%</span>
           </div>
           <div class="card-body">
-            <div class="card-title" v-html="p._highlightResult?.name?.value || p.name"></div>
+            <div class="card-title" v-if="p._highlightResult?.name?.value" v-html="p._highlightResult.name.value"></div>
+            <div class="card-title" v-else>{{ p.name }}</div>
             <div class="card-price">${{ p.price }} <span v-if="p.original_price" class="original">${{ p.original_price }}</span></div>
             <div class="card-meta">
               <span class="rating"><i class="fas fa-star"></i> {{ p.rating || '4.5' }}</span>
