@@ -70,49 +70,51 @@ const scrollToBottom = () => {
 
 const loadMessages = async () => {
   if (!userStore.supabaseUser || !props.sellerId) return
-  
-  const { data } = await supabase
-    .from('chat_messages')
-    .select('*')
-    .or(`and(sender_id.eq.${userStore.supabaseUser.id},seller_id.eq.${props.sellerId}),and(receiver_id.eq.${userStore.supabaseUser.id},seller_id.eq.${props.sellerId})`)
-    .order('created_at')
-    .limit(50)
-  
-  messages.value = (data || []).map(msg => ({
-    ...msg,
-    is_own: msg.sender_id === userStore.supabaseUser.id
-  }))
-  
-  // Count unread
-  unreadCount.value = messages.value.filter(m => !m.is_own && !m.is_read).length
-  
-  scrollToBottom()
+  try {
+    const { data } = await supabase
+      .from('chat_messages')
+      .select('*')
+      .or(`and(sender_id.eq.${userStore.supabaseUser.id},seller_id.eq.${props.sellerId}),and(receiver_id.eq.${userStore.supabaseUser.id},seller_id.eq.${props.sellerId})`)
+      .order('created_at')
+      .limit(50)
+    
+    messages.value = (data || []).map(msg => ({
+      ...msg,
+      is_own: msg.sender_id === userStore.supabaseUser.id
+    }))
+    
+    // Count unread
+    unreadCount.value = messages.value.filter(m => !m.is_own && !m.is_read).length
+    
+    scrollToBottom()
+  } catch (e) { console.warn('ChatWidget: loadMessages failed:', e.message) }
 }
 
 const sendMessage = async () => {
   if (!newMessage.value.trim() || !userStore.supabaseUser || !props.sellerId) return
-  
-  const text = newMessage.value.trim()
-  newMessage.value = ''
-  
-  const { error } = await supabase.from('chat_messages').insert({
-    sender_id: userStore.supabaseUser.id,
-    receiver_id: props.sellerId,
-    seller_id: props.sellerId,
-    message: text,
-    message_type: 'text',
-    is_read: false
-  })
-  
-  if (!error) {
-    messages.value.push({
-      id: Date.now(),
+  try {
+    const text = newMessage.value.trim()
+    newMessage.value = ''
+    
+    const { error } = await supabase.from('chat_messages').insert({
+      sender_id: userStore.supabaseUser.id,
+      receiver_id: props.sellerId,
+      seller_id: props.sellerId,
       message: text,
-      is_own: true,
-      created_at: new Date().toISOString()
+      message_type: 'text',
+      is_read: false
     })
-    scrollToBottom()
-  }
+    
+    if (!error) {
+      messages.value.push({
+        id: Date.now(),
+        message: text,
+        is_own: true,
+        created_at: new Date().toISOString()
+      })
+      scrollToBottom()
+    }
+  } catch (e) { console.warn('ChatWidget: sendMessage failed:', e.message) }
 }
 
 // Real-time updates
