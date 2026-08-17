@@ -85,4 +85,20 @@ onMounted(() => { /* Load from audit_logs */ })
 .policy-item { display: flex; justify-content: space-between; padding: 12px; background: #f8f9fa; border-radius: 8px; }
 .policy-item span { color: #666; font-size: 14px; }
 .policy-item strong { color: #1a1a2e; }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header h1 { font-size: 20px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px; gap: 10px; }
+  .stat-card i { font-size: 22px; }
+  .stat-val { font-size: 18px; }
+  .section-card { padding: 16px; overflow-x: auto; }
+  .sa-table { min-width: 500px; }
+  .policy-grid { grid-template-columns: 1fr; }
+  .policy-item { flex-direction: column; gap: 4px; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-card { flex-direction: column; text-align: center; gap: 8px; }
+}
 </style>

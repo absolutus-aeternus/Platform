@@ -4,7 +4,7 @@
     
     <div class="messages-layout">
       <!-- Conversation List -->
-      <div class="conv-list">
+      <div class="conv-list" :class="{ hidden: !showSidebar && activeConv }">
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else-if="conversations.length === 0" class="empty">No messages</div>
         <div v-else>
@@ -29,6 +29,7 @@
         </div>
         <template v-else>
           <div class="chat-header">
+            <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
             <h4>{{ activeConv.customer_email || 'Customer' }}</h4>
           </div>
           <div class="messages" ref="messagesRef">
@@ -67,6 +68,7 @@ const messages = ref([])
 const activeConv = ref(null)
 const newMessage = ref('')
 const messagesRef = ref(null)
+const showSidebar = ref(true)
 
 const formatTime = (t) => t ? new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
 
@@ -109,6 +111,7 @@ onMounted(async () => {
 
 const selectConversation = async (conv) => {
   activeConv.value = conv
+  showSidebar.value = false
   
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
   if (!seller) return
@@ -206,6 +209,23 @@ h1 { margin-bottom: 25px; }
 .chat-input button { padding: 8px 15px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 .chat-input button:disabled { background: #ccc; }
 
-@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+@media (max-width: 768px) {
+  h1 { font-size: 1.25rem; margin-bottom: 16px; }
+  .messages-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .conv-list { position: absolute; inset: 0; z-index: 10; background: #fff; }
+  .conv-list.hidden { display: none; }
+  .chat-header { padding: 12px 15px; }
+  .header-back { display: flex; background: none; border: none; font-size: 18px; color: #333; cursor: pointer; padding: 4px; margin-right: 8px; }
+  .messages { padding: 12px; }
+  .msg { max-width: 85%; }
+  .chat-input { padding: 10px 12px; }
+  .chat-input input { font-size: 16px; }
+}
+@media (min-width: 769px) { .header-back { display: none; } }
+@media (max-width: 480px) {
+  .conv-item { padding: 10px 12px; }
+  .conv-avatar { width: 30px; height: 30px; font-size: 12px; }
+  .conv-name { font-size: 12px; }
+  .conv-preview { font-size: 11px; }
+}
 </style>

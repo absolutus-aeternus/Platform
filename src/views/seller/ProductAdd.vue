@@ -106,6 +106,7 @@ h1 { margin-bottom: 25px; }
   .filters { flex-direction: column; gap: 0.5rem; }
   .filters input, .filters select { width: 100%; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .form-row { grid-template-columns: 1fr; }
   .card { padding: 1rem; }
   .btn-primary { padding: 0.5rem 1rem; font-size: 0.8125rem; }
 }

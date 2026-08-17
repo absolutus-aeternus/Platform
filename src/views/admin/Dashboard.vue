@@ -372,12 +372,16 @@ th { background: #f8f8f8; font-weight: 600; }
   .filters { flex-direction: column; gap: 0.5rem; }
   .filters input, .filters select { width: 100%; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .rplus-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .quick-nav-grid { grid-template-columns: repeat(5, 1fr); }
   .card { padding: 1rem; }
   .modal { width: 95vw; margin: 1rem; }
   .form-group input, .form-group select { font-size: 16px; }
 }
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr !important; }
+  .rplus-stats-grid { grid-template-columns: 1fr; }
+  .quick-nav-grid { grid-template-columns: repeat(3, 1fr); }
   th, td { padding: 6px 8px; font-size: 11px; }
   .btn-sm { padding: 3px 8px; font-size: 11px; }
 }
