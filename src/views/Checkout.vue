@@ -69,10 +69,10 @@
         </div>
       </div>
     </div>
-  </div>
 
-<!-- Loading State -->
-<div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+    <!-- Loading State -->
+    <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
 </template>
 
 <script setup>

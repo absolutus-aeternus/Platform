@@ -1,5 +1,5 @@
 import { ref, computed, onMounted } from 'vue'
-import { supabase } from './useSupabase'
+import { supabase } from '@/services/supabase'
 
 export function useAuth() {
   const user = ref<any>(null)

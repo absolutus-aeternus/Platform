@@ -69,19 +69,27 @@
         </div>
       </div>
     </div>
-  </div>
 
-<!-- Loading State -->
-<div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+    <!-- Loading State -->
+    <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
-const loading = ref(false)
+import { ref, watch } from "vue"
 import { useUserStore } from '@/store/user'
 
+const loading = ref(false)
 const userStore = useUserStore()
 const selectAll = ref(true)
+
+// Initialize all items as selected
+userStore.cart.forEach(item => { item.selected = true })
+
+// Watch selectAll to toggle all items
+watch(selectAll, (val) => {
+  userStore.cart.forEach(item => { item.selected = val })
+})
 
 const changeQty = async (item, delta) => {
   const newQty = item.quantity + delta

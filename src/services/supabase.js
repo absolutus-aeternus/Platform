@@ -7,7 +7,27 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('[Supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY')
 }
 
-export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
+export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
+})
+
+// R2 image URL helper
+export function getR2ImageUrl(key, width) {
+  const publicUrl = import.meta.env.VITE_R2_PUBLIC_URL
+  if (!publicUrl) return key
+  let url = `${publicUrl}/${key}`
+  if (width) url += `?width=${width}&format=webp`
+  return url
+}
 
 // ─── Auth ───
 export const signUp = (email, password) => supabase.auth.signUp({ email, password })

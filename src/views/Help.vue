@@ -14,10 +14,10 @@
         <router-link to="/customer-service" class="btn-primary" style="padding:12px 30px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px"><i class="fas fa-headset"></i> Contact Support</router-link>
       </div>
     </div>
-  </div>
 
-<!-- Loading State -->
-<div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+    <!-- Loading State -->
+    <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
 </template>
 <script setup>
 import { ref } from "vue"

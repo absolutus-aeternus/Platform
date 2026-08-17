@@ -26,10 +26,10 @@
       </form>
       <p v-if="sent" style="color:#28a745;text-align:center;margin-top:16px"><i class="fas fa-check-circle"></i> Message sent successfully!</p>
     </div>
-  </div>
 
-<!-- Loading State -->
-<div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+    <!-- Loading State -->
+    <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
 </template>
 <script setup>
 import { ref } from "vue"
