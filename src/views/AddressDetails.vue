@@ -44,4 +44,4 @@ const saveAddress = async () => {
   router.push('/user/addresses')
 }
 </script>
-<style scoped>.form-group { margin-bottom: 16px; } .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }</style>
+<style scoped>.form-group { margin-bottom: 16px; } .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #FF9900; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }</style>

@@ -3,7 +3,7 @@
     <h2 style="margin-bottom:24px"><i class="fas fa-user-circle"></i> Choose Avatar</h2>
     <div style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
       <div class="avatar-grid">
-        <div v-for="n in 10" :key="n" style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;border:3px solid transparent;transition:all 0.2s" :style="{ background: colors[n-1], borderColor: selected === n ? '#ff6b35' : 'transparent' }" @click="selectAvatar(n)">
+        <div v-for="n in 10" :key="n" style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;border:3px solid transparent;transition:all 0.2s" :style="{ background: colors[n-1], borderColor: selected === n ? '#FF9900' : 'transparent' }" @click="selectAvatar(n)">
           {{ emojis[n-1] }}
         </div>
       </div>

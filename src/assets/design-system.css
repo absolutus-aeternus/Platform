@@ -4,15 +4,15 @@
 
 /* === Color Tokens === */
 :root {
-  --color-primary: #ee4d2d;
-  --color-primary-dark: #d63e1f;
-  --color-primary-light: #ff6b4a;
+  --color-primary: #FF9900;
+  --color-primary-dark: #e68a00;
+  --color-primary-light: #ffad33;
   --color-secondary: #131921;
   --color-secondary-light: #232f3e;
   --color-accent: #febd69;
-  --color-success: #067d62;
-  --color-warning: #b08d00;
-  --color-error: #c40000;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-error: #dc3545;
   --color-info: #007185;
   --color-text: #0f1111;
   --color-text-secondary: #565959;
@@ -22,6 +22,7 @@
   --color-bg-white: #ffffff;
   --color-border: #d5d9d9;
   --color-border-light: #eee;
+  --color-overlay: rgba(0,0,0,0.5);
 }
 
 /* === Dark Mode === */
