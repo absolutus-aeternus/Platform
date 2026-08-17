@@ -9,7 +9,7 @@
           <div class="store-banner" :style="{ background: getGradient(store.name || store.store_name) }"></div>
           <div class="store-profile">
             <div class="store-avatar">
-              <img v-if="store.logo || store.store_logo" :src="store.logo || store.store_logo" :alt="store.name" class="store-logo-img" />
+              <img loading="lazy" v-if="store.logo || store.store_logo" :src="store.logo || store.store_logo" :alt="store.name" class="store-logo-img" />
               <span v-else>{{ (store.name || store.store_name || '?')[0] }}</span>
             </div>
             <div class="store-info">
@@ -39,7 +39,7 @@
         <div v-else class="product-grid">
           <div v-for="product in filteredProducts" :key="product.id" class="product-card" @click="$router.push(`/product/${product.id}`)">
             <div class="product-img">
-              <img v-if="product.images?.[0]" :src="product.images[0]" :alt="product.name" loading="lazy" />
+              <img loading="lazy" v-if="product.images?.[0]" :src="product.images[0]" :alt="product.name" />
               <div v-else class="img-placeholder"><span>{{ (product.name || '?')[0] }}</span></div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
             </div>

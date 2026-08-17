@@ -83,10 +83,10 @@
         <!-- Images -->
         <div class="preview-images">
           <div class="main-image">
-            <img :src="scrapedProduct.images?.[0] || '/placeholder.png'" :alt="scrapedProduct.name">
+            <img loading="lazy" :src="scrapedProduct.images?.[0] || '/placeholder.png'" :alt="scrapedProduct.name">
           </div>
           <div class="image-thumbs" v-if="scrapedProduct.images?.length > 1">
-            <img 
+            <img loading="lazy"
               v-for="(img, i) in scrapedProduct.images.slice(0, 6)" 
               :key="i" 
               :src="img" :alt="(scrapedProduct.name || 'Product') + ' image ' + (i+1)" 
@@ -171,7 +171,7 @@
       <h3><i class="fas fa-history"></i> Recent Scrapes</h3>
       <div class="history-grid">
         <div v-for="(item, i) in history" :key="i" class="history-card" @click="scrapedProduct = item">
-          <img :src="item.images?.[0] || '/placeholder.png'" :alt="item.name">
+          <img loading="lazy" :src="item.images?.[0] || '/placeholder.png'" :alt="item.name">
           <div class="history-info">
             <h4>{{ item.name?.substring(0, 40) }}...</h4>
             <p>${{ item.price }} · {{ item.marketplace }}</p>

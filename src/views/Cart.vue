@@ -31,7 +31,7 @@
             <label class="item-check"><input type="checkbox" v-model="item.selected"></label>
             <div class="item-product" @click="$router.push(`/product/${item.product_id || item.id}`)">
               <div class="item-img">
-                <img v-if="item.products?.images?.[0]" :src="item.products.images[0]" :alt="item.products?.name">
+                <img loading="lazy" v-if="item.products?.images?.[0]" :src="item.products.images[0]" :alt="item.products?.name">
                 <div v-else class="img-placeholder">{{ (item.products?.name || '?')[0] }}</div>
               </div>
               <div class="item-name">{{ item.products?.name || 'Product' }}</div>

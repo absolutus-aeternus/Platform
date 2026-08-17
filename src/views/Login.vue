@@ -4,7 +4,7 @@
     <div class="login-card animate-in">
       <div class="login-header">
         <div class="logo">
-          <img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img" />
+          <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img" />
         </div>
         <h2>Login</h2>
         <p>Welcome back! Please sign in to your account.</p>

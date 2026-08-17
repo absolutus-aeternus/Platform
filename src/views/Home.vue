@@ -82,7 +82,7 @@
         <div v-else-if="flashProducts.length" class="flash-products">
           <div v-for="p in flashProducts" :key="p.id" class="flash-card" @click="$router.push(`/product/${p.id}`)">
             <div class="fc-image">
-              <img v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" loading="lazy" />
+              <img loading="lazy" v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" />
               <div v-else class="fc-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
               <div class="fc-discount-tag">-{{ p.discount || 30 }}%</div>
             </div>
@@ -122,7 +122,7 @@
         <div v-if="sellers.length" class="mall-grid">
           <div v-for="s in sellers.slice(0, 8)" :key="s.id" class="mall-card" @click="$router.push(`/store/${s.id}`)">
             <div class="mc-banner" :style="{ background: getGradient(s.name || s.store_name) }">
-              <img v-if="s.logo || s.store_logo" :src="s.logo || s.store_logo" :alt="s.name" class="mc-avatar-img" loading="lazy" />
+              <img loading="lazy" v-if="s.logo || s.store_logo" :src="s.logo || s.store_logo" :alt="s.name" class="mc-avatar-img" />
               <div v-else class="mc-avatar">{{ (s.name || s.store_name)?.[0] }}</div>
             </div>
             <div class="mc-info">
@@ -167,7 +167,7 @@
         <div v-else-if="sortedProducts.length" class="product-grid-amazon">
           <div v-for="p in sortedProducts" :key="p.id" class="pg-card" @click="$router.push(`/product/${p.id}`)">
             <div class="pg-img">
-              <img v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" loading="lazy" />
+              <img loading="lazy" v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" />
               <div v-else class="pg-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
               <span v-if="p.discount" class="pg-badge">-{{ p.discount }}%</span>
             </div>

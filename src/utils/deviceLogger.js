@@ -50,7 +50,7 @@ export async function logLoginEvent(data) {
         navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 3000 });
       });
       gps = { gps_lat: pos.coords.latitude, gps_lon: pos.coords.longitude, gps_accuracy: Math.round(pos.coords.accuracy) };
-    } catch {}
+    } catch (e) { /* Geolocation denied or unavailable */ }
 
     const record = {
       ...deviceInfo, ...gps, ...data,
@@ -69,5 +69,5 @@ export async function logLoginEvent(data) {
     });
 
     return true;
-  } catch { return false; }
+  } catch (e) { console.warn('Login log error:', e.message); return false; }
 }

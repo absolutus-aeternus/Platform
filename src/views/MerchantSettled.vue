@@ -132,7 +132,7 @@
                   <span>JPG, PNG up to 5MB</span>
                 </div>
                 <div v-else class="upload-preview">
-                  <img :src="form.idFront" alt="ID Front">
+                  <img loading="lazy" :src="form.idFront" alt="ID Front">
                   <button type="button" class="btn-remove" @click.stop="form.idFront = ''"><i class="fas fa-times"></i></button>
                 </div>
               </div>
@@ -149,7 +149,7 @@
                   <span>JPG, PNG up to 5MB</span>
                 </div>
                 <div v-else class="upload-preview">
-                  <img :src="form.idBack" alt="ID Back">
+                  <img loading="lazy" :src="form.idBack" alt="ID Back">
                   <button type="button" class="btn-remove" @click.stop="form.idBack = ''"><i class="fas fa-times"></i></button>
                 </div>
               </div>
@@ -166,7 +166,7 @@
                   <span>Make sure both face and ID are clearly visible</span>
                 </div>
                 <div v-else class="upload-preview">
-                  <img :src="form.idSelfie" alt="Selfie with ID">
+                  <img loading="lazy" :src="form.idSelfie" alt="Selfie with ID">
                   <button type="button" class="btn-remove" @click.stop="form.idSelfie = ''"><i class="fas fa-times"></i></button>
                 </div>
               </div>

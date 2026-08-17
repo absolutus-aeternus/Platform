@@ -25,12 +25,12 @@
           <!-- Image Gallery -->
           <div class="product-gallery">
             <div class="main-image">
-              <img v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name">
+              <img loading="lazy" v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name">
               <div v-else class="img-placeholder">{{ product.name?.[0] || 'P' }}</div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
             </div>
             <div class="thumb-row" v-if="product.images?.length > 1">
-              <img v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: selectedImage === i }" @click="selectedImage = i" :alt="product.name + ' image ' + (i+1)">
+              <img loading="lazy" v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: selectedImage === i }" @click="selectedImage = i" :alt="product.name + ' image ' + (i+1)">
             </div>
           </div>
 
@@ -68,7 +68,7 @@
               <div class="info-row" v-if="product.sellers">
                 <span class="label">Seller</span>
                 <span class="value seller-link" @click="$router.push(`/store/${product.seller_id}`)">
-                  <img v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" alt="AllianceHub" />
+                  <img loading="lazy" v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" alt="AllianceHub" />
                   {{ product.sellers?.name || product.sellers?.store_name || 'View Store' }} <i class="fas fa-chevron-right"></i>
                 </span>
               </div>

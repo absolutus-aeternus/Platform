@@ -63,7 +63,7 @@
           <h3>Order Items</h3>
           <div v-for="item in order.order_items" :key="item.id" class="order-item">
             <div class="item-img">
-              <img v-if="item.product_image" :src="item.product_image" :alt="item.product_name" />
+              <img loading="lazy" v-if="item.product_image" :src="item.product_image" :alt="item.product_name" />
               <div v-else class="img-placeholder">{{ (item.product_name || 'P')[0] }}</div>
             </div>
             <div class="item-info">

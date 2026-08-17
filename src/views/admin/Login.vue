@@ -4,7 +4,7 @@
     <div class="auth-container animate-in">
       <div class="auth-header">
         <div class="auth-logo">
-          <img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin-login" />
+          <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin-login" />
           <span class="admin-badge">Admin</span>
         </div>
         <p>Administrator Access Only</p>

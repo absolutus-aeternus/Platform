@@ -29,7 +29,7 @@
       <div v-else-if="products.length" class="product-grid">
         <div v-for="p in products" :key="p.objectID || p.id" class="product-card" @click="$router.push(`/product/${p.objectID || p.id}`)">
           <div class="card-img">
-            <img v-if="p.images?.[0]" :src="p.images[0]" :alt="p.name" loading="lazy">
+            <img loading="lazy" v-if="p.images?.[0]" :src="p.images[0]" :alt="p.name">
             <div v-else class="img-placeholder">{{ p.name?.[0] || '?' }}</div>
             <span v-if="p.discount" class="badge-discount">-{{ p.discount }}%</span>
           </div>

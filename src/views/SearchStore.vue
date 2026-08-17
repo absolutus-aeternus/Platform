@@ -11,7 +11,7 @@
       <div v-else class="store-grid">
         <div v-for="s in stores" :key="s.id" class="store-card" @click="$router.push(`/store/${s.id}`)">
           <div class="store-logo-wrap">
-            <img v-if="s.logo || s.store_logo" :src="s.logo || s.store_logo" :alt="s.name || s.store_name" class="store-logo" loading="lazy" />
+            <img loading="lazy" v-if="s.logo || s.store_logo" :src="s.logo || s.store_logo" :alt="s.name || s.store_name" class="store-logo" />
             <div v-else class="avatar">{{ (s.name || s.store_name || '?')[0] }}</div>
           </div>
           <h3>{{ s.name || s.store_name }}</h3>
