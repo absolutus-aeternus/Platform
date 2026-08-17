@@ -54,11 +54,13 @@ const monthlyData = computed(() => {
 })
 
 const loadData = async () => {
-  let query = supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(200)
-  if (dateFrom.value) query = query.gte('created_at', dateFrom.value)
-  if (dateTo.value) query = query.lte('created_at', dateTo.value + 'T23:59:59')
-  const { data } = await query
-  orders.value = data || []
+  try {
+    let query = supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(200)
+    if (dateFrom.value) query = query.gte('created_at', dateFrom.value)
+    if (dateTo.value) query = query.lte('created_at', dateTo.value + 'T23:59:59')
+    const { data } = await query
+    orders.value = data || []
+  } catch (e) { console.error('Sales report error:', e) }
 }
 onMounted(loadData)
 </script>

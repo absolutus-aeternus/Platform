@@ -39,13 +39,15 @@ const flags = ref([
 ])
 
 const loadFlags = async () => {
-  const { data } = await supabase.from('system_params').select('*').like('code', 'flag_%')
-  if (data) {
-    data.forEach(p => {
-      const f = flags.value.find(f => 'flag_' + f.key === p.code)
-      if (f) f.enabled = p.value === 'true'
-    })
-  }
+  try {
+    const { data } = await supabase.from('system_params').select('*').like('code', 'flag_%')
+    if (data) {
+      data.forEach(p => {
+        const f = flags.value.find(f => 'flag_' + f.key === p.code)
+        if (f) f.enabled = p.value === 'true'
+      })
+    }
+  } catch (e) { console.error('Feature flags error:', e) }
 }
 
 const saveFlags = async () => {

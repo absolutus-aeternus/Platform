@@ -52,8 +52,10 @@ const filteredLogs = computed(() => {
 })
 
 const loadLogs = async () => {
-  const { data } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(200)
-  logs.value = data || []
+  try {
+    const { data } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(200)
+    logs.value = data || []
+  } catch (e) { console.error('Audit logs error:', e) }
 }
 
 const getIcon = (t) => ({ auth: 'fas fa-sign-in-alt', order: 'fas fa-shopping-bag', product: 'fas fa-box', user: 'fas fa-user', system: 'fas fa-cog' }[t] || 'fas fa-info-circle')

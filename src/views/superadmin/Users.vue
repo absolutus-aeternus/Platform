@@ -91,11 +91,13 @@ const showAdd = ref(false)
 const newUser = ref({ email: '', password: '', role: 'MEMBER' })
 
 const loadUsers = async () => {
-  let q = supabase.from('users').select('id,email,role,created_at').order('created_at', { ascending: false }).range((page.value - 1) * 20, page.value * 20 - 1)
-  if (roleFilter.value) q = q.eq('role', roleFilter.value)
-  if (search.value) q = q.ilike('email', '%' + search.value + '%')
-  const { data } = await q
-  users.value = data || []
+  try {
+    let q = supabase.from('users').select('id,email,role,created_at').order('created_at', { ascending: false }).range((page.value - 1) * 20, page.value * 20 - 1)
+    if (roleFilter.value) q = q.eq('role', roleFilter.value)
+    if (search.value) q = q.ilike('email', '%' + search.value + '%')
+    const { data } = await q
+    users.value = data || []
+  } catch (e) { console.error('Load users error:', e) }
 }
 
 const changeRole = async (u, newRole) => {

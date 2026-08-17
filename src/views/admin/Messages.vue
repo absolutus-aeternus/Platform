@@ -43,9 +43,11 @@ const filtered = computed(() => {
 })
 
 const load = async () => {
-  loading.value = true
-  const { data } = await supabase.from('chat_messages').select('*, sender:users!sender_id(email), receiver:users!receiver_id(email)').order('created_at', { ascending: false }).limit(200)
-  messages.value = data || []
+  try {
+    loading.value = true
+    const { data } = await supabase.from('chat_messages').select('*, sender:users!sender_id(email), receiver:users!receiver_id(email)').order('created_at', { ascending: false }).limit(200)
+    messages.value = data || []
+  } catch (e) { console.error('Messages load error:', e) }
   loading.value = false
 }
 const deleteMsg = async (m) => { if (!confirm('Delete message?')) return; await supabase.from('chat_messages').delete().eq('id', m.id); await load() }

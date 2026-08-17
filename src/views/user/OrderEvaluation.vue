@@ -58,16 +58,18 @@ const packaging = ref(0)
 const ratingText = computed(() => ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][rating.value] || 'Click to rate')
 
 const submitReview = async () => {
-  if (!userStore.supabaseUser) return window.__toast?.show('Please login')
-  await createEvaluation({
-    order_id: orderId || null,
-    user_id: userStore.supabaseUser.id,
-    product_id: productId || null,
-    rating: rating.value,
-    comment: `${title.value ? title.value + ': ' : ''}${comment.value}`
-  })
-  window.__toast?.show('Review submitted! Thank you.')
-  router.push('/user/orders')
+  try {
+    if (!userStore.supabaseUser) return window.__toast?.show('Please login')
+    await createEvaluation({
+      order_id: orderId || null,
+      user_id: userStore.supabaseUser.id,
+      product_id: productId || null,
+      rating: rating.value,
+      comment: `${title.value ? title.value + ': ' : ''}${comment.value}`
+    })
+    window.__toast?.show('Review submitted! Thank you.')
+    router.push('/user/orders')
+  } catch (e) { console.error('Order evaluation error:', e); window.__toast?.show('Failed to submit review', 'error') }
 }
 </script>
 
