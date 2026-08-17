@@ -88,14 +88,14 @@
             <i class="fas fa-bars"></i>
             <span>All</span>
           </div>
-          <router-link to="/commodity" class="sub-link">Today's Deals</router-link>
-          <router-link to="/search-store" class="sub-link">Stores</router-link>
-          <router-link to="/discounts" class="sub-link">Flash Sale</router-link>
+          <router-link to="/commodity" class="sub-link"><i class="fas fa-fire"></i> <span>Today's Deals</span></router-link>
+          <router-link to="/search-store" class="sub-link"><i class="fas fa-store"></i> <span>Stores</span></router-link>
+          <router-link to="/discounts" class="sub-link"><i class="fas fa-bolt"></i> <span>Flash Sale</span></router-link>
           <router-link v-for="cat in navCategories.slice(0, 6)" :key="cat.id" :to="`/search?category=${cat.id}`" class="sub-link">
-            {{ cat.name }}
+            <span>{{ cat.name }}</span>
           </router-link>
-          <router-link to="/blog" class="sub-link">Blog</router-link>
-          <router-link to="/how-to-buy" class="sub-link">How to Buy</router-link>
+          <router-link to="/blog" class="sub-link"><i class="fas fa-blog"></i> <span>Blog</span></router-link>
+          <router-link to="/how-to-buy" class="sub-link"><i class="fas fa-question-circle"></i> <span>How to Buy</span></router-link>
         </div>
         <div class="sub-right">
                   </div>
@@ -229,6 +229,7 @@
 <nav class="bottom-nav" v-if="device.isMobile">
   <router-link to="/" exact-active-class="active"><i class="fas fa-home"></i><span>Home</span></router-link>
   <router-link to="/category" active-class="active"><i class="fas fa-th-large"></i><span>Category</span></router-link>
+  <router-link to="/discounts" active-class="active"><i class="fas fa-fire"></i><span>Deals</span></router-link>
   <router-link to="/cart" active-class="active"><i class="fas fa-shopping-cart"></i><span>Cart</span></router-link>
   <router-link to="/user" active-class="active"><i class="fas fa-user"></i><span>Account</span></router-link>
 </nav>
@@ -311,7 +312,7 @@ onMounted(async () => {
 
 /* ===== MAIN HEADER ===== */
 .header { background: #131921; padding: 0.5rem 0; position: sticky; top: 0; z-index: 100; }
-.header-inner { display: flex; align-items: center; gap: 0.75rem; }
+.header-inner { display: flex; align-items: center; gap: 0.75rem; padding: 0.375rem 0; }
 .hamburger-btn { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 0.25rem; width: 2.25rem; height: 2.25rem; background: none; border: none; cursor: pointer; padding: 0.375rem; border-radius: 2px; }
 .hamburger-btn:hover { background: rgba(255,255,255,0.1); }
 .hamburger-line { width: 1.125rem; height: 2px; background: #fff; border-radius: 1px; transition: all 0.3s; }
@@ -326,10 +327,12 @@ onMounted(async () => {
 
 /* Search */
 .search-wrapper { flex: 1; max-width: 46rem; }
-.search-bar { display: flex; height: 2.5rem; border-radius: 4px; overflow: hidden; }
+.search-bar { display: flex; height: 2.75rem; border-radius: 8px; overflow: hidden; background: #fff; border: 2px solid transparent; transition: border-color 0.2s; }
+.search-bar:focus-within { border-color: #febd69; box-shadow: 0 0 0 2px rgba(254,189,105,0.3); }
 .search-cat { border: none; background: #f3f3f3; padding: 0 0.625rem; font-size: 0.75rem; color: #555; border-right: 1px solid #cdcdcd; cursor: pointer; outline: none; min-width: 4.5rem; }
-.search-bar input { flex: 1; padding: 0 0.75rem; border: none; font-size: 0.875rem; outline: none; min-width: 0; }
-.btn-search { padding: 0 1rem; background: #febd69; border: none; cursor: pointer; font-size: 0.875rem; color: #131921; transition: background 0.2s; }
+.search-bar input { flex: 1; padding: 0 0.875rem; border: none; font-size: 0.9375rem; outline: none; min-width: 0; background: transparent; }
+.search-bar input::placeholder { color: #999; }
+.btn-search { padding: 0 1.125rem; background: #febd69; border: none; cursor: pointer; font-size: 1rem; color: #131921; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
 .btn-search:hover { background: #f3a847; }
 
 /* Header Actions */
@@ -414,6 +417,11 @@ onMounted(async () => {
   .logo-img { height: 1.25rem; }
   .search-wrapper { max-width: none; }
   .search-cat { display: none; }
+  .search-bar { height: 2.5rem; border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); }
+  .search-bar:focus-within { border-color: #febd69; }
+  .search-bar input { font-size: 1rem; padding: 0 0.75rem; }
+  .search-bar input::placeholder { color: #aaa; }
+  .btn-search { padding: 0 1rem; font-size: 1rem; }
   .header-actions { gap: 0; }
   .action-text { display: none; }
   .header-action { padding: 0.375rem; }
@@ -422,6 +430,8 @@ onMounted(async () => {
   .cart-action strong { display: none; }
   .sub-left { gap: 0; }
   .sub-link { padding: 0.375rem 0.5rem; font-size: 0.75rem; }
+  .sub-link i { font-size: 0.875rem; margin-right: 0.25rem; }
+  .sub-link span { display: inline; }
   .sub-right { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .footer-bottom-inner { flex-direction: column; text-align: center; }
@@ -437,10 +447,11 @@ onMounted(async () => {
 
 /* ===== BOTTOM NAVIGATION (Mobile) ===== */
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; align-items: center; height: 3.5rem; border-top: 1px solid #e5e5e5; z-index: 150; padding-bottom: env(safe-area-inset-bottom, 0); box-shadow: 0 -2px 8px rgba(0,0,0,0.06); }
-.bottom-nav a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.125rem; color: #555; text-decoration: none; font-size: 0.625rem; padding: 0.5rem 0.75rem; min-height: 2.75rem; transition: color 0.2s; position: relative; flex: 1; }
-.bottom-nav a i { font-size: 1.125rem; }
+.bottom-nav a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.125rem; color: #888; text-decoration: none; font-size: 0.625rem; padding: 0.375rem 0.25rem; min-height: 2.75rem; transition: color 0.2s; position: relative; flex: 1; }
+.bottom-nav a i { font-size: 1.25rem; margin-bottom: 0.125rem; }
 .bottom-nav a.active { color: #FF9900; }
-.bottom-nav a.active::after { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 1.5rem; height: 2px; background: #FF9900; border-radius: 1px; }
+.bottom-nav a.active i { transform: scale(1.1); }
+.bottom-nav a.active::after { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 1.5rem; height: 3px; background: #FF9900; border-radius: 2px; }
 
 /* ===== MOBILE MAIN CONTENT PADDING (for bottom nav) ===== */
 @media (max-width: 768px) {
