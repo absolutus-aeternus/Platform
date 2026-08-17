@@ -165,5 +165,28 @@ h1 i { color: var(--brand-primary); }
 .order-summary { padding: 1.5rem; background: #f9f9f9; border-top: 1px solid var(--border-light); }
 .summary-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.875rem; }
 .summary-row strong { color: var(--brand-primary); }
-@media (max-width: 480px) { .track-search { flex-direction: column; } .timeline-step { gap: 0.75rem; } }
+@media (max-width: 768px) {
+  h1 { font-size: 1.25rem; }
+  .track-card { padding: 1rem; }
+  .order-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .order-header h2 { font-size: 1rem; }
+  .timeline { padding: 1rem; }
+  .step-icon { width: 28px; height: 28px; font-size: 0.75rem; }
+  .timeline-step:not(:last-child)::before { left: 13px; }
+  .step-info strong { font-size: 0.8125rem; }
+  .order-items { padding: 1rem; }
+  .order-item { gap: 0.75rem; }
+  .item-img { width: 48px; height: 48px; }
+  .item-info h4 { font-size: 0.8125rem; }
+  .order-summary { padding: 1rem; }
+}
+@media (max-width: 480px) {
+  .track-search { flex-direction: column; }
+  .track-search input { font-size: 16px; }
+  .timeline-step { gap: 0.5rem; padding: 0.5rem 0; }
+  .step-icon { width: 24px; height: 24px; font-size: 0.625rem; }
+  .timeline-step:not(:last-child)::before { left: 11px; top: 32px; }
+  .order-item { flex-wrap: wrap; }
+  .item-total { width: 100%; text-align: right; }
+}
 </style>
