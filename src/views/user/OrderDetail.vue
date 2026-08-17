@@ -73,4 +73,11 @@ h1 { margin-bottom: 25px; }
 .order-info p { margin-bottom: 5px; }
 .order-actions { padding: 15px 20px; border-top: 1px solid #f0f0f0; }
 .order-actions button { padding: 8px 20px; margin-right: 10px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; }
+@media (max-width: 768px) {
+  .order-header { flex-direction: column; gap: 8px; padding: 12px; }
+  .order-items { padding: 12px; }
+  .order-info { padding: 12px; }
+  .order-actions { padding: 12px; }
+  .order-actions button { width: 100%; margin-right: 0; margin-bottom: 8px; }
+}
 </style>

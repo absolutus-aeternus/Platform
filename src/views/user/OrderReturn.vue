@@ -89,4 +89,8 @@ const submitReturn = async () => {
 .return-info ul { list-style: none; padding: 0; }
 .return-info li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; color: #666; padding-left: 20px; position: relative; }
 .return-info li::before { content: '•'; position: absolute; left: 0; color: #FF9900; font-weight: bold; }
+@media (max-width: 768px) {
+  .return-container { grid-template-columns: 1fr; }
+  .order-header { flex-direction: column; gap: 8px; }
+}
 </style>
