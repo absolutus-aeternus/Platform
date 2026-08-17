@@ -1,6 +1,9 @@
 <template>
   <div class="sa-layout">
-    <aside class="sa-sidebar">
+    <!-- Mobile toggle -->
+    <button class="mobile-toggle" @click="showSidebar = !showSidebar" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+    <div v-if="showSidebar" class="mobile-overlay" @click="showSidebar = false"></div>
+    <aside class="sa-sidebar" :class="{ open: showSidebar }">
       <div class="sidebar-header">
         <img src="/images/logo-alliance.svg" alt="AllianceHub" class="sidebar-logo">
         <span class="sidebar-title">Super Admin</span>
@@ -169,6 +172,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 const router = useRouter()
 const userStore = useUserStore()
+import { ref } from 'vue'
+const showSidebar = ref(false)
 const handleLogout = async () => { await userStore.logout(); router.push('/login/admin') }
 </script>
 
@@ -194,6 +199,15 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .logout-btn:hover { background: rgba(255,255,255,0.1); color: #ff7675; }
 .sa-main { flex: 1; margin-left: 260px; min-height: 100vh; }
 @media (max-width: 1023px) { .sa-sidebar { width: 60px; } .sidebar-title, .nav-label, .nav-item span, .user-info div { display: none; } .nav-item { justify-content: center; padding: 10px; } .nav-item i { width: auto; } .sa-main { margin-left: 60px; } }
+@media (max-width: 768px) {
+  .mobile-toggle { display: block; position: fixed; top: 12px; left: 12px; z-index: 300; background: #1a1a2e; color: #fff; border: none; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+  .mobile-overlay { display: block; }
+  .sa-sidebar { transform: translateX(-100%); width: 260px; transition: transform 0.3s; }
+  .sa-sidebar.open { transform: translateX(0); }
+  .sa-main { margin-left: 0; padding-top: 60px; }
+}
+.mobile-toggle { display: none; }
+.mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; }
 
 .portal-switcher { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .switcher-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; letter-spacing: 1px; }

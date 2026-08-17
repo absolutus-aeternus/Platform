@@ -150,3 +150,20 @@ h4 { font-size: 1rem; font-weight: 600; line-height: 1.5; }
     font-size: 16px !important;
   }
 }
+
+/* Mobile: prevent horizontal overflow from fixed widths */
+@media (max-width: 768px) {
+  [style*="width:"] {
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal, .dialog, .popup {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
