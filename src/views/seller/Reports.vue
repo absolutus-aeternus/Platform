@@ -34,7 +34,7 @@ import { supabase } from '@/services/supabase'
 const userStore = useUserStore()
 const stats = ref({ revenue: '0.00', orders: 0, products: 0, customers: 0 })
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) return
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
   if (seller) {
@@ -48,6 +48,7 @@ onMounted(async () => {
     stats.value.products = products.data?.length || 0
     stats.value.customers = new Set((customers.data || []).map(c => c.user_id)).size
   }
+} catch (e) { console.error("Reports.vue error:", e) }
 })
 </script>
 

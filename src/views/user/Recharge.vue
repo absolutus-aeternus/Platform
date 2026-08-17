@@ -65,7 +65,7 @@ const presets = [50, 100, 200, 500, 1000, 2000]
 const selectedChannel = computed(() => channels.value.find(c => c.id === selected.value))
 const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#FF9900')
 
-onMounted(async () => {
+onMounted(async () => { try {
   const [ch, wallet, min] = await Promise.all([
     fetchBlockchainChannels(),
     userStore.supabaseUser ? fetchWallet(userStore.supabaseUser.id) : { data: null },
@@ -74,6 +74,7 @@ onMounted(async () => {
   channels.value = ch.data || []
   if (wallet.data) balance.value = parseFloat(wallet.data.balance || 0).toFixed(2)
   if (min.data) minRecharge.value = parseFloat(min.data.value) || 10
+} catch (e) { console.error("Recharge.vue error:", e) }
 })
 
 const submitRecharge = async () => {

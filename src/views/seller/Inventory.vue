@@ -72,7 +72,7 @@ const getStockLabel = (stock) => {
   return 'In Stock'
 }
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) { loading.value = false; return }
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
   if (seller) {
@@ -80,6 +80,7 @@ onMounted(async () => {
     products.value = data || []
   }
   loading.value = false
+} catch (e) { console.error("Inventory.vue error:", e) }
 })
 </script>
 

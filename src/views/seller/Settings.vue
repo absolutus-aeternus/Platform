@@ -46,9 +46,10 @@ const form = ref({
   name: '', description: '', logo: '', email: '', phone: '',
   notifyOrders: true, notifyMessages: true, notifyReviews: true, notifyLowStock: true, lowStockThreshold: 10,
   returnDays: '7', warranty: 'none', policies: ''
+} catch (e) { console.error("Settings.vue error:", e) }
 })
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) return
   const { data: seller } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).single()
   if (seller) {
@@ -58,6 +59,7 @@ onMounted(async () => {
     form.value.logo = seller.logo || ''
   }
   form.value.email = userStore.supabaseUser.email || ''
+} catch (e) { console.error("Settings.vue error:", e) }
 })
 
 const saveSettings = async () => {

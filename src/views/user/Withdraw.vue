@@ -62,7 +62,7 @@ const fee = computed(() => ((amount.value || 0) * (selectedChannel.value?.fee ||
 const receiveAmount = computed(() => Math.max(0, (amount.value || 0) - parseFloat(fee.value)).toFixed(2))
 const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#FF9900')
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) return
   const [ch, wallet, min, hist] = await Promise.all([
     fetchBlockchainChannels(),
@@ -74,6 +74,7 @@ onMounted(async () => {
   if (wallet.data) balance.value = parseFloat(wallet.data.balance || 0).toFixed(2)
   if (min.data) minWithdraw.value = parseFloat(min.data.value) || 50
   history.value = (hist.data || []).slice(0, 5)
+} catch (e) { console.error("Withdraw.vue error:", e) }
 })
 
 const submitWithdraw = async () => {

@@ -78,7 +78,7 @@ const scrollToBottom = () => {
   })
 }
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) { loading.value = false; return }
   
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
@@ -107,6 +107,7 @@ onMounted(async () => {
   
   conversations.value = Array.from(convMap.values())
   loading.value = false
+} catch (e) { console.error("Messages.vue error:", e) }
 })
 
 const selectConversation = async (conv) => {

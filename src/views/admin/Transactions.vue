@@ -47,13 +47,14 @@ const filtered = computed(() => {
   if (typeFilter.value) r = r.filter(t => t.type === typeFilter.value)
   if (statusFilter.value) r = r.filter(t => t.status === statusFilter.value)
   return r
+} catch (e) { console.error("Transactions.vue error:", e) }
 })
 const totalVolume = computed(() => transactions.value.reduce((s, t) => s + parseFloat(t.amount || t.total_amount || 0), 0).toFixed(2))
 const todayVolume = computed(() => { const today = new Date().toDateString(); return transactions.value.filter(t => new Date(t.created_at).toDateString() === today).reduce((s, t) => s + parseFloat(t.amount || t.total_amount || 0), 0).toFixed(2) })
 const pendingCount = computed(() => transactions.value.filter(t => t.status === 'pending').length)
 const completedCount = computed(() => transactions.value.filter(t => t.status === 'completed' || t.status === 'confirmed').length)
 
-onMounted(async () => {
+onMounted(async () => { try {
   const [orders, recharges, withdrawals] = await Promise.all([
     supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(100),
     supabase.from('recharges').select('*, users(email)').order('created_at', { ascending: false }).limit(100),
@@ -65,6 +66,7 @@ onMounted(async () => {
   ;(withdrawals.data || []).forEach(w => all.push({ ...w, type: 'withdrawal', user_email: w.users?.email }))
   all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
   transactions.value = all
+} catch (e) { console.error("Transactions.vue error:", e) }
 })
 </script>
 

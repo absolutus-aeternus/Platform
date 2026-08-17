@@ -54,6 +54,7 @@ const topSpenders = computed(() => {
     map[o.user_id].orderCount++; map[o.user_id].totalSpent += parseFloat(o.total_amount || 0)
   })
   return Object.values(map).sort((a,b) => b.totalSpent - a.totalSpent).slice(0, 10)
+} catch (e) { console.error("CustomerReport.vue error:", e) }
 })
 
 const monthlyRegs = computed(() => {
@@ -63,6 +64,7 @@ const monthlyRegs = computed(() => {
   const max = Math.max(...data.map(d => d.value), 1)
   data.forEach(d => { d.pct = (d.value / max) * 100 })
   return data
+} catch (e) { console.error("CustomerReport.vue error:", e) }
 })
 
 const filtered = computed(() => {
@@ -70,9 +72,10 @@ const filtered = computed(() => {
   if (search.value) r = r.filter(u => u.email?.toLowerCase().includes(search.value.toLowerCase()))
   if (roleFilter.value) r = r.filter(u => (u.role || 'MEMBER') === roleFilter.value)
   return r
+} catch (e) { console.error("CustomerReport.vue error:", e) }
 })
 
-onMounted(async () => {
+onMounted(async () => { try {
   const [u, o, s] = await Promise.all([
     supabase.from('users').select('*').order('created_at', { ascending: false }),
     supabase.from('orders').select('user_id, total_amount'),
@@ -81,6 +84,7 @@ onMounted(async () => {
   users.value = u.data || []
   orders.value = o.data || []
   sellers.value = s.data || []
+} catch (e) { console.error("CustomerReport.vue error:", e) }
 })
 </script>
 

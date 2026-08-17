@@ -56,12 +56,13 @@ const shipments = ref([])
 const saveSettings = () => window.__toast?.show('Shipping settings saved!')
 const addZone = () => window.__toast?.show('Add zone feature coming soon')
 
-onMounted(async () => {
+onMounted(async () => { try {
   if (!userStore.supabaseUser) return
   const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
   if (!seller) return
   const { data } = await supabase.from('orders').select('order_no, users(email), tracking_no, status, created_at').eq('seller_id', seller.id).eq('status', 'shipped').order('created_at', { ascending: false }).limit(10)
   shipments.value = (data || []).map(o => ({ id: o.order_no, order_no: o.order_no, customer: o.users?.email || 'N/A', method: 'Standard', tracking: o.tracking_no, status: o.status, date: new Date(o.created_at).toLocaleDateString() }))
+} catch (e) { console.error("Shipping.vue error:", e) }
 })
 </script>
 

@@ -21,9 +21,10 @@ const loading = ref(false)
 const form = ref({ current: '', newPw: '', confirm: '' })
 const msg = ref('')
 const msgColor = ref('#059669')
-onMounted(async () => {
+onMounted(async () => { try {
   const { data: { user } } = await supabase.auth.getUser()
   if (user) { const { data } = await supabase.from('users').select('safeword').eq('id', user.id).single(); hasExisting.value = !!data?.safeword }
+} catch (e) { console.error("FundPasswordSettings.vue error:", e) }
 })
 try { const savePassword = async () => {
   if (form.value.newPw !== form.value.confirm) { msg.value = 'Passwords do not match'; msgColor.value = '#dc2626'; return }
