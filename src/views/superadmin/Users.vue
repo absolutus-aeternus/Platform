@@ -11,10 +11,11 @@
       <input v-model="search" placeholder="Search email..." class="filter-input" @input="loadUsers">
       <select v-model="roleFilter" class="filter-select" @change="loadUsers">
         <option value="">All Roles</option>
-        <option value="MEMBER">Member</option>
+        <option value="MEMBER">Member (Buyer)</option>
         <option value="SELLER">Seller</option>
         <option value="ADMIN">Admin</option>
         <option value="SUPER_ADMIN">Super Admin</option>
+        <option value="RATING_PLUS">Rating Plus</option>
       </select>
     </div>
 
@@ -36,6 +37,7 @@
                   <option value="SELLER">Seller</option>
                   <option value="ADMIN">Admin</option>
                   <option value="SUPER_ADMIN">Super Admin</option>
+                  <option value="RATING_PLUS">Rating Plus</option>
                 </select>
               </td>
               <td>{{ formatDate(u.created_at) }}</td>
@@ -62,12 +64,14 @@
         <form @submit.prevent="createUser">
           <div class="form-group"><label>Email</label><input v-model="newUser.email" type="email" required></div>
           <div class="form-group"><label>Password</label><input v-model="newUser.password" type="password" required minlength="6"></div>
+          <div class="form-group"><label>Username</label><input v-model="newUser.username" type="text" placeholder="Display name"></div>
           <div class="form-group"><label>Role</label>
             <select v-model="newUser.role">
-              <option value="MEMBER">Member</option>
+              <option value="MEMBER">Member (Buyer)</option>
               <option value="SELLER">Seller</option>
               <option value="ADMIN">Admin</option>
               <option value="SUPER_ADMIN">Super Admin</option>
+              <option value="RATING_PLUS">Rating Plus</option>
             </select>
           </div>
           <div class="form-actions">
@@ -90,7 +94,7 @@ const search = ref('')
 const roleFilter = ref('')
 const page = ref(1)
 const showAdd = ref(false)
-const newUser = ref({ email: '', password: '', role: 'MEMBER' })
+const newUser = ref({ email: '', password: '', role: 'MEMBER', username: '' })
 
 const loadUsers = async () => {
   try {
@@ -110,16 +114,35 @@ const changeRole = async (u, newRole) => {
 }
 
 const createUser = async () => {
-  const { error } = await supabase.auth.admin.createUser({
-    email: newUser.value.email, password: newUser.value.password, email_confirm: true
-  })
-  if (error) { window.__toast?.show(error.message, 'error'); return }
-  const { data: u } = await supabase.from('users').select('id').eq('email', newUser.value.email).single()
-  if (u) await supabase.from('users').update({ role: newUser.value.role }).eq('id', u.id)
-  showAdd.value = false
-  newUser.value = { email: '', password: '', role: 'MEMBER' }
-  loadUsers()
-  window.__toast?.show('User created successfully!', 'success')
+  try {
+    // Step1: Create auth account
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: newUser.value.email,
+      password: newUser.value.password,
+      options: { data: { username: newUser.value.username || newUser.value.email.split('@')[0] } }
+    })
+    if (authError) { window.__toast?.show(authError.message, 'error'); return }
+
+    // Step2: Update role & username
+    const uid = authData.user?.id
+    if (uid) {
+      await supabase.from('users').update({
+        role: newUser.value.role,
+        username: newUser.value.username || newUser.value.email.split('@')[0]
+      }).eq('id', uid)
+
+      // Step3: Create wallet
+      await supabase.from('wallets').insert({ user_id: uid, balance: 0, rebate: 0, frozen_money: 0 })
+    }
+
+    showAdd.value = false
+    newUser.value = { email: '', password: '', role: 'MEMBER', username: '' }
+    loadUsers()
+    window.__toast?.show('User created successfully!', 'success')
+  } catch (e) {
+    console.error('Create user error:', e)
+    window.__toast?.show('Failed to create user: ' + e.message, 'error')
+  }
 }
 
 const deleteUser = async (u) => {
@@ -154,6 +177,7 @@ onMounted(loadUsers)
 .role-select { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #ddd; }
 .role-select.member { background: #dfe6e9; color: #636e72; }
 .role-select.seller { background: #dfe6e9; color: #0984e3; }
+.role-select.rating_plus { background: #a29bfe; color: #6c5ce7; }
 .role-select.admin { background: #ffeaa7; color: #d35400; }
 .role-select.super_admin { background: #fdcb6e; color: #e17055; }
 .status-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
