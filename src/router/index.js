@@ -197,8 +197,22 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
-    // Use cached session from store (instant, no network call)
     const store = useUserStore()
+
+    // Wait for store initialization to complete (max3 seconds)
+    if (!store._initialized) {
+      await Promise.race([
+        new Promise(resolve => {
+          const check = () => {
+            if (store._initialized) resolve()
+            else setTimeout(check, 50)
+          }
+          check()
+        }),
+        new Promise(resolve => setTimeout(resolve, 3000))
+      ])
+    }
+
     const isAuthenticated = store.isLoggedIn && !!store.token
 
     // ── Auth required but not logged in → redirect to correct login ──

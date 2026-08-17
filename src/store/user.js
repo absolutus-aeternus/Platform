@@ -9,8 +9,9 @@ export const useUserStore = defineStore('user', {
     isLoggedIn: false,
     supabaseUser: null,
     role: null,
-    portalMode: 'buyer', // Bug #5: persisted in localStorage
+    portalMode: 'buyer',
     _authListener: null,
+    _initialized: false, // Tracks if initFromStorage has completed
   }),
 
   getters: {
@@ -87,6 +88,8 @@ export const useUserStore = defineStore('user', {
         }
       } catch (e) {
         console.warn('initFromStorage: getSession failed:', e.message)
+      } finally {
+        this._initialized = true
       }
 
       // Remove old listener

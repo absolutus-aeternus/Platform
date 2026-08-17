@@ -54,11 +54,13 @@ const { initSync, disconnect, on: onSync } = useGlobalSync()
 const pageVisits = ref(0)
 
 onMounted(async () => {
-  // Initialize auth
+  // Initialize auth FIRST (router guard waits for this)
   try {
     await userStore.initFromStorage()
   } catch (e) {
     console.warn('App: initFromStorage failed:', e.message)
+    // Mark as initialized even on error to prevent infinite wait
+    userStore._initialized = true
   }
 
   // Make toast globally available
