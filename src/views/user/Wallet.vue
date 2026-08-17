@@ -7,8 +7,8 @@
         <h2>Balance</h2>
         <div class="balance">${{ wallet.balance || '0.00' }}</div>
         <div class="actions">
-          <button class="btn-recharge">Recharge</button>
-          <button class="btn-withdraw">Withdraw</button>
+          <button class="btn-recharge" @click="$router.push('/user/recharge')">Recharge</button>
+          <button class="btn-withdraw" @click="$router.push('/user/withdraw')">Withdraw</button>
         </div>
       </div>
       <div class="wallet-info">

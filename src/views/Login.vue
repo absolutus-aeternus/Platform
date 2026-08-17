@@ -56,8 +56,8 @@
       <div class="divider"><span>or continue with</span></div>
 
       <div class="social-btns">
-        <button class="btn-social"><i class="fab fa-google"></i> Google</button>
-        <button class="btn-social"><i class="fab fa-facebook-f"></i> Facebook</button>
+        <button class="btn-social" @click="window.__toast?.show('Google login coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
+        <button class="btn-social" @click="window.__toast?.show('Facebook login coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
       </div>
 
       <div class="login-footer">

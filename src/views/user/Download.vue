@@ -14,7 +14,7 @@
           <h3>{{ dl.name }}</h3>
           <p>{{ dl.size }} • Purchased {{ new Date(dl.date).toLocaleDateString() }}</p>
         </div>
-        <button class="btn-download"><i class="fas fa-download"></i> Download</button>
+        <button class="btn-download" @click="downloadFile(dl)"><i class="fas fa-download"></i> Download</button>
       </div>
     </div>
   </div>
@@ -23,6 +23,14 @@
 <script setup>
 import { ref } from 'vue'
 const downloads = ref([])
+
+const downloadFile = (dl) => {
+  if (dl.url) {
+    window.open(dl.url, '_blank')
+  } else {
+    window.__toast?.show('Download link not available', 'error')
+  }
+}
 </script>
 
 <style scoped>

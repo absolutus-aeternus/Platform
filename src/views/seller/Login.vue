@@ -93,10 +93,10 @@
 
         <!-- Social Login -->
         <div class="social-buttons">
-          <button class="btn-social google">
+          <button class="btn-social google" @click="window.__toast?.show('Google login coming soon', 'info')">
             <i class="fab fa-google"></i> Google
           </button>
-          <button class="btn-social facebook">
+          <button class="btn-social facebook" @click="window.__toast?.show('Facebook login coming soon', 'info')">
             <i class="fab fa-facebook-f"></i> Facebook
           </button>
         </div>

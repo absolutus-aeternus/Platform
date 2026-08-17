@@ -86,13 +86,13 @@
 
             <!-- Actions -->
             <div class="action-row">
-              <button class="btn-add-cart" @click="addToCart" :disabled="adding || product.stock <= 0">
+              <button class="btn-add-cart" @click="addToCart" :disabled="adding || product.stock <= 0" aria-label="Add to cart">
                 <i class="fas fa-shopping-cart"></i> {{ adding ? 'Adding...' : 'Add to Cart' }}
               </button>
-              <button class="btn-buy-now" @click="buyNow" :disabled="product.stock <= 0">
+              <button class="btn-buy-now" @click="buyNow" :disabled="product.stock <= 0" aria-label="Buy now">
                 Buy Now
               </button>
-              <button class="btn-fav" @click="toggleFav">
+              <button class="btn-fav" @click="toggleFav" aria-label="Toggle favorite">
                 <i :class="isFav ? 'fas fa-heart' : 'far fa-heart'"></i>
               </button>
             </div>

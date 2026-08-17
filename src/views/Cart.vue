@@ -62,7 +62,7 @@
             <span>Total</span>
             <span>${{ userStore.cartTotal.toFixed(2) }}</span>
           </div>
-          <button class="btn-checkout" @click="$router.push('/checkout')">
+          <button class="btn-checkout" @click="$router.push('/checkout')" aria-label="Proceed to checkout">
             Proceed to Checkout
           </button>
           <router-link to="/" class="continue-shopping">← Continue Shopping</router-link>

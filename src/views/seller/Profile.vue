@@ -29,7 +29,7 @@
           <label>Store Address</label>
           <input v-model="store.address" placeholder="Address">
         </div>
-        <button class="btn-save">Save Profile</button>
+        <button class="btn-save" @click="saveProfile">Save Profile</button>
       </div>
     </div>
   </div>
@@ -49,6 +49,21 @@ onMounted(async () => {
     store.value = data || {}
   }
 })
+
+const saveProfile = async () => {
+  if (!userStore.supabaseUser) return
+  try {
+    await supabase.from('sellers').update({
+      name: store.value.name,
+      description: store.value.description,
+      logo: store.value.logo
+    }).eq('user_id', userStore.supabaseUser.id)
+    window.__toast?.show('Profile saved!', 'success')
+  } catch (e) {
+    console.error('Save profile error:', e)
+    window.__toast?.show('Failed to save profile', 'error')
+  }
+}
 </script>
 
 <style scoped>

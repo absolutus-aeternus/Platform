@@ -20,7 +20,7 @@
             <span><i class="fas fa-star" style="color:#FF9900"></i> {{ s.rating || '4.8' }}</span>
           </p>
           <p class="store-desc">{{ s.description?.slice(0, 60) || 'Quality products with fast shipping' }}...</p>
-          <button class="btn-visit">Visit Store</button>
+          <button class="btn-visit" @click.stop="$router.push(`/store/${s.id}`)">Visit Store</button>
         </div>
       </div>
     </div>

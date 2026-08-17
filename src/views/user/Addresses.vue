@@ -67,7 +67,7 @@
           </div>
           <div class="modal-actions">
             <button type="button" @click="closeModal">Cancel</button>
-            <button type="submit" class="btn-primary">Save</button>
+            <button type="submit" class="btn-primary" :disabled="saving"><i class="fas fa-spinner fa-spin" v-if="saving"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
           </div>
         </form>
       </div>
@@ -83,6 +83,7 @@ import { supabase } from '@/services/supabase'
 const userStore = useUserStore()
 const addresses = ref([])
 const loading = ref(true)
+const saving = ref(false)
 const showAdd = ref(false)
 const editing = ref(null)
 const form = ref({ contacts: '', phone: '', address: '', city: '', province: '', country: 'Indonesia', postcode: '', is_default: false })
@@ -110,6 +111,7 @@ const closeModal = () => {
 }
 
 const saveAddress = async () => {
+  saving.value = true
   try {
     if (editing.value) {
       await supabase.from('addresses').update(form.value).eq('id', editing.value)
@@ -121,6 +123,7 @@ const saveAddress = async () => {
   } catch (e) {
     window.__toast?.show('Failed to save address: ' + e.message)
   }
+  saving.value = false
 }
 
 const deleteAddress = async (id) => {
