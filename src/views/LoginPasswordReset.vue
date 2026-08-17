@@ -19,7 +19,7 @@ const loading = ref(false)
 const form = ref({ current: '', newPw: '', confirm: '' })
 const msg = ref('')
 const msgColor = ref('#059669')
-const resetPassword = async () => {
+try { const resetPassword = async () => {
   if (form.value.newPw !== form.value.confirm) { msg.value = 'Passwords do not match'; msgColor.value = '#dc2626'; return }
   const { error } = await supabase.auth.updateUser({ password: form.value.newPw })
   if (error) { msg.value = error.message; msgColor.value = '#dc2626' } else { msg.value = 'Password updated!'; msgColor.value = '#059669' }

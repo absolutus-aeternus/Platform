@@ -25,7 +25,7 @@ onMounted(async () => {
   const { data: { user } } = await supabase.auth.getUser()
   if (user) { const { data } = await supabase.from('users').select('safeword').eq('id', user.id).single(); hasExisting.value = !!data?.safeword }
 })
-const savePassword = async () => {
+try { const savePassword = async () => {
   if (form.value.newPw !== form.value.confirm) { msg.value = 'Passwords do not match'; msgColor.value = '#dc2626'; return }
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return

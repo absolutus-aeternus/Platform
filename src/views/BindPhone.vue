@@ -22,7 +22,7 @@ const code = ref('')
 const countdown = ref(0)
 const msg = ref('')
 const msgColor = ref('#059669')
-const sendCode = () => { countdown.value = 60; const t = setInterval(() => { countdown.value--; if (countdown.value <= 0) clearInterval(t) }, 1000) }
+try { const sendCode = () => { countdown.value = 60; const t = setInterval(() => { countdown.value--; if (countdown.value <= 0) clearInterval(t) }, 1000) }
 const bindPhone = async () => {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) { router.push('/login'); return }

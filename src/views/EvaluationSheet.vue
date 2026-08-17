@@ -19,7 +19,7 @@ const rating = ref(5)
 const comment = ref('')
 const msg = ref('')
 const msgColor = ref('#059669')
-const submitReview = async () => {
+try { const submitReview = async () => {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) { router.push('/login'); return }
   const { error } = await supabase.from('evaluations').insert({ user_id: user.id, product_id: route.query.product, order_id: route.query.order, rating: rating.value, comment: comment.value })

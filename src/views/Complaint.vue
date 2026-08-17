@@ -20,7 +20,7 @@ const loading = ref(false)
 const form = ref({ orderId: '', subject: '', category: '', description: '' })
 const msg = ref('')
 const msgColor = ref('#059669')
-const submitComplaint = async () => {
+try { const submitComplaint = async () => {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) { msg.value = 'Please login first'; msgColor.value = '#dc2626'; return }
   const { error } = await supabase.from('complaints').insert({ user_id: user.id, order_id: form.value.orderId || null, subject: form.value.subject, category: form.value.category, description: form.value.description })

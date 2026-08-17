@@ -19,7 +19,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '@/services/supabase'
 const router = useRouter(); const confirm = ref(false); const loading = ref(false); const msg = ref('')
-const cancelAccount = async () => {
+try { const cancelAccount = async () => {
   loading.value = true
   const { data: { user } } = await supabase.auth.getUser()
   if (user) { await supabase.from('users').update({ role: 'CANCELLED' }).eq('id', user.id); await supabase.auth.signOut() }

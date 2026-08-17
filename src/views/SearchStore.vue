@@ -37,10 +37,12 @@ const loading = ref(false)
 
 const search = async () => {
   loading.value = true
-  let q = supabase.from('sellers').select('*').eq('status', 'active')
-  if (query.value) q = q.ilike('name', `%${query.value}%`)
-  const { data } = await q.order('followers', { ascending: false }).limit(30)
-  stores.value = data || []
+  try {
+    let q = supabase.from('sellers').select('*').eq('status', 'active')
+    if (query.value) q = q.ilike('name', `%${query.value}%`)
+    const { data } = await q.order('followers', { ascending: false }).limit(30)
+    stores.value = data || []
+  } catch (e) { console.error('Search stores error:', e) }
   loading.value = false
 }
 

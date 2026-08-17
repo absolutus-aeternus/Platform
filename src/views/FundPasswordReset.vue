@@ -16,7 +16,7 @@
 import { ref } from 'vue'
 import { supabase } from '@/services/supabase'
 const email = ref(''); const newPw = ref(''); const confirm = ref(''); const loading = ref(false); const msg = ref(''); const msgColor = ref('#059669')
-const resetPassword = async () => {
+try { const resetPassword = async () => {
   if (newPw.value !== confirm.value) { msg.value = 'Passwords do not match'; msgColor.value = '#dc2626'; return }
   loading.value = true
   const { error } = await supabase.auth.updateUser({ password: newPw.value })

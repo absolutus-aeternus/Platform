@@ -22,7 +22,7 @@ import { supabase } from '@/services/supabase'
 const route = useRoute()
 const order = ref(null)
 const timeline = ref([])
-onMounted(async () => {
+onMounted(async () => { try {
   const { data } = await supabase.from('orders').select('*').eq('id', route.query.order).single()
   if (data) {
     order.value = data
@@ -34,6 +34,7 @@ onMounted(async () => {
       { title: 'Delivered', desc: 'Order delivered', time: data.status === 'delivered' ? new Date(data.updated_at).toLocaleString() : 'Pending' },
     ]
   }
+} catch (e) { console.error('Logistics error:', e) }
 })
 </script>
 <style scoped>

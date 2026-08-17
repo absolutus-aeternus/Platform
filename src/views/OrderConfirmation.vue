@@ -35,9 +35,9 @@ import { useRoute } from 'vue-router'
 import { supabase } from '@/services/supabase'
 const route = useRoute()
 const order = ref(null)
-onMounted(async () => {
+onMounted(async () => { try {
   const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', route.query.order).single()
-  if (data) order.value = data
+  if (data) order.value = data } catch (e) { console.error("Order load error:", e) }
 })
 </script>
 <style scoped>

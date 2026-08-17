@@ -21,7 +21,9 @@ import { supabase } from '@/services/supabase'
 const route = useRoute()
 const reviews = ref([])
 onMounted(async () => {
-  const { data } = await supabase.from('evaluations').select('*, users(email)').order('created_at', { ascending: false }).limit(50)
-  if (data) reviews.value = data
+  try {
+    const { data } = await supabase.from('evaluations').select('*, users(email)').order('created_at', { ascending: false }).limit(50)
+    if (data) reviews.value = data
+  } catch (e) { console.error('All reviews error:', e) }
 })
 </script>

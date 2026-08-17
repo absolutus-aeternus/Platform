@@ -25,8 +25,10 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 const records = ref([])
 onMounted(async () => {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (user) { const { data } = await supabase.from('withdrawals').select('*').eq('user_id', user.id).order('created_at', { ascending: false }); if (data) records.value = data }
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) { const { data } = await supabase.from('withdrawals').select('*').eq('user_id', user.id).order('created_at', { ascending: false }); if (data) records.value = data }
+  } catch (e) { console.error('Withdraw record error:', e) }
 })
 </script>
 <style scoped>.data-table { width: 100%; border-collapse: collapse; } .data-table th { background: #1a1a2e; color: white; padding: 14px 16px; text-align: left; font-size: 13px; } .data-table td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; } .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; } .status-badge.pending { background: #fef3c7; color: #92400e; } .status-badge.completed { background: #d1fae5; color: #065f46; }</style>

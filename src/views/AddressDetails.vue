@@ -27,21 +27,25 @@ const isEdit = ref(false)
 const loading = ref(false)
 const form = ref({ contacts: '', phone: '', email: '', country: '', province: '', city: '', address: '', postcode: '', is_default: false })
 onMounted(async () => {
-  if (route.query.id) {
-    isEdit.value = true
-    const { data } = await supabase.from('addresses').select('*').eq('id', route.query.id).single()
-    if (data) form.value = data
-  }
+  try {
+    if (route.query.id) {
+      isEdit.value = true
+      const { data } = await supabase.from('addresses').select('*').eq('id', route.query.id).single()
+      if (data) form.value = data
+    }
+  } catch (e) { console.error('Load address error:', e) }
 })
 const saveAddress = async () => {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) { router.push('/login'); return }
-  if (isEdit.value) {
-    await supabase.from('addresses').update(form.value).eq('id', route.query.id)
-  } else {
-    await supabase.from('addresses').insert({ ...form.value, user_id: user.id })
-  }
-  router.push('/user/addresses')
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { router.push('/login'); return }
+    if (isEdit.value) {
+      await supabase.from('addresses').update(form.value).eq('id', route.query.id)
+    } else {
+      await supabase.from('addresses').insert({ ...form.value, user_id: user.id })
+    }
+    router.push('/user/addresses')
+  } catch (e) { console.error('Save address error:', e); window.__toast?.show('Failed to save address', 'error') }
 }
 </script>
 <style scoped>.form-group { margin-bottom: 16px; } .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #FF9900; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }</style>

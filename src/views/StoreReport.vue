@@ -36,8 +36,10 @@ const store = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  const { data } = await supabase.from('sellers').select('*').eq('id', route.params.sellerId).single()
-  store.value = data
+  try {
+    const { data } = await supabase.from('sellers').select('*').eq('id', route.params.sellerId).single()
+    store.value = data
+  } catch (e) { console.error('Store report error:', e) }
   loading.value = false
 })
 </script>
