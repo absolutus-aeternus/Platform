@@ -22,13 +22,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/store/user'
-import { fetchNotifications } from '@/services/supabase'
+import { supabase, fetchNotifications } from '@/services/supabase'
+import { useGlobalSync } from '@/composables/useGlobalSync'
 
 const userStore = useUserStore()
 const notifications = ref([])
 const loading = ref(true)
+const { on: onSync } = useGlobalSync()
+let unsubscribe = null
 
 const getIcon = (type) => {
   const icons = {
@@ -51,16 +54,27 @@ const formatTime = (timestamp) => {
   return date.toLocaleDateString()
 }
 
-onMounted(async () => {
-  if (userStore.supabaseUser) {
-    try {
-      const { data } = await fetchNotifications(userStore.supabaseUser.id)
-      notifications.value = data || []
-    } catch (e) {
-      console.error('Failed to load notifications:', e)
-    }
+const loadNotifications = async () => {
+  if (!userStore.supabaseUser) { loading.value = false; return }
+  try {
+    const { data } = await fetchNotifications(userStore.supabaseUser.id)
+    notifications.value = data || []
+  } catch (e) {
+    console.error('Failed to load notifications:', e)
   }
   loading.value = false
+}
+
+onMounted(() => {
+  loadNotifications()
+  // Listen for realtime notification updates
+  unsubscribe = onSync('notifications:change', () => {
+    loadNotifications()
+  })
+})
+
+onUnmounted(() => {
+  if (unsubscribe) unsubscribe()
 })
 </script>
 

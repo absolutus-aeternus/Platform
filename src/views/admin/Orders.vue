@@ -37,22 +37,36 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/services/supabase'
 const orders = ref([])
 const search = ref('')
 const statusFilter = ref('')
 const loading = ref(true)
+let realtimeChannel = null
 
-onMounted(async () => {
+const loadOrders = async () => {
   try {
     const { data } = await supabase.from('orders').select('*, users(email), order_items(*)').order('created_at', { ascending: false }).limit(100)
     orders.value = data || []
   } catch (e) {
     console.error('Orders load error:', e)
-  } finally {
-    loading.value = false
   }
+}
+
+onMounted(async () => {
+  await loadOrders()
+  loading.value = false
+  // Realtime subscription for orders
+  realtimeChannel = supabase.channel('admin-orders')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+      loadOrders()
+    })
+    .subscribe()
+})
+
+onUnmounted(() => {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
 })
 
 const filteredOrders = computed(() => {

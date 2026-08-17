@@ -37,11 +37,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { fetchOrders } from '@/services/supabase'
+import { useGlobalSync } from '@/composables/useGlobalSync'
 
 const userStore = useUserStore()
+const { on: onSync } = useGlobalSync()
+let unsubscribe = null
 const tab = ref('all')
 const orders = ref([])
 const loading = ref(true)
@@ -59,8 +62,17 @@ onMounted(async () => {
     } catch (e) {
       console.error('Failed to load orders:', e)
     }
+    // Listen for realtime order updates
+    unsubscribe = onSync('orders:change', async () => {
+      const { data } = await fetchOrders(userStore.supabaseUser.id)
+      orders.value = data || []
+    })
   }
   loading.value = false
+})
+
+onUnmounted(() => {
+  if (unsubscribe) unsubscribe()
 })
 </script>
 

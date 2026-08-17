@@ -40,11 +40,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
 const products = ref([])
 const loading = ref(true)
+let realtimeChannel = null
 const search = ref('')
 const statusFilter = ref('')
 const showAdd = ref(false)
@@ -61,7 +62,16 @@ const loadProducts = async () => {
   finally { loading.value = false }
 }
 
-onMounted(loadProducts)
+onMounted(() => {
+  loadProducts()
+  realtimeChannel = supabase.channel('admin-products')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => loadProducts())
+    .subscribe()
+})
+
+onUnmounted(() => {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+})
 
 const editProduct = (p) => { window.__toast?.show(`Edit: ${p.name}`, 'info') }
 
