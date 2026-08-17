@@ -32,7 +32,7 @@
           <tr v-for="product in products" :key="product.id">
             <td>
               <div class="product-cell">
-                <div class="product-img">{{ product.name[0] }}</div>
+                <div class="product-img">{{ (product.name || '?')[0] }}</div>
                 <span>{{ product.name.substring(0, 40) }}...</span>
               </div>
             </td>

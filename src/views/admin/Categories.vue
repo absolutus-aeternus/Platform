@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="cat in filteredCategories" :key="cat.id">
-            <td><div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || cat.name[0] }}</div></td>
+            <td><div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || (cat.name || '?')[0] }}</div></td>
             <td><strong>{{ cat.name }}</strong></td>
             <td>{{ cat.description || '-' }}</td>
             <td>{{ cat.product_count || 0 }}</td>

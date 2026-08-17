@@ -40,7 +40,7 @@
           <div v-for="product in filteredProducts" :key="product.id" class="product-card" @click="$router.push(`/product/${product.id}`)">
             <div class="product-img">
               <img v-if="product.images?.[0]" :src="product.images[0]" :alt="product.name" loading="lazy" />
-              <div v-else class="img-placeholder"><span>{{ product.name[0] }}</span></div>
+              <div v-else class="img-placeholder"><span>{{ (product.name || '?')[0] }}</span></div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
             </div>
             <div class="product-body">

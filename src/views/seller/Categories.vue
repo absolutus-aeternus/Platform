@@ -5,7 +5,7 @@
     <div v-if="loading" class="loading">Loading...</div>
     <div v-else class="category-grid">
       <div v-for="cat in filtered" :key="cat.id" class="category-card" @click="selectedCat = cat">
-        <div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || cat.name[0] }}</div>
+        <div class="cat-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || (cat.name || '?')[0] }}</div>
         <h3>{{ cat.name }}</h3>
         <p>{{ cat.description || 'Browse products' }}</p>
         <span class="product-count">{{ cat.product_count || 0 }} products</span>
@@ -15,7 +15,7 @@
     <div v-if="selectedCat" class="modal-overlay" @click.self="selectedCat = null">
       <div class="modal">
         <div class="modal-header" :style="{ background: selectedCat.color || '#FF9900' }">
-          <div class="modal-icon">{{ selectedCat.icon || selectedCat.name[0] }}</div>
+          <div class="modal-icon">{{ selectedCat.icon || (selectedCat.name || '?')[0] }}</div>
           <h2>{{ selectedCat.name }}</h2>
         </div>
         <div class="modal-body">

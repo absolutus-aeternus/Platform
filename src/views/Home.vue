@@ -17,7 +17,7 @@
             <div class="sidebar-title">Categories</div>
             <div v-for="cat in categories.slice(0, 12)" :key="cat.id"
                  class="sidebar-item" @click="$router.push(`/search?category=${cat.id}`)">
-              <span class="si-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || cat.name[0] }}</span>
+              <span class="si-icon" :style="{ background: cat.color || '#FF9900' }">{{ cat.icon || (cat.name || '?')[0] }}</span>
               <span class="si-name">{{ cat.name }}</span>
               <i class="fas fa-chevron-right si-arrow"></i>
             </div>
@@ -83,7 +83,7 @@
           <div v-for="p in flashProducts" :key="p.id" class="flash-card" @click="$router.push(`/product/${p.id}`)">
             <div class="fc-image">
               <img v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" loading="lazy" />
-              <div v-else class="fc-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ p.name[0] }}</span></div>
+              <div v-else class="fc-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
               <div class="fc-discount-tag">-{{ p.discount || 30 }}%</div>
             </div>
             <div class="fc-info">
@@ -105,7 +105,7 @@
         <h2 class="section-title">Categories</h2>
         <div class="cat-icons-scroll">
           <div v-for="cat in categories" :key="cat.id" class="cat-icon-item" @click="$router.push(`/search?category=${cat.id}`)">
-            <div class="ci-circle" :style="{ background: cat.color || '#FF9900' }"><span>{{ cat.icon || cat.name[0] }}</span></div>
+            <div class="ci-circle" :style="{ background: cat.color || '#FF9900' }"><span>{{ cat.icon || (cat.name || '?')[0] }}</span></div>
             <span class="ci-name">{{ cat.name }}</span>
           </div>
         </div>
@@ -168,7 +168,7 @@
           <div v-for="p in sortedProducts" :key="p.id" class="pg-card" @click="$router.push(`/product/${p.id}`)">
             <div class="pg-img">
               <img v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" loading="lazy" />
-              <div v-else class="pg-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ p.name[0] }}</span></div>
+              <div v-else class="pg-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
               <span v-if="p.discount" class="pg-badge">-{{ p.discount }}%</span>
             </div>
             <div class="pg-body">

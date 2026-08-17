@@ -15,7 +15,7 @@
               <th v-for="p in products" :key="p.id">
                 <div class="comp-product">
                   <img v-if="p.images?.[0]" :src="p.images[0]" :alt="p.name" />
-                  <div v-else class="img-placeholder">{{ p.name[0] }}</div>
+                  <div v-else class="img-placeholder">{{ (p.name || '?')[0] }}</div>
                   <button class="remove-btn" @click="removeProduct(p.id)" title="Remove"><i class="fas fa-times"></i></button>
                 </div>
               </th>

@@ -23,7 +23,7 @@
             <div v-for="conv in filteredConversations" :key="conv.id" 
                  class="conv-item" :class="{ active: activeConv?.id === conv.id, unread: conv.unread }"
                  @click="selectConversation(conv)">
-              <div class="conv-avatar" :class="conv.role">{{ conv.name[0].toUpperCase() }}</div>
+              <div class="conv-avatar" :class="conv.role">{{ (conv.name || '?')[0]?.toUpperCase() }}</div>
               <div class="conv-info">
                 <div class="conv-header">
                   <span class="conv-name">{{ conv.name }}</span>
@@ -49,7 +49,7 @@
           <!-- Chat Header -->
           <div class="chat-header">
             <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
-            <div class="header-avatar" :class="activeConv.role">{{ activeConv.name[0].toUpperCase() }}</div>
+            <div class="header-avatar" :class="activeConv.role">{{ (activeConv.name || '?')[0]?.toUpperCase() }}</div>
             <div class="header-info">
               <h4>{{ activeConv.name }}</h4>
               <span class="header-role" :class="activeConv.role">{{ activeConv.role }}</span>
@@ -98,7 +98,7 @@
       <!-- Info Panel -->
       <div class="info-panel" v-if="activeConv">
         <div class="info-header">
-          <div class="info-avatar" :class="activeConv.role">{{ activeConv.name[0].toUpperCase() }}</div>
+          <div class="info-avatar" :class="activeConv.role">{{ (activeConv.name || '?')[0]?.toUpperCase() }}</div>
           <h4>{{ activeConv.name }}</h4>
           <span class="info-role" :class="activeConv.role">{{ activeConv.role }}</span>
         </div>

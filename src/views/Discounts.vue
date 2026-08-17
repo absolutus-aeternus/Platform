@@ -8,7 +8,7 @@
         <div v-for="product in products" :key="product.id" class="product-card" @click="$router.push(`/product/${product.id}`)">
           <div v-if="product.discount" class="discount-badge">-{{ product.discount }}%</div>
           <div class="product-image">
-            <div class="img-placeholder">{{ product.name[0] }}</div>
+            <div class="img-placeholder">{{ (product.name || '?')[0] }}</div>
           </div>
           <div class="product-info">
             <h3>{{ product.name }}</h3>

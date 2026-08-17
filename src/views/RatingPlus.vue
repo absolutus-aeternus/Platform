@@ -132,7 +132,7 @@
           <div class="testi-stars"><i class="fas fa-star" v-for="s in 5" :key="s"></i></div>
           <p class="testi-text">"{{ t.text }}"</p>
           <div class="testi-author">
-            <div class="avatar" :style="{ background: t.color }">{{ t.name[0] }}</div>
+            <div class="avatar" :style="{ background: t.color }">{{ (t.name || '?')[0] }}</div>
             <div class="info"><h4>{{ t.name }}</h4><p>{{ t.role }}</p></div>
           </div>
         </div>

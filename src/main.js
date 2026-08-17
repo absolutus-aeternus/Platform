@@ -55,6 +55,9 @@ app.use(i18n)
 // BUG #17: Global error handler
 app.config.errorHandler = (err, instance, info) => {
   console.error('Vue error:', err, info)
-  if (window.__toast) window.__toast.show('Something went wrong', 'error')
+  // Don't show toast for minor errors
+  if (err?.message?.includes('ResizeObserver') || err?.message?.includes('Script error')) return
+  const msg = err?.message || 'Something went wrong'
+  if (window.__toast) window.__toast.show(msg, 'error')
 }
 app.mount('#app')

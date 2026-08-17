@@ -19,7 +19,7 @@
                    class="conversation-item"
                    :class="{ active: activeConv?.id === conv.id, unread: conv.unread }"
                    @click="selectConversation(conv)">
-                <div class="conv-avatar">{{ conv.name[0].toUpperCase() }}</div>
+                <div class="conv-avatar">{{ (conv.name || '?')[0]?.toUpperCase() || '?' }}</div>
                 <div class="conv-info">
                   <div class="conv-header">
                     <span class="conv-name">{{ conv.name }}</span>
@@ -44,7 +44,7 @@
             <!-- Chat Header -->
             <div class="chat-header">
               <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
-              <div class="header-avatar">{{ activeConv.name[0].toUpperCase() }}</div>
+              <div class="header-avatar">{{ (activeConv.name || '?')[0]?.toUpperCase() || '?' }}</div>
               <div class="header-info">
                 <h4>{{ activeConv.name }}</h4>
                 <span class="online-status" :class="connectionStatus">{{ connectionLabel }}</span>
@@ -72,7 +72,7 @@
               </div>
               <div v-else>
                 <div v-for="msg in messages" :key="msg.id" class="message" :class="{ own: msg.is_own }">
-                  <div class="message-avatar" v-if="!msg.is_own">{{ activeConv.name[0] }}</div>
+                  <div class="message-avatar" v-if="!msg.is_own">{{ (activeConv.name || '?')[0] }}</div>
                   <div class="message-bubble">
                     <p>{{ msg.message }}</p>
                     <span class="message-time">{{ formatTime(msg.created_at) }}</span>

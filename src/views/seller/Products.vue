@@ -10,7 +10,7 @@
     </div>
     <div v-else class="product-list">
       <div v-for="product in products" :key="product.id" class="product-row">
-        <div class="product-img">{{ product.name[0] }}</div>
+        <div class="product-img">{{ (product.name || '?')[0] }}</div>
         <div class="product-info">
           <h4>{{ product.name }}</h4>
           <p>${{ product.price }} | Stock: {{ product.stock }}</p>
