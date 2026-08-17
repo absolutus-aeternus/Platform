@@ -302,10 +302,33 @@ const chatSeller = () => {
 .review-stars { color: #ffc107; font-size: 11px; }
 .review-date { font-size: 12px; color: #999; }
 .review-text { font-size: 14px; color: #555; line-height: 1.6; }
+@media (max-width: 1024px) {
+  .product-main { gap: 20px; }
+  .current-price { font-size: 24px; }
+}
 @media (max-width: 768px) {
-  .product-main { grid-template-columns: 1fr; gap: 20px; padding: 16px; }
+  .product-main { grid-template-columns: 1fr; gap: 16px; padding: 12px; }
   .product-gallery { position: static; }
-  .action-row { flex-direction: column; }
+  .main-image img { aspect-ratio: 1; }
+  .thumb { width: 48px; height: 48px; }
+  .product-title { font-size: 16px; }
+  .current-price { font-size: 20px; }
+  .original-price { font-size: 14px; }
+  .action-row { flex-direction: column; gap: 8px; }
   .btn-fav { width: 100%; height: 44px; }
+  .btn-add-cart, .btn-buy-now { padding: 12px; font-size: 14px; }
+  .info-row { font-size: 13px; }
+  .info-row .label { width: 70px; }
+  .product-tabs button { font-size: 13px; padding: 10px; }
+  .tab-content { padding: 16px; }
+}
+@media (max-width: 480px) {
+  .breadcrumb { font-size: 11px; }
+  .product-title { font-size: 15px; }
+  .price-box { padding: 12px; }
+  .current-price { font-size: 18px; }
+  .quantity-section { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .qty-control input { width: 40px; }
+  .qty-control button { width: 32px; height: 32px; }
 }
 </style>

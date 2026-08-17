@@ -184,7 +184,7 @@ const placeOrder = async () => {
 <style scoped>
 .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 .page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
-.checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+.checkout-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
 .checkout-form { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .checkout-summary { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 20px; }
 .form-group { margin-bottom: 16px; }

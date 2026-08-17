@@ -115,6 +115,21 @@ h1 { margin-bottom: 25px; }
 .seller-link { background: linear-gradient(135deg, #FF9900, #e68a00); }
 .rating-link { background: linear-gradient(135deg, #e68a00, #FF9900); }
 
-@media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+@media (max-width: 768px) {
+  h1 { font-size: 1.25rem; margin-bottom: 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 16px; gap: 12px; }
+  .stat-card i { font-size: 24px; }
+  .stat-card h3 { font-size: 18px; }
+  .stat-card p { font-size: 12px; }
+  .user-info { padding: 16px; }
+  .info-row { font-size: 13px; }
+}
+@media (max-width: 480px) {
+  h1 { font-size: 1.1rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { padding: 12px; flex-direction: column; text-align: center; gap: 8px; }
+  .stat-card i { font-size: 20px; }
+  .stat-card h3 { font-size: 16px; }
+}
 </style>

@@ -131,10 +131,25 @@ const removeItem = async (id) => { await userStore.removeFromCart(id) }
 @media (max-width: 768px) {
   .cart-layout { grid-template-columns: 1fr; }
   .cart-header { display: none; }
-  .cart-item { grid-template-columns: 30px 1fr; gap: 12px; padding: 16px 12px; }
-  .item-product { grid-column: 1 / -1; }
-  .item-price, .item-qty, .item-total { font-size: 13px; }
-  .item-remove { grid-column: 2; justify-self: end; }
+  .cart-item { grid-template-columns: 30px auto 1fr; gap: 10px; padding: 12px; }
+  .item-check { grid-row: 1; }
+  .item-product { grid-column: 2 / -1; display: flex; gap: 10px; align-items: center; }
+  .item-img { width: 56px; height: 56px; }
+  .item-name { font-size: 13px; }
+  .item-price { grid-column: 2; font-size: 13px; }
+  .item-qty { grid-column: 2; }
+  .item-total { grid-column: 2; font-size: 13px; font-weight: 700; }
+  .item-remove { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; }
   .cart-summary { position: static; }
+  .page-title { font-size: 18px; }
+}
+@media (max-width: 480px) {
+  .cart-item { grid-template-columns: 1fr; gap: 8px; padding: 12px 8px; }
+  .item-check { display: none; }
+  .item-product { grid-column: 1; }
+  .item-price, .item-qty, .item-total { font-size: 12px; }
+  .item-remove { grid-column: 1; justify-self: end; }
+  .item-qty button { width: 28px; height: 28px; font-size: 12px; }
+  .item-qty span { width: 32px; font-size: 12px; line-height: 28px; }
 }
 </style>

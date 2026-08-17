@@ -87,12 +87,19 @@ h1 { margin-bottom: 25px; }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .page-header { flex-direction: column; gap: 0.75rem; }
-  .page-header h1 { font-size: 1.25rem; }
-  table { font-size: 12px; }
-  th, td { padding: 8px 10px; }
-  .card { padding: 1rem; }
-  .form-group input { font-size: 16px; }
+  h1 { font-size: 1.25rem; margin-bottom: 16px; }
+  .order-tabs { flex-wrap: wrap; gap: 6px; }
+  .order-tabs button { padding: 8px 16px; font-size: 13px; }
+  .order-header { padding: 12px 14px; flex-wrap: wrap; gap: 8px; }
+  .order-no { font-size: 13px; }
+  .order-items { padding: 12px 14px; }
+  .order-item { font-size: 13px; flex-wrap: wrap; gap: 4px; }
+  .order-footer { padding: 12px 14px; font-size: 13px; }
 }
-
+@media (max-width: 480px) {
+  .order-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .order-tabs button { white-space: nowrap; padding: 6px 12px; font-size: 12px; }
+  .order-header { flex-direction: column; }
+  .order-item { flex-direction: column; gap: 2px; }
+}
 </style>
