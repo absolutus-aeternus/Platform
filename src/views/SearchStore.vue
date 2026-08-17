@@ -67,6 +67,20 @@ h1 { margin-bottom: 20px; font-size: 1.25rem; }
 .store-desc { font-size: 0.75rem; color: #999; margin: 0 0 10px; }
 .btn-visit { padding: 6px 16px; background: #fff; border: 1px solid #D5D9D9; border-radius: 20px; font-size: 0.75rem; cursor: pointer; color: #0F1111; transition: all 0.2s; }
 .btn-visit:hover { background: #f7fafa; border-color: #007185; color: #007185; }
-@media (max-width: 768px) { .store-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .store-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .store-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .search-bar input { font-size: 16px; }
+  .store-card { padding: 16px; }
+  .store-logo-wrap { width: 56px; height: 56px; }
+  .avatar { font-size: 22px; }
+  .store-card h3 { font-size: 0.875rem; }
+}
+@media (max-width: 480px) {
+  .store-grid { grid-template-columns: 1fr; }
+  .search-bar { flex-direction: column; }
+  .search-bar button { width: 100%; }
+  .store-card { padding: 14px; }
+  .store-logo-wrap { width: 48px; height: 48px; }
+  .avatar { font-size: 18px; }
+}
 </style>
