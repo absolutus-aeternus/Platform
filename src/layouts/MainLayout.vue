@@ -280,8 +280,10 @@ const handleLogout = async () => { await userStore.logout(); showMobile.value = 
 const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }) }
 
 onMounted(async () => {
-  const { data } = await fetchCategories()
-  categories.value = data || []
+  try {
+    const { data } = await fetchCategories()
+    categories.value = data || []
+  } catch (e) { console.warn('MainLayout: fetchCategories failed:', e.message) }
 })
 </script>
 
