@@ -48,7 +48,7 @@
           <span class="kyc-badge">Verified</span>
         </div>
       </div>
-      <div class="quick-links" style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="quick-links">
         <router-link to="/merchant-settled" style="display:flex;align-items:center;gap:10px;padding:16px;background:linear-gradient(135deg,#FF9900,#FF9900);color:#fff;border-radius:12px;text-decoration:none;font-weight:600">
           <i class="fas fa-store" style="font-size:20px"></i>
           <div><div>Become a Seller</div><small style="opacity:0.8;font-weight:400">Start your dropshipping business</small></div>
