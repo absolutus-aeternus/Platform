@@ -70,4 +70,11 @@ onMounted(loadFlags)
 .toggle-on { padding: 8px 20px; border: none; border-radius: 20px; background: #00b894; color: #fff; font-weight: 700; cursor: pointer; }
 .toggle-off { padding: 8px 20px; border: none; border-radius: 20px; background: #ddd; color: #666; font-weight: 700; cursor: pointer; }
 .btn-primary { padding: 10px 20px; background: #6c5ce7; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .sa-header h1 { font-size: 20px; }
+  .flag-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px; }
+  .flag-name { font-size: 13px; }
+}
 </style>

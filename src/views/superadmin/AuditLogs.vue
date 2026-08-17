@@ -88,4 +88,13 @@ onMounted(loadLogs)
 .log-details { font-size: 12px; color: #666; margin-left: auto; max-width: 300px; text-align: right; }
 .empty { text-align: center; color: #888; padding: 40px; }
 .btn-secondary { padding: 10px 20px; background: #f0f0f0; color: #444; border: none; border-radius: 8px; cursor: pointer; }
+@media (max-width: 768px) {
+  .sa-page { padding: 16px; }
+  .sa-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .sa-header h1 { font-size: 20px; }
+  .filters { flex-direction: column; }
+  .filter-input { width: 100%; }
+  .log-item { flex-wrap: wrap; gap: 10px; }
+  .log-details { max-width: none; text-align: left; margin-left: 50px; }
+}
 </style>

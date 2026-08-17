@@ -1,14 +1,14 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:#FF9900"></i> Contact Us</h1>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px">
-      <div style="background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-align:center">
+    <div class="contact-grid">
+      <div class="contact-card">
         <i class="fas fa-comments" style="font-size:36px;color:#FF9900;margin-bottom:12px"></i>
         <h3>Live Chat</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">Available 24/7</p>
         <button class="btn-primary" style="padding:10px 20px;border-radius:8px;border:none;cursor:pointer" @click="openChat"><i class="fas fa-comments"></i> Start Chat</button>
       </div>
-      <div style="background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-align:center">
+      <div class="contact-card">
         <i class="fas fa-envelope" style="font-size:36px;color:#FF9900;margin-bottom:12px"></i>
         <h3>Email</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">support@alliancehub.com</p>
@@ -39,3 +39,10 @@ const sent = ref(false)
 const openChat = () => { const el = document.querySelector('.chat-widget button, [class*="chat-toggle"]'); if (el) el.click() }
 const sendMessage = () => { sent.value = true; form.value = { name: '', email: '', subject: '', message: '' }; setTimeout(() => sent.value = false, 3000) }
 </script>
+<style scoped>
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+.contact-card { background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 12px; }
+}
+</style>
