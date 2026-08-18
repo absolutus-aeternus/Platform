@@ -206,7 +206,7 @@ onMounted(loadLogs)
 .btn-sm { padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; background: #f0f0f0; font-size: 11px; }
 .btn-sm:hover { background: #6c5ce7; color: #fff; }
 .empty { text-align: center; color: #888; padding: 40px; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-start; justify-content: center; z-index: 1000; padding: 40px; overflow-y: auto; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-start; justify-content: center; z-index: 800; padding: 40px; overflow-y: auto; }
 .modal { background: #fff; border-radius: 16px; width: 900px; max-width: 95vw; max-height: 85vh; overflow-y: auto; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #fff; }
 .modal-header h3 { font-size: 18px; }

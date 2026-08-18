@@ -71,7 +71,7 @@ onMounted(async () => { try {
 .empty-card { grid-column: 1 / -1; text-align: center; padding: 60px; background: #fff; border-radius: 12px; color: #999; }
 .empty-card i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
 .loading { text-align: center; padding: 40px; color: #999; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; border-radius: 16px; overflow: hidden; width: 400px; max-width: 90vw; }
 .modal-header { padding: 30px; text-align: center; color: #fff; }
 .modal-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 12px; }

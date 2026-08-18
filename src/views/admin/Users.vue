@@ -120,7 +120,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .btn-sm:hover { background: #f5f5f5; }
 .btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; border-radius: 12px; padding: 30px; width: 500px; max-width: 90vw; }
 .modal h2 { margin: 0 0 20px; }
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }

@@ -169,7 +169,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .promo-card p { font-size: 13px; color: #666; margin-bottom: 8px; }
 .promo-value { font-size: 28px; font-weight: 700; color: var(--brand-primary, #FF9900); margin: 12px 0; }
 .promo-dates { color: #999; font-size: 12px; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; padding: 30px; border-radius: 12px; width: 500px; max-height: 90vh; overflow-y: auto; }
 .modal h2 { margin-bottom: 20px; }
 .form-group { margin-bottom: 15px; }

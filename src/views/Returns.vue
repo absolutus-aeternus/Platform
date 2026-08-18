@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
-    <h1 style="margin-bottom:30px"><i class="fas fa-undo" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i> Return Policy</h1>
+    <h1 style="margin-bottom:30px"><i class="fas fa-undo" style="color:var(--brand-primary, #FF9900)"></i> Return Policy</h1>
     <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);line-height:1.8">
       <p style="margin-bottom:16px">We offer a <strong>7-day return policy</strong> for most products purchased on AllianceHub.</p>
       <h3 style="margin:24px 0 12px">Return Conditions</h3>
@@ -28,7 +28,7 @@
         <li>Items marked as "Final Sale"</li>
       </ul>
       <h3 style="margin:24px 0 12px">Need Help?</h3>
-      <p>If you have questions about a return, contact us through <router-link to="/customer-service" style="color:var(--brand-primary, var(--brand-primary, #FF9900))">Customer Service</router-link> or live chat.</p>
+      <p>If you have questions about a return, contact us through <router-link to="/customer-service" style="color:var(--brand-primary, #FF9900)">Customer Service</router-link> or live chat.</p>
     </div>
   </div>
 </template>

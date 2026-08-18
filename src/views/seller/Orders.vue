@@ -108,7 +108,7 @@ onMounted(loadOrders)
 .seller-orders { max-width: 1000px; }
 h1 { margin-bottom: 20px; }
 .loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 40px; color: var(--neutral-500, #888); }
-.spinner { width: 20px; height: 20px; border: 2px solid var(--neutral-200, #E7E7E7); border-top-color: var(--brand-primary, var(--brand-primary, #FF9900)); border-radius: 50%; animation: spin 0.6s linear infinite; }
+.spinner { width: 20px; height: 20px; border: 2px solid var(--neutral-200, #E7E7E7); border-top-color: var(--brand-primary, #FF9900); border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .empty-state { text-align: center; padding: 60px 0; }
 .empty-state i { font-size: 48px; color: var(--neutral-300, #D5D9D9); margin-bottom: 15px; display: block; }
@@ -122,11 +122,11 @@ h1 { margin-bottom: 20px; }
   transition: all var(--ease-fast, 0.15s ease);
   font-family: var(--font-sans, 'Inter', sans-serif);
 }
-.order-tabs button:hover { border-color: var(--brand-accent, var(--brand-accent, #007185)); }
+.order-tabs button:hover { border-color: var(--brand-accent, #007185); }
 .order-tabs button.active {
-  background: var(--brand-accent, var(--brand-accent, #007185));
+  background: var(--brand-accent, #007185);
   color: var(--white, #fff);
-  border-color: var(--brand-accent, var(--brand-accent, #007185));
+  border-color: var(--brand-accent, #007185);
 }
 .order-tabs__count {
   background: rgba(255,255,255,0.2);

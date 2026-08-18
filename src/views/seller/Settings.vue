@@ -94,7 +94,7 @@ const saveSettings = async () => {
 .toggle { display: flex !important; align-items: center; gap: 10px; cursor: pointer; }
 .toggle input { width: 18px; height: 18px; accent-color: var(--brand-primary, #FF9900); }
 .toggle span { font-weight: 500; }
-.toast { position: fixed; bottom: 30px; right: 30px; background: var(--success, #067D62); color: #fff; padding: 14px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; }
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--success, #067D62); color: #fff; padding: 14px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 800; }
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -152,7 +152,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .address-actions { display: flex; gap: 8px; }
 .address-actions button { padding: 6px 12px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; }
 .btn-delete { color: #ff4757; border-color: #ff4757 !important; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; padding: 30px; border-radius: 12px; width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto; }
 .modal h2 { margin-bottom: 20px; }
 .form-group { margin-bottom: 15px; }

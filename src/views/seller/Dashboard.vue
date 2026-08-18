@@ -235,7 +235,7 @@ onMounted(async () => {
 .spinner {
   width: 24px; height: 24px;
   border: 3px solid var(--neutral-200, #E7E7E7);
-  border-top-color: var(--brand-primary, var(--brand-primary, #FF9900));
+  border-top-color: var(--brand-primary, #FF9900);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -279,7 +279,7 @@ onMounted(async () => {
 .seller-table__header h3 { margin: 0; }
 .seller-table__view-all {
   font-size: var(--text-sm, 13px); font-weight: 500;
-  color: var(--brand-accent, var(--brand-accent, #007185)); text-decoration: none;
+  color: var(--brand-accent, #007185); text-decoration: none;
 }
 .seller-table__wrap { overflow-x: auto; }
 .seller-table__empty {
@@ -297,7 +297,7 @@ onMounted(async () => {
 .badge-error { background: var(--error-bg, #FEE2E9); color: var(--error, #CC0C39); }
 .btn-link {
   font-size: var(--text-sm, 13px); font-weight: 500;
-  color: var(--brand-accent, var(--brand-accent, #007185)); text-decoration: none;
+  color: var(--brand-accent, #007185); text-decoration: none;
 }
 .btn-link:hover { text-decoration: underline; }
 

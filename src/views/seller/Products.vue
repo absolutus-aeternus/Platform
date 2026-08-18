@@ -153,7 +153,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .product-actions { display: flex; gap: 8px; }
 .product-actions button { padding: 6px 12px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; }
 .btn-delete { color: #ff4757; border-color: #ff4757 !important; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; padding: 30px; border-radius: 12px; width: 400px; max-width: 90%; }
 .modal h2 { margin-bottom: 20px; }
 .form-group { margin-bottom: 15px; }

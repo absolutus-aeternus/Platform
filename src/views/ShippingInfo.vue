@@ -5,12 +5,12 @@
 
       <div class="info-cards">
         <div class="info-card">
-          <i class="fas fa-gift" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i>
+          <i class="fas fa-gift" style="color:var(--brand-primary, #FF9900)"></i>
           <h3>Free Shipping</h3>
           <p>On orders over $30. Standard delivery 7-14 business days.</p>
         </div>
         <div class="info-card">
-          <i class="fas fa-bolt" style="color:var(--brand-accent, var(--brand-accent, #007185))"></i>
+          <i class="fas fa-bolt" style="color:var(--brand-accent, #007185)"></i>
           <h3>Express Delivery</h3>
           <p>2-3 business days. Available for most locations worldwide.</p>
         </div>

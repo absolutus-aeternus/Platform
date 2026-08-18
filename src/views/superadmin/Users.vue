@@ -192,7 +192,7 @@ onMounted(loadUsers)
 .pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; }
 .pagination button { padding: 8px 16px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; }
 .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; border-radius: 16px; padding: 32px; width: 440px; max-width: 90vw; }
 .modal h3 { margin-bottom: 20px; }
 .form-group { margin-bottom: 16px; }

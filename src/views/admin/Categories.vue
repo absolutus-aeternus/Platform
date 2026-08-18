@@ -181,7 +181,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty { text-align: center; padding: 40px; color: #999; }
 .loading { text-align: center; padding: 40px; color: #999; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; border-radius: 12px; padding: 30px; width: 500px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
 .modal h2 { margin: 0 0 20px; }
 .form-group { margin-bottom: 16px; }

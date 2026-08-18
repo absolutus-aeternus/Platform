@@ -1,15 +1,15 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
-    <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i> Contact Us</h1>
+    <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:var(--brand-primary, #FF9900)"></i> Contact Us</h1>
     <div class="contact-grid">
       <div class="contact-card">
-        <i class="fas fa-comments" style="font-size:36px;color:var(--brand-primary, var(--brand-primary, #FF9900));margin-bottom:12px"></i>
+        <i class="fas fa-comments" style="font-size:36px;color:var(--brand-primary, #FF9900);margin-bottom:12px"></i>
         <h3>Live Chat</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">Available 24/7</p>
         <button class="btn-primary" style="padding:10px 20px;border-radius:8px;border:none;cursor:pointer" @click="openChat"><i class="fas fa-comments"></i> Start Chat</button>
       </div>
       <div class="contact-card">
-        <i class="fas fa-envelope" style="font-size:36px;color:var(--brand-primary, var(--brand-primary, #FF9900));margin-bottom:12px"></i>
+        <i class="fas fa-envelope" style="font-size:36px;color:var(--brand-primary, #FF9900);margin-bottom:12px"></i>
         <h3>Email</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">support@alliancehub.com</p>
         <a href="mailto:support@alliancehub.com" class="btn-primary" style="padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px"><i class="fas fa-envelope"></i> Send Email</a>

@@ -178,7 +178,7 @@ th { background: #f8f8f8; font-weight: 600; }
 .role-badge.seller { background: #ffa502; color: #fff; }
 .role-badge.member { background: #2ed573; color: #fff; }
 .role-select { padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; margin-right: 4px; }
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; padding: 24px; border-radius: 12px; width: 400px; max-width: 90vw; }
 .modal h3 { margin: 0 0 16px; }
 .form-group { margin-bottom: 12px; }

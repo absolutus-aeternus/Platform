@@ -178,7 +178,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .coupon-actions { margin-top: 12px; }
 .btn-delete { background: none; border: none; color: #999; cursor: pointer; padding: 4px 8px; }
 .btn-delete:hover { color: #ff4757; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; padding: 30px; border-radius: 12px; width: 450px; max-height: 90vh; overflow-y: auto; }
 .modal h2 { margin-bottom: 20px; }
 .form-group { margin-bottom: 15px; }

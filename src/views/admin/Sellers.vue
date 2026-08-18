@@ -154,7 +154,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-sm:hover { background: #f5f5f5; }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
 .modal { background: #fff; border-radius: 12px; padding: 30px; width: 500px; max-width: 90vw; }
 .modal h2 { margin: 0 0 20px; }
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }

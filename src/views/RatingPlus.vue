@@ -396,7 +396,7 @@ const handleRegister = async () => {
 .cta-section p { color: rgba(240,236,230,0.5); margin-bottom: 24px; }
 
 /* ===== AUTH MODAL ===== */
-.auth-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(10,10,18,0.95); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.auth-overlay { position: fixed; inset: 0; z-index: 950; background: rgba(10,10,18,0.95); display: flex; align-items: center; justify-content: center; padding: 20px; }
 .auth-card { width: 100%; max-width: 420px; background: rgba(15,15,26,0.92); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); backdrop-filter: blur(40px); position: relative; }
 .auth-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: rgba(240,236,230,0.5); cursor: pointer; font-size: 1.25rem; z-index: 2; }
 .auth-header { padding: 28px 28px 0; text-align: center; }
