@@ -80,6 +80,27 @@ export default {
         } catch { return null; }
       }
 
+      // ─── Helper: Per-User Rate Limit ───
+      const USER_RL_LIMIT = 120; // 120 req/min per authenticated user
+      async function checkUserRateLimit(userId) {
+        if (!globalThis._url) globalThis._url = new Map();
+        const _now = Date.now();
+        const _e = globalThis._url.get(userId) || { n: 0, t: _now + 60000 };
+        if (_now > _e.t) { _e.n = 0; _e.t = _now + 60000; }
+        _e.n++;
+        globalThis._url.set(userId, _e);
+        if (globalThis._url.size > 10000) { for (const [k, v] of globalThis._url) { if (_now > v.t) globalThis._url.delete(k); } }
+        return _e.n > USER_RL_LIMIT;
+      }
+
+      // ─── Helper: Get user role ───
+      async function getUserRole(userId, env) {
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + userId, { headers: h });
+        const data = await resp.json();
+        return data[0]?.role || 'MEMBER';
+      }
+
       // ─── Health ───
 
       // IP Logger
@@ -259,21 +280,132 @@ export default {
           return json({ error: 'Only members can register as sellers', currentRole }, { status: 403, ...corsHeaders });
         }
         
-        // Update role to SELLER (server-side, not client-side)
-        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?id=eq.' + user.id, {
-          method: 'PATCH',
+        // Create seller record with pending approval
+        const body = await request.json();
+        const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers', {
+          method: 'POST',
           headers: h,
-          body: JSON.stringify({ role: 'SELLER' })
+          body: JSON.stringify({
+            user_id: user.id,
+            name: body.storeName || body.name || 'New Seller',
+            store_name: body.storeName || body.name || 'New Seller',
+            description: body.description || '',
+            approval_status: 'pending',
+            status: 'pending'
+          })
         });
         
-        return json({ success: true, role: 'SELLER' }, corsHeaders);
+        // Audit log
+        try {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/audit_logs', {
+            method: 'POST',
+            headers: h,
+            body: JSON.stringify({
+              actor_id: user.id,
+              action: 'seller_registration',
+              target_type: 'seller',
+              new_value: { status: 'pending' },
+              ip_address: request.headers.get('cf-connecting-ip') || null
+            })
+          });
+        } catch (_) {}
+        
+        return json({ success: true, status: 'pending', message: 'Seller registration submitted. Awaiting admin approval.' }, corsHeaders);
       }
 
-      // ─── Checkout (AUTH REQUIRED) ───
+      // ─── Admin: Approve/Reject Seller (ADMIN ONLY) ───
+      if (path === '/api/admin/seller-approval' && method === 'POST') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        
+        // Verify admin role
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
+        const reqRoleData = await reqRoleResp.json();
+        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRoleData[0]?.role)) {
+          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        }
+        
+        const { sellerId, action, reason } = await request.json();
+        
+        if (!['approve', 'reject'].includes(action)) {
+          return json({ error: 'Action must be approve or reject' }, { status: 400, ...corsHeaders });
+        }
+        
+        // Get seller info
+        const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?id=eq.' + sellerId + '&select=*', { headers: h });
+        const sellerData = await sellerResp.json();
+        if (!sellerData[0]) return json({ error: 'Seller not found' }, { status: 404, ...corsHeaders });
+        
+        const newStatus = action === 'approve' ? 'approved' : 'rejected';
+        
+        // Update seller approval status
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?id=eq.' + sellerId, {
+          method: 'PATCH',
+          headers: h,
+          body: JSON.stringify({
+            approval_status: newStatus,
+            approved_by: _u.id,
+            approved_at: new Date().toISOString(),
+            rejection_reason: action === 'reject' ? (reason || 'No reason provided') : null,
+            status: action === 'approve' ? 'active' : 'rejected'
+          })
+        });
+        
+        // If approved, upgrade user role to SELLER
+        if (action === 'approve' && sellerData[0].user_id) {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?id=eq.' + sellerData[0].user_id, {
+            method: 'PATCH',
+            headers: h,
+            body: JSON.stringify({ role: 'SELLER' })
+          });
+        }
+        
+        // Audit log
+        try {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/audit_logs', {
+            method: 'POST',
+            headers: h,
+            body: JSON.stringify({
+              actor_id: _u.id,
+              action: 'seller_' + action,
+              target_type: 'seller',
+              target_id: sellerId,
+              old_value: { approval_status: sellerData[0].approval_status },
+              new_value: { approval_status: newStatus },
+              reason: reason || null,
+              ip_address: request.headers.get('cf-connecting-ip') || null
+            })
+          });
+        } catch (_) {}
+        
+        return json({ success: true, status: newStatus }, corsHeaders);
+      }
+
+      // ─── Admin: Pending Sellers List (ADMIN ONLY) ───
+      if (path === '/api/admin/sellers/pending' && method === 'GET') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
+        const reqRoleData = await reqRoleResp.json();
+        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRoleData[0]?.role)) {
+          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        }
+        
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?approval_status=eq.pending&order=created_at.desc', { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Checkout (AUTH REQUIRED + PER-USER RATE LIMIT) ───
       if (path === '/api/checkout' && method === 'POST') {
         if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests. Please wait.' }, { status: 429, ...corsHeaders });
 
         const body = await request.json();
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
