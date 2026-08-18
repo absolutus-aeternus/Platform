@@ -371,7 +371,7 @@ onMounted(async () => {
 .lang-dropdown div.active { background: var(--brand-primary, #FF9900); color: #fff; }
 
 /* ===== MAIN HEADER ===== */
-.header { background: var(--brand-dark, #131921); padding: 0.5rem 0; position: sticky; top: 0; z-index: 100; }
+.header { background: var(--brand-dark, #131921); padding: 0.5rem 0; position: sticky; top: 0; z-index: 400; overflow: visible; }
 .header-inner { display: flex; align-items: center; gap: 0.75rem; padding: 0.375rem 0; }
 .hamburger-btn { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 0.25rem; width: 2.25rem; height: 2.25rem; background: none; border: none; cursor: pointer; padding: 0.375rem; border-radius: 2px; }
 .hamburger-btn:hover { background: rgba(255,255,255,0.1); }
@@ -403,7 +403,7 @@ onMounted(async () => {
   border: 1px solid var(--neutral-200, #E7E7E7);
   border-radius: 0 0 8px 8px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  z-index: 600;
+  z-index: 500;
   max-height: 400px;
   overflow-y: auto;
 }
@@ -563,16 +563,8 @@ onMounted(async () => {
   .header-action i { font-size: 1rem; }
 }
 
-/* ===== BOTTOM NAVIGATION (Mobile) ===== */
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; align-items: center; height: 3.5rem; border-top: 1px solid #e5e5e5; z-index: 150; padding-bottom: env(safe-area-inset-bottom, 0); box-shadow: 0 -2px 8px rgba(0,0,0,0.06); }
-.bottom-nav a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.125rem; color: #888; text-decoration: none; font-size: 0.625rem; padding: 0.375rem 0.25rem; min-height: 2.75rem; transition: color 0.2s; position: relative; flex: 1; }
-.bottom-nav a i { font-size: 1.25rem; margin-bottom: 0.125rem; }
-.bottom-nav a.active { color: var(--brand-primary, #FF9900); }
-.bottom-nav a.active i { transform: scale(1.1); }
-.bottom-nav a.active::after { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 1.5rem; height: 3px; background: var(--brand-primary, #FF9900); border-radius: 2px; }
-
-/* ===== MOBILE MAIN CONTENT PADDING (for bottom nav) ===== */
-@media (max-width: 768px) {
-  .main-content { padding-bottom: 3.75rem; }
+/* ===== MOBILE MAIN CONTENT PADDING (for MobileTabBar) ===== */
+@media (max-width: 767px) {
+  .main-content { padding-bottom: calc(var(--tab-bar-height, 56px) + 16px); }
 }
 </style>

@@ -41,7 +41,7 @@ defineEmits(['chat', 'add-to-cart', 'buy-now'])
   padding: 8px 12px;
   padding-bottom: calc(8px + env(safe-area-inset-bottom, 0));
   gap: 8px;
-  z-index: var(--z-sticky, 200);
+  z-index: 250;
   box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
 }
 

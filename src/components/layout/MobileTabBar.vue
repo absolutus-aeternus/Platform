@@ -50,7 +50,7 @@ function isActive(path) {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: var(--z-sticky, 200);
+  z-index: 300;
   padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
 }
