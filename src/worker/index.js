@@ -489,6 +489,37 @@ export default {
             } catch (e) { console.warn('Stock decrement error:', e.message); }
           }
         }
+        // Commission calculation after successful order
+        if (orderData[0]?.id && validatedItems.length) {
+          try {
+            const commSettings = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/platform_settings?key=eq.commission_rates&select=value', { headers: h });
+            const rates = (await commSettings.json())[0]?.value || { default: 0.05 };
+            
+            for (const item of validatedItems) {
+              const prodDetail = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=seller_id,cost_price,platform_commission_rate&id=eq.' + item.product_id, { headers: h });
+              const prod = (await prodDetail.json())[0];
+              if (prod?.seller_id) {
+                const cogs = prod.cost_price || 0;
+                const markup = item.price - cogs;
+                const rate = prod.platform_commission_rate || rates.default || 0.05;
+                const platformFee = cogs * rate;
+                const sellerCommission = Math.max(0, markup - platformFee);
+                
+                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions', {
+                  method: 'POST', headers: h,
+                  body: JSON.stringify({
+                    seller_id: prod.seller_id,
+                    order_id: orderData[0].id,
+                    type: 'sale',
+                    amount: sellerCommission,
+                    status: 'pending'
+                  })
+                });
+              }
+            }
+          } catch (commErr) { console.warn('Commission calc error:', commErr.message); }
+        }
+
         return json({ order: orderData[0], order_no: orderNo }, corsHeaders);
       }
 
@@ -623,6 +654,277 @@ export default {
         } catch (_) { /* audit_logs table may not exist yet */ }
         
         return json({ success: true, oldRole, newRole }, corsHeaders);
+      }
+
+      // ─── Submit Review (AUTH REQUIRED + VALIDATION) ───
+      if (path === '/api/review' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const body = await request.json();
+        const { product_id, rating, comment, images } = body;
+        
+        // Validate rating
+        if (!rating || rating < 1 || rating > 5) return json({ error: 'Rating must be 1-5' }, { status: 400, ...corsHeaders });
+        if (!comment || comment.length < 20) return json({ error: 'Review must be at least 20 characters' }, { status: 400, ...corsHeaders });
+        
+        // Check user has delivered order for this product
+        const orderCheck = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?user_id=eq.' + user.id + '&status=eq.delivered&select=id,order_items(product_id)&limit=5', { headers: h });
+        const orders = await orderCheck.json();
+        const hasPurchased = orders.some(o => o.order_items?.some(i => i.product_id === product_id));
+        if (!hasPurchased) return json({ error: 'You can only review products you have purchased and received' }, { status: 403, ...corsHeaders });
+        
+        // Check for duplicate review
+        const dupCheck = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/evaluations?user_id=eq.' + user.id + '&product_id=eq.' + product_id + '&select=id', { headers: h });
+        const existing = await dupCheck.json();
+        if (existing.length > 0) return json({ error: 'You have already reviewed this product' }, { status: 400, ...corsHeaders });
+        
+        // Check daily review limit (max 5 per day)
+        const today = new Date().toISOString().split('T')[0];
+        const dailyCheck = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/evaluations?user_id=eq.' + user.id + '&created_at=gte.' + today + '&select=id', { headers: h });
+        const dailyCount = (await dailyCheck.json()).length;
+        if (dailyCount >= 5) return json({ error: 'Maximum 5 reviews per day' }, { status: 429, ...corsHeaders });
+        
+        // Create review
+        const reviewResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/evaluations', {
+          method: 'POST', headers: h,
+          body: JSON.stringify({ user_id: user.id, product_id, rating, comment, images: images || [] })
+        });
+        const review = (await reviewResp.json())[0];
+        
+        // Calculate review commission
+        const reviewSettings = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/platform_settings?key=eq.review_commission&select=value', { headers: h });
+        const settings = (await reviewSettings.json())[0]?.value || { base: 0.10, photo_bonus: 0.05, high_rating_bonus: 0.05, max: 0.30 };
+        let commission = settings.base;
+        if (images?.length > 0) commission += settings.photo_bonus;
+        if (rating >= 4) commission += settings.high_rating_bonus;
+        commission = Math.min(commission, settings.max);
+        
+        // Get product seller_id for commission
+        const prodInfo = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=seller_id&id=eq.' + product_id, { headers: h });
+        const sellerId = (await prodInfo.json())[0]?.seller_id;
+        
+        if (sellerId) {
+          // Create commission record (held for 7 days)
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions', {
+            method: 'POST', headers: h,
+            body: JSON.stringify({
+              seller_id: sellerId, type: 'review', amount: commission,
+              status: 'held', hold_until: new Date(Date.now() + 7 * 86400000).toISOString()
+            })
+          });
+        }
+        
+        // Create validation record
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/review_validations', {
+          method: 'POST', headers: h,
+          body: JSON.stringify({
+            review_id: review?.id, user_id: user.id, product_id,
+            order_id: orders[0]?.id,
+            ip_address: request.headers.get('cf-connecting-ip') || null,
+            commission_status: 'held'
+          })
+        });
+        
+        return json({ success: true, review, commission_earned: commission }, corsHeaders);
+      }
+
+      // ─── Seller: Set Product Markup (AUTH REQUIRED) ───
+      if (path === '/api/seller/markup' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        
+        // Verify seller
+        const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id,approval_status', { headers: h });
+        const seller = (await sellerResp.json())[0];
+        if (!seller || seller.approval_status !== 'approved') return json({ error: 'Approved seller account required' }, { status: 403, ...corsHeaders });
+        
+        const { product_id, custom_price } = await request.json();
+        
+        // Get product price range
+        const prodResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,price,min_seller_price,max_seller_price&id=eq.' + product_id, { headers: h });
+        const product = (await prodResp.json())[0];
+        if (!product) return json({ error: 'Product not found' }, { status: 404, ...corsHeaders });
+        
+        // Validate price range
+        const minPrice = product.min_seller_price || product.price;
+        const maxPrice = product.max_seller_price || product.price * 3;
+        if (custom_price < minPrice || custom_price > maxPrice) {
+          return json({ error: 'Price must be between $' + minPrice + ' and $' + maxPrice }, { status: 400, ...corsHeaders });
+        }
+        
+        // Upsert seller product
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_products', {
+          method: 'POST', headers: h,
+          body: JSON.stringify({ seller_id: seller.id, product_id, custom_price })
+        });
+        
+        return json({ success: true, price: custom_price, min: minPrice, max: maxPrice }, corsHeaders);
+      }
+
+      // ─── Seller: View Wallet (AUTH REQUIRED) ───
+      if (path === '/api/seller/wallet' && method === 'GET') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
+        const seller = (await sellerResp.json())[0];
+        if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
+        
+        const walletResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id, { headers: h });
+        const wallet = (await walletResp.json())[0] || { balance: 0, pending_balance: 0, total_earned: 0, total_withdrawn: 0 };
+        
+        const commResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions?seller_id=eq.' + seller.id + '&order=created_at.desc&limit=20', { headers: h });
+        const commissions = await commResp.json();
+        
+        return json({ wallet, commissions }, corsHeaders);
+      }
+
+      // ─── Seller: Request Payout (AUTH REQUIRED) ───
+      if (path === '/api/seller/payout' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
+        const seller = (await sellerResp.json())[0];
+        if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
+        
+        const walletResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id + '&select=balance', { headers: h });
+        const wallet = (await walletResp.json())[0];
+        const { amount, method: payMethod, account_details } = await request.json();
+        
+        // Validate
+        if (!wallet || wallet.balance < amount) return json({ error: 'Insufficient balance' }, { status: 400, ...corsHeaders });
+        const limits = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/platform_settings?key=eq.withdrawal_limits&select=value', { headers: h });
+        const limitData = (await limits.json())[0]?.value || { min: 10, max_daily: 1000 };
+        if (amount < limitData.min) return json({ error: 'Minimum withdrawal: $' + limitData.min }, { status: 400, ...corsHeaders });
+        
+        // Create payout request
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts', {
+          method: 'POST', headers: h,
+          body: JSON.stringify({ seller_id: seller.id, amount, method: payMethod, account_details, status: 'pending' })
+        });
+        
+        // Deduct from wallet
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id, {
+          method: 'PATCH', headers: h,
+          body: JSON.stringify({ balance: wallet.balance - amount })
+        });
+        
+        return json({ success: true, remaining_balance: wallet.balance - amount }, corsHeaders);
+      }
+
+      // ─── Admin: View All Commissions (ADMIN ONLY) ───
+      if (path === '/api/admin/commissions' && method === 'GET') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
+        const status = url.searchParams.get('status') || '';
+        let q = 'select=*,sellers(name,store_name)&order=created_at.desc&limit=' + limit;
+        if (status) q += '&status=eq.' + status;
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions?' + q, { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Admin: Approve Commission (ADMIN ONLY) ───
+      if (path === '/api/admin/commission/approve' && method === 'POST') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+        const { commission_id, action } = await request.json();
+        
+        if (!['approve', 'cancel'].includes(action)) return json({ error: 'Action must be approve or cancel' }, { status: 400, ...corsHeaders });
+        
+        const newStatus = action === 'approve' ? 'approved' : 'cancelled';
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions?id=eq.' + commission_id, {
+          method: 'PATCH', headers: h,
+          body: JSON.stringify({ status: newStatus, approved_by: _u.id, approved_at: new Date().toISOString() })
+        });
+        
+        // If approved, add to seller wallet
+        if (action === 'approve') {
+          const commResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions?select=seller_id,amount&id=eq.' + commission_id, { headers: h });
+          const comm = (await commResp.json())[0];
+          if (comm) {
+            const walletResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + comm.seller_id + '&select=balance,total_earned', { headers: h });
+            const wallet = (await walletResp.json())[0];
+            if (wallet) {
+              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + comm.seller_id, {
+                method: 'PATCH', headers: h,
+                body: JSON.stringify({ balance: wallet.balance + comm.amount, total_earned: wallet.total_earned + comm.amount })
+              });
+            } else {
+              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets', {
+                method: 'POST', headers: h,
+                body: JSON.stringify({ seller_id: comm.seller_id, balance: comm.amount, total_earned: comm.amount })
+              });
+            }
+          }
+        }
+        
+        return json({ success: true, status: newStatus }, corsHeaders);
+      }
+
+      // ─── Admin: View Payouts (ADMIN ONLY) ───
+      if (path === '/api/admin/payouts' && method === 'GET') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?select=*,sellers(name,store_name)&order=created_at.desc&limit=50', { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Admin: Process Payout (ADMIN ONLY) ───
+      if (path === '/api/admin/payout/process' && method === 'POST') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+        const { payout_id, action, notes } = await request.json();
+        
+        if (!['complete', 'reject'].includes(action)) return json({ error: 'Action must be complete or reject' }, { status: 400, ...corsHeaders });
+        
+        const newStatus = action === 'complete' ? 'completed' : 'rejected';
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?id=eq.' + payout_id, {
+          method: 'PATCH', headers: h,
+          body: JSON.stringify({ status: newStatus, processed_by: _u.id, processed_at: new Date().toISOString(), notes })
+        });
+        
+        // If rejected, refund to wallet
+        if (action === 'reject') {
+          const payoutResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?select=seller_id,amount&id=eq.' + payout_id, { headers: h });
+          const payout = (await payoutResp.json())[0];
+          if (payout) {
+            const walletResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + payout.seller_id + '&select=balance', { headers: h });
+            const wallet = (await walletResp.json())[0];
+            if (wallet) {
+              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + payout.seller_id, {
+                method: 'PATCH', headers: h,
+                body: JSON.stringify({ balance: wallet.balance + payout.amount })
+              });
+            }
+          }
+        }
+        
+        return json({ success: true, status: newStatus }, corsHeaders);
       }
 
       return json({ error: 'Not found' }, { status: 404, ...corsHeaders });
