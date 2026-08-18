@@ -186,6 +186,8 @@ const routes = [
   { path: '/repayment/expected', name: 'RepaymentExpected', component: () => import('@/views/RepaymentExpected.vue') },
   { path: '/customer-service-2', name: 'CustomerService2', component: () => import('@/views/CustomerService2.vue') },
   { path: '/customer-service-index', name: 'CustomerServiceIndex', component: () => import('@/views/CustomerServiceIndex.vue') },
+  { path: '/unauthorized', name: 'Unauthorized', component: () => import('@/views/Unauthorized.vue'), meta: { title: 'Access Denied' } },
+  { path: '/403', name: 'Forbidden', component: () => import('@/views/Unauthorized.vue'), meta: { title: 'Access Denied' } },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/views/NotFound.vue') },
 ]
 
@@ -234,26 +236,31 @@ router.beforeEach(async (to, from, next) => {
 
       // SuperAdmin portal: ONLY SUPER_ADMIN (not ADMIN)
       if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN') {
+        if (window.__toast) window.__toast.show('Access denied. Super Admin required.', 'error')
         return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
       }
 
       // RatingPlus portal: only RATING_PLUS (+ SUPER_ADMIN for testing)
       if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS' && role !== 'SUPER_ADMIN') {
+        if (window.__toast) window.__toast.show('Access denied. Rating Plus membership required.', 'error')
         return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
       }
 
       // Seller portal: only SELLER (+ SUPER_ADMIN for testing)
       if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
+        if (window.__toast) window.__toast.show('Access denied. Seller account required.', 'error')
         return next(role === 'ADMIN' ? '/admin' : '/user')
       }
 
       // Admin portal: ADMIN + SUPER_ADMIN
       if (to.meta.requiresAdmin && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
+        if (window.__toast) window.__toast.show('Access denied. Admin privileges required.', 'error')
         return next(role === 'SELLER' ? '/seller' : '/user')
       }
 
       // Member portal: only MEMBER (+ SUPER_ADMIN for testing)
       if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
+        if (window.__toast) window.__toast.show('Access denied. Member account required.', 'error')
         return next(role === 'ADMIN' ? '/admin' : '/seller')
       }
 
