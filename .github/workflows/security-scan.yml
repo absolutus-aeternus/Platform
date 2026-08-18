@@ -1,0 +1,129 @@
+name: Weekly Security Scan
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: |
+          echo "🔍 Running npm audit..."
+          npm audit --audit-level=moderate 2>&1 | tee audit-report.txt
+          echo ""
+
+      - name: Check for outdated dependencies
+        run: |
+          echo "📋 Checking outdated packages..."
+          npm outdated 2>&1 | tee outdated-report.txt || true
+
+      - name: Upload Audit Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            audit-report.txt
+            outdated-report.txt
+          retention-days: 30
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  secret-scan:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for hardcoded secrets
+        run: |
+          echo "🔐 Scanning for potential hardcoded secrets..."
+          PATTERNS=(
+            'password\s*=\s*["\x27][^"\x27]+'
+            'api[_-]?key\s*=\s*["\x27][^"\x27]+'
+            'secret\s*=\s*["\x27][^"\x27]+'
+            'token\s*=\s*["\x27][^"\x27]+'
+            'sk-[a-zA-Z0-9]{20,}'
+            'ghp_[a-zA-Z0-9]{36}'
+            'xox[bpsa]-[a-zA-Z0-9-]+'
+          )
+
+          FOUND=0
+          for PATTERN in "${PATTERNS[@]}"; do
+            MATCHES=$(grep -rn --include="*.{js,vue,json,toml,yml,yaml}" -E "$PATTERN" . \
+              --exclude-dir=node_modules \
+              --exclude-dir=.git \
+              --exclude-dir=dist \
+              --exclude="package-lock.json" \
+              2>/dev/null || true)
+
+            if [ -n "$MATCHES" ]; then
+              echo "⚠️ Potential secret found matching pattern: $PATTERN"
+              echo "$MATCHES"
+              FOUND=1
+            fi
+          done
+
+          if [ "$FOUND" -eq 1 ]; then
+            echo ""
+            echo "⚠️ Potential secrets detected. Review the matches above."
+            echo "Note: False positives are common. Verify each finding."
+          else
+            echo "✅ No obvious hardcoded secrets detected."
+          fi
+
+  summary:
+    name: Security Summary
+    needs: [audit, codeql, secret-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Summary
+        run: |
+          echo "## 🔒 Weekly Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Audit | ${{ needs.audit.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CodeQL Analysis | ${{ needs.codeql.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Secret Detection | ${{ needs.secret-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Scan completed at $(date -u)_" >> $GITHUB_STEP_SUMMARY

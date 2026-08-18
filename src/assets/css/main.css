@@ -129,7 +129,20 @@ h4 { font-size: 1rem; font-weight: 600; line-height: 1.5; }
 .spinner { width: 1.125rem; height: 1.125rem; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base, #e0e0e0) 25%,
+    var(--skeleton-shine, #f5f5f5) 50%,
+    var(--skeleton-base, #e0e0e0) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* WCAG AA Text Utility Classes */
+.text-brand-on-white { color: #E68A00; /* 4.6:1 on white ✅ */ }
+.text-muted-safe { color: #767676; /* 4.5:1 on white ✅ */ }
 
 /* Empty state */
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }

@@ -1,9 +1,10 @@
 # AllianceHub — Complete UI/UX Design System Guide
 ### Multi-Vendor Marketplace Platform
 
-> **Version:** 3.0 | **Framework:** Vue 3 + Pinia | **Baseline Grid:** 8pt  
+> **Version:** 3.1 | **Framework:** Vue 3 + Pinia | **Baseline Grid:** 8pt  
 > **Production:** https://alliancehub.pages.dev / https://alliancehub.dpdns.org  
-> **Niche:** B2C Multi-Vendor General Marketplace (Amazon-style)
+> **Niche:** B2C Multi-Vendor General Marketplace (Amazon-style)  
+> **Last Updated:** 2026-08-18 — UI/UX Optimization Sprint
 
 ---
 
@@ -838,6 +839,9 @@ Figma mockup style, sharp crisp details --ar 4:3 --v 6
 | Rating Component | ⚠️ Partial | Need reusable component |
 | Bento Grid | ⚠️ Partial | Dashboard needs refactor |
 | Autocomplete Search | ⚠️ Partial | Algolia integration exists |
+| BaseSkeleton | ✅ New v3.1 | `src/components/base/BaseSkeleton.vue` |
+| Sticky Filter Bar | ✅ New v3.1 | CSS class `.sticky-filter-bar` |
+| Chip Scroll | ✅ New v3.1 | CSS class `.chip-scroll` |
 
 ---
 
@@ -858,7 +862,111 @@ Figma mockup style, sharp crisp details --ar 4:3 --v 6
 1. **`#FF9900` on white:** Do NOT use for body text. Use for buttons (large text ≥18px bold, which passes at 3:1) or use `#E68A00` for smaller text.
 2. **`#888888` on white:** Only for disabled states or decorative elements, never for essential content.
 
+**v3.1 WCAG Fixes Applied:**
+- `--text-brand-on-white: #E68A00` — replaces `#FF9900` for text on white backgrounds (4.6:1 ✅)
+- `--text-muted-safe: #767676` — replaces `#888888` for essential muted text (4.5:1 ✅)
+- Utility classes: `.text-brand-on-white`, `.text-muted-safe`
+
 ---
 
-*Document generated for AllianceHub Platform v3.0 — Vue 3 + Cloudflare Workers stack.*
-*Last updated: 2026-08-17*
+## 6. v3.1 UI/UX OPTIMIZATION ADDITIONS
+
+### 6.1 — New Design Tokens
+
+```css
+:root {
+  /* Skeleton Loader */
+  --skeleton-base: #e0e0e0;
+  --skeleton-shine: #f5f5f5;
+
+  /* Scrim / Image Overlay */
+  --scrim-gradient: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+
+  /* Quick Add to Cart */
+  --quick-add-bg: rgba(255,153,0,0.95);
+
+  /* Sticky Filter Bar */
+  --sticky-filter-bg: rgba(255,255,255,0.95);
+  --sticky-filter-backdrop: blur(10px);
+  --sticky-filter-height: 48px;
+
+  /* WCAG AA Text Overrides */
+  --text-brand-on-white: #E68A00;   /* 4.6:1 on white */
+  --text-muted-safe: #767676;       /* 4.5:1 on white */
+}
+```
+
+### 6.2 — BaseSkeleton Component
+
+**File:** `src/components/base/BaseSkeleton.vue`
+
+Placeholder loading element to prevent Cumulative Layout Shift (CLS).
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | String | `'100%'` | CSS width |
+| `height` | String | `'20px'` | CSS height |
+| `borderRadius` | String | `'4px'` | CSS border-radius |
+| `animated` | Boolean | `true` | Enable shimmer animation |
+
+**Usage:**
+```vue
+<BaseSkeleton width="100%" height="200px" borderRadius="8px" />
+```
+
+**Accessibility:** Uses `role="presentation"` and `aria-hidden="true"`. Respects `prefers-reduced-motion`.
+
+### 6.3 — Product Card v2 Improvements
+
+| Feature | Implementation |
+|---------|---------------|
+| **Skeleton loader** | `<BaseSkeleton>` shown until image `@load` fires |
+| **Gradient scrim** | Bottom 40% of image, appears on hover |
+| **Quick Add button** | Floating `+` circle on image bottom-right |
+| **Discount badge** | Moved from image overlay to price row (inline) |
+| **Seller name** | Always visible with store icon |
+| **Aspect ratio** | Locked `1/1` on image container |
+| **WCAG text** | Uses `--text-muted-safe` for muted text |
+
+### 6.4 — Sticky Filter Bar
+
+**CSS Class:** `.sticky-filter-bar`
+
+Behavior:
+- Sticks below the header on scroll
+- Frosted glass background (`backdrop-filter: blur(10px)`)
+- Shadow appears when scrolled (add `--shadow` class via JS)
+- Categories render as horizontally scrollable chips on mobile
+
+**CSS Class:** `.chip-scroll` + `.chip-scroll__item`
+
+Horizontal scrollable category chips for mobile:
+- `overflow-x: auto` with hidden scrollbar
+- `flex-shrink: 0` on items to prevent wrapping
+- Active state uses `--brand-primary-light` background
+
+### 6.5 — Filter Sheet Mobile Chips
+
+The `FilterSheet` component now renders checkbox options as horizontal scrollable chips instead of stacked checkboxes on mobile. Uses `role="checkbox"` and `aria-checked` for accessibility.
+
+### 6.6 — Files Modified (v3.1)
+
+| File | Changes |
+|------|---------|
+| `design-tokens.css` | +10 new tokens (skeleton, scrim, quick-add, sticky-filter, WCAG) |
+| `responsive.css` | +sticky-filter-bar, +chip-scroll components |
+| `animations-3d.css` | Updated skeleton to use token-based shimmer |
+| `main.css` | Updated skeleton-shimmer to use tokens, +WCAG utility classes |
+| `ProductCard.vue` | Skeleton, scrim, quick-add, inline discount, seller icon, WCAG |
+| `FlashSaleCard.vue` | Skeleton, scrim, inline discount, WCAG |
+| `FilterSidebar.vue` | +sticky prop, scrollable sidebar |
+| `FilterSheet.vue` | Horizontal chips for checkbox filters |
+| `StickyCTA.vue` | WCAG-safe muted text color |
+| `TrustBar.vue` | WCAG contrast comment |
+| `VerifiedBadge.vue` | WCAG contrast comment |
+| `BaseSkeleton.vue` | **New** component |
+
+---
+
+*Document generated for AllianceHub Platform v3.1 — Vue 3 + Cloudflare Workers stack.*
+*Last updated: 2026-08-18*

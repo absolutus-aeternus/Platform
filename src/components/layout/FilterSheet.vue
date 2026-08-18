@@ -13,13 +13,20 @@
           <div class="filter-sheet__body">
             <div class="filter-sheet__section" v-for="section in sections" :key="section.key">
               <h4 class="filter-sheet__title">{{ section.label }}</h4>
-              <!-- Checkbox -->
+              <!-- Checkbox as horizontal scrollable chips (mobile-first) -->
               <template v-if="section.type === 'checkbox'">
-                <div class="filter-sheet__checks">
-                  <label v-for="opt in section.options" :key="opt.value" class="filter-sheet__check">
-                    <input type="checkbox" :value="opt.value" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
-                    <span>{{ opt.label }}</span>
-                  </label>
+                <div class="filter-sheet__chips">
+                  <button
+                    v-for="opt in section.options"
+                    :key="opt.value"
+                    class="filter-sheet__chip"
+                    :class="{ 'filter-sheet__chip--active': isSelected(section.key, opt.value) }"
+                    @click="toggleFilter(section.key, opt.value)"
+                    role="checkbox"
+                    :aria-checked="isSelected(section.key, opt.value)"
+                  >
+                    {{ opt.label }}
+                  </button>
                 </div>
               </template>
               <!-- Price range -->
@@ -105,7 +112,7 @@ function clearAll() {
 .filter-sheet__backdrop {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 700;
+  z-index: var(--z-modal-backdrop, 700);
 }
 .filter-sheet {
   position: fixed; bottom: 0; left: 0; right: 0;
@@ -143,21 +150,45 @@ function clearAll() {
   margin: 0 0 10px;
 }
 
-.filter-sheet__checks { display: flex; flex-wrap: wrap; gap: 8px; }
-.filter-sheet__check {
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 12px;
+/* ── Horizontal Scrollable Chips ── */
+.filter-sheet__chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  /* Hide scrollbar but keep scroll */
+  scrollbar-width: none;
+}
+.filter-sheet__chips::-webkit-scrollbar { display: none; }
+
+.filter-sheet__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
   border: 1px solid var(--neutral-300, #D5D9D9);
   border-radius: var(--radius-full, 9999px);
+  background: var(--white, #fff);
   font-size: var(--text-sm, 13px);
+  font-weight: 500;
+  color: var(--neutral-700, #565959);
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--ease-fast, 0.15s ease);
+  font-family: var(--font-sans, 'Inter', sans-serif);
 }
-.filter-sheet__check:has(input:checked) {
-  background: var(--brand-primary-light, #FFF4E6);
+.filter-sheet__chip:hover {
   border-color: var(--brand-primary, #FF9900);
   color: var(--brand-primary-hover, #E68A00);
 }
-.filter-sheet__check input { display: none; }
+.filter-sheet__chip--active {
+  background: var(--brand-primary-light, #FFF4E6);
+  border-color: var(--brand-primary, #FF9900);
+  color: var(--brand-primary-hover, #E68A00);
+  font-weight: 600;
+}
 
 .filter-sheet__range { display: flex; align-items: center; gap: 8px; }
 .filter-sheet__range input {

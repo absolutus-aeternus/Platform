@@ -31,7 +31,7 @@ defineProps({
   line-height: 1;
 }
 .verified-badge__label {
-  color: var(--brand-accent, #007185);
+  color: var(--brand-accent, #007185); /* 4.7:1 on white ✅ WCAG AA */
 }
 /* Sizes */
 .verified-badge--sm { font-size: 12px; }

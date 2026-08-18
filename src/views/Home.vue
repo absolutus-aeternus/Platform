@@ -121,15 +121,22 @@
                 <span>{{ s.goods_count || 0 }} Products</span>
                 <span class="mc-rating">{{ s.rating || '4.8' }} <i class="fas fa-star"></i></span>
               </div>
-              <button class="btn-follow-store" @click.stop>Follow</button>
+              <button
+                class="btn-follow-store"
+                :class="{ 'btn-follow-store--followed': followedSellers.has(s.id) }"
+                @click.stop="toggleFollow(s)"
+              >
+                <i :class="followedSellers.has(s.id) ? 'fas fa-check' : 'fas fa-plus'"></i>
+                {{ followedSellers.has(s.id) ? 'Following' : 'Follow' }}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Product Grid -->
-    <section class="discover-section">
+    <!-- Product Grid (Daily Discover) -->
+    <section class="discover-section" ref="discoverSection">
       <div class="container">
         <div class="discover-header">
           <h2>Daily Discover</h2>
@@ -139,9 +146,12 @@
             <button :class="{ active: sort === 'price' }" @click="sort = 'price'">Price</button>
           </div>
         </div>
-        <div class="filter-tags">
-          <span class="filter-tag" :class="{ active: !activeFilter }" @click="activeFilter = null">All</span>
-          <span class="filter-tag" v-for="cat in categories.slice(0, 8)" :key="cat.id" :class="{ active: activeFilter === cat.id }" @click="activeFilter = cat.id">{{ cat.name }}</span>
+        <!-- Sticky filter bar -->
+        <div class="filter-bar-sticky" :class="{ 'filter-bar-sticky--pinned': filterPinned }">
+          <div class="filter-tags">
+            <span class="filter-tag" :class="{ active: !activeFilter }" @click="activeFilter = null">All</span>
+            <span class="filter-tag" v-for="cat in categories.slice(0, 8)" :key="cat.id" :class="{ active: activeFilter === cat.id }" @click="activeFilter = cat.id">{{ cat.name }}</span>
+          </div>
         </div>
         <!-- Loading with timeout -->
         <div v-if="loading && !loadTimedOut" class="product-grid-amazon">
@@ -180,6 +190,42 @@
         </div>
       </div>
     </section>
+
+    <!-- SEO Footer Section (moved from above-the-fold) -->
+    <section class="seo-footer-section">
+      <div class="container">
+        <div class="seo-footer-grid">
+          <div class="seo-col">
+            <h4>About AllianceHub</h4>
+            <p>Your trusted global marketplace for quality products at unbeatable prices. We connect buyers with verified sellers worldwide, offering secure payments, fast shipping, and 24/7 customer support.</p>
+          </div>
+          <div class="seo-col">
+            <h4>Why Shop With Us</h4>
+            <ul>
+              <li>Millions of products across every category</li>
+              <li>Buyer protection on every order</li>
+              <li>Free returns within 7 days</li>
+              <li>Secure crypto &amp; traditional payments</li>
+            </ul>
+          </div>
+          <div class="seo-col">
+            <h4>Popular Categories</h4>
+            <div class="seo-cat-links">
+              <router-link v-for="cat in categories.slice(0, 6)" :key="cat.id" :to="`/search?category=${cat.id}`">{{ cat.name }}</router-link>
+            </div>
+          </div>
+          <div class="seo-col">
+            <h4>Customer Service</h4>
+            <ul>
+              <li><router-link to="/help">Help Center</router-link></li>
+              <li><router-link to="/how-to-buy">How to Buy</router-link></li>
+              <li><router-link to="/returns">Returns &amp; Refunds</router-link></li>
+              <li><router-link to="/contact">Contact Us</router-link></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -201,10 +247,14 @@ const sort = ref('popular')
 const limit = ref(20)
 const bannerIndex = ref(0)
 const activeFilter = ref(null)
+const followedSellers = ref(new Set())
+const filterPinned = ref(false)
+const discoverSection = ref(null)
 let bannerTimer = null
 let countdownTimer = null
 let realtimeChannel = null
 let loadTimeout = null
+let scrollHandler = null
 
 const banners = [
   { tag: '🔥 Hot Deals', title: 'Mega Sale Festival', desc: 'Up to 70% OFF on selected items', btn: 'Shop Now', link: '/discounts', bg: 'linear-gradient(135deg, var(--brand-nav, #232F3E), #37475a)', emoji: '🛍️' },
@@ -222,11 +272,9 @@ const hours = ref('02')
 const minutes = ref('45')
 const seconds = ref('30')
 
-// Bug #3 fix: Use UTC-based countdown (server time reference)
 const startCountdown = () => {
   const updateCountdown = () => {
     const now = new Date()
-    // Target: end of current UTC day
     const endOfDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1))
     const diff = Math.max(0, Math.floor((endOfDay - now) / 1000))
     hours.value = String(Math.floor(diff / 3600)).padStart(2, '0')
@@ -258,6 +306,7 @@ const sortedProducts = computed(() => {
 
 const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
 const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00)','var(--brand-nav, #232F3E)']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
+
 const addToCart = async (product) => {
   try {
     await userStore.addToCart({ id: product.id, quantity: 1 })
@@ -267,6 +316,18 @@ const addToCart = async (product) => {
   }
 }
 
+const toggleFollow = (seller) => {
+  const set = new Set(followedSellers.value)
+  if (set.has(seller.id)) {
+    set.delete(seller.id)
+    if (window.__toast) window.__toast.show(`Unfollowed ${seller.name || seller.store_name}`, 'info')
+  } else {
+    set.add(seller.id)
+    if (window.__toast) window.__toast.show(`Following ${seller.name || seller.store_name}!`, 'success')
+  }
+  followedSellers.value = set
+}
+
 const loadMore = () => { limit.value += 20 }
 
 const loadData = async () => {
@@ -274,7 +335,6 @@ const loadData = async () => {
   error.value = null
   loadTimedOut.value = false
 
-  // Set a 8-second timeout for loading
   loadTimeout = setTimeout(() => { loadTimedOut.value = true }, 8000)
 
   try {
@@ -305,12 +365,22 @@ const retryLoad = () => {
   loadData()
 }
 
+// Sticky filter bar observer
+const setupStickyFilter = () => {
+  scrollHandler = () => {
+    if (!discoverSection.value) return
+    const rect = discoverSection.value.getBoundingClientRect()
+    filterPinned.value = rect.top <= 60
+  }
+  window.addEventListener('scroll', scrollHandler, { passive: true })
+}
+
 onMounted(() => {
   startCountdown()
   startBannerRotation()
   loadData()
+  setupStickyFilter()
 
-  // Realtime subscription
   realtimeChannel = supabase.channel('products-home')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => { loadData() })
     .subscribe()
@@ -321,6 +391,7 @@ onUnmounted(() => {
   if (bannerTimer) clearInterval(bannerTimer)
   if (loadTimeout) clearTimeout(loadTimeout)
   if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
 })
 </script>
 
@@ -420,19 +491,25 @@ onUnmounted(() => {
 .mc-info h4 { font-size: 0.8125rem; margin: 0 0 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mc-stats { display: flex; justify-content: center; gap: 0.625rem; font-size: 0.6875rem; color: #999; margin-bottom: 0.5rem; }
 .mc-rating { color: var(--brand-primary, #FF9900); }
-.btn-follow-store { padding: 0.25rem 0.875rem; border: 1px solid var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); background: none; border-radius: 3px; cursor: pointer; font-size: 0.75rem; }
+.btn-follow-store { padding: 0.25rem 0.875rem; border: 1px solid var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); background: none; border-radius: 3px; cursor: pointer; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem; transition: all 0.2s; }
 .btn-follow-store:hover { background: var(--brand-primary, #FF9900); color: var(--brand-dark, #131921); }
+.btn-follow-store--followed { background: var(--brand-primary, #FF9900); color: var(--brand-dark, #131921); border-color: var(--brand-primary, #FF9900); }
+.btn-follow-store--followed:hover { background: var(--brand-primary-hover, #E68A00); }
 
-/* Product Grid */
+/* Product Grid (Daily Discover) */
 .discover-section { background: var(--bg); padding: 1rem 0; }
 .discover-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
 .discover-header h2 { font-size: 1.125rem; font-weight: 700; margin: 0; color: #0F1111; }
 .discover-tabs { display: flex; gap: 0.375rem; }
 .discover-tabs button { padding: 0.375rem 1rem; border: 1px solid #D5D9D9; background: #fff; border-radius: 20px; cursor: pointer; font-size: 0.8125rem; }
 .discover-tabs button.active { background: #0F1111; color: #fff; border-color: #0F1111; }
-.filter-tags { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; overflow-x: auto; }
+
+/* Sticky filter bar */
+.filter-bar-sticky { position: sticky; top: 56px; z-index: 50; background: var(--bg); padding: 0.5rem 0; transition: box-shadow 0.2s; }
+.filter-bar-sticky--pinned { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.filter-tags { display: flex; gap: 0.5rem; overflow-x: auto; }
 .filter-tags::-webkit-scrollbar { height: 0; }
-.filter-tag { padding: 0.3125rem 0.875rem; background: #fff; border: 1px solid #D5D9D9; border-radius: 20px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; }
+.filter-tag { padding: 0.3125rem 0.875rem; background: #fff; border: 1px solid #D5D9D9; border-radius: 20px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
 .filter-tag.active, .filter-tag:hover { background: #0F1111; color: #fff; border-color: #0F1111; }
 .product-grid-amazon { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
 .pg-card { background: #fff; border-radius: 4px; overflow: hidden; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
@@ -477,9 +554,22 @@ onUnmounted(() => {
 .svc-item strong { font-size: 0.8125rem; display: block; }
 .svc-item p { font-size: 0.6875rem; color: #565959; margin: 0.125rem 0 0; }
 
+/* SEO Footer Section */
+.seo-footer-section { background: var(--brand-nav, #232F3E); padding: 2rem 0; margin-top: 0.5rem; color: #ddd; }
+.seo-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.seo-col h4 { font-size: 0.875rem; color: #fff; margin: 0 0 0.75rem; font-weight: 600; }
+.seo-col p { font-size: 0.75rem; line-height: 1.6; color: #aaa; margin: 0; }
+.seo-col ul { list-style: none; padding: 0; margin: 0; }
+.seo-col ul li { font-size: 0.75rem; color: #aaa; padding: 0.25rem 0; }
+.seo-col ul li a { color: #aaa; text-decoration: none; }
+.seo-col ul li a:hover { color: var(--brand-primary, #FF9900); }
+.seo-cat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.seo-cat-links a { font-size: 0.75rem; color: #aaa; text-decoration: none; padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.08); border-radius: 3px; }
+.seo-cat-links a:hover { color: var(--brand-primary, #FF9900); background: rgba(255,255,255,0.12); }
+
 /* Responsive */
 @media (min-width: 1280px) { .product-grid-amazon { grid-template-columns: repeat(5, 1fr); } }
-@media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .sidebar-cats { display: none; } .hero-side-cards { flex-direction: row; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) { .hero-side-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; } .hero-banner { min-height: 10rem; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(2, 1fr); } .services-row { grid-template-columns: repeat(2, 1fr); } .banner-content { padding: 1rem; } .banner-text h2 { font-size: 1rem; } .banner-visual { font-size: 2rem; } }
-@media (max-width: 480px) { .product-grid-amazon { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .pg-body { padding: 0.375rem; } .pg-name { font-size: 0.75rem; min-height: 2rem; } .pg-price { font-size: 0.875rem; } .hero-side-cards { grid-template-columns: 1fr; } .side-card { padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; } .side-card small { display: none; } .banner-content { padding: 0.75rem; } .banner-text { max-width: 60%; } .banner-text h2 { font-size: 0.875rem; } .banner-text p { font-size: 0.6875rem; } .banner-visual { font-size: 1.5rem; } .flash-card { min-width: 7rem; } .fc-info { padding: 0.25rem; } .fc-price { font-size: 0.75rem; } .mall-grid { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .cat-icon-item { min-width: 3.75rem; } }
+@media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .sidebar-cats { display: none; } .hero-side-cards { flex-direction: row; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(3, 1fr); } .seo-footer-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .hero-side-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; } .hero-banner { min-height: 10rem; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(2, 1fr); } .services-row { grid-template-columns: repeat(2, 1fr); } .banner-content { padding: 1rem; } .banner-text h2 { font-size: 1rem; } .banner-visual { font-size: 2rem; } .filter-bar-sticky { top: 48px; } }
+@media (max-width: 480px) { .product-grid-amazon { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .pg-body { padding: 0.375rem; } .pg-name { font-size: 0.75rem; min-height: 2rem; } .pg-price { font-size: 0.875rem; } .hero-side-cards { grid-template-columns: 1fr; } .side-card { padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; } .side-card small { display: none; } .banner-content { padding: 0.75rem; } .banner-text { max-width: 60%; } .banner-text h2 { font-size: 0.875rem; } .banner-text p { font-size: 0.6875rem; } .banner-visual { font-size: 1.5rem; } .flash-card { min-width: 7rem; } .fc-info { padding: 0.25rem; } .fc-price { font-size: 0.75rem; } .mall-grid { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .cat-icon-item { min-width: 3.75rem; } .seo-footer-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
 </style>

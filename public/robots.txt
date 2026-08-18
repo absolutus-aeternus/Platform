@@ -1,70 +1,12 @@
 User-agent: *
 Allow: /
-Allow: /category
-Allow: /search
-Allow: /about
-Allow: /contact
-Allow: /help
-Allow: /terms
-Allow: /privacy
-Allow: /how-to-buy
-Allow: /shipping-info
-Allow: /payment-methods
-Allow: /returns
-Allow: /blog
-Allow: /discounts
-Allow: /credit
-Allow: /comparison
-Allow: /track-order
-Allow: /information
-Allow: /all-reviews
-Allow: /customer-service
-Allow: /merchant-settled
-Allow: /commodity
-
+Disallow: /admin/
+Disallow: /superadmin/
+Disallow: /seller/
+Disallow: /user/
 Disallow: /login
 Disallow: /register
-Disallow: /login/admin
-Disallow: /seller/login
-Disallow: /user/
-Disallow: /seller/
-Disallow: /admin/
-Disallow: /superadmin/
-Disallow: /ratingplus
 Disallow: /api/
-Disallow: /.git/
-Disallow: /.env
+Disallow: /_nuxt/
 
 Sitemap: https://alliancehub.dpdns.org/sitemap.xml
-
-# Block AI crawlers from sensitive areas
-User-agent: GPTBot
-Disallow: /admin/
-Disallow: /superadmin/
-Disallow: /api/
-
-User-agent: ChatGPT-User
-Disallow: /admin/
-Disallow: /superadmin/
-Disallow: /api/
-
-User-agent: Amazonbot
-Disallow: /
-
-User-agent: Applebot-Extended
-Disallow: /
-
-User-agent: Bytespider
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: meta-externalagent
-Disallow: /

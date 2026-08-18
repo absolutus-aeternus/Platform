@@ -9,8 +9,21 @@
       </div>
 
       <div v-if="loading" class="loading-state">
-        <div class="skeleton-img"></div>
-        <div class="skeleton-text"></div>
+        <div class="pdp-skeleton">
+          <div class="pdp-skel-gallery">
+            <div class="pdp-skel-main skeleton-shimmer"></div>
+            <div class="pdp-skel-thumbs">
+              <div v-for="i in 4" :key="i" class="pdp-skel-thumb skeleton-shimmer"></div>
+            </div>
+          </div>
+          <div class="pdp-skel-info">
+            <div class="pdp-skel-line skeleton-shimmer" style="width:80%;height:24px"></div>
+            <div class="pdp-skel-line skeleton-shimmer" style="width:40%;height:16px"></div>
+            <div class="pdp-skel-line skeleton-shimmer" style="width:30%;height:32px;margin-top:16px"></div>
+            <div class="pdp-skel-line skeleton-shimmer" style="width:100%;height:48px;margin-top:24px"></div>
+            <div class="pdp-skel-line skeleton-shimmer" style="width:100%;height:48px;margin-top:12px"></div>
+          </div>
+        </div>
       </div>
 
       <div v-else-if="!product" class="empty-state">
@@ -24,7 +37,7 @@
         <div class="product-main">
           <!-- Image Gallery -->
           <div class="product-gallery">
-            <div class="main-image" @mousemove="onZoomMove" @mouseleave="zoomActive = false" @click="showLightbox = true">
+            <div class="main-image" @mousemove="onZoomMove" @mouseleave="zoomActive = false" @click="openLightbox">
               <img loading="lazy" v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name" :style="zoomStyle">
               <div v-else class="img-placeholder">{{ product.name?.[0] || 'P' }}</div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
@@ -35,17 +48,26 @@
             </div>
           </div>
 
-          <!-- Lightbox -->
+          <!-- Lightbox (fullscreen with touch-swipe) -->
           <Teleport to="body">
-            <div v-if="showLightbox" class="lightbox" @click.self="showLightbox = false">
-              <button class="lightbox__close" @click="showLightbox = false"><i class="fas fa-times"></i></button>
-              <button class="lightbox__nav lightbox__nav--prev" @click="selectedImage = Math.max(0, selectedImage - 1)"><i class="fas fa-chevron-left"></i></button>
-              <img :src="product.images[selectedImage || 0]" :alt="product.name" class="lightbox__img" />
-              <button class="lightbox__nav lightbox__nav--next" @click="selectedImage = Math.min(product.images.length - 1, selectedImage + 1)"><i class="fas fa-chevron-right"></i></button>
-              <div class="lightbox__dots">
-                <span v-for="(_, i) in product.images" :key="i" :class="{ active: selectedImage === i }" @click="selectedImage = i"></span>
+            <Transition name="lightbox">
+              <div v-if="showLightbox" class="lightbox" @click.self="closeLightbox">
+                <button class="lightbox__close" @click="closeLightbox"><i class="fas fa-times"></i></button>
+                <button class="lightbox__nav lightbox__nav--prev" @click="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+                <div class="lightbox__img-wrap"
+                  @touchstart="onLightboxTouchStart"
+                  @touchmove="onLightboxTouchMove"
+                  @touchend="onLightboxTouchEnd"
+                >
+                  <img :src="product.images[lightboxImage]" :alt="product.name" class="lightbox__img" :style="lightboxSwipeStyle" />
+                </div>
+                <button class="lightbox__nav lightbox__nav--next" @click="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+                <div class="lightbox__counter">{{ lightboxImage + 1 }} / {{ product.images.length }}</div>
+                <div class="lightbox__dots">
+                  <span v-for="(_, i) in product.images" :key="i" :class="{ active: lightboxImage === i }" @click="lightboxImage = i"></span>
+                </div>
               </div>
-            </div>
+            </Transition>
           </Teleport>
 
           <!-- Product Info -->
@@ -71,7 +93,12 @@
             <div class="info-rows">
               <div class="info-row">
                 <span class="label">Shipping</span>
-                <span class="value">Free shipping · 2-7 business days</span>
+                <span class="value">
+                  <span class="shipping-est">
+                    <i class="fas fa-truck" style="color:var(--brand-primary, #FF9900);margin-right:6px"></i>
+                    Free shipping · Est. delivery: <strong>{{ estimatedDelivery }}</strong>
+                  </span>
+                </span>
               </div>
               <div class="info-row">
                 <span class="label">Stock</span>
@@ -88,6 +115,29 @@
               </div>
             </div>
 
+            <!-- Variant Selection (if variants exist) -->
+            <div v-if="product.variants?.length" class="variant-section">
+              <div class="variant-group" v-for="group in variantGroups" :key="group.name">
+                <div class="variant-label-row">
+                  <span class="label">{{ group.name }}:</span>
+                  <span v-if="group.name.toLowerCase().includes('size')" class="size-chart-trigger" @click="showSizeChart = true">
+                    <i class="fas fa-ruler"></i> Size Chart
+                  </span>
+                </div>
+                <div class="variant-options">
+                  <button
+                    v-for="opt in group.options"
+                    :key="opt"
+                    class="variant-chip"
+                    :class="{ active: selectedVariants[group.name] === opt, disabled: !isVariantAvailable(group.name, opt) }"
+                    @click="selectVariant(group.name, opt)"
+                  >
+                    {{ opt }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- Quantity -->
             <div class="quantity-section">
               <span class="label">Quantity</span>
@@ -100,17 +150,16 @@
 
             <!-- Actions -->
             <div class="action-row">
-              <button class="btn-add-cart" @click="addToCart" :disabled="adding || product.stock <= 0" aria-label="Add to cart">
+              <button class="btn-add-cart" @click="handleAddToCart" :disabled="adding || product.stock <= 0" aria-label="Add to cart">
                 <i class="fas fa-shopping-cart"></i> {{ adding ? 'Adding...' : 'Add to Cart' }}
               </button>
-              <button class="btn-buy-now" @click="buyNow" :disabled="product.stock <= 0" aria-label="Buy now">
+              <button class="btn-buy-now" @click="handleBuyNow" :disabled="product.stock <= 0" aria-label="Buy now">
                 Buy Now
               </button>
               <button class="btn-fav" @click="toggleFav" aria-label="Toggle favorite">
                 <i :class="isFav ? 'fas fa-heart' : 'far fa-heart'"></i>
               </button>
             </div>
-            <!-- Bug #2: Chat Seller button -->
             <button class="btn-chat-seller" @click="chatSeller" v-if="product.seller_id">
               <i class="fas fa-comments"></i> Chat with Seller
             </button>
@@ -163,12 +212,25 @@
               </div>
             </div>
           </div>
+
+          <!-- Reviews Tab with Filter -->
           <div v-if="tab === 'reviews'" class="reviews-content">
-            <div v-if="reviews.length === 0" class="empty-reviews">
-              <i class="fas fa-comment-slash"></i>
-              <p>No reviews yet. Be the first to review!</p>
+            <!-- Review Filter Tabs -->
+            <div class="review-filter-tabs">
+              <button :class="{ active: reviewFilter === 'all' }" @click="reviewFilter = 'all'">All ({{ reviews.length }})</button>
+              <button :class="{ active: reviewFilter === 'photo' }" @click="reviewFilter = 'photo'">
+                <i class="fas fa-image"></i> With Photos ({{ reviewsWithPhotos.length }})
+              </button>
+              <button v-for="star in [5,4,3,2,1]" :key="star" :class="{ active: reviewFilter === star }" @click="reviewFilter = star">
+                {{ star }} <i class="fas fa-star" style="font-size:10px"></i> ({{ reviewsByStar(star).length }})
+              </button>
             </div>
-            <div v-for="r in reviews" :key="r.id" class="review-item">
+
+            <div v-if="filteredReviews.length === 0" class="empty-reviews">
+              <i class="fas fa-comment-slash"></i>
+              <p>No reviews match this filter.</p>
+            </div>
+            <div v-for="r in filteredReviews" :key="r.id" class="review-item">
               <div class="review-header">
                 <div class="review-avatar">{{ (r.users?.username || r.users?.email || 'U')[0].toUpperCase() }}</div>
                 <div class="review-meta">
@@ -177,7 +239,15 @@
                 </div>
                 <span class="review-date">{{ new Date(r.created_at).toLocaleDateString() }}</span>
               </div>
+              <!-- Variant badge in review -->
+              <div v-if="r.variant" class="review-variant-badge">
+                <i class="fas fa-tag"></i> {{ r.variant }}
+              </div>
               <p class="review-text">{{ r.comment }}</p>
+              <!-- Review images -->
+              <div v-if="r.images?.length" class="review-images">
+                <img v-for="(img, i) in r.images" :key="i" :src="img" class="review-img" loading="lazy" @click="openReviewImage(img)" />
+              </div>
             </div>
           </div>
 
@@ -244,25 +314,65 @@
       </template>
     </div>
 
+    <!-- Size Chart Modal -->
+    <BaseModal v-model="showSizeChart" title="Size Chart" position="bottom" size="lg">
+      <div class="size-chart-content">
+        <table class="size-chart-table">
+          <thead>
+            <tr><th>Size</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hip (cm)</th><th>Length (cm)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>80-84</td><td>60-64</td><td>86-90</td><td>64</td></tr>
+            <tr><td>S</td><td>84-88</td><td>64-68</td><td>90-94</td><td>66</td></tr>
+            <tr><td>M</td><td>88-92</td><td>68-72</td><td>94-98</td><td>68</td></tr>
+            <tr><td>L</td><td>92-96</td><td>72-76</td><td>98-102</td><td>70</td></tr>
+            <tr><td>XL</td><td>96-100</td><td>76-80</td><td>102-106</td><td>72</td></tr>
+            <tr><td>XXL</td><td>100-104</td><td>80-84</td><td>106-110</td><td>74</td></tr>
+          </tbody>
+        </table>
+        <p class="size-chart-note">* Measurements are approximate. For the best fit, refer to the specific product measurements.</p>
+      </div>
+    </BaseModal>
+
+    <!-- Variant Selection Bottom Sheet -->
+    <BaseModal v-model="showVariantSheet" title="Select Variant" position="bottom" size="sm">
+      <div class="variant-sheet-content">
+        <div v-for="group in variantGroups" :key="group.name" class="variant-sheet-group">
+          <h4>{{ group.name }}</h4>
+          <div class="variant-options">
+            <button
+              v-for="opt in group.options"
+              :key="opt"
+              class="variant-chip"
+              :class="{ active: selectedVariants[group.name] === opt }"
+              @click="selectVariant(group.name, opt)"
+            >{{ opt }}</button>
+          </div>
+        </div>
+        <button class="btn-variant-confirm" @click="confirmVariantSelection">Confirm</button>
+      </div>
+    </BaseModal>
+
     <!-- Mobile Sticky CTA Bar -->
     <StickyCTA
       :visible="!!product && product.stock > 0"
       :price="product?.price"
       :original-price="product?.original_price"
-      @add-to-cart="addToCart"
-      @buy-now="buyNow"
+      @add-to-cart="handleAddToCart"
+      @buy-now="handleBuyNow"
       @chat="chatSeller"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchProductById, fetchReviews } from '@/services/supabase'
 import StickyCTA from '@/components/layout/StickyCTA.vue'
 import VerifiedBadge from '@/components/trust/VerifiedBadge.vue'
+import BaseModal from '@/components/base/BaseModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -271,8 +381,23 @@ const tab = ref('detail')
 const selectedImage = ref(0)
 const zoomActive = ref(false)
 const showLightbox = ref(false)
+const lightboxImage = ref(0)
 const zoomX = ref(50)
 const zoomY = ref(50)
+const showSizeChart = ref(false)
+const showVariantSheet = ref(false)
+const selectedVariants = ref({})
+const reviewFilter = ref('all')
+
+// Lightbox touch-swipe state
+const lbTouchStartX = ref(0)
+const lbTouchDeltaX = ref(0)
+const lbSwiping = ref(false)
+
+const lightboxSwipeStyle = computed(() => {
+  if (!lbSwiping.value) return { transition: 'transform 0.2s ease' }
+  return { transform: `translateX(${lbTouchDeltaX.value}px)`, transition: 'none' }
+})
 
 const zoomStyle = computed(() => {
   if (!zoomActive.value) return {}
@@ -283,12 +408,110 @@ const zoomStyle = computed(() => {
   }
 })
 
+// Variant groups computed
+const variantGroups = computed(() => {
+  if (!product.value?.variants?.length) return []
+  const groups = {}
+  product.value.variants.forEach(v => {
+    if (typeof v === 'string') {
+      // Simple variant like "Red, Blue"
+      if (!groups['Option']) groups['Option'] = { name: 'Option', options: [] }
+      groups['Option'].options.push(v)
+    } else if (v.name && v.options) {
+      groups[v.name] = v
+    }
+  })
+  return Object.values(groups)
+})
+
+// Review filtering
+const reviewsWithPhotos = computed(() => reviews.value.filter(r => r.images?.length > 0))
+const reviewsByStar = (star) => reviews.value.filter(r => Math.round(r.rating) === star)
+const filteredReviews = computed(() => {
+  if (reviewFilter.value === 'all') return reviews.value
+  if (reviewFilter.value === 'photo') return reviewsWithPhotos.value
+  return reviewsByStar(reviewFilter.value)
+})
+
+// Dynamic shipping estimate
+const estimatedDelivery = computed(() => {
+  const now = new Date()
+  const min = new Date(now)
+  min.setDate(min.getDate() + 2)
+  const max = new Date(now)
+  max.setDate(max.getDate() + 7)
+  const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return `${fmt(min)} - ${fmt(max)}`
+})
+
 function onZoomMove(e) {
   zoomActive.value = true
   const rect = e.currentTarget.getBoundingClientRect()
   zoomX.value = ((e.clientX - rect.left) / rect.width) * 100
   zoomY.value = ((e.clientY - rect.top) / rect.height) * 100
 }
+
+// Lightbox functions
+function openLightbox() {
+  lightboxImage.value = selectedImage.value || 0
+  showLightbox.value = true
+}
+function closeLightbox() {
+  showLightbox.value = false
+  lbSwiping.value = false
+}
+function lightboxPrev() {
+  lightboxImage.value = Math.max(0, lightboxImage.value - 1)
+}
+function lightboxNext() {
+  lightboxImage.value = Math.min(product.value.images.length - 1, lightboxImage.value + 1)
+}
+
+// Lightbox touch handlers
+function onLightboxTouchStart(e) {
+  lbTouchStartX.value = e.touches[0].clientX
+  lbTouchDeltaX.value = 0
+  lbSwiping.value = true
+}
+function onLightboxTouchMove(e) {
+  if (!lbSwiping.value) return
+  lbTouchDeltaX.value = e.touches[0].clientX - lbTouchStartX.value
+}
+function onLightboxTouchEnd() {
+  if (Math.abs(lbTouchDeltaX.value) > 60) {
+    if (lbTouchDeltaX.value > 0) lightboxPrev()
+    else lightboxNext()
+  }
+  lbSwiping.value = false
+  lbTouchDeltaX.value = 0
+}
+
+// Variant functions
+function selectVariant(groupName, option) {
+  selectedVariants.value = { ...selectedVariants.value, [groupName]: option }
+}
+function isVariantAvailable(groupName, option) {
+  // Simplified: all options available
+  return true
+}
+function confirmVariantSelection() {
+  showVariantSheet.value = false
+  window.__toast?.show('Variant selected!', 'success')
+}
+
+// Keyboard support for lightbox
+function onLightboxKeydown(e) {
+  if (!showLightbox.value) return
+  if (e.key === 'Escape') closeLightbox()
+  if (e.key === 'ArrowLeft') lightboxPrev()
+  if (e.key === 'ArrowRight') lightboxNext()
+}
+
+function openReviewImage(img) {
+  // Could open in lightbox, for now just open in new tab
+  window.open(img, '_blank')
+}
+
 const quantity = ref(1)
 const product = ref(null)
 const reviews = ref([])
@@ -302,13 +525,13 @@ const replyTo = ref(null)
 const replyText = ref('')
 
 onMounted(async () => {
+  document.addEventListener('keydown', onLightboxKeydown)
   try {
     const { data } = await fetchProductById(route.params.id)
     product.value = data || null
     if (data) {
       const { data: revData } = await fetchReviews(route.params.id)
       reviews.value = revData || []
-      // Load comments
       try {
         const { data: cData } = await supabase.from('product_comments').select('*').eq('product_id', route.params.id).order('created_at', { ascending: false }).limit(100)
         comments.value = cData || []
@@ -316,6 +539,10 @@ onMounted(async () => {
     }
   } catch (e) { console.error('Failed to load product:', e) }
   loading.value = false
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', onLightboxKeydown)
 })
 
 const formatCommentDate = (d) => {
@@ -381,6 +608,15 @@ const postReply = async (c) => {
   } catch (e) { console.warn('Post reply error:', e.message) }
 }
 
+const handleAddToCart = async () => {
+  // Check if variants need selection
+  if (variantGroups.value.length > 0 && Object.keys(selectedVariants.value).length < variantGroups.value.length) {
+    showVariantSheet.value = true
+    return
+  }
+  await addToCart()
+}
+
 const addToCart = async () => {
   if (!userStore.isLoggedIn) { router.push('/login'); return }
   adding.value = true
@@ -391,14 +627,17 @@ const addToCart = async () => {
   adding.value = false
 }
 
-const buyNow = async () => {
+const handleBuyNow = async () => {
+  if (variantGroups.value.length > 0 && Object.keys(selectedVariants.value).length < variantGroups.value.length) {
+    showVariantSheet.value = true
+    return
+  }
   await addToCart()
   router.push('/checkout')
 }
 
 const toggleFav = () => { isFav.value = !isFav.value }
 
-// Bug #2: Chat with seller
 const chatSeller = () => {
   if (!userStore.isLoggedIn) { window.location.hash = '#/login'; return }
   router.push(`/chat?seller=${product.value.seller_id}`)
@@ -411,29 +650,47 @@ const chatSeller = () => {
 .breadcrumb a { color: #666; text-decoration: none; }
 .breadcrumb a:hover { color: var(--brand-primary, #FF9900); }
 .breadcrumb i { font-size: 10px; }
-.loading-state { padding: 40px; text-align: center; }
-.skeleton-img { width: 100%; max-width: 400px; height: 400px; background: #f0f0f0; border-radius: 8px; margin: 0 auto 20px; animation: pulse 1.5s infinite; }
-.skeleton-text { width: 200px; height: 20px; background: #f0f0f0; border-radius: 4px; margin: 0 auto; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* Skeleton Loader */
+.loading-state { padding: 20px 0; }
+.pdp-skeleton { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.pdp-skel-main { aspect-ratio: 1/1; background: #f0f0f0; border-radius: 8px; }
+.pdp-skel-thumbs { display: flex; gap: 8px; margin-top: 12px; }
+.pdp-skel-thumb { width: 64px; height: 64px; background: #f0f0f0; border-radius: 4px; }
+.pdp-skel-info { display: flex; flex-direction: column; gap: 8px; padding-top: 20px; }
+.pdp-skel-line { border-radius: 4px; }
+.skeleton-shimmer { animation: shimmer 1.5s infinite; background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%) !important; background-size: 200% 100% !important; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 .empty-state { text-align: center; padding: 60px 0; color: #999; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 12px; display: block; }
 .product-main { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 16px; }
 .product-gallery { position: sticky; top: 80px; }
-.main-image { position: relative; border-radius: 8px; overflow: hidden; background: var(--neutral-100, #f8f8f8); cursor: zoom-in; }
-.main-image img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.1s ease; }
+.main-image { position: relative; border-radius: 8px; overflow: hidden; background: var(--neutral-100, #f8f8f8); cursor: zoom-in; aspect-ratio: 1/1; }
+.main-image img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; transition: transform 0.1s ease; display: block; }
 .zoom-hint { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: var(--white, #fff); padding: 4px 10px; border-radius: 4px; font-size: 11px; pointer-events: none; }
 
 /* Lightbox */
-.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 900; display: flex; align-items: center; justify-content: center; cursor: zoom-out; }
-.lightbox__img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
-.lightbox__close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; z-index: 901; padding: 8px; }
-.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; padding: 16px 12px; border-radius: 4px; transition: background 0.2s; }
-.lightbox__nav:hover { background: rgba(255,255,255,0.2); }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 900; display: flex; align-items: center; justify-content: center; }
+.lightbox__img-wrap { max-width: 90vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; touch-action: pan-y; user-select: none; }
+.lightbox__img { max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: 4px; user-select: none; -webkit-user-drag: none; }
+.lightbox__close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; z-index: 901; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; }
+.lightbox__close:hover { background: rgba(255,255,255,0.2); }
+.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; padding: 16px 12px; border-radius: 4px; transition: background 0.2s; z-index: 901; }
+.lightbox__nav:hover { background: rgba(255,255,255,0.25); }
 .lightbox__nav--prev { left: 16px; }
 .lightbox__nav--next { right: 16px; }
+.lightbox__counter { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.7); font-size: 14px; }
 .lightbox__dots { position: absolute; bottom: 20px; display: flex; gap: 8px; }
 .lightbox__dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; }
 .lightbox__dots span.active { background: var(--white, #fff); transform: scale(1.2); }
+
+/* Lightbox transition */
+.lightbox-enter-active { animation: lightbox-in 0.25s ease; }
+.lightbox-leave-active { animation: lightbox-out 0.2s ease; }
+@keyframes lightbox-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lightbox-out { from { opacity: 1; } to { opacity: 0; } }
+
 .img-placeholder { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 80px; color: #ddd; background: linear-gradient(135deg, #f8f8f8, #eee); }
 .discount-badge { position: absolute; top: 12px; left: 12px; background: var(--brand-primary, #FF9900); color: #fff; padding: 4px 10px; font-size: 14px; font-weight: 700; border-radius: 4px; }
 .thumb-row { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; }
@@ -454,13 +711,29 @@ const chatSeller = () => {
 .info-rows { margin-bottom: 20px; }
 .info-row { display: flex; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
 .info-row .label { width: 80px; color: #999; flex-shrink: 0; }
-.info-row .value { color: #333; }
+.info-row .value { color: #333; flex: 1; }
 .in-stock { color: var(--success, #067D62); }
 .out-stock { color: #ff4757; }
 .seller-link { color: var(--brand-accent, #007185); cursor: pointer; display: flex; align-items: center; gap: 6px; }
 .seller-link:hover { color: #c77a00; text-decoration: underline; }
 .seller-link i { font-size: 10px; }
 .seller-mini-logo { width: 20px; height: 20px; border-radius: 3px; object-fit: cover; }
+.shipping-est { font-size: 13px; color: #333; }
+.shipping-est strong { color: var(--brand-primary, #FF9900); }
+
+/* Variant Section */
+.variant-section { margin-bottom: 20px; }
+.variant-group { margin-bottom: 16px; }
+.variant-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.variant-label-row .label { color: #999; font-size: 14px; }
+.size-chart-trigger { font-size: 12px; color: var(--brand-accent, #007185); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+.size-chart-trigger:hover { text-decoration: underline; }
+.variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.variant-chip { padding: 8px 16px; border: 1px solid #ddd; background: #fff; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.variant-chip:hover { border-color: var(--brand-primary, #FF9900); }
+.variant-chip.active { border-color: var(--brand-primary, #FF9900); background: #fff8f0; color: var(--brand-primary, #FF9900); font-weight: 600; }
+.variant-chip.disabled { opacity: 0.4; cursor: not-allowed; }
+
 .quantity-section { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
 .quantity-section .label { color: #999; font-size: 14px; }
 .qty-control { display: flex; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
@@ -485,6 +758,13 @@ const chatSeller = () => {
 .tab-content { background: #fff; border-radius: 0 0 8px 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); min-height: 200px; }
 .detail-content h3 { font-size: 16px; margin-bottom: 12px; }
 .detail-content p { color: #555; font-size: 14px; line-height: 1.7; }
+
+/* Review Filter Tabs */
+.review-filter-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.review-filter-tabs button { padding: 6px 14px; border: 1px solid #ddd; background: #fff; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.review-filter-tabs button.active { background: var(--brand-primary, #FF9900); color: #fff; border-color: var(--brand-primary, #FF9900); }
+.review-filter-tabs button:hover:not(.active) { border-color: var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); }
+
 .empty-reviews { text-align: center; padding: 40px; color: #999; }
 .empty-reviews i { font-size: 32px; color: #ddd; margin-bottom: 8px; }
 .review-item { padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
@@ -494,7 +774,27 @@ const chatSeller = () => {
 .review-user { font-weight: 600; font-size: 14px; display: block; }
 .review-stars { color: var(--warning, #B45309); font-size: 11px; }
 .review-date { font-size: 12px; color: #999; }
+.review-variant-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: #f0f8ff; color: var(--brand-accent, #007185); border-radius: 12px; font-size: 11px; font-weight: 500; margin-bottom: 8px; }
+.review-variant-badge i { font-size: 10px; }
 .review-text { font-size: 14px; color: #555; line-height: 1.6; }
+.review-images { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.review-img { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid #eee; transition: border-color 0.2s; }
+.review-img:hover { border-color: var(--brand-primary, #FF9900); }
+
+/* Size Chart */
+.size-chart-content { overflow-x: auto; }
+.size-chart-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.size-chart-table th { background: var(--brand-nav, #232F3E); color: #fff; padding: 10px 16px; text-align: left; font-weight: 600; }
+.size-chart-table td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; }
+.size-chart-table tr:hover td { background: #fafafa; }
+.size-chart-note { font-size: 12px; color: #999; margin-top: 12px; }
+
+/* Variant Sheet */
+.variant-sheet-content { padding: 8px 0; }
+.variant-sheet-group { margin-bottom: 16px; }
+.variant-sheet-group h4 { font-size: 14px; margin-bottom: 8px; color: #333; }
+.btn-variant-confirm { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+.btn-variant-confirm:hover { background: var(--brand-primary-hover, #E68A00); }
 
 /* Comments */
 .comments-content { margin-top: 0; }
@@ -536,9 +836,11 @@ const chatSeller = () => {
 .btn-reply { padding: 8px 16px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .btn-reply:disabled { background: #ccc; cursor: not-allowed; }
 .btn-cancel { padding: 8px 12px; background: none; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; cursor: pointer; color: #666; }
+
 @media (max-width: 1024px) {
   .product-main { gap: 20px; }
   .current-price { font-size: 24px; }
+  .pdp-skeleton { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
   .product-main { grid-template-columns: 1fr; gap: 16px; padding: 12px; }
@@ -555,6 +857,11 @@ const chatSeller = () => {
   .info-row .label { width: 70px; }
   .product-tabs button { font-size: 13px; padding: 10px; }
   .tab-content { padding: 16px; }
+  .review-filter-tabs { gap: 4px; }
+  .review-filter-tabs button { padding: 5px 10px; font-size: 11px; }
+  .lightbox__nav { padding: 12px 8px; font-size: 18px; }
+  .lightbox__nav--prev { left: 8px; }
+  .lightbox__nav--next { right: 8px; }
 }
 @media (max-width: 480px) {
   .breadcrumb { font-size: 11px; }
@@ -564,5 +871,6 @@ const chatSeller = () => {
   .quantity-section { flex-direction: column; align-items: flex-start; gap: 8px; }
   .qty-control input { width: 40px; }
   .qty-control button { width: 32px; height: 32px; }
+  .variant-chip { padding: 6px 12px; font-size: 12px; }
 }
 </style>

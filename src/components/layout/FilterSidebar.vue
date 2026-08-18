@@ -1,47 +1,49 @@
 <template>
-  <aside class="filter-sidebar">
-    <div class="filter-sidebar__section" v-for="section in sections" :key="section.key">
-      <h4 class="filter-sidebar__title" @click="toggleSection(section.key)">
-        {{ section.label }}
-        <i class="fas" :class="collapsed[section.key] ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
-      </h4>
-      <div v-show="!collapsed[section.key]" class="filter-sidebar__content">
-        <!-- Checkbox list -->
-        <template v-if="section.type === 'checkbox'">
-          <label v-for="opt in section.options" :key="opt.value" class="filter-sidebar__check">
-            <input type="checkbox" :value="opt.value" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
-            <span class="filter-sidebar__check-label">{{ opt.label }}</span>
-            <span v-if="opt.count !== undefined" class="filter-sidebar__count">{{ opt.count }}</span>
-          </label>
-        </template>
-        <!-- Price range -->
-        <template v-else-if="section.type === 'range'">
-          <div class="filter-sidebar__range">
-            <input type="number" :value="getRangeMin(section.key)" @input="setRangeMin(section.key, $event.target.value)" :placeholder="'Min'" class="filter-sidebar__range-input" />
-            <span class="filter-sidebar__range-sep">—</span>
-            <input type="number" :value="getRangeMax(section.key)" @input="setRangeMax(section.key, $event.target.value)" :placeholder="'Max'" class="filter-sidebar__range-input" />
-          </div>
-        </template>
-        <!-- Rating -->
-        <template v-else-if="section.type === 'rating'">
-          <button v-for="stars in [5,4,3,2,1]" :key="stars" class="filter-sidebar__rating" :class="{ active: isSelected(section.key, stars) }" @click="toggleFilter(section.key, stars)">
-            <i v-for="i in 5" :key="i" :class="i <= stars ? 'fas fa-star' : 'far fa-star'"></i>
-            <span>& up</span>
-          </button>
-        </template>
-        <!-- Toggle -->
-        <template v-else-if="section.type === 'toggle'">
-          <label v-for="opt in section.options" :key="opt.value" class="filter-sidebar__toggle">
-            <span>{{ opt.label }}</span>
-            <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
-            <span class="filter-sidebar__toggle-track"></span>
-          </label>
-        </template>
+  <aside class="filter-sidebar" :class="{ 'filter-sidebar--sticky': sticky }">
+    <div class="filter-sidebar__inner">
+      <div class="filter-sidebar__section" v-for="section in sections" :key="section.key">
+        <h4 class="filter-sidebar__title" @click="toggleSection(section.key)">
+          {{ section.label }}
+          <i class="fas" :class="collapsed[section.key] ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+        </h4>
+        <div v-show="!collapsed[section.key]" class="filter-sidebar__content">
+          <!-- Checkbox list -->
+          <template v-if="section.type === 'checkbox'">
+            <label v-for="opt in section.options" :key="opt.value" class="filter-sidebar__check">
+              <input type="checkbox" :value="opt.value" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
+              <span class="filter-sidebar__check-label">{{ opt.label }}</span>
+              <span v-if="opt.count !== undefined" class="filter-sidebar__count">{{ opt.count }}</span>
+            </label>
+          </template>
+          <!-- Price range -->
+          <template v-else-if="section.type === 'range'">
+            <div class="filter-sidebar__range">
+              <input type="number" :value="getRangeMin(section.key)" @input="setRangeMin(section.key, $event.target.value)" :placeholder="'Min'" class="filter-sidebar__range-input" />
+              <span class="filter-sidebar__range-sep">—</span>
+              <input type="number" :value="getRangeMax(section.key)" @input="setRangeMax(section.key, $event.target.value)" :placeholder="'Max'" class="filter-sidebar__range-input" />
+            </div>
+          </template>
+          <!-- Rating -->
+          <template v-else-if="section.type === 'rating'">
+            <button v-for="stars in [5,4,3,2,1]" :key="stars" class="filter-sidebar__rating" :class="{ active: isSelected(section.key, stars) }" @click="toggleFilter(section.key, stars)">
+              <i v-for="i in 5" :key="i" :class="i <= stars ? 'fas fa-star' : 'far fa-star'"></i>
+              <span>& up</span>
+            </button>
+          </template>
+          <!-- Toggle -->
+          <template v-else-if="section.type === 'toggle'">
+            <label v-for="opt in section.options" :key="opt.value" class="filter-sidebar__toggle">
+              <span>{{ opt.label }}</span>
+              <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
+              <span class="filter-sidebar__toggle-track"></span>
+            </label>
+          </template>
+        </div>
       </div>
+      <button v-if="hasActiveFilters" class="filter-sidebar__clear" @click="clearAll">
+        <i class="fas fa-times"></i> Clear All Filters
+      </button>
     </div>
-    <button v-if="hasActiveFilters" class="filter-sidebar__clear" @click="clearAll">
-      <i class="fas fa-times"></i> Clear All Filters
-    </button>
   </aside>
 </template>
 
@@ -50,7 +52,8 @@ import { ref, reactive, computed } from 'vue'
 
 const props = defineProps({
   sections: { type: Array, default: () => [] },
-  modelValue: { type: Object, default: () => ({}) }
+  modelValue: { type: Object, default: () => ({}) },
+  sticky: { type: Boolean, default: false }
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -116,6 +119,22 @@ function clearAll() {
   width: var(--sidebar-width, 240px);
   flex-shrink: 0;
 }
+
+/* ── Sticky Mode ── */
+.filter-sidebar--sticky {
+  position: sticky;
+  top: calc(var(--header-height, 60px) + var(--sticky-filter-height, 48px) + 8px);
+  max-height: calc(100vh - var(--header-height, 60px) - var(--sticky-filter-height, 48px) - 16px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.filter-sidebar--sticky::-webkit-scrollbar { width: 4px; }
+.filter-sidebar--sticky::-webkit-scrollbar-thumb { background: var(--neutral-300, #D5D9D9); border-radius: 2px; }
+
+.filter-sidebar__inner {
+  padding-bottom: 16px;
+}
+
 .filter-sidebar__section { margin-bottom: 20px; }
 .filter-sidebar__title {
   font-size: var(--text-base, 14px);
@@ -137,7 +156,10 @@ function clearAll() {
   width: 16px; height: 16px; accent-color: var(--brand-accent, #007185);
 }
 .filter-sidebar__check-label { flex: 1; }
-.filter-sidebar__count { font-size: var(--text-xs, 12px); color: var(--neutral-500, #888); }
+.filter-sidebar__count {
+  font-size: var(--text-xs, 12px);
+  color: var(--text-muted-safe, #767676);  /* WCAG AA safe */
+}
 
 .filter-sidebar__range { display: flex; align-items: center; gap: 8px; }
 .filter-sidebar__range-input {

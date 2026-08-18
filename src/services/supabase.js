@@ -303,3 +303,205 @@ export const fetchLotteries = async () => {
 export const subscribe = async (email, userId) => {
   return supabase.from('subscribers').upsert({ email, user_id: userId })
 }
+
+// ─── Top Sellers ───
+export const fetchTopSellers = async (limit = 10) => {
+  try {
+    const { data, error } = await supabase
+      .from('sellers')
+      .select('id, name, store_name, logo, description, rating, is_recommended')
+      .eq('approval_status', 'approved')
+      .order('rating', { ascending: false })
+      .limit(limit)
+    if (error) throw error
+    // Fetch follower counts
+    const sellersWithCounts = await Promise.all(
+      (data || []).map(async (seller) => {
+        const { count } = await supabase
+          .from('follows')
+          .select('*', { count: 'exact', head: true })
+          .eq('seller_id', seller.id)
+        return { ...seller, follower_count: count || 0 }
+      })
+    )
+    return { data: sellersWithCounts.sort((a, b) => b.follower_count - a.follower_count), error: null }
+  } catch (e) {
+    console.error('fetchTopSellers error:', e)
+    return { data: [], error: e.message }
+  }
+}
+
+// ─── Follow / Unfollow Seller ───
+export const followSeller = async (userId, sellerId) => {
+  try {
+    const { data: existing } = await supabase
+      .from('follows')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('seller_id', sellerId)
+      .maybeSingle()
+    if (existing) return { action: 'already_following', error: null }
+    const { error } = await supabase
+      .from('follows')
+      .insert({ user_id: userId, seller_id: sellerId })
+    return { action: 'followed', error }
+  } catch (e) {
+    console.error('followSeller error:', e)
+    return { action: null, error: e.message }
+  }
+}
+
+export const unfollowSeller = async (userId, sellerId) => {
+  try {
+    const { error } = await supabase
+      .from('follows')
+      .delete()
+      .eq('user_id', userId)
+      .eq('seller_id', sellerId)
+    return { action: 'unfollowed', error }
+  } catch (e) {
+    console.error('unfollowSeller error:', e)
+    return { action: null, error: e.message }
+  }
+}
+
+export const isFollowingSeller = async (userId, sellerId) => {
+  try {
+    const { data } = await supabase
+      .from('follows')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('seller_id', sellerId)
+      .maybeSingle()
+    return !!data
+  } catch (e) {
+    return false
+  }
+}
+
+export const fetchFollowedSellers = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from('follows')
+      .select('seller_id, sellers(id, name, store_name, logo, rating)')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    if (error) throw error
+    return { data: data || [], error: null }
+  } catch (e) {
+    console.error('fetchFollowedSellers error:', e)
+    return { data: [], error: e.message }
+  }
+}
+
+// ─── Wishlist ───
+export const fetchWishlist = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from('wishlists')
+      .select('id, product_id, created_at, products(*)')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    if (error) throw error
+    return { data: data || [], error: null }
+  } catch (e) {
+    console.error('fetchWishlist error:', e)
+    return { data: [], error: e.message }
+  }
+}
+
+export const toggleWishlist = async (userId, productId) => {
+  try {
+    const { data: existing } = await supabase
+      .from('wishlists')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('product_id', productId)
+      .maybeSingle()
+    if (existing) {
+      const { error } = await supabase.from('wishlists').delete().eq('id', existing.id)
+      return { action: 'removed', error }
+    }
+    const { error } = await supabase
+      .from('wishlists')
+      .insert({ user_id: userId, product_id: productId })
+    return { action: 'added', error }
+  } catch (e) {
+    console.error('toggleWishlist error:', e)
+    return { action: null, error: e.message }
+  }
+}
+
+export const isInWishlist = async (userId, productId) => {
+  try {
+    const { data } = await supabase
+      .from('wishlists')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('product_id', productId)
+      .maybeSingle()
+    return !!data
+  } catch (e) {
+    return false
+  }
+}
+
+// ─── Coupons ───
+export const validateCoupon = async (code, orderTotal) => {
+  try {
+    const { data, error } = await supabase
+      .rpc('validate_coupon', { p_code: code.toUpperCase(), p_order_total: orderTotal })
+    if (error) throw error
+    const result = data?.[0]
+    if (!result?.valid) return { valid: false, error: result?.error_msg || 'Invalid coupon' }
+    return {
+      valid: true,
+      coupon_id: result.coupon_id,
+      discount_type: result.discount_type,
+      discount_value: result.discount_value,
+      discount_amount: result.discount_amount
+    }
+  } catch (e) {
+    console.error('validateCoupon error:', e)
+    return { valid: false, error: e.message }
+  }
+}
+
+// ─── Shipping Estimate ───
+export const fetchShippingEstimate = async (sellerId, region = 'domestic') => {
+  try {
+    let query = supabase
+      .from('shipping_rates')
+      .select('id, courier, service, rate, estimated_days, region')
+      .eq('is_active', true)
+      .eq('region', region)
+    if (sellerId) {
+      query = query.or(`seller_id.eq.${sellerId},seller_id.is.null`)
+    } else {
+      query = query.is('seller_id', null)
+    }
+    const { data, error } = await query.order('rate', { ascending: true })
+    if (error) throw error
+    return { data: data || [], error: null }
+  } catch (e) {
+    console.error('fetchShippingEstimate error:', e)
+    return { data: [], error: e.message }
+  }
+}
+
+// ─── Product Variants ───
+export const fetchProductVariants = async (productId) => {
+  try {
+    const { data, error } = await supabase
+      .from('product_variants')
+      .select('id, name, sku, price, stock, attributes')
+      .eq('product_id', productId)
+      .eq('is_active', true)
+      .order('name')
+    if (error) throw error
+    return { data: data || [], error: null }
+  } catch (e) {
+    console.error('fetchProductVariants error:', e)
+    return { data: [], error: e.message }
+  }
+}

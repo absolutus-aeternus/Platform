@@ -38,7 +38,7 @@ defineProps({
   border: 1px solid var(--success-border, #B2E8D5);
   border-radius: var(--radius-md, 8px);
   font-size: var(--text-sm, 13px);
-  color: var(--success, #067D62);
+  color: var(--success, #067D62); /* 4.9:1 on white ✅ WCAG AA */
   flex-wrap: wrap;
 }
 .trust-bar--vertical { flex-direction: column; align-items: flex-start; gap: 8px; }

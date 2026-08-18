@@ -67,6 +67,67 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
   font-size: var(--font-base); box-sizing: border-box;
 }
 
+/* === Sticky Filter Bar === */
+.sticky-filter-bar {
+  position: sticky;
+  top: var(--header-height, 60px);
+  z-index: var(--z-sticky, 200);
+  background: var(--sticky-filter-bg, rgba(255,255,255,0.95));
+  backdrop-filter: var(--sticky-filter-backdrop, blur(10px));
+  -webkit-backdrop-filter: var(--sticky-filter-backdrop, blur(10px));
+  border-bottom: 1px solid var(--neutral-200, #E7E7E7);
+  padding: 8px 0;
+  transition: box-shadow 0.2s ease;
+}
+.sticky-filter-bar--shadow {
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.08));
+}
+.sticky-filter-bar .container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.sticky-filter-bar .container::-webkit-scrollbar { display: none; }
+
+/* === Horizontal Scrollable Chips (Mobile Categories) === */
+.chip-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 0;
+}
+.chip-scroll::-webkit-scrollbar { display: none; }
+.chip-scroll__item {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid var(--neutral-300, #D5D9D9);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--white, #fff);
+  font-size: var(--text-sm, 13px);
+  font-weight: 500;
+  color: var(--neutral-700, #565959);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--ease-fast, 0.15s ease);
+}
+.chip-scroll__item:hover {
+  border-color: var(--brand-primary, #FF9900);
+  color: var(--brand-primary-hover, #E68A00);
+}
+.chip-scroll__item.active {
+  background: var(--brand-primary-light, #FFF4E6);
+  border-color: var(--brand-primary, #FF9900);
+  color: var(--brand-primary-hover, #E68A00);
+  font-weight: 600;
+}
+
 /* === Card Component === */
 .card { background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: var(--gap-md); }
 .card-header { margin-bottom: var(--gap-md); padding-bottom: var(--gap-sm); border-bottom: 1px solid #eee; }
@@ -191,6 +252,14 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
   h2 { font-size: var(--font-lg); }
   .modal { width: 95vw !important; margin: 0.5rem; max-height: 90vh; overflow-y: auto; }
   .form-group input, .form-group select { font-size: 16px; /* prevent iOS zoom */ }
+
+  /* Sticky filter bar: full-bleed on mobile */
+  .sticky-filter-bar { padding: 6px 0; }
+  .sticky-filter-bar .container { gap: 6px; }
+
+  /* Chip scroll: tighter on mobile */
+  .chip-scroll { gap: 6px; }
+  .chip-scroll__item { padding: 5px 12px; font-size: 12px; }
 }
 
 /* Small Mobile: < 480px */

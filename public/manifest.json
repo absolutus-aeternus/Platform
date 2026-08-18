@@ -9,13 +9,74 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
+  "dir": "ltr",
   "categories": ["shopping", "business"],
   "icons": [
     {
       "src": "/images/logo-alliance.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/images/logo-alliance.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Categories",
+      "short_name": "Categories",
+      "description": "Browse product categories",
+      "url": "/category",
+      "icons": [
+        {
+          "src": "/images/logo-alliance.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Deals & Discounts",
+      "short_name": "Deals",
+      "description": "View current deals and discounts",
+      "url": "/discounts",
+      "icons": [
+        {
+          "src": "/images/logo-alliance.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Track Order",
+      "short_name": "Track",
+      "description": "Track your order status",
+      "url": "/track-order",
+      "icons": [
+        {
+          "src": "/images/logo-alliance.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "short_name": "Search",
+      "description": "Search for products",
+      "url": "/search",
+      "icons": [
+        {
+          "src": "/images/logo-alliance.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
     }
   ],
   "screenshots": [],

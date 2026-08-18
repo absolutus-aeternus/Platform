@@ -207,6 +207,30 @@ export default {
         return json({ key: fileName, uploadUrl: uploadData.uploadUrl, uploadToken: uploadData.authorizationToken, publicUrl: '/api/file/' + fileName }, corsHeaders);
       }
 
+      // ─── Helper: Fetch fresh products for cache revalidation ───
+      async function fetchProductsFresh(url, env, corsHeaders) {
+        const statusFilter = url.searchParams.get('status') || 'active';
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        const category = url.searchParams.get('category');
+        const search = url.searchParams.get('search');
+        const sortParam = url.searchParams.get('sort') || 'newest';
+        const allowedSorts = ['newest', 'price', 'sales', 'rating'];
+        const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
+        const rawLimit = parseInt(url.searchParams.get('limit') || '40');
+        const limit = isNaN(rawLimit) ? 40 : Math.min(Math.max(rawLimit, 1), 100);
+        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&limit=' + limit;
+        if (category) q += '&category_id=eq.' + category;
+        if (search) q += '&name=ilike.*' + encodeURIComponent(search) + '*';
+        if (sort === 'price') q += '&order=price.asc';
+        else if (sort === 'sales') q += '&order=sales_count.desc';
+        else q += '&order=created_at.desc';
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?' + q, { headers: h });
+        const body = JSON.stringify({ data: await resp.json() });
+        return new Response(body, {
+          headers: { 'Content-Type': 'application/json', 'X-Cached-At': Date.now().toString(), ...corsHeaders }
+        });
+      }
+
       // ─── Products (WITH EDGE CACHING) ───
       if (path === '/api/products' && method === 'GET') {
         // Edge cache: 60s TTL, stale-while-revalidate 300s
@@ -236,7 +260,7 @@ export default {
         const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
         const rawLimit = parseInt(url.searchParams.get('limit') || '40');
         const limit = isNaN(rawLimit) ? 40 : Math.min(Math.max(rawLimit, 1), 100);
-        let q = 'select=*,sellers(name,store_name,logo)&limit=' + limit;
+        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&limit=' + limit;
         if (category) q += '&category_id=eq.' + category;
         if (search) q += '&name=ilike.*' + encodeURIComponent(search) + '*';
         if (sort === 'price') q += '&order=price.asc';
@@ -250,7 +274,7 @@ export default {
       if (path.startsWith('/api/product/') && method === 'GET') {
         const slug = path.split('/api/product/')[1];
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?slug=eq.' + encodeURIComponent(slug) + '&select=*,sellers(*)', { headers: h });
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?slug=eq.' + encodeURIComponent(slug) + '&select=id,name,slug,description,price,original_price,images,status,sales_count,rating,stock,category_id,seller_id,cost_price,min_seller_price,max_seller_price,created_at,sellers(id,name,store_name,user_id,description,logo,rating)', { headers: h });
         const data = await resp.json();
         return json({ data: data[0] || null }, corsHeaders);
       }
@@ -266,10 +290,140 @@ export default {
       if (path === '/api/sellers' && method === 'GET') {
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const recommended = url.searchParams.get('recommended');
-        let q = 'select=*';
+        let q = 'select=id,name,store_name,logo,description,rating,is_recommended';
         if (recommended) q += '&is_recommended=eq.true';
         q += '&limit=20';
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?' + q, { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Top Sellers (with follower count) ───
+      if (path === '/api/sellers/top' && method === 'GET') {
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        const limit = Math.min(parseInt(url.searchParams.get('limit') || '10'), 50);
+        // Fetch approved sellers ordered by rating
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?select=id,name,store_name,logo,description,rating,is_recommended&approval_status=eq.approved&order=rating.desc&limit=' + limit, { headers: h });
+        const sellers = await resp.json();
+        // Fetch follower counts for each seller
+        const sellersWithCounts = await Promise.all(
+          sellers.map(async (seller) => {
+            const countResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows?seller_id=eq.' + seller.id + '&select=id', { headers: h });
+            const countData = await countResp.json();
+            return { ...seller, follower_count: countData.length || 0 };
+          })
+        );
+        // Sort by follower count
+        sellersWithCounts.sort((a, b) => b.follower_count - a.follower_count);
+        return json({ data: sellersWithCounts }, corsHeaders);
+      }
+
+      // ─── Follow Seller (AUTH REQUIRED) ───
+      if (path === '/api/follow' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const body = await request.json();
+        const { seller_id } = body;
+        if (!seller_id) return json({ error: 'seller_id is required' }, { status: 400, ...corsHeaders });
+        // Check if already following
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
+        const existingResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows?user_id=eq.' + user.id + '&seller_id=eq.' + seller_id + '&select=id', { headers: h });
+        const existing = await existingResp.json();
+        if (existing.length > 0) return json({ action: 'already_following' }, corsHeaders);
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows', {
+          method: 'POST', headers: h, body: JSON.stringify({ user_id: user.id, seller_id })
+        });
+        if (!resp.ok) return json({ error: 'Failed to follow seller' }, { status: 500, ...corsHeaders });
+        return json({ action: 'followed' }, corsHeaders);
+      }
+
+      // ─── Unfollow Seller (AUTH REQUIRED) ───
+      if (path === '/api/follow' && method === 'DELETE') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const body = await request.json();
+        const { seller_id } = body;
+        if (!seller_id) return json({ error: 'seller_id is required' }, { status: 400, ...corsHeaders });
+        const h = getServiceHeaders();
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows?user_id=eq.' + user.id + '&seller_id=eq.' + seller_id, {
+          method: 'DELETE', headers: h
+        });
+        return json({ action: 'unfollowed' }, corsHeaders);
+      }
+
+      // ─── Wishlist (GET - auth required) ───
+      if (path === '/api/wishlist' && method === 'GET') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const h = getServiceHeaders();
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/wishlists?user_id=eq.' + user.id + '&select=id,product_id,created_at,products(id,name,price,images,slug)&order=created_at.desc', { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Wishlist Toggle (POST - auth required) ───
+      if (path === '/api/wishlist' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const body = await request.json();
+        const { product_id } = body;
+        if (!product_id) return json({ error: 'product_id is required' }, { status: 400, ...corsHeaders });
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
+        // Check existing
+        const existingResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/wishlists?user_id=eq.' + user.id + '&product_id=eq.' + product_id + '&select=id', { headers: h });
+        const existing = await existingResp.json();
+        if (existing.length > 0) {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/wishlists?id=eq.' + existing[0].id, { method: 'DELETE', headers: h });
+          return json({ action: 'removed' }, corsHeaders);
+        }
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/wishlists', {
+          method: 'POST', headers: h, body: JSON.stringify({ user_id: user.id, product_id })
+        });
+        return json({ action: 'added' }, corsHeaders);
+      }
+
+      // ─── Validate Coupon ───
+      if (path === '/api/coupons/validate' && method === 'GET') {
+        const code = url.searchParams.get('code');
+        const orderTotal = parseFloat(url.searchParams.get('total') || '0');
+        if (!code) return json({ error: 'Coupon code is required' }, { status: 400, ...corsHeaders });
+        const h = getServiceHeaders({ 'Content-Type': 'application/json' });
+        try {
+          const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/validate_coupon', {
+            method: 'POST', headers: h,
+            body: JSON.stringify({ p_code: code.toUpperCase(), p_order_total: orderTotal })
+          });
+          const data = await resp.json();
+          const result = data?.[0];
+          if (!result?.valid) return json({ valid: false, error: result?.error_msg || 'Invalid coupon' }, corsHeaders);
+          return json({ valid: true, coupon_id: result.coupon_id, discount_type: result.discount_type, discount_value: result.discount_value, discount_amount: result.discount_amount }, corsHeaders);
+        } catch (e) {
+          return json({ valid: false, error: 'Coupon validation failed' }, { status: 500, ...corsHeaders });
+        }
+      }
+
+      // ─── Shipping Estimate ───
+      if (path === '/api/shipping/estimate' && method === 'GET') {
+        const sellerId = url.searchParams.get('seller_id');
+        const region = url.searchParams.get('region') || 'domestic';
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        let q = 'select=id,courier,service,rate,estimated_days,region&is_active=eq.true&region=eq.' + region;
+        if (sellerId) {
+          q += '&or=(seller_id.eq.' + sellerId + ',seller_id.is.null)';
+        } else {
+          q += '&seller_id=is.null';
+        }
+        q += '&order=rate.asc';
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/shipping_rates?' + q, { headers: h });
+        return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Product Variants ───
+      if (path.match(/^\/api\/products\/[0-9a-f-]+\/variants$/i) && method === 'GET') {
+        const productId = path.split('/')[3];
+        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(productId)) {
+          return json({ error: 'Invalid product ID' }, { status: 400, ...corsHeaders });
+        }
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/product_variants?product_id=eq.' + productId + '&is_active=eq.true&select=id,name,sku,price,stock,attributes&order=name', { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
       }
 
@@ -303,7 +457,7 @@ export default {
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const [products, categories, sellers] = await Promise.all([
-          fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=*,sellers(name,store_name,logo)&order=sales_count.desc&limit=20', { headers: h }).then(r => r.json()),
+          fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,name,slug,price,original_price,images,sales_count,rating,sellers(name,store_name,logo)&status=eq.published&order=sales_count.desc&limit=20', { headers: h }).then(r => r.json()),
           fetch(env.VITE_SUPABASE_URL + '/rest/v1/categories?order=sort_order', { headers: h }).then(r => r.json()),
           fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?is_recommended=eq.true&limit=10', { headers: h }).then(r => r.json()),
         ]);
@@ -455,47 +609,79 @@ export default {
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests. Please wait.' }, { status: 429, ...corsHeaders });
 
         const body = await request.json();
+        
+        // BUG-003 FIX: Idempotency key check
+        const idempotencyKey = request.headers.get('Idempotency-Key');
+        if (idempotencyKey) {
+          const existingOrder = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?idempotency_key=eq.' + encodeURIComponent(idempotencyKey) + '&select=id,order_no', { headers: getServiceHeaders() });
+          const existing = await existingOrder.json();
+          if (existing.length > 0) {
+            return json({ order: existing[0], order_no: existing[0].order_no, message: 'Order already exists (idempotent)' }, corsHeaders);
+          }
+        }
+
+        // BUG-007 FIX: Input validation
+        if (!body.items?.length) return json({ error: 'Cart is empty' }, { status: 400, ...corsHeaders });
+        for (const item of body.items) {
+          if (!item.product_id || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.product_id)) {
+            return json({ error: 'Invalid product ID format' }, { status: 400, ...corsHeaders });
+          }
+          if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 999) {
+            return json({ error: 'Invalid quantity (must be 1-999)' }, { status: 400, ...corsHeaders });
+          }
+        }
+
         // Use service role for checkout operations (bypasses RLS)
         const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         
-        // BUG #6 FIX: Validate stock before checkout
-        if (body.items?.length) {
-          for (const item of body.items) {
-            const prodResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,stock,name&id=eq.' + item.product_id, {
-              headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
-            });
-            const prods = await prodResp.json();
-            const product = prods[0];
-            if (!product) {
-              return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
-            }
-            if (product.stock !== null && product.stock < item.quantity) {
-              return json({ error: 'Insufficient stock for ' + (product.name || item.product_id) + '. Available: ' + product.stock + ', Requested: ' + item.quantity }, { status: 400, ...corsHeaders });
-            }
-          }
-        }
-
-        // SECURITY FIX: Calculate total server-side (never trust client)
+        // BUG-007 FIX: Single loop — validate stock + calculate total (merged)
         let serverTotal = 0;
         const validatedItems = [];
-        if (body.items?.length) {
-          for (const item of body.items) {
-            const prodResp2 = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,price,stock,name&id=eq.' + item.product_id, {
-              headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
-            });
-            const prod = (await prodResp2.json())[0];
-            if (!prod) return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
-            if (prod.stock !== null && prod.stock < item.quantity) {
-              return json({ error: 'Insufficient stock for ' + prod.name }, { status: 400, ...corsHeaders });
-            }
-            serverTotal += prod.price * item.quantity;
-            validatedItems.push({ product_id: prod.id, quantity: item.quantity, price: prod.price, name: prod.name });
+        const productIds = body.items.map(i => i.product_id);
+        // Fetch all products in one batch query
+        const batchResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,price,stock,name,seller_id,cost_price,platform_commission_rate&id=in.(' + productIds.join(',') + ')', {
+          headers: getAnonHeaders()
+        });
+        const productsMap = {};
+        (await batchResp.json()).forEach(p => productsMap[p.id] = p);
+        
+        for (const item of body.items) {
+          const prod = productsMap[item.product_id];
+          if (!prod) return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
+          if (prod.stock !== null && prod.stock < item.quantity) {
+            return json({ error: 'Insufficient stock for ' + (prod.name || item.product_id) + '. Available: ' + prod.stock + ', Requested: ' + item.quantity }, { status: 400, ...corsHeaders });
           }
+          serverTotal += prod.price * item.quantity;
+          validatedItems.push({ product_id: prod.id, quantity: item.quantity, price: prod.price, name: prod.name, seller_id: prod.seller_id, cost_price: prod.cost_price, commission_rate: prod.platform_commission_rate });
         }
+        
         // Reject if client total doesn't match server total (price manipulation attempt)
         if (body.total && Math.abs(body.total - serverTotal) > 0.01) {
           return json({ error: 'Price mismatch. Expected: $' + serverTotal.toFixed(2) }, { status: 400, ...corsHeaders });
+        }
+
+        // BUG-001 FIX: Atomic stock decrement via Supabase RPC
+        const stockErrors = [];
+        for (const item of validatedItems) {
+          try {
+            const stockResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/decrement_stock', {
+              method: 'POST',
+              headers: getServiceHeaders({ 'Content-Type': 'application/json' }),
+              body: JSON.stringify({ p_product_id: item.product_id, p_quantity: item.quantity })
+            });
+            const stockResult = await stockResp.json();
+            if (stockResult[0] && !stockResult[0].success) {
+              stockErrors.push({ product: item.name, error: stockResult[0].error_msg });
+            }
+          } catch (e) {
+            stockErrors.push({ product: item.name, error: e.message });
+          }
+        }
+        
+        // BUG-004 FIX: Rollback if any stock decrement failed
+        if (stockErrors.length > 0) {
+          return json({ error: 'Stock validation failed', details: stockErrors }, { status: 400, ...corsHeaders });
         }
 
         const order = {
@@ -505,14 +691,19 @@ export default {
           total_amount: serverTotal,
           shipping_address: JSON.stringify(body.address),
           payment_method: body.payment_method || 'wallet',
+          idempotency_key: idempotencyKey || null,
         };
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders', {
           method: 'POST', headers: h, body: JSON.stringify(order)
         });
         const orderData = await resp.json();
+        if (!orderData[0]?.id) {
+          return json({ error: 'Failed to create order' }, { status: 500, ...corsHeaders });
+        }
+        
         if (validatedItems.length) {
           const items = validatedItems.map(i => ({
-            order_id: orderData[0]?.id,
+            order_id: orderData[0].id,
             product_id: i.product_id,
             quantity: i.quantity,
             price: i.price,
@@ -520,43 +711,25 @@ export default {
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/order_items', {
             method: 'POST', headers: h, body: JSON.stringify(items)
           });
-          // FIX: Decrement stock AFTER successful order (using validated items)
-          for (const _item of validatedItems) {
-            try {
-              const _cr = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=stock&id=eq.' + _item.product_id, {
-                headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
-              });
-              const _cp = await _cr.json();
-              if (_cp[0]?.stock !== null) {
-                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?id=eq.' + _item.product_id, {
-                  method: 'PATCH',
-                  headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-                  body: JSON.stringify({ stock: Math.max(0, _cp[0].stock - _item.quantity) })
-                });
-              }
-            } catch (e) { console.warn('Stock decrement error:', e.message); }
-          }
         }
-        // Commission calculation after successful order
+        // Commission calculation after successful order (BUG-007 FIX: reuse fetched data)
         if (orderData[0]?.id && validatedItems.length) {
           try {
             const commSettings = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/platform_settings?key=eq.commission_rates&select=value', { headers: h });
             const rates = (await commSettings.json())[0]?.value || { default: 0.05 };
             
             for (const item of validatedItems) {
-              const prodDetail = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=seller_id,cost_price,platform_commission_rate&id=eq.' + item.product_id, { headers: h });
-              const prod = (await prodDetail.json())[0];
-              if (prod?.seller_id) {
-                const cogs = prod.cost_price || 0;
+              if (item.seller_id) {
+                const cogs = item.cost_price || 0;
                 const markup = item.price - cogs;
-                const rate = prod.platform_commission_rate || rates.default || 0.05;
+                const rate = item.commission_rate || rates.default || 0.05;
                 const platformFee = cogs * rate;
                 const sellerCommission = Math.max(0, markup - platformFee);
                 
                 await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions', {
                   method: 'POST', headers: h,
                   body: JSON.stringify({
-                    seller_id: prod.seller_id,
+                    seller_id: item.seller_id,
                     order_id: orderData[0].id,
                     type: 'sale',
                     amount: sellerCommission,
@@ -707,7 +880,8 @@ export default {
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        // BUG-002 FIX: Use consistent service headers
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         const body = await request.json();
         const { product_id, rating, comment, images } = body;
         
@@ -781,7 +955,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         
         // Verify seller
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id,approval_status', { headers: h });
@@ -816,7 +990,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
+        const h = getServiceHeaders();
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
         const seller = (await sellerResp.json())[0];
         if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
@@ -835,7 +1009,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
         const seller = (await sellerResp.json())[0];
         if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
@@ -869,10 +1043,10 @@ export default {
       if (path === '/api/admin/commissions' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
+        const h = getServiceHeaders();
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
         const status = url.searchParams.get('status') || '';
         let q = 'select=*,sellers(name,store_name)&order=created_at.desc&limit=' + limit;
@@ -885,10 +1059,10 @@ export default {
       if (path === '/api/admin/commission/approve' && method === 'POST') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json' });
         const { commission_id, action } = await request.json();
         
         if (!['approve', 'cancel'].includes(action)) return json({ error: 'Action must be approve or cancel' }, { status: 400, ...corsHeaders });
@@ -927,10 +1101,10 @@ export default {
       if (path === '/api/admin/payouts' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
+        const h = getServiceHeaders();
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?select=*,sellers(name,store_name)&order=created_at.desc&limit=50', { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
       }
@@ -939,10 +1113,10 @@ export default {
       if (path === '/api/admin/payout/process' && method === 'POST') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json' });
         const { payout_id, action, notes } = await request.json();
         
         if (!['complete', 'reject'].includes(action)) return json({ error: 'Action must be complete or reject' }, { status: 400, ...corsHeaders });

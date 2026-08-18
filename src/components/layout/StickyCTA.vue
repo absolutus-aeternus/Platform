@@ -59,7 +59,7 @@ defineEmits(['chat', 'add-to-cart', 'buy-now'])
 }
 .sticky-cta__price-original {
   font-size: 11px;
-  color: var(--neutral-500, #888);
+  color: var(--text-muted-safe, #767676); /* WCAG AA: 4.5:1 on white */
   text-decoration: line-through;
 }
 

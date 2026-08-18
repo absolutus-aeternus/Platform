@@ -1,19 +1,35 @@
 <template>
   <div class="flash-card" @click="$router.push(`/product/${product.id}`)">
     <div class="flash-card__img">
+      <!-- Skeleton loader (prevents CLS) -->
+      <BaseSkeleton
+        v-if="!imageLoaded"
+        width="100%"
+        height="100%"
+        borderRadius="0"
+        class="flash-card__skeleton"
+      />
       <img
         v-if="product.images?.[0] || product.image"
         :src="product.images?.[0] || product.image"
         :alt="product.name"
         loading="lazy"
+        :class="{ 'flash-card__img--loaded': imageLoaded }"
+        @load="imageLoaded = true"
+        @error="imageLoaded = true"
       />
       <div v-else class="flash-card__placeholder" :style="{ background: gradient }">
         <span>{{ (product.name || '?')[0] }}</span>
       </div>
-      <DiscountTag :percentage="product.discount || 30" size="sm" class="flash-card__discount" />
+      <!-- Gradient scrim for bottom readability -->
+      <div class="flash-card__scrim"></div>
     </div>
     <div class="flash-card__info">
-      <div class="flash-card__price">${{ product.price }}</div>
+      <!-- Price + Discount badge (moved from overlay to info area) -->
+      <div class="flash-card__price-row">
+        <span class="flash-card__price">${{ product.price }}</span>
+        <DiscountTag :percentage="product.discount || 30" size="sm" />
+      </div>
       <div v-if="product.original_price" class="flash-card__original">${{ product.original_price }}</div>
       <div class="flash-card__sold-bar">
         <div class="flash-card__bar-fill" :style="{ width: soldPercent + '%' }"></div>
@@ -24,12 +40,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import DiscountTag from '@/components/trust/DiscountTag.vue'
+import BaseSkeleton from '@/components/base/BaseSkeleton.vue'
 
 const props = defineProps({
   product: { type: Object, required: true }
 })
+
+const imageLoaded = ref(false)
 
 const gradient = computed(() => {
   const name = props.product.name || 'P'
@@ -68,32 +87,55 @@ function formatSales(n) {
   transform: translateY(-2px);
 }
 
+/* ── Image ── */
 .flash-card__img {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1;       /* Locked 1:1 ratio */
   overflow: hidden;
   background: var(--neutral-100, #F5F5F5);
 }
 .flash-card__img img {
   width: 100%; height: 100%;
   object-fit: cover;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+.flash-card__img img.flash-card__img--loaded {
+  opacity: 1;
 }
 .flash-card__placeholder {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.5rem; font-weight: 700; color: rgba(255,255,255,0.8);
 }
-.flash-card__discount {
-  position: absolute; top: 6px; left: 6px;
-  background: var(--error, #CC0C39);
-  color: var(--white, #fff);
-  padding: 2px 6px;
-  border-radius: var(--radius-xs, 4px);
-  font-size: 11px;
-  font-weight: 700;
+
+/* Skeleton placeholder */
+.flash-card__skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
+/* Gradient scrim */
+.flash-card__scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: var(--scrim-gradient, linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%));
+  pointer-events: none;
+}
+
+/* ── Info ── */
 .flash-card__info { padding: 8px; }
+
+/* Price row with inline discount badge */
+.flash-card__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
 .flash-card__price {
   font-size: var(--text-md, 16px);
   font-weight: 700;
@@ -101,10 +143,12 @@ function formatSales(n) {
 }
 .flash-card__original {
   font-size: var(--text-xs, 12px);
-  color: var(--neutral-500, #888);
+  color: var(--text-muted-safe, #767676);  /* WCAG AA safe */
   text-decoration: line-through;
   margin-top: 2px;
 }
+
+/* Sold progress bar */
 .flash-card__sold-bar {
   margin-top: 6px;
   height: 14px;

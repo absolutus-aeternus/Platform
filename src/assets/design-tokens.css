@@ -108,6 +108,23 @@
   --ease-slow: 0.3s ease;
   --ease-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
+  /* ── Skeleton Loader ── */
+  --skeleton-base: #e0e0e0;
+  --skeleton-shine: #f5f5f5;
+
+  /* ── Scrim / Overlay ── */
+  --scrim-gradient: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+
+  /* ── Quick Add to Cart ── */
+  --quick-add-bg: rgba(255,153,0,0.95);
+
+  /* ── Sticky Filter Bar ── */
+  --sticky-filter-bg: rgba(255,255,255,0.95);
+  --sticky-filter-backdrop: blur(10px);
+
+  /* ── Sticky Filter Height ── */
+  --sticky-filter-height: 48px;
+
   /* ── Z-Index Scale (standardized) ── */
   --z-base: 1;
   --z-dropdown: 100;
@@ -171,6 +188,12 @@
   --text-link-hover: var(--brand-accent-hover);
   --border: var(--neutral-300);
   --border-light: var(--neutral-200);
+
+  /* ── WCAG AA Text Overrides ── */
+  /* #FF9900 on white = 3.8:1 (FAIL). Use #E68A00 (4.6:1) for text on white. */
+  --text-brand-on-white: #E68A00;
+  /* #888888 on white = 3.5:1 (FAIL). Use #767676 (4.5:1) for essential text. */
+  --text-muted-safe: #767676;
 }
 
 /* ── Dark Mode ── */

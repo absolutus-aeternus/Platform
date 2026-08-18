@@ -17,7 +17,7 @@
 
 <script setup>
 defineProps({
-  variant: { type: String, default: 'primary', validator: v => ['primary', 'secondary', 'tertiary', 'danger', 'ghost'].includes(v) },
+  variant: { type: String, default: 'primary', validator: v => ['primary', 'secondary', 'tertiary', 'danger', 'ghost', 'quick-add'].includes(v) },
   size: { type: String, default: 'md', validator: v => ['sm', 'md', 'lg'].includes(v) },
   icon: { type: String, default: '' },
   block: { type: Boolean, default: false },
@@ -101,6 +101,22 @@ defineEmits(['click'])
 .base-btn--ghost:hover:not(:disabled) {
   background: var(--brand-accent-light, #E0F2F5);
 }
+
+/* Quick Add */
+.base-btn--quick-add {
+  background: var(--brand-primary-light, #FFF4E6);
+  color: var(--brand-primary-hover, #E68A00);
+  border: 1px solid var(--brand-primary, #FF9900);
+  font-size: var(--text-sm, 13px);
+  gap: 6px;
+}
+.base-btn--quick-add:hover:not(:disabled) {
+  background: var(--brand-primary, #FF9900);
+  color: var(--white, #fff);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.1));
+}
+.base-btn--quick-add .base-btn__icon { font-size: 14px; }
 
 /* Spinner */
 .base-btn__spinner {
