@@ -185,7 +185,7 @@
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
               {{ authLoading ? 'Memproses...' : 'Sign In' }}
             </button>
-            <div class="form-footer">Belum punya akun? <a @click="authTab = 'register'">Register</a></div>
+            <div class="form-footer">Belum punya akun? <a href="#" @click.prevent="authTab = 'register'">Register</a></div>
           </form>
 
           <!-- Register Form -->
@@ -198,7 +198,7 @@
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
               {{ authLoading ? 'Memproses...' : 'Register Sekarang' }}
             </button>
-            <div class="form-footer">Sudah punya akun? <a @click="authTab = 'login'">Sign In</a></div>
+            <div class="form-footer">Sudah punya akun? <a href="#" @click.prevent="authTab = 'login'">Sign In</a></div>
           </form>
         </div>
       </div>
