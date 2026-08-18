@@ -165,29 +165,12 @@
         </div>
         <!-- Products -->
         <div v-else-if="sortedProducts.length" class="product-grid-amazon">
-          <div v-for="p in sortedProducts" :key="p.id" class="pg-card" @click="$router.push(`/product/${p.id}`)">
-            <div class="pg-img">
-              <img loading="lazy" v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" />
-              <div v-else class="pg-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
-              <span v-if="p.discount" class="pg-badge">-{{ p.discount }}%</span>
-            </div>
-            <div class="pg-body">
-              <div class="pg-name">{{ p.name }}</div>
-              <div class="pg-rating">
-                <span class="pg-stars"><i v-for="i in 5" :key="i" :class="i <= Math.round(p.rating||4) ? 'fas fa-star' : 'far fa-star'"></i></span>
-                <span class="pg-reviews">{{ formatSales(p.review_count || p.sales_count) }}</span>
-              </div>
-              <div class="pg-price-row">
-                <span class="pg-price">${{ p.price }}</span>
-                <span v-if="p.original_price" class="pg-original">${{ p.original_price }}</span>
-              </div>
-              <div class="pg-meta">
-                <span v-if="p.discount" class="pg-deal">Deal</span>
-                <span class="pg-shipping">FREE Shipping</span>
-              </div>
-              <div class="pg-seller" v-if="p.sellers?.name || p.seller_name">by {{ p.sellers?.name || p.seller_name }}</div>
-            </div>
-          </div>
+          <ProductCard
+            v-for="p in sortedProducts"
+            :key="p.id"
+            :product="p"
+            @add-to-cart="addToCart(p)"
+          />
         </div>
         <div v-else class="empty-state"><i class="fas fa-box-open"></i><p>No products found.</p></div>
         <div v-if="sortedProducts.length >= limit" class="load-more-wrapper">
@@ -213,6 +196,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase, fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
+import ProductCard from '@/components/product/ProductCard.vue'
 
 const categories = ref([])
 const products = ref([])
@@ -281,6 +265,15 @@ const sortedProducts = computed(() => {
 
 const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
 const getGradient = (name) => { const colors = ['#FF9900','#007185','#067D62','#131921','#e68a00','#232f3e']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
+const addToCart = async (product) => {
+  try {
+    await userStore.addToCart(product.id, 1)
+    if (window.__toast) window.__toast.show('Added to cart!', 'success')
+  } catch (e) {
+    if (window.__toast) window.__toast.show('Please sign in first', 'error')
+  }
+}
+
 const loadMore = () => { limit.value += 20 }
 
 const loadData = async () => {
