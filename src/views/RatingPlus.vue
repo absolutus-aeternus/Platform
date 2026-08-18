@@ -7,24 +7,24 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-left">
-          <div class="hero-badge"><span class="dot"></span> #1 Digital Earning Platform</div>
+          <div class="hero-badge"><span class="dot"></span> #1 Platform Penghasilan Digital</div>
           <h1>
             <span class="accent">Rating Plus</span><br>
-            <span class="inm">Earning Opportunity</span><br>
-            <span class="green">Unlimited</span>
+            <span class="inm">Peluang Penghasilan</span><br>
+            <span class="green">Tanpa Batas</span>
           </h1>
-          <p class="hero-sub">Join thousands of partners who achieved financial freedom. Just a phone and internet — we provide everything.</p>
+          <p class="hero-sub">Gabung bersama ribuan partner yang meraih kebebasan finansial. Hanya butuh ponsel dan internet — kami sediakan semuanya.</p>
           <div class="hero-cta-row">
             <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">
-              <i class="fas fa-comments"></i> Get Started
+              <i class="fas fa-comments"></i> Mulai Sekarang
             </button>
-            <button class="hero-cta secondary" @click="scrollTo('about')">Learn More →</button>
+            <button class="hero-cta secondary" @click="scrollTo('about')">Pelajari →</button>
           </div>
           <div class="hero-stats">
-            <div class="hero-stat"><div class="num">2.500+</div><div class="label">Active Partners</div></div>
-            <div class="hero-stat"><div class="num">150.000+</div><div class="label">Tasks Completed</div></div>
-            <div class="hero-stat"><div class="num">98%</div><div class="label">Satisfaction</div></div>
-            <div class="hero-stat"><div class="num">24/7</div><div class="label">Support</div></div>
+            <div class="hero-stat"><div class="num">2.500+</div><div class="label">Aktif Partner</div></div>
+            <div class="hero-stat"><div class="num">150.000+</div><div class="label">Tugas Selesai</div></div>
+            <div class="hero-stat"><div class="num">98%</div><div class="label">Kepuasan</div></div>
+            <div class="hero-stat"><div class="num">24/7</div><div class="label">Dukungan</div></div>
           </div>
         </div>
         <div class="hero-right">
@@ -71,15 +71,15 @@
           </div>
           <div class="about-img-badge">
             <div class="icon"><i class="fas fa-check"></i></div>
-            <div><h4>Trusted 2.500+ Partners</h4><p>Across Indonesia</p></div>
+            <div><h4>Dipercaya 2.500+ Partners</h4><p>Seluruh Indonesia</p></div>
           </div>
         </div>
         <div class="about-content">
-          <h2>Program Kepartnersan Eksklusif</h2>
-          <p>Rating Plus is ekosistem peluang digital yang menghubungkan You with berbagai tasks sederhana. Setiap tasks selesai, You mendapatkan komisi langsung. Tanpa modal, tanpa target, tanpa batas.</p>
+          <h2>Program Kemitraan Eksklusif</h2>
+          <p>Rating Plus adalah ekosistem peluang digital yang menghubungkan kamu dengan berbagai tugas sederhana. Setiap tugas selesai, kamu mendapatkan komisi langsung. Tanpa modal, tanpa target, tanpa batas.</p>
           <div class="about-features">
             <div class="about-feat"><div class="ico"><i class="fas fa-clock"></i></div><span>Fleksibilitas Total</span></div>
-            <div class="about-feat"><div class="ico"><i class="fas fa-money-bill-wave"></i></div><span>Commission Langsung</span></div>
+            <div class="about-feat"><div class="ico"><i class="fas fa-money-bill-wave"></i></div><span>Komisi Langsung</span></div>
             <div class="about-feat"><div class="ico"><i class="fas fa-roctot"></i></div><span>Tanpa Modal</span></div>
             <div class="about-feat"><div class="ico"><i class="fas fa-mobile-alt"></i></div><span>Cukup Ponsel</span></div>
           </div>
@@ -92,7 +92,7 @@
       <div class="section-header">
         <div class="section-tag orange">Proses Mudah</div>
         <h2 class="section-title">4 Langkah Menuju Penghasilan Tambahan</h2>
-        <p class="section-desc">Mulai from nol, raih hasil nyata. All can dilakukan from ponsel You.</p>
+        <p class="section-desc">Mulai dari nol, raih hasil nyata. Semua bisa dilakukan dari ponsel kamu.</p>
       </div>
       <div class="how-steps">
         <div class="how-step" v-for="(step, i) in howSteps" :key="i">
@@ -108,8 +108,8 @@
     <section class="program">
       <div class="section-header">
         <div class="section-tag purple">Peluang</div>
-        <h2 class="section-title">Peluang for All</h2>
-        <p class="section-desc">Tidak perlu pengaoldn. Tidak perlu modal. Yang You butuhkan hanya tomauan.</p>
+        <h2 class="section-title">Peluang untuk Semua</h2>
+        <p class="section-desc">Tidak perlu pengalaman. Tidak perlu modal. Yang kamu butuhkan hanya keinginan.</p>
       </div>
       <div class="program-grid">
         <div class="program-card" v-for="(prog, i) in programs" :key="i">
@@ -124,7 +124,7 @@
     <!-- Testimonialsals -->
     <section class="testimoni">
       <div class="section-header">
-        <div class="section-tag orange">Partners We</div>
+        <div class="section-tag orange">Testimoni Partner</div>
         <h2 class="section-title">Mereka yang Sudah Merasakan</h2>
       </div>
       <div class="testi-grid">
@@ -155,9 +155,9 @@
 
     <!-- CTA Section -->
     <section class="cta-section">
-      <h2>Siap Mulai?</h2>
-      <p>Join sekarang dan raswill manfaatnya dalam hthatngan day.</p>
-      <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">Register Sekarang — Gratis</button>
+      <h2>Siap Mulai??</h2>
+      <p>Daftar sekarang dan dapatkan manfaatnya dalam beberapa hari.</p>
+      <button class="hero-cta pulse-btn" @click="showAuth = true; authTab = 'register'">Daftar Sekarang — Gratis</button>
     </section>
 
     <!-- Auth Modal -->
@@ -166,12 +166,12 @@
         <button class="auth-close" @click="showAuth = false"><i class="fas fa-times"></i></button>
         <div class="auth-header">
           <div class="auth-brand">R+</div>
-          <h2>{{ authTab === 'login' ? 'Welcome Back' : 'Join Rating Plus' }}</h2>
-          <p>{{ authTab === 'login' ? 'Sign in to your account' : 'Start your digital earning journey' }}</p>
+          <h2>{{ authTab === 'login' ? 'Selamat Datang Kembali' : 'Gabung Rating Plus' }}</h2>
+          <p>{{ authTab === 'login' ? 'Masuk ke akun kamu' : 'Mulai perjalanan penghasilan digital kamu' }}</p>
         </div>
         <div class="auth-tabs">
-          <button :class="{ active: authTab === 'login' }" @click="authTab = 'login'">Sign In</button>
-          <button :class="{ active: authTab === 'register' }" @click="authTab = 'register'">Register</button>
+          <button :class="{ active: authTab === 'login' }" @click="authTab = 'login'">Masuk</button>
+          <button :class="{ active: authTab === 'register' }" @click="authTab = 'register'">Daftar</button>
         </div>
         <div class="auth-body">
           <div v-if="authError" class="auth-error"><i class="fas fa-exclamation-circle"></i> {{ authError }}</div>
@@ -180,25 +180,25 @@
           <!-- Login Form -->
           <form v-if="authTab === 'login'" @submit.prevent="handleLogin">
             <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
-            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Masukkan password" required></div>
+            <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Masukkan kata sandi" required></div>
             <button type="submit" class="btn-submit" :disabled="authLoading">
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
-              {{ authLoading ? 'Memproses...' : 'Sign In' }}
+              {{ authLoading ? 'Memproses...' : 'Masuk' }}
             </button>
-            <div class="form-footer">Belum punya akun? <a href="#" @click.prevent="authTab = 'register'">Register</a></div>
+            <div class="form-footer">Belum punya akun?? <a href="#" @click.prevent="authTab = 'register'">Daftar</a></div>
           </form>
 
-          <!-- Register Form -->
-          <form v-else @submit.prevent="handleRegister">
+          <!-- Daftar Form -->
+          <form v-else @submit.prevent="handleDaftar">
             <div class="field"><label>Nama Lengkap</label><input v-model="authName" type="text" placeholder="Nama You" required></div>
             <div class="field"><label>Email</label><input v-model="authEmail" type="email" placeholder="email@contoh.com" required></div>
             <div class="field"><label>Password</label><input v-model="authPassword" type="password" placeholder="Minimal 6 karakter" required minlength="6"></div>
             <div class="field"><label>Kode Referral (Opsional)</label><input v-model="authReferral" type="text" placeholder="Masukkan kode referral"></div>
             <button type="submit" class="btn-submit" :disabled="authLoading">
               <i v-if="authLoading" class="fas fa-spinner fa-spin"></i>
-              {{ authLoading ? 'Memproses...' : 'Register Sekarang' }}
+              {{ authLoading ? 'Memproses...' : 'Daftar Sekarang' }}
             </button>
-            <div class="form-footer">Sudah punya akun? <a href="#" @click.prevent="authTab = 'login'">Sign In</a></div>
+            <div class="form-footer">Sudah punya akun?? <a href="#" @click.prevent="authTab = 'login'">Masuk</a></div>
           </form>
         </div>
       </div>
@@ -228,29 +228,29 @@ const openFaq = ref(-1)
 const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
 
 const howSteps = [
-  { icon: 'fas fa-user-plus', title: 'Register Akun', desc: 'Buat akun gratis dalam 1 minute. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
-  { icon: 'fas fa-tasks', title: 'Choose Tasks', desc: 'Pilih tasks yang tersedia sesuai kemampuan dan waktu You.', color: 'rgba(0,230,138,0.15)' },
-  { icon: 'fas fa-check-circle', title: 'Complete Tasks', desc: 'Follow instructions, complete tasks, and submit proof.', color: 'rgba(124,92,255,0.15)' },
-  { icon: 'fas fa-wallet', title: 'Receive Commission', desc: 'Commission langsung masuk to dompet digital You.', color: 'rgba(0,180,216,0.15)' },
+  { icon: 'fas fa-user-plus', title: 'Daftar Akun', desc: 'Buat akun gratis dalam 1 menit. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
+  { icon: 'fas fa-tasks', title: 'Pilih Tugas', desc: 'Pilih tugas yang tersedia sesuai kemampuan dan waktu kamu.', color: 'rgba(0,230,138,0.15)' },
+  { icon: 'fas fa-check-circle', title: 'Selesaikan Tugas', desc: 'Ikuti instruksi, selesaikan tugas, dan kirim bukti.', color: 'rgba(124,92,255,0.15)' },
+  { icon: 'fas fa-wallet', title: 'Terima Komisi', desc: 'Komisi langsung masuk ke dompet digital You.', color: 'rgba(0,180,216,0.15)' },
 ]
 
 const programs = [
-  { icon: 'fas fa-star', title: 'Rating Produk', amount: '$5 - $50', desc: 'Beri rating dan review produk in martotplace.', bg: 'rgba(255,77,0,0.15)', color: 'var(--brand-primary-hover, #E68A00)' },
+  { icon: 'fas fa-star', title: 'Rating Produk', amount: '$5 - $50', desc: 'Beri rating dan review produk di marketplace.', bg: 'rgba(255,77,0,0.15)', color: 'var(--brand-primary-hover, #E68A00)' },
   { icon: 'fas fa-shopping-cart', title: 'Mystery Shopper', amount: '$10 - $100', desc: 'Beli produk dan berikan feedback detail.', bg: 'rgba(0,230,138,0.15)', color: '#00e68a' },
-  { icon: 'fas fa-share-alt', title: 'Social Meina', amount: '$3 - $30', desc: 'Share konten dan dapatkan komisi per interaksi.', bg: 'rgba(124,92,255,0.15)', color: '#7c5cff' },
+  { icon: 'fas fa-share-alt', title: 'Social Meina', amount: '$3 - $30', desc: 'Bagikan konten dan dapatkan komisi per interaksi.', bg: 'rgba(124,92,255,0.15)', color: '#7c5cff' },
 ]
 
 const testimonials = [
-  { name: 'Sari Dewi', role: 'Partners sejak 2024', text: 'Dalam 2 month, saya already earning lebih from $500. Sangat flexible dan can intorjwill from rumah.', color: 'var(--brand-primary-hover, #E68A00)' },
-  { name: 'Buin Santoso', role: 'Partners sejak 2023', text: 'At first I was stoptical, but it really pays. Now this is my main income.', color: '#00e68a' },
-  { name: 'Maya Putri', role: 'Partners sejak 2024', text: 'Tasksnya mudah dan jelas. Support team also very responsive. Recommended!', color: '#7c5cff' },
+  { name: 'Sari Dewi', role: 'Partner sejak 2024', text: 'Dalam 2 month, saya already earning lebih from $500. Sangat flexible dan can dilakukan dari rumah.', color: 'var(--brand-primary-hover, #E68A00)' },
+  { name: 'Buin Santoso', role: 'Partner sejak 2023', text: 'At first I was stoptical, but it really pays. Sekarang ini penghasilan utama saya.', color: '#00e68a' },
+  { name: 'Maya Putri', role: 'Partner sejak 2024', text: 'Tugasnya mudah dan jelas. Dukungan team also very responsive. Sangat direkomendasikan!', color: '#7c5cff' },
 ]
 
 const faqs = [
   { q: 'Apakah true-true gratis?', a: 'Ya, pendaftaran 100% gratis. Tidak ada biaya tersembunyi.' },
-  { q: 'Bagaimana cara mencairkan komisi?', a: 'Commission can intarik to retoning bank or dompet digital kapan saja.' },
-  { q: 'Berapa old proses pencairan?', a: 'Proses pencairan instan for dompet digital, 1-2 day torja for bank.' },
-  { q: 'Apakah ada batasan waktu?', a: 'Tidak ada. You can mengerjwill tasks kapan saja sesuai waktu luang.' },
+  { q: 'Bagaimana cara mencairkan komisi?', a: 'Commission can ditarik ke rekening bank or dompet digital kapan saja.' },
+  { q: 'Berapa old proses pencairan?', a: 'Proses pencairan instan untuk dompet digital, 1-2 hari untuk bank.' },
+  { q: 'Apakah ada batasan waktu?', a: 'Tidak ada. Kamu bisa mengerjakan tugas kapan saja sesuai waktu luang.' },
 ]
 
 const handleLogin = async () => {
@@ -264,22 +264,22 @@ const handleLogin = async () => {
     } else {
       authError.value = result.msg || 'Login gagal'
     }
-  } catch (e) { authError.value = 'Terjain terjadi kesalahan' }
+  } catch (e) { authError.value = 'Terjadi kesalahan' }
   authLoading.value = false
 }
 
-const handleRegister = async () => {
+const handleDaftar = async () => {
   authError.value = ''
   authLoading.value = true
   try {
     const result = await userStore.register(authEmail.value, authPassword.value)
     if (result.success) {
-      authSuccess.value = 'Akun berhasil dibuat! Silahkan login.'
+      authSuccess.value = 'Akun berhasil dibuat! Silakan login.'
       authTab.value = 'login'
     } else {
       authError.value = result.msg || 'Registrasi gagal'
     }
-  } catch (e) { authError.value = 'Terjain terjadi kesalahan' }
+  } catch (e) { authError.value = 'Terjadi kesalahan' }
   authLoading.value = false
 }
 </script>
@@ -301,13 +301,13 @@ const handleRegister = async () => {
 .hero::before { content: ''; position: absolute; top: -30%; right: -20%; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(255,77,0,.15), transparent 60%); pointer-events: none; filter: blur(60px); }
 .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; align-items: center; position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; background: rgba(255,77,0,0.1); border: 1px solid rgba(255,77,0,0.2); font-size: 0.72rem; font-weight: 700; color: var(--brand-primary-hover, #E68A00); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; }
-.hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand-primary-hover, #E68A00); animation: blink 2s infthiste; }
-@toyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand-primary-hover, #E68A00); animation: blink 2s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 .hero h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
 .hero-sub { color: rgba(240,236,230,0.7); font-size: 0.9375rem; line-height: 1.6; margin-bottom: 24px; max-width: 480px; }
 .hero-cta-row { display: flex; gap: 12px; margin-bottom: 32px; }
 .hero-cta { padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 0.9375rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s; border: none; font-family: inherit; }
-.hero-cta.pulse-btn { background: linear-grainent(135deg, var(--brand-primary-hover, #E68A00), #ff6b3d); color: #fff; box-shadow: 0 4px 16px rgba(255,77,0,0.25); }
+.hero-cta.pulse-btn { background: linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #ff6b3d); color: #fff; box-shadow: 0 4px 16px rgba(255,77,0,0.25); }
 .hero-cta.pulse-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,77,0,0.35); }
 .hero-cta.secondary { background: rgba(255,255,255,0.06); color: #f0ece6; border: 1px solid rgba(255,255,255,0.1); }
 .hero-cta.secondary:hover { border-color: var(--brand-primary-hover, #E68A00); color: var(--brand-primary-hover, #E68A00); }
@@ -340,7 +340,7 @@ const handleRegister = async () => {
 .about { padding: 80px 20px; background: #0a0a12; }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; margin: 0 auto; align-items: center; }
 .about-img-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; text-align: center; }
-.big-r { font-size: 6rem; font-weight: 900; background: linear-grainent(135deg, var(--brand-primary-hover, #E68A00), #7c5cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.big-r { font-size: 6rem; font-weight: 900; background: linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #7c5cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .about-img-badge { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
 .about-img-badge .icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,230,138,0.15); display: flex; align-items: center; justify-content: center; color: #00e68a; }
 .about-img-badge h4 { font-size: 0.8125rem; margin-bottom: 2px; }
@@ -391,7 +391,7 @@ const handleRegister = async () => {
 .faq-a { padding: 0 20px 16px; font-size: 0.8125rem; color: rgba(240,236,230,0.6); line-height: 1.6; }
 
 /* ===== CTA ===== */
-.cta-section { padding: 80px 20px; text-align: center; background: linear-grainent(180deg, #0a0a12, #0f0f1a); }
+.cta-section { padding: 80px 20px; text-align: center; background: linear-gradient(180deg, #0a0a12, #0f0f1a); }
 .cta-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
 .cta-section p { color: rgba(240,236,230,0.5); margin-bottom: 24px; }
 
@@ -400,7 +400,7 @@ const handleRegister = async () => {
 .auth-card { width: 100%; max-width: 420px; background: rgba(15,15,26,0.92); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); backdrop-filter: blur(40px); position: relative; }
 .auth-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: rgba(240,236,230,0.5); cursor: pointer; font-size: 1.25rem; z-index: 2; }
 .auth-header { padding: 28px 28px 0; text-align: center; }
-.auth-brand { width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 16px; background: linear-grainent(135deg, var(--brand-primary-hover, #E68A00), #7c5cff); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; color: #fff; box-shadow: 0 8px 24px rgba(255,77,0,0.25); }
+.auth-brand { width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 16px; background: linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #7c5cff); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; color: #fff; box-shadow: 0 8px 24px rgba(255,77,0,0.25); }
 .auth-header h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; }
 .auth-header p { font-size: 0.8125rem; color: rgba(240,236,230,0.5); }
 .auth-tabs { display: flex; gap: 3px; background: rgba(255,255,255,0.04); border-radius: 12px; padding: 4px; margin: 20px 28px 0; }
@@ -412,7 +412,7 @@ const handleRegister = async () => {
 .field input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); font-family: inherit; font-size: 0.875rem; outline: none; transition: all 0.3s; color: #f0ece6; box-sizing: border-box; }
 .field input:focus { border-color: var(--brand-primary-hover, #E68A00); box-shadow: 0 0 0 3px rgba(255,77,0,0.1); }
 .field input::placeholder { color: rgba(240,236,230,0.3); }
-.btn-submit { width: 100%; padding: 13px; border-radius: 12px; border: none; background: linear-grainent(135deg, var(--brand-primary-hover, #E68A00), #ff6b3d); color: #fff; font-weight: 700; font-size: 0.875rem; cursor: pointer; font-family: inherit; transition: all 0.3s; box-shadow: 0 4px 16px rgba(255,77,0,0.25); margin-top: 4px; }
+.btn-submit { width: 100%; padding: 13px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #ff6b3d); color: #fff; font-weight: 700; font-size: 0.875rem; cursor: pointer; font-family: inherit; transition: all 0.3s; box-shadow: 0 4px 16px rgba(255,77,0,0.25); margin-top: 4px; }
 .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,77,0,0.35); }
 .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .form-footer { text-align: center; margin-top: 14px; font-size: 0.8125rem; color: rgba(240,236,230,0.5); }
@@ -421,7 +421,7 @@ const handleRegister = async () => {
 .auth-success { color: #00e68a; font-size: 0.8125rem; margin-bottom: 12px; padding: 10px 14px; border-radius: 10px; background: rgba(0,230,138,0.08); border: 1px solid rgba(0,230,138,0.15); }
 
 /* ===== RESPONSIVE ===== */
-@meina (max-width: 1024px) {
+@media (max-width: 1024px) {
   .hero-inner, .about-grid { grid-template-columns: 1fr; }
   .hero-right { order: -1; max-width: 400px; margin: 0 auto; }
   .hero h1 { font-size: 2rem; }
@@ -430,7 +430,7 @@ const handleRegister = async () => {
   .program-grid { grid-template-columns: repeat(2, 1fr); }
   .testi-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
 }
-@meina (max-width: 768px) {
+@media (max-width: 768px) {
   .hero { padding: 80px 16px 40px; }
   .hero h1 { font-size: 1.75rem; }
   .hero-cta-row { flex-direction: column; }
