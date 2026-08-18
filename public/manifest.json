@@ -1,0 +1,23 @@
+{
+  "name": "AllianceHub — Partner Global Dropshippers",
+  "short_name": "AllianceHub",
+  "description": "Your one-stop e-commerce destination for electronics, fashion, home & living, beauty, and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#131921",
+  "theme_color": "#FF9900",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["shopping", "business"],
+  "icons": [
+    {
+      "src": "/images/logo-alliance.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

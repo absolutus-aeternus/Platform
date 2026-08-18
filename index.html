@@ -35,7 +35,19 @@
     "sameAs": []
   }
   </script>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AllianceHub">
+  <link rel="apple-touch-icon" href="/images/logo-alliance.svg">
   <script src="/js/clarity-init.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
 </head>
 <body>
   <div id="app">
