@@ -124,4 +124,15 @@ td { padding: 10px 12px; font-size: var(--text-sm, 13px); border-bottom: 1px sol
 .status.pending { background: var(--warning-bg, #FEF3C7); color: var(--warning, #B45309); }
 .status.shipped { background: var(--info-bg, #E0F2F5); color: var(--info, var(--brand-accent, #007185)); }
 .status.completed { background: var(--success-bg, #E6F7F2); color: var(--success, #067D62); }
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .seller-analytics { padding: 0 8px; }
+}
+@media (max-width: 639px) {
+  h1 { font-size: 1.25rem; margin-bottom: 16px; }
+  .orders-section { padding: 12px; }
+  .orders-section h2 { font-size: 14px; }
+  th, td { padding: 8px; font-size: 11px; }
+}
 </style>
