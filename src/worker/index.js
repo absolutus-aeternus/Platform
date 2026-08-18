@@ -428,11 +428,33 @@ export default {
           }
         }
 
+        // SECURITY FIX: Calculate total server-side (never trust client)
+        let serverTotal = 0;
+        const validatedItems = [];
+        if (body.items?.length) {
+          for (const item of body.items) {
+            const prodResp2 = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,price,stock,name&id=eq.' + item.product_id, {
+              headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
+            });
+            const prod = (await prodResp2.json())[0];
+            if (!prod) return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
+            if (prod.stock !== null && prod.stock < item.quantity) {
+              return json({ error: 'Insufficient stock for ' + prod.name }, { status: 400, ...corsHeaders });
+            }
+            serverTotal += prod.price * item.quantity;
+            validatedItems.push({ product_id: prod.id, quantity: item.quantity, price: prod.price, name: prod.name });
+          }
+        }
+        // Reject if client total doesn't match server total (price manipulation attempt)
+        if (body.total && Math.abs(body.total - serverTotal) > 0.01) {
+          return json({ error: 'Price mismatch. Expected: $' + serverTotal.toFixed(2) }, { status: 400, ...corsHeaders });
+        }
+
         const order = {
           user_id: user.id,
           order_no: orderNo,
           status: 'pending',
-          total_amount: body.total,
+          total_amount: serverTotal,
           shipping_address: JSON.stringify(body.address),
           payment_method: body.payment_method || 'wallet',
         };
@@ -440,8 +462,8 @@ export default {
           method: 'POST', headers: h, body: JSON.stringify(order)
         });
         const orderData = await resp.json();
-        if (body.items?.length) {
-          const items = body.items.map(i => ({
+        if (validatedItems.length) {
+          const items = validatedItems.map(i => ({
             order_id: orderData[0]?.id,
             product_id: i.product_id,
             quantity: i.quantity,
@@ -450,8 +472,8 @@ export default {
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/order_items', {
             method: 'POST', headers: h, body: JSON.stringify(items)
           });
-          // FIX: Decrement stock AFTER successful order
-          for (const _item of body.items) {
+          // FIX: Decrement stock AFTER successful order (using validated items)
+          for (const _item of validatedItems) {
             try {
               const _cr = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=stock&id=eq.' + _item.product_id, {
                 headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
