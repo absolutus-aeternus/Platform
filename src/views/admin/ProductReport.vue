@@ -35,14 +35,12 @@ const categoryStats = computed(() => {
   products.value.forEach(p => { const c = p.categories?.name || 'Uncategorized'; map[c] = (map[c]||0)+1 })
   const max = Math.max(...Object.values(map), 1)
   return Object.entries(map).map(([name, count]) => ({ name, count, pct: (count/max)*100, color: 'var(--brand-primary, #FF9900)' })).sort((a,b) => b.count-a.count)
-} catch (e) { console.error("ProductReport.vue error:", e) }
 })
 const filtered = computed(() => {
   let r = products.value
   if (search.value) r = r.filter(p => p.name?.toLowerCase().includes(search.value.toLowerCase()))
   if (statusFilter.value) r = r.filter(p => p.status === statusFilter.value)
   return r
-} catch (e) { console.error("ProductReport.vue error:", e) }
 })
 
 onMounted(async () => { try {

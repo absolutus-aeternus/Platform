@@ -205,9 +205,9 @@ let realtimeChannel = null
 let loadTimeout = null
 
 const banners = [
-  { tag: '🔥 Hot Deals', title: 'Mega Sale Festival', desc: 'Up to 70% OFF on selected items', btn: 'Shop Now', link: '/discounts', bg: 'linear-gradient(135deg, var(--brand-nav, #232F3E)), #37475a)', emoji: '🛍️' },
+  { tag: '🔥 Hot Deals', title: 'Mega Sale Festival', desc: 'Up to 70% OFF on selected items', btn: 'Shop Now', link: '/discounts', bg: 'linear-gradient(135deg, var(--brand-nav, #232F3E), #37475a)', emoji: '🛍️' },
   { tag: '⭐ New Users', title: 'Welcome Bonus $10', desc: 'Sign up and get instant coupon', btn: 'Register', link: '/register', bg: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)', emoji: '🎁' },
-  { tag: '🚚 Free Shipping', title: 'Free Delivery Week', desc: 'No minimum order required', btn: 'Browse', link: '/commodity', bg: 'linear-gradient(135deg, var(--brand-primary-hover, #E68A00)), #ff9900)', emoji: '📦' }
+  { tag: '🚚 Free Shipping', title: 'Free Delivery Week', desc: 'No minimum order required', btn: 'Browse', link: '/commodity', bg: 'linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #ff9900)', emoji: '📦' }
 ]
 
 const sideCards = [
@@ -255,7 +255,7 @@ const sortedProducts = computed(() => {
 })
 
 const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
-const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00))','var(--brand-nav, #232F3E))']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
+const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00)','var(--brand-nav, #232F3E)']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
 const addToCart = async (product) => {
   try {
     await userStore.addToCart(product.id, 1)
@@ -335,7 +335,7 @@ onUnmounted(() => {
 .hero-section { background: var(--bg); padding: 0.75rem 0; }
 .hero-layout { display: grid; grid-template-columns: 200px 1fr 220px; gap: 0.75rem; min-height: 14rem; }
 .sidebar-cats { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.sidebar-title { padding: 0.625rem 0.875rem; font-weight: 700; font-size: 0.875rem; background: var(--brand-nav, #232F3E)); color: #fff; }
+.sidebar-title { padding: 0.625rem 0.875rem; font-weight: 700; font-size: 0.875rem; background: var(--brand-nav, #232F3E); color: #fff; }
 .sidebar-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.875rem; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #f5f5f5; }
 .sidebar-item:hover { background: #f0f0f0; }
 .si-icon { width: 1.5rem; height: 1.5rem; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.625rem; color: #fff; flex-shrink: 0; }
@@ -350,7 +350,7 @@ onUnmounted(() => {
 .banner-text h2 { font-size: clamp(0.875rem, 2vw, 1.125rem); color: #fff; margin-bottom: 0.25rem; }
 .banner-text p { font-size: 0.75rem; color: rgba(255,255,255,0.85); margin-bottom: 0.75rem; }
 .btn-banner { padding: 0.375rem 1rem; background: var(--brand-primary, #FF9900); color: var(--brand-dark, #131921); border-radius: 3px; font-weight: 600; font-size: 0.75rem; text-decoration: none; }
-.btn-banner:hover { background: var(--brand-primary-hover, #E68A00)); }
+.btn-banner:hover { background: var(--brand-primary-hover, #E68A00); }
 .banner-visual { font-size: 2rem; }
 .banner-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 2rem; height: 2.5rem; background: rgba(0,0,0,0.3); border: none; color: #fff; cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center; }
 .banner-arrow:hover { background: rgba(0,0,0,0.6); }

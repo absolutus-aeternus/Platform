@@ -17,24 +17,32 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       
-      - name: Build
+      - name: Build Frontend
         run: |
           echo "Node version: $(node --version)"
           echo "NPM version: $(npm --version)"
-          echo "Listing files..."
-          ls -la
-          echo "Checking src structure..."
-          find src -type f | head -20
           echo "Starting build..."
           npm run build 2>&1
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
+          VITE_WORKER_URL: 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+          VITE_SUPABASE_URL: 'https://cfzmdvymqqnrzrytcrie.supabase.co'
+          VITE_ALGOLIA_APP_ID: 'GLRKXLGDD9'
+          VITE_ONESIGNAL_APP_ID: ${{ secrets.VITE_ONESIGNAL_APP_ID }}
+          VITE_CLARITY_PROJECT_ID: ${{ secrets.VITE_CLARITY_PROJECT_ID }}
       
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy Frontend to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=platform
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

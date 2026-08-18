@@ -43,7 +43,6 @@ const selectedCat = ref(null)
 const filtered = computed(() => {
   if (!search.value) return categories.value
   return categories.value.filter(c => c.name.toLowerCase().includes(search.value.toLowerCase()))
-} catch (e) { console.error("Categories.vue error:", e) }
 })
 
 onMounted(async () => { try {
