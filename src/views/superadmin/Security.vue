@@ -53,10 +53,49 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { supabase } from '@/services/supabase'
+
 const threats = ref(0), loginAttempts = ref(0), successLogins = ref(0), failedLogins = ref(0)
 const events = ref([])
 const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
-onMounted(() => { /* Load from audit_logs */ })
+
+const loadSecurityData = async () => {
+  try {
+    // Load IP logs from system_params
+    const { data: logData } = await supabase.from('system_params')
+      .select('id, code, value, created_at')
+      .like('code', 'ip_log_%')
+      .order('created_at', { ascending: false })
+      .limit(200)
+
+    const parsed = (logData || []).map(d => {
+      try { return { id: d.id, ...JSON.parse(d.value), created_at: d.created_at } }
+      catch { return { id: d.id, created_at: d.created_at } }
+    })
+
+    const now = new Date()
+    const h24 = new Date(now - 86400000)
+
+    const recent24h = parsed.filter(l => l.logged_at && new Date(l.logged_at) > h24)
+    loginAttempts.value = recent24h.length
+    successLogins.value = recent24h.filter(l => l.login_status === 'success').length
+    failedLogins.value = recent24h.filter(l => l.login_status === 'failed').length
+    threats.value = recent24h.filter(l => l.login_status === 'failed').length
+
+    events.value = parsed.slice(0, 20).map(l => ({
+      id: l.id,
+      created_at: l.logged_at || l.created_at,
+      event: l.login_type === 'login' ? 'Login Attempt' : (l.action || 'Activity'),
+      ip: l.ip_address || '-',
+      email: l.email || '-',
+      status: l.login_status || 'success'
+    }))
+  } catch (e) {
+    console.error('[Security] Load error:', e.message)
+  }
+}
+
+onMounted(loadSecurityData)
 </script>
 
 <style scoped>

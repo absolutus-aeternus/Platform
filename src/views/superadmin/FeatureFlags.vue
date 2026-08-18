@@ -57,7 +57,7 @@ const saveFlags = async () => {
   for (const f of flags.value) {
     await supabase.from('system_params').upsert({ code: 'flag_' + f.key, value: String(f.enabled) }, { onConflict: 'code' })
   }
-  alert('Feature flags saved!')
+  window.__toast?.show('Feature flags saved!', 'success')
 }
 
 onMounted(loadFlags)

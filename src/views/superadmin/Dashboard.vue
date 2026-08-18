@@ -102,9 +102,9 @@ const loadStats = async () => {
 const loadLogs = async () => {
   const { data } = await supabase.from('system_params').select('*').like('code', 'ip_log_%').order('created_at', { ascending: false }).limit(5)
   recentLogs.value = (data || []).map(d => {
-  loading.value = false
     try { return { id: d.id, ...JSON.parse(d.value), created_at: d.created_at } } catch { return d }
   })
+  loading.value = false
 }
 
 const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'

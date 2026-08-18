@@ -154,8 +154,23 @@ const deleteUser = async (u) => {
 const resetPassword = async (u) => {
   const pw = prompt('New password for ' + u.email + ':')
   if (!pw || pw.length < 6) return
-  await supabase.auth.admin.updateUserById(u.id, { password: pw })
-  window.__toast?.show('Password updated!', 'success')
+  try {
+    const resp = await fetch(`${import.meta.env.VITE_WORKER_URL || ''}/api/admin/change-role`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (await supabase.auth.getSession()).data.session?.access_token
+      },
+      body: JSON.stringify({ userId: u.id, newPassword: pw, action: 'reset_password' })
+    })
+    if (resp.ok) {
+      window.__toast?.show('Password updated!', 'success')
+    } else {
+      window.__toast?.show('Failed to update password. Use Supabase Dashboard instead.', 'error')
+    }
+  } catch (e) {
+    window.__toast?.show('Password reset requires server-side access. Use Supabase Dashboard.', 'error')
+  }
 }
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'

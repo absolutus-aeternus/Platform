@@ -134,13 +134,12 @@ const loadLogs = async () => {
       try {
         const parsed = JSON.parse(item.value)
         return { id: item.id, ...parsed, created_at: item.created_at }
-  loading.value = false
       } catch {
         return { id: item.id, value: item.value, created_at: item.created_at }
       }
     })
     filterLogs()
-  loading.value = false
+    loading.value = false
   } catch (e) {
     console.error('Failed to load logs:', e)
   }

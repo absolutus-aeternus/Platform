@@ -78,11 +78,11 @@ const loadSettings = async () => {
   if (data) {
     data.forEach(p => {
       if (p.code && p.value) {
-  loading.value = false
         try { settings.value[p.code] = JSON.parse(p.value) } catch { settings.value[p.code] = p.value }
       }
     })
   }
+  loading.value = false
 }
 
 const saveSettings = async () => {
