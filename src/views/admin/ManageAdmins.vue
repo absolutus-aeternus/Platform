@@ -138,11 +138,30 @@ const createAdmin = async () => {
   }
 }
 
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
 const updateRole = async (user, newRole) => {
   try {
-    await supabase.from('users').update({ role: newRole }).eq('id', user.id)
-    user.role = newRole
-    window.__toast?.show(`Role updated to ${newRole}`, 'success')
+    const session = await supabase.auth.getSession()
+    const token = session?.data?.session?.access_token
+    if (!token) { window.__toast?.show('Not authenticated', 'error'); return }
+    
+    const reason = prompt(`Reason for changing ${user.email}'s role to ${newRole}:`)
+    if (reason === null) return // User cancelled
+    
+    const resp = await fetch(`${WORKER_URL}/api/admin/change-role`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, newRole, reason })
+    })
+    const data = await resp.json()
+    
+    if (data.success) {
+      user.role = newRole
+      window.__toast?.show(`Role updated to ${newRole}`, 'success')
+    } else {
+      window.__toast?.show(data.error || 'Failed to update role', 'error')
+    }
   } catch(e) {
     console.error('Update role error:', e)
     window.__toast?.show('Failed to update role', 'error')

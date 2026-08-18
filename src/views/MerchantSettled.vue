@@ -390,9 +390,25 @@ const handleSubmit = async () => {
     })
     if (sellerError) throw sellerError
 
-    // Update user role
-    try { await supabase.from('users').update({ role: 'SELLER' }).eq('id', userId) } catch(_e) { console.error('MerchantSettled:', _e); window.__toast?.show('Operation failed', 'error') }
-    userStore.role = 'SELLER'
+    // Update user role via server-side API (not client-side Supabase call)
+    const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+    try {
+      const session = await supabase.auth.getSession()
+      const token = session?.data?.session?.access_token
+      if (token) {
+        const roleResp = await fetch(`${WORKER_URL}/api/seller/register`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sellerId: seller.data?.id })
+        })
+        const roleData = await roleResp.json()
+        if (roleData.success) {
+          userStore.role = 'SELLER'
+        } else {
+          console.error('Role update failed:', roleData.error)
+        }
+      }
+    } catch (_e) { console.error('MerchantSettled role update:', _e) }
 
     step.value = 3
   } catch (e) {

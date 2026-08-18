@@ -242,6 +242,33 @@ export default {
         return json({ products, categories, sellers }, corsHeaders);
       }
 
+      // ─── Seller Registration (AUTH REQUIRED) ───
+      if (path === '/api/seller/register' && method === 'POST') {
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        
+        // Check current role
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + user.id, { headers: h });
+        const roleData = await roleResp.json();
+        const currentRole = roleData[0]?.role || 'MEMBER';
+        
+        // Only MEMBER can become SELLER
+        if (currentRole !== 'MEMBER') {
+          return json({ error: 'Only members can register as sellers', currentRole }, { status: 403, ...corsHeaders });
+        }
+        
+        // Update role to SELLER (server-side, not client-side)
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?id=eq.' + user.id, {
+          method: 'PATCH',
+          headers: h,
+          body: JSON.stringify({ role: 'SELLER' })
+        });
+        
+        return json({ success: true, role: 'SELLER' }, corsHeaders);
+      }
+
       // ─── Checkout (AUTH REQUIRED) ───
       if (path === '/api/checkout' && method === 'POST') {
         if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
@@ -381,6 +408,67 @@ export default {
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=id,email,username,role,created_at&order=created_at.desc&limit=' + limit, { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
+      }
+
+      // ─── Admin: Change User Role (ADMIN ONLY + AUDIT) ───
+      if (path === '/api/admin/change-role' && method === 'POST') {
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        
+        // Verify requester is ADMIN or SUPER_ADMIN
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
+        const reqRoleData = await reqRoleResp.json();
+        const reqRole = reqRoleData[0]?.role;
+        
+        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRole)) {
+          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        }
+        
+        const { userId, newRole, reason } = await request.json();
+        
+        // Only SUPER_ADMIN can assign SUPER_ADMIN role
+        if (newRole === 'SUPER_ADMIN' && reqRole !== 'SUPER_ADMIN') {
+          return json({ error: 'Only SUPER_ADMIN can assign SUPER_ADMIN role' }, { status: 403, ...corsHeaders });
+        }
+        
+        // Cannot change own role
+        if (userId === _u.id) {
+          return json({ error: 'Cannot change your own role' }, { status: 400, ...corsHeaders });
+        }
+        
+        // Get old role for audit
+        const oldRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + userId, { headers: h });
+        const oldRoleData = await oldRoleResp.json();
+        const oldRole = oldRoleData[0]?.role;
+        
+        // Update role
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?id=eq.' + userId, {
+          method: 'PATCH',
+          headers: h,
+          body: JSON.stringify({ role: newRole })
+        });
+        
+        // Audit log (best effort, don't fail if table doesn't exist)
+        try {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/audit_logs', {
+            method: 'POST',
+            headers: h,
+            body: JSON.stringify({
+              actor_id: _u.id,
+              action: 'role_change',
+              target_type: 'user',
+              target_id: userId,
+              old_value: { role: oldRole },
+              new_value: { role: newRole },
+              reason: reason || 'No reason provided',
+              ip_address: request.headers.get('cf-connecting-ip') || null
+            })
+          });
+        } catch (_) { /* audit_logs table may not exist yet */ }
+        
+        return json({ success: true, oldRole, newRole }, corsHeaders);
       }
 
       return json({ error: 'Not found' }, { status: 404, ...corsHeaders });
