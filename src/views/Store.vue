@@ -16,7 +16,7 @@
               <h1>{{ store.name || store.store_name }} <VerifiedBadge size="md" /></h1>
               <p class="store-stats">
                 <span><i class="fas fa-box"></i> {{ store.goods_count || 0 }} Products</span>
-                <span><i class="fas fa-star" style="color:#FF9900"></i> {{ store.rating || '4.8' }} Rating</span>
+                <span><i class="fas fa-star" style="color:var(--brand-primary, #FF9900)"></i> {{ store.rating || '4.8' }} Rating</span>
                 <span><i class="fas fa-users"></i> {{ store.followers || 0 }} Followers</span>
               </p>
               <p v-if="store.description" class="store-desc">{{ store.description }}</p>
@@ -86,7 +86,7 @@ const filteredProducts = computed(() => {
 })
 
 const getGradient = (name) => {
-  const colors = ['#232f3e','#37475a','#131921','#007185','#4a4e69','#3a5a40']
+  const colors = ['var(--brand-nav, #232F3E))','#37475a','var(--brand-dark, #131921)','var(--brand-accent, #007185)','#4a4e69','#3a5a40']
   const idx = (name?.charCodeAt(0)||0) % colors.length
   return `linear-gradient(135deg, ${colors[idx]}, ${colors[(idx+2)%colors.length]})`
 }
@@ -133,37 +133,37 @@ const toggleFollow = async () => {
 .store-profile { display: flex; align-items: center; gap: 16px; padding: 0 24px 20px; margin-top: -40px; }
 .store-avatar { width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #f5f5f5; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .store-logo-img { width: 100%; height: 100%; object-fit: cover; }
-.store-avatar span { font-size: 32px; font-weight: 700; color: #FF9900; }
+.store-avatar span { font-size: 32px; font-weight: 700; color: var(--brand-primary, #FF9900); }
 .store-info { flex: 1; }
 .store-info h1 { font-size: 1.25rem; margin: 0 0 4px; }
 .store-stats { display: flex; gap: 16px; font-size: 0.8125rem; color: #565959; margin: 0 0 6px; }
 .store-stats i { margin-right: 4px; }
 .store-desc { font-size: 0.8125rem; color: #999; margin: 0; }
 .btn-follow { padding: 8px 20px; border: 1px solid #D5D9D9; background: #fff; border-radius: 20px; cursor: pointer; font-size: 0.8125rem; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
-.btn-follow:hover { border-color: #007185; color: #007185; }
-.btn-follow.following { background: #007185; color: #fff; border-color: #007185; }
+.btn-follow:hover { border-color: var(--brand-accent, #007185); color: var(--brand-accent, #007185); }
+.btn-follow.following { background: var(--brand-accent, #007185); color: #fff; border-color: var(--brand-accent, #007185); }
 
 /* Tabs */
 .store-tabs { display: flex; gap: 0; background: #fff; border-radius: 8px 8px 0 0; overflow: hidden; border-bottom: 2px solid #EAEDED; }
 .store-tabs button { padding: 12px 24px; background: none; border: none; font-size: 0.875rem; cursor: pointer; color: #565959; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
-.store-tabs button.active { color: #007185; border-bottom-color: #FF9900; font-weight: 600; }
+.store-tabs button.active { color: var(--brand-accent, #007185); border-bottom-color: var(--brand-primary, #FF9900); font-weight: 600; }
 .store-tabs button:hover { background: #f7fafa; }
 
 /* Product Grid */
 .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; background: #fff; padding: 16px; border-radius: 0 0 8px 8px; }
 .product-card { cursor: pointer; transition: all 0.2s; border: 1px solid transparent; border-radius: 4px; overflow: hidden; }
-.product-card:hover { border-color: #FF9900; box-shadow: 0 2px 8px rgba(255,153,0,0.15); transform: translateY(-2px); }
+.product-card:hover { border-color: var(--brand-primary, #FF9900); box-shadow: 0 2px 8px rgba(255,153,0,0.15); transform: translateY(-2px); }
 .product-img { position: relative; overflow: hidden; }
 .product-img img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
 .img-placeholder { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #f8f8f8, #eee); display: flex; align-items: center; justify-content: center; }
 .img-placeholder span { font-size: 36px; font-weight: 700; color: #ddd; }
 .discount-badge { position: absolute; top: 0; left: 0; background: #CC0C39; color: #fff; padding: 2px 6px; font-size: 11px; font-weight: 700; }
 .product-body { padding: 8px 10px 12px; }
-.product-name { font-size: 0.8125rem; color: #007185; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; min-height: 2.25rem; margin-bottom: 4px; }
+.product-name { font-size: 0.8125rem; color: var(--brand-accent, #007185); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; min-height: 2.25rem; margin-bottom: 4px; }
 .product-card:hover .product-name { color: #c77a00; }
 .rating-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
-.stars { font-size: 0.625rem; color: #FF9900; }
-.review-count { font-size: 0.6875rem; color: #007185; }
+.stars { font-size: 0.625rem; color: var(--brand-primary, #FF9900); }
+.review-count { font-size: 0.6875rem; color: var(--brand-accent, #007185); }
 .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
 .price { font-size: 1.125rem; color: #0F1111; }
 .original-price { font-size: 0.75rem; color: #999; text-decoration: line-through; }
