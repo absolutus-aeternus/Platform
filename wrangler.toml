@@ -26,4 +26,4 @@ ALLOWED_ORIGINS = "https://alliancehub.dpdns.org,https://alliancehub.pages.dev,h
 # wrangler secret put BREVO_SMTP_KEY
 
 [triggers]
-crons = ["0 18 * * *"]
+crons = ["0 */6 * * *"]

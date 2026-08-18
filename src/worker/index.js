@@ -21,6 +21,8 @@ export default {
     }
 
     // Rate Limiting via Upstash Redis (persistent, fallback to memory)
+    // OPTIMIZATION: In-memory rate limiting (saves Upstash commands)
+    // Only use Upstash for distributed rate limiting if needed
     const RL_LIMIT = 60;
     const RL_WINDOW = 60;
     const _ip = request.headers.get('CF-Connecting-IP') || 'x';
@@ -173,8 +175,21 @@ export default {
         return json({ key: fileName, uploadUrl: uploadData.uploadUrl, uploadToken: uploadData.authorizationToken, publicUrl: '/api/file/' + fileName }, corsHeaders);
       }
 
-      // ─── Products ───
+      // ─── Products (WITH EDGE CACHING) ───
       if (path === '/api/products' && method === 'GET') {
+        // Edge cache: 60s TTL, stale-while-revalidate 300s
+        const cacheKey = new Request(url.toString());
+        const cache = caches.default;
+        const cached = await cache.match(cacheKey);
+        if (cached) {
+          const cachedAt = parseInt(cached.headers.get('X-Cached-At') || '0');
+          if (Date.now() - cachedAt < 60000) return cached; // Fresh (< 60s)
+          // Stale: return stale, revalidate in background
+          const fetchPromise = fetchProductsFresh(url, env, corsHeaders);
+          if (typeof ctx !== 'undefined') ctx.waitUntil(fetchPromise);
+          return cached;
+        }
+
         // RLS ENFORCEMENT: Only show active products
         const statusFilter = url.searchParams.get('status') || 'active';
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
