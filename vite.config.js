@@ -26,14 +26,7 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       sourcemap: false,
       minify: 'esbuild',
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['vue', 'vue-router', 'pinia'],
-            supabase: ['@supabase/supabase-js'],
-          },
-        },
-      },
+      chunkSizeWarningLimit: 1000,
     },
     css: {
       preprocessorOptions: {},
