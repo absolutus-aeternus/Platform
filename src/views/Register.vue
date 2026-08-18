@@ -11,26 +11,35 @@
       </div>
 
       <form @submit.prevent="handleRegister">
-        <div class="form-group">
-          <label>Email Address</label>
-          <div class="input-icon"><i class="fas fa-envelope"></i>
-            <input v-model="email" type="email" placeholder="your@email.com" required>
-          </div>
-        </div>
+        <BaseInput
+          v-model="email"
+          type="email"
+          label="Email Address"
+          placeholder="your@email.com"
+          prefix-icon="fas fa-envelope"
+          :required="true"
+          autocomplete="email"
+        />
 
         <div class="form-row">
-          <div class="form-group">
-            <label>Password</label>
-            <div class="input-icon"><i class="fas fa-lock"></i>
-              <input v-model="password" type="password" placeholder="Min 6 characters" required minlength="6">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Confirm Password</label>
-            <div class="input-icon"><i class="fas fa-lock"></i>
-              <input v-model="confirm" type="password" placeholder="Re-enter" required>
-            </div>
-          </div>
+          <BaseInput
+            v-model="password"
+            type="password"
+            label="Password"
+            placeholder="Min 6 characters"
+            prefix-icon="fas fa-lock"
+            :required="true"
+            autocomplete="new-password"
+          />
+          <BaseInput
+            v-model="confirm"
+            type="password"
+            label="Confirm Password"
+            placeholder="Re-enter"
+            prefix-icon="fas fa-lock"
+            :required="true"
+            autocomplete="new-password"
+          />
         </div>
 
         <div class="form-check">
@@ -66,6 +75,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import BaseInput from '@/components/base/BaseInput.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

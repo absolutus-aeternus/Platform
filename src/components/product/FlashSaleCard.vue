@@ -10,7 +10,7 @@
       <div v-else class="flash-card__placeholder" :style="{ background: gradient }">
         <span>{{ (product.name || '?')[0] }}</span>
       </div>
-      <span class="flash-card__discount">-{{ product.discount || 30 }}%</span>
+      <DiscountTag :percentage="product.discount || 30" size="sm" class="flash-card__discount" />
     </div>
     <div class="flash-card__info">
       <div class="flash-card__price">${{ product.price }}</div>
@@ -25,6 +25,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import DiscountTag from '@/components/trust/DiscountTag.vue'
 
 const props = defineProps({
   product: { type: Object, required: true }

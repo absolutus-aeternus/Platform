@@ -21,34 +21,32 @@
       </div>
       <div v-if="channels.length === 0" class="empty-card"><i class="fas fa-link"></i><p>No blockchain channels</p></div>
     </div>
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="modal">
-        <h2>{{ editing ? 'Edit Channel' : 'Add Channel' }}</h2>
-        <form @submit.prevent="saveChannel">
-          <div class="form-row">
-            <div class="form-group"><label>Coin *</label><select v-model="form.coin"><option value="USDT">USDT</option><option value="USDC">USDC</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select></div>
-            <div class="form-group"><label>Network *</label><select v-model="form.blockchain_name"><option value="TRC20">TRC20</option><option value="ERC20">ERC20</option><option value="Bitcoin">Bitcoin</option><option value="Ethereum">Ethereum</option></select></div>
-          </div>
-          <div class="form-group"><label>Wallet Address</label><input v-model="form.address" placeholder="Contact customer service"></div>
-          <div class="form-row">
-            <div class="form-group"><label>Fee (%)</label><input v-model.number="form.fee" type="number" step="0.01" min="0"></div>
-            <div class="form-group"><label>Min ($)</label><input v-model.number="form.recharge_limit_min" type="number" min="1"></div>
-            <div class="form-group"><label>Max ($)</label><input v-model.number="form.recharge_limit_max" type="number" min="1"></div>
-          </div>
-          <div class="form-group"><label><input type="checkbox" v-model="form.is_active"> Active</label></div>
-          <div class="modal-actions">
-            <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button type="submit" class="btn-save" :disabled="saving" aria-label="Save">{{ saving ? "Saving..." : "Save" }}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <BaseModal v-model="showModal" :title="editing ? 'Edit Channel' : 'Add Channel'" size="lg">
+      <form @submit.prevent="saveChannel">
+        <div class="form-row">
+          <div class="form-group"><label>Coin *</label><select v-model="form.coin"><option value="USDT">USDT</option><option value="USDC">USDC</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select></div>
+          <div class="form-group"><label>Network *</label><select v-model="form.blockchain_name"><option value="TRC20">TRC20</option><option value="ERC20">ERC20</option><option value="Bitcoin">Bitcoin</option><option value="Ethereum">Ethereum</option></select></div>
+        </div>
+        <div class="form-group"><label>Wallet Address</label><input v-model="form.address" placeholder="Contact customer service"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Fee (%)</label><input v-model.number="form.fee" type="number" step="0.01" min="0"></div>
+          <div class="form-group"><label>Min ($)</label><input v-model.number="form.recharge_limit_min" type="number" min="1"></div>
+          <div class="form-group"><label>Max ($)</label><input v-model.number="form.recharge_limit_max" type="number" min="1"></div>
+        </div>
+        <div class="form-group"><label><input type="checkbox" v-model="form.is_active"> Active</label></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
+          <button type="submit" class="btn-save" :disabled="saving" aria-label="Save">{{ saving ? "Saving..." : "Save" }}</button>
+        </div>
+      </form>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
+import BaseModal from '@/components/base/BaseModal.vue'
 
 const loading = ref(true)
 const saving = ref(false)

@@ -20,25 +20,31 @@
       </div>
 
       <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label>{{ method === 'email' ? 'Email Address' : 'Phone Number' }}</label>
-          <div class="input-icon">
-            <i :class="method === 'email' ? 'fas fa-envelope' : 'fas fa-phone'"></i>
-            <input v-model="email" :type="method === 'email' ? 'email' : 'tel'"
-              :placeholder="method === 'email' ? 'your@email.com' : '+62 812 3456 7890'" required>
-          </div>
-        </div>
+        <BaseInput
+          v-model="email"
+          :type="method === 'email' ? 'email' : 'tel'"
+          :label="method === 'email' ? 'Email Address' : 'Phone Number'"
+          :placeholder="method === 'email' ? 'your@email.com' : '+62 812 3456 7890'"
+          :prefix-icon="method === 'email' ? 'fas fa-envelope' : 'fas fa-phone'"
+          :required="true"
+          autocomplete="email"
+        />
 
-        <div class="form-group">
-          <label>Password</label>
-          <div class="input-icon">
-            <i class="fas fa-lock"></i>
-            <input v-model="password" :type="showPw ? 'text' : 'password'" placeholder="Enter your password" required>
+        <BaseInput
+          v-model="password"
+          :type="showPw ? 'text' : 'password'"
+          label="Password"
+          placeholder="Enter your password"
+          prefix-icon="fas fa-lock"
+          :required="true"
+          autocomplete="current-password"
+        >
+          <template #suffix>
             <button type="button" class="toggle-pw" @click="showPw = !showPw">
               <i :class="showPw ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
-          </div>
-        </div>
+          </template>
+        </BaseInput>
 
         <div class="form-options">
           <label class="remember"><input type="checkbox" v-model="remember"> Remember me</label>
@@ -73,6 +79,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import BaseInput from '@/components/base/BaseInput.vue'
 import { logLoginEvent } from '@/utils/deviceLogger'
 
 const router = useRouter()

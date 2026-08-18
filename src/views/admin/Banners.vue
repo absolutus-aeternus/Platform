@@ -21,31 +21,29 @@
       </div>
       <div v-if="banners.length === 0" class="empty-card"><i class="fas fa-image"></i><p>No banners yet</p></div>
     </div>
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="modal">
-        <h2>{{ editing ? 'Edit Banner' : 'Add Banner' }}</h2>
-        <form @submit.prevent="saveBanner">
-          <div class="form-group"><label>Title</label><input v-model="form.title" placeholder="Banner title"></div>
-          <div class="form-group"><label>Image URL</label><input v-model="form.image_url" placeholder="https://..."></div>
-          <div class="form-group"><label>Link</label><input v-model="form.link" placeholder="https://..."></div>
-          <div class="form-row">
-            <div class="form-group"><label>Type</label><select v-model="form.type"><option value="pc">PC</option><option value="mobile">Mobile</option></select></div>
-            <div class="form-group"><label>Sort Order</label><input v-model.number="form.sort_order" type="number" min="0"></div>
-          </div>
-          <div class="form-group"><label><input type="checkbox" v-model="form.is_active"> Active</label></div>
-          <div class="modal-actions">
-            <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button type="submit" class="btn-save" :disabled="saving" aria-label="Save">{{ saving ? "Saving..." : "Save" }}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <BaseModal v-model="showModal" :title="editing ? 'Edit Banner' : 'Add Banner'" size="md">
+      <form @submit.prevent="saveBanner">
+        <div class="form-group"><label>Title</label><input v-model="form.title" placeholder="Banner title"></div>
+        <div class="form-group"><label>Image URL</label><input v-model="form.image_url" placeholder="https://..."></div>
+        <div class="form-group"><label>Link</label><input v-model="form.link" placeholder="https://..."></div>
+        <div class="form-row">
+          <div class="form-group"><label>Type</label><select v-model="form.type"><option value="pc">PC</option><option value="mobile">Mobile</option></select></div>
+          <div class="form-group"><label>Sort Order</label><input v-model.number="form.sort_order" type="number" min="0"></div>
+        </div>
+        <div class="form-group"><label><input type="checkbox" v-model="form.is_active"> Active</label></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" @click="showModal = false">Cancel</button>
+          <button type="submit" class="btn-save" :disabled="saving" aria-label="Save">{{ saving ? "Saving..." : "Save" }}</button>
+        </div>
+      </form>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
+import BaseModal from '@/components/base/BaseModal.vue'
 
 const loading = ref(true)
 const saving = ref(false)

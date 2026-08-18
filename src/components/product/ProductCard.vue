@@ -12,7 +12,7 @@
         <span>{{ (product.name || '?')[0] }}</span>
       </div>
       <!-- Discount Badge -->
-      <span v-if="product.discount" class="product-card__badge">-{{ product.discount }}%</span>
+      <DiscountTag v-if="product.discount" :percentage="product.discount" size="md" class="product-card__badge" />
       <!-- Wishlist -->
       <button class="product-card__wishlist" @click.stop="$emit('wishlist', product)" aria-label="Add to wishlist">
         <i class="far fa-heart"></i>
@@ -53,6 +53,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import DiscountTag from '@/components/trust/DiscountTag.vue'
 
 const props = defineProps({
   product: { type: Object, required: true }
