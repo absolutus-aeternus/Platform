@@ -25,21 +25,11 @@
       </div>
 
       <div v-else-if="filteredProducts.length" class="product-grid">
-        <div v-for="p in filteredProducts" :key="p.id" class="product-card" @click="$router.push(`/product/${p.id}`)">
-          <div class="card-img">
-            <img loading="lazy" v-if="p.images?.[0]" :src="p.images[0]" :alt="p.name">
-            <div v-else class="img-placeholder">{{ p.name?.[0] || '?' }}</div>
-            <span v-if="p.discount" class="badge-discount">-{{ p.discount }}%</span>
-          </div>
-          <div class="card-body">
-            <div class="card-title">{{ p.name }}</div>
-            <div class="card-price">${{ p.price }} <span v-if="p.original_price" class="original">${{ p.original_price }}</span></div>
-            <div class="card-meta">
-              <span class="rating"><i class="fas fa-star"></i> {{ p.rating || '4.5' }}</span>
-              <span class="sold">{{ p.sales_count || 0 }} sold</span>
-            </div>
-          </div>
-        </div>
+        <ProductCard
+          v-for="p in filteredProducts"
+          :key="p.id"
+          :product="p"
+        />
       </div>
 
       <div v-else class="empty-state">
@@ -53,6 +43,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { fetchProducts, fetchCategories } from '@/services/supabase'
+import ProductCard from '@/components/product/ProductCard.vue'
 
 const products = ref([])
 const categories = ref([])

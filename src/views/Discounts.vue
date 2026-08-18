@@ -5,20 +5,11 @@
       <div v-if="loading" class="loading">Loading deals...</div>
       <div v-else-if="products.length === 0" class="empty">No deals available</div>
       <div v-else class="product-grid">
-        <div v-for="product in products" :key="product.id" class="product-card" @click="$router.push(`/product/${product.id}`)">
-          <div v-if="product.discount" class="discount-badge">-{{ product.discount }}%</div>
-          <div class="product-image">
-            <div class="img-placeholder">{{ (product.name || '?')[0] }}</div>
-          </div>
-          <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <div class="price-row">
-              <span class="price">${{ product.price }}</span>
-              <span v-if="product.original_price" class="original">${{ product.original_price }}</span>
-            </div>
-            <div class="product-sales">Sold {{ product.sales_count || 0 }}</div>
-          </div>
-        </div>
+        <FlashSaleCard
+          v-for="product in products"
+          :key="product.id"
+          :product="product"
+        />
       </div>
     </div>
   </div>
@@ -27,6 +18,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchProducts } from '@/services/supabase'
+import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
 
 const products = ref([])
 const loading = ref(true)

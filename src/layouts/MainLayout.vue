@@ -9,6 +9,9 @@
           <router-link to="/discounts" class="top-link">Today's Deals</router-link>
           <router-link to="/help" class="top-link">Customer Service</router-link>
           <router-link to="/merchant-settled" class="top-link">Sell</router-link>
+          <button class="theme-toggle" @click="toggleDark" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" :title="isDark ? 'Light mode' : 'Dark mode'">
+            <i :class="isDark ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          </button>
           <div class="lang-switch" @click="showLang = !showLang">
             <span>{{ currentLang.flag }} {{ currentLang.name }}</span>
             <i class="fas fa-chevron-down"></i>
@@ -238,6 +241,9 @@ import { supabase, fetchCategories } from '@/services/supabase'
 import ChatWidget from '@/components/ChatWidget.vue'
 import MobileTabBar from '@/components/layout/MobileTabBar.vue'
 import { useDevice } from '@/composables/useDevice'
+import { useDarkMode } from '@/composables/useDarkMode'
+
+const { isDark, toggle: toggleDark } = useDarkMode()
 
 const device = useDevice()
 
@@ -300,6 +306,8 @@ onMounted(async () => {
 .promo-top i { color: #FF9900; }
 .lang-switch { position: relative; cursor: pointer; color: #ccc; display: flex; align-items: center; gap: 0.25rem; }
 .lang-switch:hover { color: #fff; }
+.theme-toggle { background: none; border: none; color: #ccc; cursor: pointer; padding: 4px 8px; font-size: 14px; transition: color 0.15s; display: flex; align-items: center; }
+.theme-toggle:hover { color: #FF9900; }
 .lang-dropdown { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 200; min-width: 140px; overflow: hidden; }
 .lang-dropdown div { padding: 0.5rem 0.75rem; font-size: 0.8125rem; color: #333; cursor: pointer; transition: background 0.15s; }
 .lang-dropdown div:hover { background: #f5f5f5; }
