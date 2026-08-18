@@ -88,9 +88,7 @@ const createCoupon = async () => {
   saving.value = false
 }
 const toggleActive = async (c) => { await supabase.from('coupons').update({ is_active: !c.is_active }).eq('id', c.id); await load() }
-  saving.value = false
 const deleteCoupon = async (c) => { if (!confirm(`Delete "${c.code}"?`)) return; await supabase.from('coupons').delete().eq('id', c.id); await load() }
-  saving.value = false
 onMounted(load)
 </script>
 

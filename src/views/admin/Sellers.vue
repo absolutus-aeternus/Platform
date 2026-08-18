@@ -114,7 +114,6 @@ const loadSellers = async () => {
   sellers.value = data || []
   } catch(e) { console.warn('Sellers load error:', e) }
   finally { loading.value = false }
-  loading.value = false
 }
 
 const viewSeller = (seller) => { detailSeller.value = seller }

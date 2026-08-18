@@ -122,18 +122,26 @@ const adjustWallet = (wallet) => {
 }
 
 const confirmAdjust = async () => {
-  if (adjustAmount.value <= 0) return window.__toast?.show('Enter a valid amount')
+  if (adjustAmount.value <= 0) return window.__toast?.show('Enter a valid amount', 'error')
   const wallet = adjusting.value
+  const currentBalance = parseFloat(wallet.balance || 0)
+  const currentFrozen = parseFloat(wallet.frozen_money || 0)
+  if ((adjustType.value === 'deduct' || adjustType.value === 'freeze') && adjustAmount.value > currentBalance) {
+    return window.__toast?.show('Insufficient balance for this adjustment', 'error')
+  }
+  if (adjustType.value === 'unfreeze' && adjustAmount.value > currentFrozen) {
+    return window.__toast?.show('Cannot unfreeze more than frozen amount', 'error')
+  }
   const updates = {}
-  if (adjustType.value === 'add') updates.balance = parseFloat(wallet.balance || 0) + adjustAmount.value
-  if (adjustType.value === 'deduct') updates.balance = Math.max(0, parseFloat(wallet.balance || 0) - adjustAmount.value)
+  if (adjustType.value === 'add') updates.balance = currentBalance + adjustAmount.value
+  if (adjustType.value === 'deduct') updates.balance = Math.max(0, currentBalance - adjustAmount.value)
   if (adjustType.value === 'freeze') {
-    updates.balance = Math.max(0, parseFloat(wallet.balance || 0) - adjustAmount.value)
-    updates.frozen_money = parseFloat(wallet.frozen_money || 0) + adjustAmount.value
+    updates.balance = Math.max(0, currentBalance - adjustAmount.value)
+    updates.frozen_money = currentFrozen + adjustAmount.value
   }
   if (adjustType.value === 'unfreeze') {
-    updates.frozen_money = Math.max(0, parseFloat(wallet.frozen_money || 0) - adjustAmount.value)
-    updates.balance = parseFloat(wallet.balance || 0) + adjustAmount.value
+    updates.frozen_money = Math.max(0, currentFrozen - adjustAmount.value)
+    updates.balance = currentBalance + adjustAmount.value
   }
   updates.updated_at = new Date().toISOString()
   try { await supabase.from('wallets').update(updates).eq('id', wallet.id) } catch(_e) { console.error('Wallets.vue:', _e); window.__toast?.show('Operation failed', 'error') }

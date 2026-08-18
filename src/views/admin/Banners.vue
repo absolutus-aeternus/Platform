@@ -58,7 +58,6 @@ const load = async () => {
   banners.value = data || []
   } catch(e) { console.warn('Banners load error:', e) }
   finally { loading.value = false }
-  loading.value = false
 }
 const openModal = (b) => {
   editing.value = b || null
@@ -74,9 +73,7 @@ const saveBanner = async () => {
   saving.value = false
 }
 const toggleActive = async (b) => { await supabase.from('banners').update({ is_active: !b.is_active }).eq('id', b.id); await load() }
-  saving.value = false
 const deleteBanner = async (b) => { if (!confirm('Delete banner?')) return; await supabase.from('banners').delete().eq('id', b.id); await load() }
-  saving.value = false
 onMounted(load)
 </script>
 

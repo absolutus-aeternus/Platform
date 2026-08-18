@@ -115,7 +115,6 @@ const loadCategories = async () => {
   categories.value = data || []
   } catch(e) { console.warn('Categories load error:', e) }
   finally { loading.value = false }
-  loading.value = false
 }
 
 const editCategory = (cat) => {

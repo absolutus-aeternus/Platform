@@ -266,8 +266,8 @@ router.beforeEach(async (to, from, next) => {
 
       // ── Logged-in user visiting login/register pages → redirect to their portal ──
       const loginPages = ['/login', '/register', '/login/admin', '/seller/login']
-      if (loginPages.includes(to.path) && role !== 'SUPER_ADMIN') {
-        if (role === 'SUPER_ADMIN') return next('/admin')
+      if (loginPages.includes(to.path)) {
+        if (role === 'SUPER_ADMIN') return next('/superadmin')
         if (role === 'ADMIN') return next('/admin')
         if (role === 'SELLER') return next('/seller')
         return next('/user')

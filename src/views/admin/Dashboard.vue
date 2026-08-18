@@ -188,7 +188,6 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 import { fetchRplusStats } from '@/services/rplus'
 
-const loading = ref(true)
 const stats = ref([
   { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: 'var(--brand-primary, #FF9900)', change: '', trend: 'up' },
   { label: 'Total Orders', value: '0', icon: 'fas fa-shopping-cart', color: '#4ecdc4', change: '', trend: 'up' },
@@ -212,7 +211,7 @@ const topSellers = ref([])
 onMounted(async () => {
   // Fetch all real data from Supabase
   const [ordersRes, productsRes, usersRes, sellersRes, catsRes, evalsRes, walletsRes] = await Promise.all([
-    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(10),
+    supabase.from('orders').select('*, users(email)').order('created_at', { ascending: false }).limit(500),
     supabase.from('products').select('*, sellers(name)').order('sales_count', { ascending: false }).limit(10),
     supabase.from('users').select('id, role, created_at'),
     supabase.from('sellers').select('*').order('sales_count', { ascending: false }),

@@ -90,7 +90,6 @@ const sendNotification = async () => {
   window.__toast?.show('Notification sent!')
 }
 const deleteNotification = async (n) => { if (!confirm('Delete?')) return; await supabase.from('notifications').delete().eq('id', n.id); await load() }
-  saving.value = false
 onMounted(load)
 </script>
 
