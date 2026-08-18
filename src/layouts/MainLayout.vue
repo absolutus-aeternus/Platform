@@ -4,7 +4,9 @@
     <div class="top-bar">
       <div class="container top-bar-inner">
         <div class="top-bar-left">
-                  </div>
+          <span class="top-service"><i class="fas fa-location-dot"></i> Ship to your address</span>
+          <span class="top-service"><i class="fas fa-shield-halved"></i> Buyer Protection</span>
+        </div>
         <div class="top-bar-right">
           <router-link to="/discounts" class="top-link">Today's Deals</router-link>
           <router-link to="/help" class="top-link">Customer Service</router-link>
@@ -130,7 +132,8 @@
           <router-link to="/how-to-buy" class="sub-link"><i class="fas fa-question-circle"></i> <span>How to Buy</span></router-link>
         </div>
         <div class="sub-right">
-                  </div>
+          <span class="sub-confidence"><i class="fas fa-lock"></i> Secure checkout</span>
+        </div>
       </div>
     </nav>
 
@@ -567,4 +570,83 @@ onMounted(async () => {
 @media (max-width: 767px) {
   .main-content { padding-bottom: calc(var(--tab-bar-height, 56px) + 16px); }
 }
+
+/* Marketplace-grade header polish */
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #e6e6e6;
+  font-size: 0.75rem;
+}
+.top-service {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.top-service i,
+.sub-confidence i {
+  color: #febd69;
+}
+.header {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.header-inner {
+  gap: 1rem;
+}
+.logo {
+  min-height: 2.9rem;
+}
+.logo-img {
+  height: 2.1rem;
+}
+.search-wrapper {
+  max-width: 58rem;
+}
+.search-bar {
+  height: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+.search-cat {
+  min-width: 6rem;
+  font-weight: 700;
+}
+.btn-search {
+  min-width: 3.8rem;
+  font-size: 1.15rem;
+}
+.header-action {
+  min-height: 2.85rem;
+  border-radius: 4px;
+}
+.cart-badge {
+  background: #f08804;
+  box-shadow: 0 0 0 2px #131921;
+}
+.sub-header {
+  position: sticky;
+  top: 4.08rem;
+  z-index: 390;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.sub-confidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .top-bar-left,
+  .orders-action,
+  .sub-confidence { display: none; }
+  .header-inner { gap: 0.5rem; }
+  .search-bar { height: 2.65rem; }
+  .sub-header { top: 3.65rem; }
+}
+
 </style>

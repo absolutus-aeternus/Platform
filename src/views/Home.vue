@@ -50,6 +50,17 @@
       </div>
     </section>
 
+    <!-- Marketplace Trust Strip -->
+    <section class="marketplace-strip" aria-label="Marketplace benefits">
+      <div class="container marketplace-strip__grid">
+        <div class="marketplace-strip__item"><i class="fas fa-shield-alt"></i><span>Buyer protection on every order</span></div>
+        <div class="marketplace-strip__item"><i class="fas fa-tags"></i><span>Daily deals from verified sellers</span></div>
+        <div class="marketplace-strip__item"><i class="fas fa-truck-fast"></i><span>Fast delivery and easy returns</span></div>
+        <div class="marketplace-strip__item"><i class="fas fa-headset"></i><span>24/7 marketplace support</span></div>
+      </div>
+    </section>
+
+
     <!-- Flash Sale -->
     <section class="flash-section">
       <div class="container">
@@ -572,4 +583,195 @@ onUnmounted(() => {
 @media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .sidebar-cats { display: none; } .hero-side-cards { flex-direction: row; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(3, 1fr); } .seo-footer-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { .hero-side-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; } .hero-banner { min-height: 10rem; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(2, 1fr); } .services-row { grid-template-columns: repeat(2, 1fr); } .banner-content { padding: 1rem; } .banner-text h2 { font-size: 1rem; } .banner-visual { font-size: 2rem; } .filter-bar-sticky { top: 48px; } }
 @media (max-width: 480px) { .product-grid-amazon { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .pg-body { padding: 0.375rem; } .pg-name { font-size: 0.75rem; min-height: 2rem; } .pg-price { font-size: 0.875rem; } .hero-side-cards { grid-template-columns: 1fr; } .side-card { padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; } .side-card small { display: none; } .banner-content { padding: 0.75rem; } .banner-text { max-width: 60%; } .banner-text h2 { font-size: 0.875rem; } .banner-text p { font-size: 0.6875rem; } .banner-visual { font-size: 1.5rem; } .flash-card { min-width: 7rem; } .fc-info { padding: 0.25rem; } .fc-price { font-size: 0.75rem; } .mall-grid { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .cat-icon-item { min-width: 3.75rem; } .seo-footer-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
+
+/* Marketplace polish: Amazon/AliExpress-like commercial density */
+.home {
+  background: linear-gradient(180deg, #e8f2f3 0, var(--bg, #f3f3f3) 18rem);
+}
+.hero-section {
+  padding: 1rem 0 0.5rem;
+}
+.hero-layout {
+  grid-template-columns: minmax(190px, 220px) minmax(0, 1fr) minmax(190px, 240px);
+  gap: 1rem;
+  min-height: 18rem;
+}
+.sidebar-cats,
+.hero-banner,
+.side-card,
+.flash-section,
+.cat-icons-section,
+.mall-section,
+.services-bar {
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(15, 17, 17, 0.08);
+}
+.sidebar-cats,
+.mall-card,
+.product-card {
+  border: 1px solid #d5d9d9;
+}
+.sidebar-item {
+  min-height: 2.35rem;
+}
+.sidebar-item:hover .si-name,
+.view-all:hover,
+.flash-see-all:hover {
+  color: #c7511f;
+  text-decoration: underline;
+}
+.hero-banner {
+  min-height: 18rem;
+  box-shadow: 0 12px 30px rgba(19, 25, 33, 0.16);
+}
+.banner-content {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+}
+.banner-tag {
+  background: rgba(255,255,255,0.92);
+  color: #0f1111;
+  font-weight: 800;
+}
+.banner-text h2 {
+  font-size: clamp(1.6rem, 4vw, 3.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.banner-text p {
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  max-width: 32rem;
+}
+.btn-banner {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.65rem 1.35rem;
+  box-shadow: 0 8px 18px rgba(255, 153, 0, 0.28);
+}
+.banner-visual {
+  font-size: clamp(3rem, 8vw, 6rem);
+  filter: drop-shadow(0 18px 22px rgba(0,0,0,0.25));
+}
+.hero-side-cards {
+  gap: 1rem;
+}
+.side-card {
+  min-height: 5.35rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.side-card strong {
+  font-size: 0.95rem;
+}
+.marketplace-strip {
+  margin: 0.5rem 0;
+}
+.marketplace-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+.marketplace-strip__item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3.25rem;
+  padding: 0.75rem 0.9rem;
+  background: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 12px;
+  color: #0f1111;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 1px 6px rgba(15,17,17,0.06);
+}
+.marketplace-strip__item i {
+  color: #007185;
+  font-size: 1.05rem;
+}
+.flash-section,
+.cat-icons-section,
+.mall-section,
+.discover-section {
+  margin-top: 0.85rem;
+}
+.flash-section,
+.cat-icons-section,
+.mall-section,
+.services-bar {
+  padding: 1rem;
+}
+.flash-header,
+.mall-header,
+.discover-header {
+  border-bottom: 1px solid #eaeded;
+  padding-bottom: 0.75rem;
+}
+.flash-title,
+.mall-header h2,
+.discover-header h2,
+.section-title {
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+}
+.discover-section {
+  padding: 1.15rem 0 1.75rem;
+}
+.discover-header {
+  background: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 12px 12px 0 0;
+  padding: 1rem;
+  margin-bottom: 0;
+}
+.filter-bar-sticky {
+  background: #fff;
+  border-left: 1px solid #d5d9d9;
+  border-right: 1px solid #d5d9d9;
+  padding: 0.75rem 1rem;
+}
+.product-grid-amazon {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.85rem;
+  background: #fff;
+  border: 1px solid #d5d9d9;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  padding: 1rem;
+}
+.mall-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.cat-icon-item {
+  min-width: 5.3rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+}
+.cat-icon-item:hover {
+  background: #f7fafa;
+}
+.services-row {
+  gap: 0.75rem;
+}
+.svc-item {
+  background: #f7fafa;
+  border: 1px solid #e3e6e6;
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+@media (min-width: 1280px) {
+  .container { max-width: 1440px; }
+  .product-grid-amazon { grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); }
+}
+@media (max-width: 1024px) {
+  .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+  .hero-banner { min-height: 15rem; }
+  .marketplace-strip__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .marketplace-strip__grid { grid-template-columns: 1fr; }
+  .discover-header { align-items: flex-start; flex-direction: column; gap: 0.75rem; }
+  .product-grid-amazon { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; padding: 0.5rem; }
+}
+
 </style>
