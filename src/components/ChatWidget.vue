@@ -175,7 +175,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+.chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 800; }
 .chat-fab { width: 56px; height: 56px; background: #131921; color: #fff; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; transition: all 0.3s; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 8px; }
 .chat-logo { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
 .chat-fab:hover { transform: scale(1.1); }

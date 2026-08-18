@@ -32,7 +32,7 @@ const show = (msg, t = 'success', duration = 3000) => {
 defineExpose({ show })
 </script>
 <style scoped>
-.global-toast { position: fixed; top: 80px; right: 20px; z-index: 99999; padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); max-width: 400px; }
+.global-toast { position: fixed; top: 80px; right: 20px; z-index: 950; padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); max-width: 400px; }
 .global-toast.success { background: linear-gradient(135deg, #28a745, #20c997); }
 .global-toast.error { background: linear-gradient(135deg, #dc3545, #ff6b81); }
 .global-toast.warning { background: linear-gradient(135deg, #ffc107, #fd7e14); }
