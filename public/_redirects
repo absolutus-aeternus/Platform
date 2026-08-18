@@ -1,11 +1,1 @@
-/.env /404 301
-/.git/* /404 301
-/.gitignore /404 301
-/.env.* /404 301
-/node_modules/* /404 301
-/package.json /404 301
-/wrangler.toml /404 301
-
-# SPA fallback (for history mode migration)
-# Uncomment below when migrating from hash to history routing:
-# /*  /index.html  200
+/* /index.html 200
