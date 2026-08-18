@@ -24,7 +24,7 @@
       <h3 style="margin-bottom:12px;font-size:16px">⭐ Rating Plus Stats</h3>
       <div class="rplus-stats-grid">
         <div class="rplus-stat-card">
-          <div class="rplus-stat-icon" style="background:rgba(255,77,0,.1);color:#e68a00"><i class="fas fa-users"></i></div>
+          <div class="rplus-stat-icon" style="background:rgba(255,77,0,.1);color:var(--brand-primary-hover, #E68A00)"><i class="fas fa-users"></i></div>
           <div><strong>{{ rplusStats.users }}</strong><small>R+ Users</small></div>
         </div>
         <div class="rplus-stat-card">
@@ -32,7 +32,7 @@
           <div><strong>{{ rplusStats.approved }}</strong><small>Approved</small></div>
         </div>
         <div class="rplus-stat-card">
-          <div class="rplus-stat-icon" style="background:rgba(255,193,7,.1);color:#ffc107">⏳</div>
+          <div class="rplus-stat-icon" style="background:rgba(255,193,7,.1);color:var(--warning, #B45309)">⏳</div>
           <div><strong>{{ rplusStats.pending }}</strong><small>Pending</small></div>
         </div>
         <div class="rplus-stat-card">
@@ -190,7 +190,7 @@ import { fetchRplusStats } from '@/services/rplus'
 
 const loading = ref(true)
 const stats = ref([
-  { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: '#FF9900', change: '', trend: 'up' },
+  { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: 'var(--brand-primary, #FF9900)', change: '', trend: 'up' },
   { label: 'Total Orders', value: '0', icon: 'fas fa-shopping-cart', color: '#4ecdc4', change: '', trend: 'up' },
   { label: 'Total Users', value: '0', icon: 'fas fa-users', color: '#45b7d1', change: '', trend: 'up' },
   { label: 'Total Products', value: '0', icon: 'fas fa-box', color: '#96ceb4', change: '', trend: 'up' },
@@ -291,13 +291,13 @@ onMounted(async () => {
     month: m,
     value: Math.round(monthData[i]),
     height: Math.round((monthData[i] / maxRev) * 100),
-    color: '#FF9900'
+    color: 'var(--brand-primary, #FF9900)'
   }))
 
   // Order status breakdown
   const statusMap = {}
   orders.forEach(o => { statusMap[o.status] = (statusMap[o.status] || 0) + 1 })
-  const statusColors = { pending: '#ffc107', shipped: '#17a2b8', completed: '#28a745', cancelled: '#dc3545', paid: '#6c5ce7' }
+  const statusColors = { pending: 'var(--warning, #B45309)', shipped: '#17a2b8', completed: 'var(--success, #067D62)', cancelled: 'var(--error, #CC0C39)', paid: '#6c5ce7' }
   orderStatus.value = Object.entries(statusMap).map(([label, count]) => ({
     label: label.charAt(0).toUpperCase() + label.slice(1),
     percentage: Math.round((count / Math.max(totalOrders, 1)) * 100),
@@ -332,7 +332,7 @@ h1 { margin-bottom: 25px; }
 .quick-nav { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; }
 .quick-nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; }
 .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.2s; border: 1px solid #f0f0f0; }
-.quick-nav-item:hover { background: #FF9900; color: #fff; border-color: #FF9900; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(254,44,85,0.3); }
+.quick-nav-item:hover { background: var(--brand-primary, #FF9900); color: #fff; border-color: var(--brand-primary, #FF9900); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(254,44,85,0.3); }
 .quick-nav-item i { font-size: 20px; }
 .quick-nav-item span { font-size: 11px; text-align: center; white-space: nowrap; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
@@ -341,8 +341,8 @@ h1 { margin-bottom: 25px; }
 .stat-info h3 { font-size: 24px; margin-bottom: 4px; }
 .stat-info p { color: #666; font-size: 13px; }
 .stat-change { margin-left: auto; font-size: 12px; font-weight: 600; }
-.stat-change.up { color: #28a745; }
-.stat-change.down { color: #dc3545; }
+.stat-change.up { color: var(--success, #067D62); }
+.stat-change.down { color: var(--error, #CC0C39); }
 .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 25px; }
 .chart-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .chart-card h3 { margin-bottom: 15px; font-size: 16px; }
@@ -350,7 +350,7 @@ h1 { margin-bottom: 25px; }
 .chart-bar { flex: 1; border-radius: 4px 4px 0 0; position: relative; min-width: 40px; transition: height 0.5s; }
 .bar-label { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #666; white-space: nowrap; }
 .bar-month { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #999; }
-.donut-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#ffc107 0% 30%, #17a2b8 30% 75%, #28a745 75% 95%, #dc3545 95% 100%); margin: 0 auto; }
+.donut-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(var(--warning, #B45309) 0% 30%, #17a2b8 30% 75%, var(--success, #067D62) 75% 95%, var(--error, #CC0C39) 95% 100%); margin: 0 auto; }
 .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .table-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .table-card h3 { margin-bottom: 15px; font-size: 16px; }

@@ -80,11 +80,11 @@ onUnmounted(() => {
 h1 { margin-bottom: 25px; }
 .order-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
 .order-tabs button { padding: 10px 25px; border: 1px solid #ddd; background: #fff; border-radius: 20px; cursor: pointer; }
-.order-tabs button.active { background: #FF9900; color: #fff; border-color: #FF9900; }
+.order-tabs button.active { background: var(--brand-primary, #FF9900); color: #fff; border-color: var(--brand-primary, #FF9900); }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
-.btn-primary { background: #FF9900; color: #fff; padding: 10px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
+.btn-primary { background: var(--brand-primary, #FF9900); color: #fff; padding: 10px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 15px; }
 .order-card { background: #fff; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
 .order-header { display: flex; justify-content: space-between; padding: 15px 20px; background: #f8f8f8; }
 .order-no { font-weight: 600; }
@@ -95,7 +95,7 @@ h1 { margin-bottom: 25px; }
 .order-items { padding: 15px 20px; }
 .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
 .order-footer { display: flex; justify-content: space-between; padding: 15px 20px; border-top: 1px solid #f0f0f0; }
-.order-total { font-weight: 700; color: #FF9900; }
+.order-total { font-weight: 700; color: var(--brand-primary, #FF9900); }
 
 /* Responsive */
 @media (max-width: 768px) {
