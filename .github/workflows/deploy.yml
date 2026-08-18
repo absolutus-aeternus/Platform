@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'npm'
       
       - name: Install dependencies
@@ -23,9 +23,12 @@ jobs:
         run: |
           echo "Node version: $(node --version)"
           echo "NPM version: $(npm --version)"
-          echo "Vite version: $(npx vite --version)"
+          echo "Listing files..."
+          ls -la
+          echo "Checking src structure..."
+          find src -type f | head -20
           echo "Starting build..."
-          npm run build 2>&1 || (echo "BUILD FAILED" && exit 1)
+          npm run build 2>&1
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
       
