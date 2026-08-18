@@ -60,6 +60,7 @@
             <span>Total</span>
             <span>${{ subtotal }}</span>
           </div>
+          <TrustBar :return-days="7" :verified="true" shipping="Free Shipping" />
           <div v-if="error" class="checkout-error">
             <i class="fas fa-exclamation-circle"></i> {{ error }}
           </div>
@@ -77,6 +78,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import TrustBar from '@/components/trust/TrustBar.vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchAddresses } from '@/services/supabase'

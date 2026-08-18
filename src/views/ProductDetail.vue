@@ -229,6 +229,16 @@
         </div>
       </template>
     </div>
+
+    <!-- Mobile Sticky CTA Bar -->
+    <StickyCTA
+      :visible="!!product && product.stock > 0"
+      :price="product?.price"
+      :original-price="product?.original_price"
+      @add-to-cart="addToCart"
+      @buy-now="buyNow"
+      @chat="chatSeller"
+    />
   </div>
 </template>
 
@@ -237,6 +247,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchProductById, fetchReviews } from '@/services/supabase'
+import StickyCTA from '@/components/layout/StickyCTA.vue'
 
 const route = useRoute()
 const router = useRouter()
