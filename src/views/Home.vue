@@ -80,21 +80,11 @@
         </div>
         <!-- Data -->
         <div v-else-if="flashProducts.length" class="flash-products">
-          <div v-for="p in flashProducts" :key="p.id" class="flash-card" @click="$router.push(`/product/${p.id}`)">
-            <div class="fc-image">
-              <img loading="lazy" v-if="p.images?.[0] || p.image" :src="p.images?.[0] || p.image" :alt="p.name" />
-              <div v-else class="fc-img-placeholder" :style="{ background: getGradient(p.name) }"><span>{{ (p.name || '?')[0] }}</span></div>
-              <div class="fc-discount-tag">-{{ p.discount || 30 }}%</div>
-            </div>
-            <div class="fc-info">
-              <div class="fc-price">${{ p.price }}</div>
-              <div v-if="p.original_price" class="fc-original">${{ p.original_price }}</div>
-              <div class="fc-sold-bar">
-                <div class="fc-bar-fill" :style="{ width: Math.min(100, ((p.sales_count||0)/((p.sales_count||0)+50))*100)+'%' }"></div>
-                <span class="fc-sold-text">Sold {{ formatSales(p.sales_count) }}</span>
-              </div>
-            </div>
-          </div>
+          <FlashSaleCard
+            v-for="p in flashProducts"
+            :key="p.id"
+            :product="p"
+          />
         </div>
       </div>
     </section>
@@ -197,6 +187,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase, fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
 import ProductCard from '@/components/product/ProductCard.vue'
+import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
 
 const categories = ref([])
 const products = ref([])

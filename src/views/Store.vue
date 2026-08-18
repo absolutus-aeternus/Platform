@@ -13,7 +13,7 @@
               <span v-else>{{ (store.name || store.store_name || '?')[0] }}</span>
             </div>
             <div class="store-info">
-              <h1>{{ store.name || store.store_name }}</h1>
+              <h1>{{ store.name || store.store_name }} <VerifiedBadge size="md" /></h1>
               <p class="store-stats">
                 <span><i class="fas fa-box"></i> {{ store.goods_count || 0 }} Products</span>
                 <span><i class="fas fa-star" style="color:#FF9900"></i> {{ store.rating || '4.8' }} Rating</span>
@@ -70,6 +70,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+import VerifiedBadge from '@/components/trust/VerifiedBadge.vue'
 
 const route = useRoute()
 const userStore = useUserStore()

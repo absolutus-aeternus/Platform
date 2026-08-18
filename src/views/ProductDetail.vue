@@ -69,7 +69,7 @@
                 <span class="label">Seller</span>
                 <span class="value seller-link" @click="$router.push(`/store/${product.seller_id}`)">
                   <img loading="lazy" v-if="product.sellers?.logo" :src="product.sellers.logo" class="seller-mini-logo" alt="AllianceHub" />
-                  {{ product.sellers?.name || product.sellers?.store_name || 'View Store' }} <i class="fas fa-chevron-right"></i>
+                  {{ product.sellers?.name || product.sellers?.store_name || 'View Store' }} <VerifiedBadge size="sm" :show-label="false" /> <i class="fas fa-chevron-right"></i>
                 </span>
               </div>
             </div>
@@ -248,6 +248,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchProductById, fetchReviews } from '@/services/supabase'
 import StickyCTA from '@/components/layout/StickyCTA.vue'
+import VerifiedBadge from '@/components/trust/VerifiedBadge.vue'
 
 const route = useRoute()
 const router = useRouter()
