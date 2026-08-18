@@ -11,8 +11,6 @@
     "server": "node server/index.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1109.0",
-    "@aws-sdk/s3-request-presigner": "^3.1109.0",
     "@supabase/supabase-js": "^2.112.1",
     "algoliasearch": "^5.28.0",
     "axios": "^1.19.0",
@@ -20,11 +18,8 @@
     "cors": "^2.8.6",
     "esbuild": "^0.28.2",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.0",
     "pinia": "^2.3.1",
-    "playwright": "^1.62.1",
-    "puppeteer-core": "^25.7.0",
     "vue": "^3.5.41",
     "vue-i18n": "^11.4.8",
     "vue-router": "^4.6.4"
