@@ -4,12 +4,23 @@ export default {
     const path = url.pathname;
     const method = request.method;
 
+    // ─── Helper: Service role headers (bypasses RLS) ───
+    function getServiceHeaders(extra = {}) {
+      return { 'apikey': env.SUPABASE_SERVICE_ROLE_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, ...extra };
+    }
+    // ─── Helper: Anon headers (RLS-enforced) ───
+    function getAnonHeaders(extra = {}) {
+      return { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, ...extra };
+    }
+
     const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
     const origin = request.headers.get('Origin');
+    const cspHeader = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.algolia.net https://*.algolianet.com https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;";
     const corsHeaders = {
       'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.dpdns.org',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Cron-Token, X-API-Key, X-CSRF-Token',
+      'Content-Security-Policy': cspHeader,
     };
     if (method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
@@ -20,9 +31,7 @@ export default {
       return json({ error: 'Server misconfiguration: missing secrets', missing: missingSecrets }, { status: 500 });
     }
 
-    // Rate Limiting via Upstash Redis (persistent, fallback to memory)
-    // OPTIMIZATION: In-memory rate limiting (saves Upstash commands)
-    // Only use Upstash for distributed rate limiting if needed
+    // Rate Limiting via Upstash Redis (preferred), fallback to memory
     const RL_LIMIT = 60;
     const RL_WINDOW = 60;
     const _ip = request.headers.get('CF-Connecting-IP') || 'x';
@@ -74,8 +83,9 @@ export default {
         if (!auth || !auth.startsWith('Bearer ')) return null;
         const token = auth.replace('Bearer ', '');
         try {
+          // Use service role key for user lookup (bypasses RLS)
           const resp = await fetch(env.VITE_SUPABASE_URL + '/auth/v1/user', {
-            headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + token }
+            headers: { 'apikey': env.SUPABASE_SERVICE_ROLE_KEY, 'Authorization': 'Bearer ' + token }
           });
           if (!resp.ok) return null;
           return await resp.json();
@@ -97,7 +107,7 @@ export default {
 
       // ─── Helper: Get user role ───
       async function getUserRole(userId, env) {
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
+        const h = getServiceHeaders();
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + userId, { headers: h });
         const data = await resp.json();
         return data[0]?.role || 'MEMBER';
@@ -121,7 +131,8 @@ export default {
             login_type: body.login_type || 'login', login_status: body.login_status || 'success',
             logged_at: new Date().toISOString()
           };
-          const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+          // Use service role key for writing to system_params (bypasses RLS)
+          const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' });
           const logKey = 'ip_log_' + Date.now();
           const spBody = JSON.stringify({ code: logKey, value: JSON.stringify(record), description: 'IP Log' });
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params', { method: 'POST', headers: h, body: spBody });
@@ -132,13 +143,34 @@ export default {
         const _csrf = generateCSRFToken(); return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.2' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + _csrf + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
       }
 
-      // ─── B2 File proxy ───
+      // ─── B2 File proxy (with 24h auth token caching via Upstash) ───
       if (path.startsWith('/api/file/')) {
         const fileName = path.replace('/api/file/', '');
-        const b2Auth = await fetch('https://api.backblazeb2.com/b2api/v2/b2_authorize_account', {
-          headers: { 'Authorization': 'Basic ' + btoa(env.B2_KEY_ID + ':' + env.B2_APPLICATION_KEY) }
-        });
-        const authData = await b2Auth.json();
+        let authData;
+        // Try to load cached B2 auth token from Upstash
+        try {
+          if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+            const cachedResp = await fetch(env.UPSTASH_REDIS_REST_URL + '/get/b2_auth_token', {
+              headers: { 'Authorization': 'Bearer ' + env.UPSTASH_REDIS_REST_TOKEN }
+            });
+            const cached = await cachedResp.json();
+            if (cached.result) authData = JSON.parse(cached.result);
+          }
+        } catch (e) { /* cache miss */ }
+        if (!authData) {
+          const b2Auth = await fetch('https://api.backblazeb2.com/b2api/v2/b2_authorize_account', {
+            headers: { 'Authorization': 'Basic ' + btoa(env.B2_KEY_ID + ':' + env.B2_APPLICATION_KEY) }
+          });
+          authData = await b2Auth.json();
+          // Cache for 24h
+          try {
+            if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+              await fetch(env.UPSTASH_REDIS_REST_URL + '/set/b2_auth_token/' + encodeURIComponent(JSON.stringify(authData)) + '/EX/86400', {
+                headers: { 'Authorization': 'Bearer ' + env.UPSTASH_REDIS_REST_TOKEN }
+              });
+            }
+          } catch (e) { /* best effort */ }
+        }
         const listResp = await fetch(authData.apiUrl + '/b2api/v2/b2_list_file_names', {
           method: 'POST',
           headers: { 'Authorization': authData.authorizationToken, 'Content-Type': 'application/json' },
@@ -283,7 +315,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         
         // Check current role
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + user.id, { headers: h });
@@ -335,8 +367,8 @@ export default {
         
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         
-        // Verify admin role
-        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
+        // Verify admin role (use service role key)
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         const reqRoleData = await reqRoleResp.json();
         if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRoleData[0]?.role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
@@ -355,10 +387,10 @@ export default {
         
         const newStatus = action === 'approve' ? 'approved' : 'rejected';
         
-        // Update seller approval status
+        // Update seller approval status (use service role key)
         await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?id=eq.' + sellerId, {
           method: 'PATCH',
-          headers: h,
+          headers: getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' }),
           body: JSON.stringify({
             approval_status: newStatus,
             approved_by: _u.id,
@@ -372,7 +404,7 @@ export default {
         if (action === 'approve' && sellerData[0].user_id) {
           await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?id=eq.' + sellerData[0].user_id, {
             method: 'PATCH',
-            headers: h,
+            headers: getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' }),
             body: JSON.stringify({ role: 'SELLER' })
           });
         }
@@ -405,13 +437,13 @@ export default {
         
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         
-        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
         const reqRoleData = await reqRoleResp.json();
         if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRoleData[0]?.role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
         
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?approval_status=eq.pending&order=created_at.desc', { headers: h });
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?approval_status=eq.pending&order=created_at.desc', { headers: getServiceHeaders() });
         return json({ data: await resp.json() }, corsHeaders);
       }
 
@@ -423,7 +455,8 @@ export default {
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests. Please wait.' }, { status: 429, ...corsHeaders });
 
         const body = await request.json();
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        // Use service role for checkout operations (bypasses RLS)
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         
         // BUG #6 FIX: Validate stock before checkout
@@ -563,16 +596,15 @@ export default {
       if (path === '/api/admin/system-params' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        // Check admin role
+        // Check admin role (use service role key)
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: getServiceHeaders()
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params?order=code', { headers: h });
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/system_params?order=code', { headers: getServiceHeaders() });
         return json({ data: await resp.json() }, corsHeaders);
       }
 
@@ -581,15 +613,14 @@ export default {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: getServiceHeaders()
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?select=*,order_items(*,products(name,images))&order=created_at.desc&limit=' + limit, { headers: h });
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?select=*,order_items(*,products(name,images))&order=created_at.desc&limit=' + limit, { headers: getServiceHeaders() });
         return json({ data: await resp.json() }, corsHeaders);
       }
 
@@ -598,15 +629,14 @@ export default {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
-          headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY }
+          headers: getServiceHeaders()
         });
         const roleData = await roleResp.json();
         if (!roleData[0] || !['ADMIN', 'SUPER_ADMIN'].includes(roleData[0].role)) {
           return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         }
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=id,email,username,role,created_at&order=created_at.desc&limit=' + limit, { headers: h });
+        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=id,email,username,role,created_at&order=created_at.desc&limit=' + limit, { headers: getServiceHeaders() });
         return json({ data: await resp.json() }, corsHeaders);
       }
 
@@ -615,7 +645,7 @@ export default {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         
         // Verify requester is ADMIN or SUPER_ADMIN
         const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
@@ -677,7 +707,7 @@ export default {
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         const body = await request.json();
         const { product_id, rating, comment, images } = body;
         
@@ -751,7 +781,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         
         // Verify seller
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id,approval_status', { headers: h });
@@ -786,7 +816,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
         const seller = (await sellerResp.json())[0];
         if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
@@ -805,7 +835,7 @@ export default {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
         const sellerResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?user_id=eq.' + user.id + '&select=id', { headers: h });
         const seller = (await sellerResp.json())[0];
         if (!seller) return json({ error: 'Seller account required' }, { status: 403, ...corsHeaders });
@@ -839,10 +869,10 @@ export default {
       if (path === '/api/admin/commissions' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
         const status = url.searchParams.get('status') || '';
         let q = 'select=*,sellers(name,store_name)&order=created_at.desc&limit=' + limit;
@@ -855,10 +885,10 @@ export default {
       if (path === '/api/admin/commission/approve' && method === 'POST') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' };
         const { commission_id, action } = await request.json();
         
         if (!['approve', 'cancel'].includes(action)) return json({ error: 'Action must be approve or cancel' }, { status: 400, ...corsHeaders });
@@ -897,10 +927,10 @@ export default {
       if (path === '/api/admin/payouts' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY };
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?select=*,sellers(name,store_name)&order=created_at.desc&limit=50', { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
       }
@@ -909,10 +939,10 @@ export default {
       if (path === '/api/admin/payout/process' && method === 'POST') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY } });
+        const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } });
         if (!['ADMIN', 'SUPER_ADMIN'].includes((await roleResp.json())[0]?.role)) return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
         
-        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': '***' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+        const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' };
         const { payout_id, action, notes } = await request.json();
         
         if (!['complete', 'reject'].includes(action)) return json({ error: 'Action must be complete or reject' }, { status: 400, ...corsHeaders });

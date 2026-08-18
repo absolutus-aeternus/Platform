@@ -13,7 +13,7 @@ async function mongoInsert(collection, documents) {
     body: JSON.stringify({
       collection,
       database: DB_NAME,
-      dataSource: 'platfrom',
+      dataSource: 'Platform',
       documents,
     }),
   });
