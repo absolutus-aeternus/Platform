@@ -36,10 +36,11 @@
 </template>
 
 <script setup>
-const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+
+const loading = ref(true)
 
 const userStore = useUserStore()
 const store = ref({})
@@ -60,7 +61,6 @@ const saveProfile = async () => {
       logo: store.value.logo
     }).eq('user_id', userStore.supabaseUser.id)
     window.__toast?.show('Profile saved!', 'success')
-  loading.value = false
   } catch (e) {
     console.error('Save profile error:', e)
     window.__toast?.show('Failed to save profile', 'error')

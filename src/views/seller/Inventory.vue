@@ -79,8 +79,8 @@ onMounted(async () => { try {
     const { data } = await supabase.from('products').select('*').eq('seller_id', seller.id)
     products.value = data || []
   }
-  loading.value = false
 } catch (e) { console.error("Inventory.vue error:", e) }
+  loading.value = false
 })
 </script>
 

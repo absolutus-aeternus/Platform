@@ -53,8 +53,18 @@ export const fetchProducts = async (params = {}) => {
 }
 
 export const fetchProductById = async (id) => {
+  // Try by UUID id first, fallback to slug
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
   const { data, error } = await supabase
-    .from('products').select('*, sellers(id, name, store_name, user_id, description, logo, rating)').eq('id', id).single()
+    .from('products').select('*, sellers(id, name, store_name, user_id, description, logo, rating)')
+    .eq(isUUID ? 'id' : 'slug', id).maybeSingle()
+  if (!data && !isUUID) {
+    // Also try by id in case slug format matches a UUID
+    const { data: data2, error: error2 } = await supabase
+      .from('products').select('*, sellers(id, name, store_name, user_id, description, logo, rating)')
+      .eq('id', id).maybeSingle()
+    return { data: data2, error: error2 }
+  }
   return { data, error }
 }
 

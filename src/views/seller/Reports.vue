@@ -27,10 +27,11 @@
 </template>
 
 <script setup>
-const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+
+const loading = ref(true)
 
 const userStore = useUserStore()
 const stats = ref({ revenue: '0.00', orders: 0, products: 0, customers: 0 })
@@ -50,7 +51,7 @@ onMounted(async () => { try {
     stats.value.customers = new Set((customers.data || []).map(c => c.user_id)).size
   }
   loading.value = false
-} catch (e) { console.error("Reports.vue error:", e) }
+} catch (e) { console.error("Reports.vue error:", e); loading.value = false }
 })
 </script>
 

@@ -138,7 +138,7 @@ const removeItem = async (id) => {
 .summary-row.total { font-size: 18px; font-weight: 700; color: var(--brand-primary, #FF9900); border-top: 1px solid #eee; padding-top: 16px; margin-top: 16px; }
 .free-ship { color: var(--success, #067D62); font-weight: 600; }
 .btn-checkout { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
-.btn-checkout:hover { background: var(--brand-primary-hover, #E68A00)); }
+.btn-checkout:hover { background: var(--brand-primary-hover, #E68A00); }
 .continue-shopping { display: block; text-align: center; margin-top: 16px; font-size: 13px; color: #999; text-decoration: none; }
 .continue-shopping:hover { color: var(--brand-primary, #FF9900); }
 @media (max-width: 768px) {

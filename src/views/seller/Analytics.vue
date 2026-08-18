@@ -85,7 +85,7 @@ onMounted(async () => {
       stats.value.products = productsRes.data?.length || 0
       stats.value.orders = recentOrders.value.length
       stats.value.revenue = recentOrders.value.reduce((sum, o) => sum + parseFloat(o.total_amount || 0), 0).toFixed(2)
-      stats.value.sales = recentOrders.value.reduce((sum, o) => sum + (o.order_items?.length || 1), 0)
+      stats.value.sales = stats.value.orders
     }
   } catch (e) {
     console.error('Failed to load analytics:', e)

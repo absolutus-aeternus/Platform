@@ -473,7 +473,7 @@ const chatSeller = () => {
 .btn-add-cart:hover { background: #fff8f0; }
 .btn-add-cart:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
 .btn-buy-now { flex: 1; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn-buy-now:hover { background: var(--brand-primary-hover, #E68A00)); }
+.btn-buy-now:hover { background: var(--brand-primary-hover, #E68A00); }
 .btn-buy-now:disabled { background: #ccc; cursor: not-allowed; }
 .btn-fav { width: 48px; height: 48px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 18px; color: #999; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
 .btn-fav:hover { border-color: var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); }
@@ -507,7 +507,7 @@ const chatSeller = () => {
 .comment-form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
 .char-count { font-size: 12px; color: #999; }
 .btn-post-comment { padding: 8px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-.btn-post-comment:hover { background: var(--brand-primary-hover, #E68A00)); }
+.btn-post-comment:hover { background: var(--brand-primary-hover, #E68A00); }
 .btn-post-comment:disabled { background: #ccc; cursor: not-allowed; }
 .empty-comments { text-align: center; padding: 32px; color: #999; }
 .empty-comments i { font-size: 32px; color: #ddd; margin-bottom: 8px; }

@@ -78,7 +78,6 @@ const load = async () => {
   users.value = data || []
   } catch(e) { console.warn('Users load error:', e) }
   finally { loading.value = false }
-  loading.value = false
 }
 const viewUser = (u) => { selectedUser.value = u }
 const editRole = async (u) => {

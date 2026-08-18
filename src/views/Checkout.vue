@@ -56,7 +56,7 @@
             <span>Shipping</span>
             <span>Free</span>
           </div>
-          <div class="summary-row total">
+          <div class="summary-row summary-total">
             <span>Total</span>
             <span>${{ subtotal }}</span>
           </div>
@@ -91,6 +91,7 @@ const selectedAddress = ref({})
 const paymentMethods = ['Binance', 'Huobi', 'OKX', 'Coinbase', 'MetaMask', 'KuCoin']
 const selectedPayment = ref('Binance')
 const ordering = ref(false)
+const loading = ref(false)
 const error = ref(null)
 
 const subtotal = computed(() => {
@@ -195,13 +196,13 @@ const placeOrder = async () => {
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--brand-primary, #FF9900); box-shadow: 0 0 0 3px rgba(238,77,45,0.1); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .btn-place-order { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-.btn-place-order:hover { background: var(--brand-primary-hover, #E68A00)); transform: translateY(-1px); }
+.btn-place-order:hover { background: var(--brand-primary-hover, #E68A00); transform: translateY(-1px); }
 .btn-place-order:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .checkout-error { background: #fff8f0; color: #ff4757; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
 .summary-total { font-weight: 700; font-size: 18px; color: var(--brand-primary, #FF9900); border-bottom: none; }
 @media (max-width: 768px) {
-  .checkout-layout { grid-template-columns: 1fr; }
+  .checkout-grid { grid-template-columns: 1fr; }
   .checkout-summary { position: static; }
   .form-row { grid-template-columns: 1fr; }
   .page-title { font-size: 1.25rem; }

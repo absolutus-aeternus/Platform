@@ -186,9 +186,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase, fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
+import { useUserStore } from '@/store/user'
 import ProductCard from '@/components/product/ProductCard.vue'
 import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
 
+const userStore = useUserStore()
 const categories = ref([])
 const products = ref([])
 const sellers = ref([])
@@ -258,7 +260,7 @@ const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000
 const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00)','var(--brand-nav, #232F3E)']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
 const addToCart = async (product) => {
   try {
-    await userStore.addToCart(product.id, 1)
+    await userStore.addToCart({ id: product.id, quantity: 1 })
     if (window.__toast) window.__toast.show('Added to cart!', 'success')
   } catch (e) {
     if (window.__toast) window.__toast.show('Please sign in first', 'error')

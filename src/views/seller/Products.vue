@@ -56,9 +56,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
 
+const router = useRouter()
 const userStore = useUserStore()
 const products = ref([])
 const loading = ref(true)
@@ -66,7 +68,7 @@ const showAdd = ref(false)
 const newProduct = ref({ name: '', price: 0, stock: 0, description: '' })
 
 const loadProducts = async () => {
-  if (!userStore.supabaseUser) return
+  if (!userStore.supabaseUser) { loading.value = false; return }
   try {
     const { data: seller } = await supabase
       .from('sellers')
@@ -127,9 +129,7 @@ const deleteProduct = async (id) => {
 }
 
 const editProduct = (product) => {
-  // Edit product - navigate to edit page
-    router.push({ name: 'SellerProductAdd', query: { edit: product.id } })
-  window.__toast?.show('Edit functionality coming soon')
+  router.push({ name: 'SellerProductAdd', query: { edit: product.id } })
 }
 
 onMounted(loadProducts)

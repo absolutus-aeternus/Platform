@@ -46,7 +46,6 @@
 </template>
 
 <script setup>
-const loading = ref(true)
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
@@ -54,6 +53,7 @@ import { supabase, fetchCategories } from '@/services/supabase'
 
 const router = useRouter()
 const userStore = useUserStore()
+const loading = ref(true)
 const categories = ref([])
 const saving = ref(false)
 const form = ref({ name: '', price: 0, original_price: 0, discount: 0, stock: 0, category_id: '', description: '' })
@@ -78,11 +78,11 @@ const addProduct = async () => {
     })
     if (error) throw error
     router.push('/seller/products')
-  loading.value = false
   } catch (e) {
     window.__toast?.show('Failed: ' + e.message)
   }
   saving.value = false
+  loading.value = false
 }
 </script>
 

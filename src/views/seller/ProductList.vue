@@ -33,7 +33,7 @@
             <td>
               <div class="product-cell">
                 <div class="product-img">{{ (product.name || '?')[0] }}</div>
-                <span>{{ product.name.substring(0, 40) }}...</span>
+                <span>{{ (product.name || '').substring(0, 40) }}...</span>
               </div>
             </td>
             <td>${{ product.price }}</td>

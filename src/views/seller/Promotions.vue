@@ -97,7 +97,7 @@ const loadData = async () => {
         .from('products')
         .select('id, name, price')
         .eq('seller_id', seller.id)
-        .eq('is_active', true)
+        .eq('status', 'active')
       myProducts.value = prods || []
       
       // Load flash sales for seller's products
