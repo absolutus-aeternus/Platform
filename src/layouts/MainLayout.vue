@@ -45,8 +45,37 @@
               <option value="">All</option>
               <option v-for="cat in navCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
             </select>
-            <input v-model="searchQuery" placeholder="Search AllianceHub" @keyup.enter="doSearch" />
+            <input
+              v-model="searchQuery"
+              placeholder="Search AllianceHub"
+              @keyup.enter="doSearch"
+              @input="onSearchInput"
+              @focus="showSuggestions = suggestions.length > 0"
+              @blur="setTimeout(() => showSuggestions = false, 200)"
+              autocomplete="off"
+            />
             <button class="btn-search" @click="doSearch"><i class="fas fa-search"></i></button>
+          </div>
+          <!-- Autocomplete Dropdown -->
+          <div v-if="showSuggestions && suggestions.length" class="search-suggestions">
+            <div
+              v-for="s in suggestions"
+              :key="s.id"
+              class="search-suggestion"
+              @mousedown.prevent="goToProduct(s)"
+            >
+              <img v-if="s.images?.[0]" :src="s.images[0]" class="search-suggestion__img" :alt="s.name" />
+              <div v-else class="search-suggestion__placeholder">{{ (s.name || '?')[0] }}</div>
+              <div class="search-suggestion__info">
+                <div class="search-suggestion__name">{{ s.name }}</div>
+                <div class="search-suggestion__price">${{ s.price }}</div>
+              </div>
+              <span v-if="s.discount" class="search-suggestion__badge">-{{ s.discount }}%</span>
+            </div>
+            <div class="search-suggestion search-suggestion--all" @mousedown.prevent="doSearch">
+              <i class="fas fa-search"></i>
+              <span>See all results for "{{ searchQuery }}"</span>
+            </div>
           </div>
         </div>
 
@@ -256,6 +285,9 @@ const searchCat = ref('')
 const showMobile = ref(false)
 const showLang = ref(false)
 const categories = ref([])
+const suggestions = ref([])
+const showSuggestions = ref(false)
+let suggestTimer = null
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -267,9 +299,34 @@ const currentLang = computed(() => languages.find(l => l.code === locale.value) 
 const navCategories = computed(() => categories.value.slice(0, 10))
 
 const setLocale = (code) => { locale.value = code; localStorage.setItem('locale', code); showLang.value = false }
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
+const onSearchInput = () => {
+  clearTimeout(suggestTimer)
+  if (!searchQuery.value.trim() || searchQuery.value.trim().length < 2) {
+    suggestions.value = []
+    showSuggestions.value = false
+    return
+  }
+  suggestTimer = setTimeout(async () => {
+    try {
+      const resp = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(searchQuery.value.trim())}&limit=5`)
+      const data = await resp.json()
+      suggestions.value = data.hits || data.data || []
+      showSuggestions.value = suggestions.value.length > 0
+    } catch (e) { suggestions.value = [] }
+  }, 300)
+}
+
+const goToProduct = (product) => {
+  showSuggestions.value = false
+  router.push(`/product/${product.objectID || product.id}`)
+}
+
 let searchTimer = null
 const doSearch = () => {
   clearTimeout(searchTimer)
+  showSuggestions.value = false
   searchTimer = setTimeout(() => {
     if (searchQuery.value.trim()) {
       let url = `/search?q=${encodeURIComponent(searchQuery.value.trim())}`
@@ -337,6 +394,64 @@ onMounted(async () => {
 .search-bar input::placeholder { color: #999; }
 .btn-search { padding: 0 1.125rem; background: #febd69; border: none; cursor: pointer; font-size: 1rem; color: var(--brand-dark, #131921); transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
 .btn-search:hover { background: #f3a847; }
+
+/* Search Suggestions */
+.search-wrapper { position: relative; }
+.search-suggestions {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--white, #fff);
+  border: 1px solid var(--neutral-200, #E7E7E7);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 600;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.search-suggestion {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.search-suggestion:hover { background: var(--neutral-50, #FAFAFA); }
+.search-suggestion__img {
+  width: 40px; height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.search-suggestion__placeholder {
+  width: 40px; height: 40px;
+  border-radius: 6px;
+  background: var(--neutral-200, #E7E7E7);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: var(--neutral-500, #888);
+  flex-shrink: 0;
+}
+.search-suggestion__info { flex: 1; min-width: 0; }
+.search-suggestion__name {
+  font-size: 13px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--neutral-900, #0F1111);
+}
+.search-suggestion__price {
+  font-size: 12px; color: var(--neutral-600, #666);
+}
+.search-suggestion__badge {
+  background: var(--error, #CC0C39);
+  color: var(--white, #fff);
+  font-size: 10px; font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.search-suggestion--all {
+  border-top: 1px solid var(--neutral-200, #E7E7E7);
+  color: var(--brand-accent, #007185);
+  font-size: 13px; font-weight: 500;
+  gap: 8px;
+}
+.search-suggestion--all:hover { background: var(--brand-accent-light, #E0F2F5); }
 
 /* Header Actions */
 .header-actions { display: flex; align-items: stretch; gap: 0; }
