@@ -24,15 +24,29 @@
         <div class="product-main">
           <!-- Image Gallery -->
           <div class="product-gallery">
-            <div class="main-image">
-              <img loading="lazy" v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name">
+            <div class="main-image" @mousemove="onZoomMove" @mouseleave="zoomActive = false" @click="showLightbox = true">
+              <img loading="lazy" v-if="product.images?.length" :src="product.images[selectedImage || 0]" :alt="product.name" :style="zoomStyle">
               <div v-else class="img-placeholder">{{ product.name?.[0] || 'P' }}</div>
               <span v-if="product.discount" class="discount-badge">-{{ product.discount }}%</span>
+              <div class="zoom-hint" v-if="!zoomActive"><i class="fas fa-search-plus"></i> Hover to zoom</div>
             </div>
             <div class="thumb-row" v-if="product.images?.length > 1">
               <img loading="lazy" v-for="(img, i) in product.images.slice(0, 5)" :key="i" :src="img" class="thumb" :class="{ active: selectedImage === i }" @click="selectedImage = i" :alt="product.name + ' image ' + (i+1)">
             </div>
           </div>
+
+          <!-- Lightbox -->
+          <Teleport to="body">
+            <div v-if="showLightbox" class="lightbox" @click.self="showLightbox = false">
+              <button class="lightbox__close" @click="showLightbox = false"><i class="fas fa-times"></i></button>
+              <button class="lightbox__nav lightbox__nav--prev" @click="selectedImage = Math.max(0, selectedImage - 1)"><i class="fas fa-chevron-left"></i></button>
+              <img :src="product.images[selectedImage || 0]" :alt="product.name" class="lightbox__img" />
+              <button class="lightbox__nav lightbox__nav--next" @click="selectedImage = Math.min(product.images.length - 1, selectedImage + 1)"><i class="fas fa-chevron-right"></i></button>
+              <div class="lightbox__dots">
+                <span v-for="(_, i) in product.images" :key="i" :class="{ active: selectedImage === i }" @click="selectedImage = i"></span>
+              </div>
+            </div>
+          </Teleport>
 
           <!-- Product Info -->
           <div class="product-info">
@@ -243,7 +257,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchProductById, fetchReviews } from '@/services/supabase'
@@ -255,6 +269,26 @@ const router = useRouter()
 const userStore = useUserStore()
 const tab = ref('detail')
 const selectedImage = ref(0)
+const zoomActive = ref(false)
+const showLightbox = ref(false)
+const zoomX = ref(50)
+const zoomY = ref(50)
+
+const zoomStyle = computed(() => {
+  if (!zoomActive.value) return {}
+  return {
+    transform: 'scale(2)',
+    transformOrigin: `${zoomX.value}% ${zoomY.value}%`,
+    cursor: 'zoom-in'
+  }
+})
+
+function onZoomMove(e) {
+  zoomActive.value = true
+  const rect = e.currentTarget.getBoundingClientRect()
+  zoomX.value = ((e.clientX - rect.left) / rect.width) * 100
+  zoomY.value = ((e.clientY - rect.top) / rect.height) * 100
+}
 const quantity = ref(1)
 const product = ref(null)
 const reviews = ref([])
@@ -385,8 +419,21 @@ const chatSeller = () => {
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 12px; display: block; }
 .product-main { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 16px; }
 .product-gallery { position: sticky; top: 80px; }
-.main-image { position: relative; border-radius: 8px; overflow: hidden; background: #f8f8f8; }
-.main-image img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.main-image { position: relative; border-radius: 8px; overflow: hidden; background: var(--neutral-100, #f8f8f8); cursor: zoom-in; }
+.main-image img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.1s ease; }
+.zoom-hint { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: var(--white, #fff); padding: 4px 10px; border-radius: 4px; font-size: 11px; pointer-events: none; }
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 900; display: flex; align-items: center; justify-content: center; cursor: zoom-out; }
+.lightbox__img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
+.lightbox__close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; z-index: 901; padding: 8px; }
+.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; padding: 16px 12px; border-radius: 4px; transition: background 0.2s; }
+.lightbox__nav:hover { background: rgba(255,255,255,0.2); }
+.lightbox__nav--prev { left: 16px; }
+.lightbox__nav--next { right: 16px; }
+.lightbox__dots { position: absolute; bottom: 20px; display: flex; gap: 8px; }
+.lightbox__dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; }
+.lightbox__dots span.active { background: var(--white, #fff); transform: scale(1.2); }
 .img-placeholder { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 80px; color: #ddd; background: linear-gradient(135deg, #f8f8f8, #eee); }
 .discount-badge { position: absolute; top: 12px; left: 12px; background: var(--brand-primary, var(--brand-primary, #FF9900)); color: #fff; padding: 4px 10px; font-size: 14px; font-weight: 700; border-radius: 4px; }
 .thumb-row { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; }
