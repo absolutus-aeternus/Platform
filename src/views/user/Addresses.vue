@@ -141,14 +141,14 @@ onMounted(loadAddresses)
 
 <style scoped>
 h1 { margin-bottom: 25px; display: inline-block; }
-.btn-add { float: right; padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.btn-add { float: right; padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 .loading { text-align: center; padding: 40px; color: #999; clear: both; }
 .empty-state { text-align: center; padding: 60px 0; clear: both; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
 .address-list { clear: both; }
 .address-card { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #fff; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .address-info p { margin-bottom: 4px; }
-.default-badge { background: #FF9900; color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 12px; }
+.default-badge { background: var(--brand-primary, #FF9900); color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 12px; }
 .address-actions { display: flex; gap: 8px; }
 .address-actions button { padding: 6px 12px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; }
 .btn-delete { color: #ff4757; border-color: #ff4757 !important; }
@@ -161,7 +161,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .modal-actions button { padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-.btn-primary { background: #FF9900; color: #fff; border: none; }
+.btn-primary { background: var(--brand-primary, #FF9900); color: #fff; border: none; }
 
 /* Responsive */
 @media (max-width: 768px) {

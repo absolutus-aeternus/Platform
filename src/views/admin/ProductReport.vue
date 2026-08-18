@@ -2,14 +2,14 @@
   <div class="admin-report">
     <div class="page-header"><h1>Product Report</h1></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon" style="background:#FF9900"><i class="fas fa-box"></i></div><div><h3>{{ products.length }}</h3><p>Total Products</p></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:var(--brand-primary, #FF9900)"><i class="fas fa-box"></i></div><div><h3>{{ products.length }}</h3><p>Total Products</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#4ecdc4"><i class="fas fa-check-circle"></i></div><div><h3>{{ products.filter(p=>p.status==='active').length }}</h3><p>Active</p></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#ffc107"><i class="fas fa-star"></i></div><div><h3>{{ topRated.length }}</h3><p>Top Rated (4.5+)</p></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:var(--warning, #B45309)"><i class="fas fa-star"></i></div><div><h3>{{ topRated.length }}</h3><p>Top Rated (4.5+)</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#96ceb4"><i class="fas fa-fire"></i></div><div><h3>{{ bestSellers.length }}</h3><p>Best Sellers (1000+)</p></div></div>
     </div>
     <div class="grid-2">
       <div class="card"><h2>Top Selling Products</h2><table><thead><tr><th>Product</th><th>Price</th><th>Sales</th><th>Revenue</th></tr></thead><tbody><tr v-for="p in bestSellers" :key="p.id"><td>{{ p.name?.substring(0,30) }}</td><td>${{ p.price }}</td><td>{{ p.sales_count }}</td><td>${{ (p.price * p.sales_count).toFixed(2) }}</td></tr></tbody></table></div>
-      <div class="card"><h2>Products by Category</h2><div class="category-bars"><div v-for="c in categoryStats" :key="c.name" class="cat-bar"><div class="cat-info"><span>{{ c.name }}</span><span>{{ c.count }}</span></div><div class="cat-fill"><div class="cat-progress" :style="{ width: c.pct + '%', background: c.color || '#FF9900' }"></div></div></div></div></div>
+      <div class="card"><h2>Products by Category</h2><div class="category-bars"><div v-for="c in categoryStats" :key="c.name" class="cat-bar"><div class="cat-info"><span>{{ c.name }}</span><span>{{ c.count }}</span></div><div class="cat-fill"><div class="cat-progress" :style="{ width: c.pct + '%', background: c.color || 'var(--brand-primary, #FF9900)' }"></div></div></div></div></div>
     </div>
     <div class="card"><h2>All Products</h2>
       <div class="filters"><input v-model="search" placeholder="Search products..."><select v-model="statusFilter"><option value="">All Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
@@ -34,7 +34,7 @@ const categoryStats = computed(() => {
   const map = {}
   products.value.forEach(p => { const c = p.categories?.name || 'Uncategorized'; map[c] = (map[c]||0)+1 })
   const max = Math.max(...Object.values(map), 1)
-  return Object.entries(map).map(([name, count]) => ({ name, count, pct: (count/max)*100, color: '#FF9900' })).sort((a,b) => b.count-a.count)
+  return Object.entries(map).map(([name, count]) => ({ name, count, pct: (count/max)*100, color: 'var(--brand-primary, #FF9900)' })).sort((a,b) => b.count-a.count)
 } catch (e) { console.error("ProductReport.vue error:", e) }
 })
 const filtered = computed(() => {

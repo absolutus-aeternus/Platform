@@ -190,7 +190,7 @@ import { fetchRplusStats } from '@/services/rplus'
 
 const loading = ref(true)
 const stats = ref([
-  { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: 'var(--brand-primary, #FF9900)', change: '', trend: 'up' },
+  { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: 'var(--brand-primary, var(--brand-primary, #FF9900))', change: '', trend: 'up' },
   { label: 'Total Orders', value: '0', icon: 'fas fa-shopping-cart', color: '#4ecdc4', change: '', trend: 'up' },
   { label: 'Total Users', value: '0', icon: 'fas fa-users', color: '#45b7d1', change: '', trend: 'up' },
   { label: 'Total Products', value: '0', icon: 'fas fa-box', color: '#96ceb4', change: '', trend: 'up' },
@@ -291,7 +291,7 @@ onMounted(async () => {
     month: m,
     value: Math.round(monthData[i]),
     height: Math.round((monthData[i] / maxRev) * 100),
-    color: 'var(--brand-primary, #FF9900)'
+    color: 'var(--brand-primary, var(--brand-primary, #FF9900))'
   }))
 
   // Order status breakdown
@@ -332,7 +332,7 @@ h1 { margin-bottom: 25px; }
 .quick-nav { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; }
 .quick-nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; }
 .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.2s; border: 1px solid #f0f0f0; }
-.quick-nav-item:hover { background: var(--brand-primary, #FF9900); color: #fff; border-color: var(--brand-primary, #FF9900); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(254,44,85,0.3); }
+.quick-nav-item:hover { background: var(--brand-primary, var(--brand-primary, #FF9900)); color: #fff; border-color: var(--brand-primary, var(--brand-primary, #FF9900)); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(254,44,85,0.3); }
 .quick-nav-item i { font-size: 20px; }
 .quick-nav-item span { font-size: 11px; text-align: center; white-space: nowrap; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }

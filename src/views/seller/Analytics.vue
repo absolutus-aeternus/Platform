@@ -4,9 +4,9 @@
 
     <BentoGrid>
       <StatCard class="bento-stat" icon="fas fa-dollar-sign" label="Total Revenue" :value="'$' + stats.revenue" color="#067D62" />
-      <StatCard class="bento-stat" icon="fas fa-shopping-cart" label="Total Orders" :value="String(stats.orders)" color="#007185" />
+      <StatCard class="bento-stat" icon="fas fa-shopping-cart" label="Total Orders" :value="String(stats.orders)" color="var(--brand-accent, #007185)" />
       <StatCard class="bento-stat" icon="fas fa-box" label="Total Products" :value="String(stats.products)" color="#B45309" />
-      <StatCard class="bento-stat" icon="fas fa-chart-line" label="Total Sales" :value="String(stats.sales)" color="#FF9900" />
+      <StatCard class="bento-stat" icon="fas fa-chart-line" label="Total Sales" :value="String(stats.sales)" color="var(--brand-primary, #FF9900)" />
 
       <SalesChart class="bento-chart" title="Revenue Trend" :data="chartData" :active-range="chartRange" @range-change="chartRange = $event" />
 
@@ -122,6 +122,6 @@ td { padding: 10px 12px; font-size: var(--text-sm, 13px); border-bottom: 1px sol
   font-size: 11px; font-weight: 600;
 }
 .status.pending { background: var(--warning-bg, #FEF3C7); color: var(--warning, #B45309); }
-.status.shipped { background: var(--info-bg, #E0F2F5); color: var(--info, #007185); }
+.status.shipped { background: var(--info-bg, #E0F2F5); color: var(--info, var(--brand-accent, #007185)); }
 .status.completed { background: var(--success-bg, #E6F7F2); color: var(--success, #067D62); }
 </style>

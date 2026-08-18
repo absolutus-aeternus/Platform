@@ -64,12 +64,12 @@ onMounted(async () => {
 <style scoped>
 h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
-.balance-card { background: linear-gradient(135deg, var(--brand-primary, #FF9900) 0%, #ff6b81 100%); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+.balance-card { background: linear-gradient(135deg, var(--brand-primary, var(--brand-primary, #FF9900)) 0%, #ff6b81 100%); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 20px; }
 .balance-card h2 { opacity: 0.8; margin-bottom: 10px; }
 .balance { font-size: 36px; font-weight: 700; margin-bottom: 20px; }
 .actions { display: flex; gap: 10px; }
 .btn-recharge, .btn-withdraw { padding: 10px 25px; border-radius: 25px; font-size: 14px; cursor: pointer; }
-.btn-recharge { background: #fff; color: var(--brand-primary, #FF9900); border: none; }
+.btn-recharge { background: #fff; color: var(--brand-primary, var(--brand-primary, #FF9900)); border: none; }
 .btn-withdraw { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.5); }
 .wallet-info { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px; }
 .info-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }

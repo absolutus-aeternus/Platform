@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
-    <h1 style="margin-bottom:30px"><i class="fas fa-shield-alt" style="color:#FF9900"></i> Privacy Policy</h1>
+    <h1 style="margin-bottom:30px"><i class="fas fa-shield-alt" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i> Privacy Policy</h1>
     <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);line-height:1.8">
       <p style="color:#999;margin-bottom:20px">Effective Date: January 1, 2020 | Last Updated: August 2026</p>
       <h3 style="margin:24px 0 12px">1. Data We Collect</h3>

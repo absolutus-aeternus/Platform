@@ -1,15 +1,15 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
-    <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:#FF9900"></i> Contact Us</h1>
+    <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i> Contact Us</h1>
     <div class="contact-grid">
       <div class="contact-card">
-        <i class="fas fa-comments" style="font-size:36px;color:#FF9900;margin-bottom:12px"></i>
+        <i class="fas fa-comments" style="font-size:36px;color:var(--brand-primary, var(--brand-primary, #FF9900));margin-bottom:12px"></i>
         <h3>Live Chat</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">Available 24/7</p>
         <button class="btn-primary" style="padding:10px 20px;border-radius:8px;border:none;cursor:pointer" @click="openChat"><i class="fas fa-comments"></i> Start Chat</button>
       </div>
       <div class="contact-card">
-        <i class="fas fa-envelope" style="font-size:36px;color:#FF9900;margin-bottom:12px"></i>
+        <i class="fas fa-envelope" style="font-size:36px;color:var(--brand-primary, var(--brand-primary, #FF9900));margin-bottom:12px"></i>
         <h3>Email</h3>
         <p style="color:#666;font-size:14px;margin-bottom:12px">support@alliancehub.com</p>
         <a href="mailto:support@alliancehub.com" class="btn-primary" style="padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px"><i class="fas fa-envelope"></i> Send Email</a>
@@ -24,7 +24,7 @@
         <div style="margin-bottom:16px"><label style="display:block;margin-bottom:6px;font-weight:500;font-size:14px">Message</label><textarea v-model="form.message" rows="5" class="form-input" required></textarea></div>
         <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
       </form>
-      <p v-if="sent" style="color:#28a745;text-align:center;margin-top:16px"><i class="fas fa-check-circle"></i> Message sent successfully!</p>
+      <p v-if="sent" style="color:var(--success, #067D62);text-align:center;margin-top:16px"><i class="fas fa-check-circle"></i> Message sent successfully!</p>
     </div>
 
     <!-- Loading State -->

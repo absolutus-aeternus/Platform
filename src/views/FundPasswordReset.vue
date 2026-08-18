@@ -1,7 +1,7 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:600px">
     <div style="background:#fff;padding:40px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08)">
-      <h2 style="margin-bottom:24px"><i class="fas fa-key" style="color:#FF9900"></i> Reset Fund Password</h2>
+      <h2 style="margin-bottom:24px"><i class="fas fa-key" style="color:var(--brand-primary, #FF9900)"></i> Reset Fund Password</h2>
       <form @submit.prevent="resetPassword">
         <div style="margin-bottom:18px"><label style="display:block;margin-bottom:6px;font-weight:500;font-size:14px">Email</label><input v-model="email" type="email" class="form-input" placeholder="Your registered email" required></div>
         <div style="margin-bottom:18px"><label style="display:block;margin-bottom:6px;font-weight:500;font-size:14px">New Fund Password</label><input v-model="newPw" type="password" class="form-input" placeholder="6-12 characters" required minlength="6" maxlength="12"></div>

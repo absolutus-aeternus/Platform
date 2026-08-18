@@ -166,11 +166,11 @@ onMounted(loadCoupons)
 
 <style scoped>
 h1 { margin-bottom: 25px; display: inline-block; }
-.btn-add { float: right; padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.btn-add { float: right; padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 .loading, .empty { text-align: center; padding: 40px; color: #999; clear: both; }
 .coupon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; clear: both; }
-.coupon-card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-left: 4px solid #FF9900; position: relative; }
-.coupon-value { font-size: 24px; font-weight: 700; color: #FF9900; margin-bottom: 10px; }
+.coupon-card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-left: 4px solid var(--brand-primary, #FF9900); position: relative; }
+.coupon-value { font-size: 24px; font-weight: 700; color: var(--brand-primary, #FF9900); margin-bottom: 10px; }
 .coupon-code { font-size: 16px; font-weight: 600; color: #333; background: #f5f5f5; padding: 4px 12px; border-radius: 4px; display: inline-block; }
 .coupon-min { font-size: 12px; color: #666; margin-top: 8px; }
 .coupon-expiry { color: #999; font-size: 12px; margin-top: 10px; }
@@ -187,7 +187,7 @@ h1 { margin-bottom: 25px; display: inline-block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .modal-actions button { padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-.btn-primary { background: #FF9900; color: #fff; border: none; }
+.btn-primary { background: var(--brand-primary, #FF9900); color: #fff; border: none; }
 .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
 @media (max-width: 768px) { .coupon-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
 </style>

@@ -45,21 +45,21 @@ import { ref } from 'vue'
 const openFaq = ref(-1)
 
 const steps = [
-  { icon: 'fas fa-user-plus', title: 'Create Account', desc: 'Sign up for free with your email. Verify your account to unlock all features.', color: '#FF9900' },
-  { icon: 'fas fa-search', title: 'Browse Products', desc: 'Explore millions of products across 20+ categories. Use filters to find exactly what you need.', color: '#007185' },
+  { icon: 'fas fa-user-plus', title: 'Create Account', desc: 'Sign up for free with your email. Verify your account to unlock all features.', color: 'var(--brand-primary, var(--brand-primary, #FF9900))' },
+  { icon: 'fas fa-search', title: 'Browse Products', desc: 'Explore millions of products across 20+ categories. Use filters to find exactly what you need.', color: 'var(--brand-accent, var(--brand-accent, #007185))' },
   { icon: 'fas fa-cart-plus', title: 'Add to Cart', desc: 'Found something you like? Add it to your cart. You can continue shopping or checkout.', color: '#067D62' },
   { icon: 'fas fa-credit-card', title: 'Checkout & Pay', desc: 'Enter your shipping address and choose a payment method. We support crypto payments.', color: '#CC0C39' },
   { icon: 'fas fa-truck', title: 'Track Delivery', desc: 'Track your order in real-time. Get notifications at every step from warehouse to your door.', color: '#6c5ce7' },
-  { icon: 'fas fa-star', title: 'Rate & Review', desc: 'Share your experience! Rate products and help other buyers make informed decisions.', color: '#FF9900' },
+  { icon: 'fas fa-star', title: 'Rate & Review', desc: 'Share your experience! Rate products and help other buyers make informed decisions.', color: 'var(--brand-primary, var(--brand-primary, #FF9900))' },
 ]
 
 const tips = [
-  { icon: 'fas fa-shield-alt', title: 'Buy from Verified Sellers', desc: 'Look for the verified badge on seller profiles for guaranteed quality.', color: '#007185' },
+  { icon: 'fas fa-shield-alt', title: 'Buy from Verified Sellers', desc: 'Look for the verified badge on seller profiles for guaranteed quality.', color: 'var(--brand-accent, var(--brand-accent, #007185))' },
   { icon: 'fas fa-tags', title: 'Use Flash Sales', desc: 'Check the Flash Sale section for limited-time deals with up to 70% off.', color: '#CC0C39' },
-  { icon: 'fas fa-heart', title: 'Save to Wishlist', desc: 'Add items to your wishlist and get notified when prices drop.', color: '#FF9900' },
+  { icon: 'fas fa-heart', title: 'Save to Wishlist', desc: 'Add items to your wishlist and get notified when prices drop.', color: 'var(--brand-primary, var(--brand-primary, #FF9900))' },
   { icon: 'fas fa-comments', title: 'Chat with Sellers', desc: 'Ask questions about products directly to sellers before buying.', color: '#067D62' },
   { icon: 'fas fa-undo', title: 'Know the Return Policy', desc: 'Most items have a 7-day return guarantee. Check product details for specifics.', color: '#6c5ce7' },
-  { icon: 'fas fa-wallet', title: 'Use Wallet for Faster Checkout', desc: 'Top up your wallet for instant payments without entering details every time.', color: '#FF9900' },
+  { icon: 'fas fa-wallet', title: 'Use Wallet for Faster Checkout', desc: 'Top up your wallet for instant payments without entering details every time.', color: 'var(--brand-primary, var(--brand-primary, #FF9900))' },
 ]
 
 const faqs = [
@@ -86,7 +86,7 @@ h1 i { color: var(--brand-primary); }
 .step-card p { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
 .tips-section, .faq-section { margin-bottom: 2.5rem; }
 .tips-section h2, .faq-section h2 { font-size: 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
-.tips-section h2 i { color: #FF9900; }
+.tips-section h2 i { color: var(--brand-primary, var(--brand-primary, #FF9900)); }
 .faq-section h2 i { color: var(--brand-primary); }
 .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 .tip-card { display: flex; gap: 1rem; padding: 1rem; background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-xs); }

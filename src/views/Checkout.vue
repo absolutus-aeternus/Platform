@@ -192,14 +192,14 @@ const placeOrder = async () => {
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 14px; font-weight: 500; color: #555; margin-bottom: 6px; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--brand-primary, #FF9900); box-shadow: 0 0 0 3px rgba(238,77,45,0.1); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--brand-primary, var(--brand-primary, #FF9900)); box-shadow: 0 0 0 3px rgba(238,77,45,0.1); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.btn-place-order { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+.btn-place-order { width: 100%; padding: 14px; background: var(--brand-primary, var(--brand-primary, #FF9900)); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
 .btn-place-order:hover { background: var(--brand-primary-hover, #E68A00)); transform: translateY(-1px); }
 .btn-place-order:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .checkout-error { background: #fff8f0; color: #ff4757; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
-.summary-total { font-weight: 700; font-size: 18px; color: var(--brand-primary, #FF9900); border-bottom: none; }
+.summary-total { font-weight: 700; font-size: 18px; color: var(--brand-primary, var(--brand-primary, #FF9900)); border-bottom: none; }
 @media (max-width: 768px) {
   .checkout-layout { grid-template-columns: 1fr; }
   .checkout-summary { position: static; }

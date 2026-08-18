@@ -79,22 +79,22 @@ const saveSettings = async () => {
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
-.btn-save { padding: 12px 24px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.btn-save { padding: 12px 24px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
 .btn-save:disabled { background: #ccc; }
 .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
 .card h2 { margin: 0 0 20px; font-size: 16px; display: flex; align-items: center; gap: 10px; }
-.card h2 i { color: #FF9900; }
+.card h2 i { color: var(--brand-primary, #FF9900); }
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
 .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #FF9900; }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--brand-primary, #FF9900); }
 .form-group textarea { resize: vertical; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .toggle { display: flex !important; align-items: center; gap: 10px; cursor: pointer; }
-.toggle input { width: 18px; height: 18px; accent-color: #FF9900; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--brand-primary, #FF9900); }
 .toggle span { font-weight: 500; }
-.toast { position: fixed; bottom: 30px; right: 30px; background: #28a745; color: #fff; padding: 14px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; }
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--success, #067D62); color: #fff; padding: 14px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; }
 
 /* Responsive */
 @media (max-width: 768px) {

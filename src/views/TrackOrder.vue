@@ -103,7 +103,7 @@ const isStepActive = (step) => {
 }
 
 const getStatusColor = (status) => {
-  const colors = { pending: '#ffc107', paid: '#17a2b8', processing: '#17a2b8', shipped: '#007185', delivered: '#28a745', completed: '#28a745', cancelled: '#dc3545' }
+  const colors = { pending: 'var(--warning, #B45309)', paid: '#17a2b8', processing: '#17a2b8', shipped: 'var(--brand-accent, var(--brand-accent, #007185))', delivered: 'var(--success, #067D62)', completed: 'var(--success, #067D62)', cancelled: 'var(--error, #CC0C39)' }
   return colors[status] || '#6c757d'
 }
 

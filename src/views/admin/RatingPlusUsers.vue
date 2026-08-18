@@ -106,15 +106,15 @@ onMounted(loadUsers)
 .rplus-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
 .rplus-stat { background: #fff; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #ddd; }
 .rplus-stat.approved { border-left-color: #00e68a; }
-.rplus-stat.pending { border-left-color: #ffc107; }
+.rplus-stat.pending { border-left-color: var(--warning, #B45309); }
 .rplus-stat.rejected { border-left-color: #ff3b5c; }
 .rplus-stat strong { display: block; font-size: 24px; font-weight: 800; }
 .rplus-stat small { font-size: 12px; color: #999; }
 .filters-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-input { flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-.filter-input:focus { outline: none; border-color: #FF9900; }
+.filter-input:focus { outline: none; border-color: var(--brand-primary, #FF9900); }
 .filter-select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fff; }
-.btn-refresh { padding: 10px 16px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.btn-refresh { padding: 10px 16px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
 .table-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .loading-state, .empty-state { padding: 40px; text-align: center; color: #999; }
 table { width: 100%; border-collapse: collapse; }
@@ -130,6 +130,6 @@ th { background: #f8f9fa; font-weight: 600; color: #555; text-transform: upperca
 .btn-approve { background: #d4edda; color: #155724; }
 .btn-reject { background: #f8d7da; color: #721c24; }
 .btn-freeze { background: #d1ecf1; color: #0c5460; }
-.btn-delete { background: #fff; color: #dc3545; border: 1px solid #dc3545 !important; }
+.btn-delete { background: #fff; color: var(--error, #CC0C39); border: 1px solid var(--error, #CC0C39) !important; }
 @media (max-width: 768px) { .rplus-stats-row { grid-template-columns: repeat(2, 1fr); } }
 </style>

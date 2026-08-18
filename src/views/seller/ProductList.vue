@@ -95,7 +95,7 @@ onMounted(loadProducts)
 
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.btn-add { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 4px; text-decoration: none; }
+.btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; text-decoration: none; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; }
 .filters input { flex: 1; }

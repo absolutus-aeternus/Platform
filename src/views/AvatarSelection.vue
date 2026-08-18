@@ -1,10 +1,10 @@
 <template>
-  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#FF9900"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+  <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-user-circle"></i> Choose Avatar</h2>
     <div style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
       <div class="avatar-grid">
-        <div v-for="n in 10" :key="n" style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;border:3px solid transparent;transition:all 0.2s" :style="{ background: colors[n-1], borderColor: selected === n ? '#FF9900' : 'transparent' }" @click="selectAvatar(n)">
+        <div v-for="n in 10" :key="n" style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;border:3px solid transparent;transition:all 0.2s" :style="{ background: colors[n-1], borderColor: selected === n ? 'var(--brand-primary, #FF9900)' : 'transparent' }" @click="selectAvatar(n)">
           {{ emojis[n-1] }}
         </div>
       </div>

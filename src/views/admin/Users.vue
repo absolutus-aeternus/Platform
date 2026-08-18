@@ -69,7 +69,7 @@ const filtered = computed(() => {
   return r
 })
 
-const avatarColor = (u) => { const colors = ['#FF9900','#4ecdc4','#45b7d1','#96ceb4','#feca57','#ff6b81','#54a0ff','#5f27cd']; return colors[(u.email||'').charCodeAt(0) % colors.length] }
+const avatarColor = (u) => { const colors = ['var(--brand-primary, #FF9900)','#4ecdc4','#45b7d1','#96ceb4','#feca57','#ff6b81','#54a0ff','#5f27cd']; return colors[(u.email||'').charCodeAt(0) % colors.length] }
 const timeAgo = (t) => { const d = new Date(t), now = new Date(), diff = now - d; if (diff < 3600000) return Math.floor(diff/60000) + 'm ago'; if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago'; return Math.floor(diff/86400000) + 'd ago' }
 
 const load = async () => {
@@ -118,7 +118,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .actions { display: flex; gap: 6px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-sm:hover { background: #f5f5f5; }
-.btn-danger:hover { border-color: #dc3545; color: #dc3545; }
+.btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
 .modal { background: #fff; border-radius: 12px; padding: 30px; width: 500px; max-width: 90vw; }

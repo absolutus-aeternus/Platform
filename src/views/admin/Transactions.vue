@@ -2,10 +2,10 @@
   <div class="admin-transactions">
     <div class="page-header"><h1>Transactions</h1></div>
     <div class="summary-cards">
-      <div class="card"><div class="stat-icon" style="background:#FF9900"><i class="fas fa-dollar-sign"></i></div><div><h3>${{ totalVolume }}</h3><p>Total Volume</p></div></div>
+      <div class="card"><div class="stat-icon" style="background:var(--brand-primary, #FF9900)"><i class="fas fa-dollar-sign"></i></div><div><h3>${{ totalVolume }}</h3><p>Total Volume</p></div></div>
       <div class="card"><div class="stat-icon" style="background:#4ecdc4"><i class="fas fa-calendar-day"></i></div><div><h3>${{ todayVolume }}</h3><p>Today</p></div></div>
-      <div class="card"><div class="stat-icon" style="background:#ffc107"><i class="fas fa-clock"></i></div><div><h3>{{ pendingCount }}</h3><p>Pending</p></div></div>
-      <div class="card"><div class="stat-icon" style="background:#28a745"><i class="fas fa-check-circle"></i></div><div><h3>{{ completedCount }}</h3><p>Completed</p></div></div>
+      <div class="card"><div class="stat-icon" style="background:var(--warning, #B45309)"><i class="fas fa-clock"></i></div><div><h3>{{ pendingCount }}</h3><p>Pending</p></div></div>
+      <div class="card"><div class="stat-icon" style="background:var(--success, #067D62)"><i class="fas fa-check-circle"></i></div><div><h3>{{ completedCount }}</h3><p>Completed</p></div></div>
     </div>
     <div class="filters">
       <input v-model="search" placeholder="Search transactions...">

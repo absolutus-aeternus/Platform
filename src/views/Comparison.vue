@@ -81,7 +81,7 @@ h1 i { color: var(--brand-primary); }
 .price { font-weight: 700; color: var(--brand-primary); font-size: 1rem; }
 .original { text-decoration: line-through; color: var(--text-muted); }
 .discount { background: var(--danger); color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 0.6875rem; font-weight: 600; }
-.stars { color: #FF9900; font-size: 0.625rem; margin-right: 4px; }
+.stars { color: var(--brand-primary, var(--brand-primary, #FF9900)); font-size: 0.625rem; margin-right: 4px; }
 .in-stock { color: var(--success); }
 .out-stock { color: var(--danger); }
 .desc-cell { max-width: 200px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; }

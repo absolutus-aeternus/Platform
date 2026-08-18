@@ -69,7 +69,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .type-badge { padding: 3px 8px; border-radius: 10px; font-size: 11px; background: #f0f0f0; }
 .actions { display: flex; gap: 6px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-danger:hover { border-color: #dc3545; color: #dc3545; }
+.btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
 @media (max-width: 768px) {
   .page-header { flex-direction: column; gap: 10px; align-items: flex-start; }

@@ -188,7 +188,7 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .nav-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 8px 16px 4px; letter-spacing: 1px; }
 .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 8px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; margin-bottom: 2px; transition: all 0.2s; }
 .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.nav-item.active { background: #131921; color: #fff; font-weight: 600; }
+.nav-item.active { background: var(--brand-dark, #131921); color: #fff; font-weight: 600; }
 .nav-item i { width: 20px; text-align: center; font-size: 14px; }
 .sidebar-footer { padding: 16px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; }
 .user-info { display: flex; align-items: center; gap: 10px; }
@@ -214,6 +214,6 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .switcher-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .switcher-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 8px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6); text-decoration: none; font-size: 10px; transition: all 0.2s; }
 .switcher-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-.switcher-btn.active { background: #131921; color: white; }
+.switcher-btn.active { background: var(--brand-dark, #131921); color: white; }
 .switcher-btn i { font-size: 14px; }
 </style>

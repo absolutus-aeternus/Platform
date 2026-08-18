@@ -5,12 +5,12 @@
 
       <div class="info-cards">
         <div class="info-card">
-          <i class="fas fa-gift" style="color:#FF9900"></i>
+          <i class="fas fa-gift" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i>
           <h3>Free Shipping</h3>
           <p>On orders over $30. Standard delivery 7-14 business days.</p>
         </div>
         <div class="info-card">
-          <i class="fas fa-bolt" style="color:#007185"></i>
+          <i class="fas fa-bolt" style="color:var(--brand-accent, var(--brand-accent, #007185))"></i>
           <h3>Express Delivery</h3>
           <p>2-3 business days. Available for most locations worldwide.</p>
         </div>
@@ -28,10 +28,10 @@
             <tr><th>Method</th><th>Delivery Time</th><th>Cost</th><th>Free Above</th><th>Tracking</th></tr>
           </thead>
           <tbody>
-            <tr><td>Economy</td><td>7-14 days</td><td>Free</td><td>$30</td><td><i class="fas fa-check" style="color:#28a745"></i></td></tr>
-            <tr><td>Standard</td><td>5-7 days</td><td>$4.99</td><td>$50</td><td><i class="fas fa-check" style="color:#28a745"></i></td></tr>
-            <tr><td>Express</td><td>2-3 days</td><td>$12.99</td><td>$100</td><td><i class="fas fa-check" style="color:#28a745"></i></td></tr>
-            <tr><td>Next Day</td><td>1 day</td><td>$24.99</td><td>-</td><td><i class="fas fa-check" style="color:#28a745"></i></td></tr>
+            <tr><td>Economy</td><td>7-14 days</td><td>Free</td><td>$30</td><td><i class="fas fa-check" style="color:var(--success, #067D62)"></i></td></tr>
+            <tr><td>Standard</td><td>5-7 days</td><td>$4.99</td><td>$50</td><td><i class="fas fa-check" style="color:var(--success, #067D62)"></i></td></tr>
+            <tr><td>Express</td><td>2-3 days</td><td>$12.99</td><td>$100</td><td><i class="fas fa-check" style="color:var(--success, #067D62)"></i></td></tr>
+            <tr><td>Next Day</td><td>1 day</td><td>$24.99</td><td>-</td><td><i class="fas fa-check" style="color:var(--success, #067D62)"></i></td></tr>
           </tbody>
         </table>
       </div>

@@ -89,7 +89,7 @@ h1 { margin-bottom: 25px; }
 .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
 .summary-card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .summary-card h3 { color: #666; font-size: 14px; margin-bottom: 8px; }
-.summary-card p { font-size: 24px; font-weight: 700; color: #FF9900; }
+.summary-card p { font-size: 24px; font-weight: 700; color: var(--brand-primary, #FF9900); }
 .loading { text-align: center; padding: 40px; color: #999; }
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f0f0f0; }

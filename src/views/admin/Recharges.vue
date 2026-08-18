@@ -87,7 +87,7 @@ onMounted(load)
 .header-stats { display: flex; gap: 12px; }
 .stat-card { background: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
 .stat-label { display: block; font-size: 11px; color: #999; margin-bottom: 4px; }
-.stat-value { font-size: 18px; font-weight: 700; color: #FF9900; }
+.stat-value { font-size: 18px; font-weight: 700; color: var(--brand-primary, #FF9900); }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
 .filters input { flex: 1; }
@@ -103,8 +103,8 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .status.rejected { background: #f8d7da; color: #721c24; }
 .actions { display: flex; gap: 6px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-approve { color: #28a745; border-color: #28a745; }
-.btn-reject { color: #dc3545; border-color: #dc3545; }
+.btn-approve { color: var(--success, #067D62); border-color: var(--success, #067D62); }
+.btn-reject { color: var(--error, #CC0C39); border-color: var(--error, #CC0C39); }
 .done { font-size: 12px; color: #999; }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
 

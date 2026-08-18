@@ -2,7 +2,7 @@
   <div class="admin-report">
     <div class="page-header"><h1>Sales Report</h1><div class="date-filter"><input v-model="dateFrom" type="date"><span>to</span><input v-model="dateTo" type="date"><button class="btn-filter" @click="loadData">Filter</button></div></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon" style="background:#FF9900"><i class="fas fa-dollar-sign"></i></div><div><h3>${{ totalRevenue }}</h3><p>Total Revenue</p></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:var(--brand-primary, #FF9900)"><i class="fas fa-dollar-sign"></i></div><div><h3>${{ totalRevenue }}</h3><p>Total Revenue</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#4ecdc4"><i class="fas fa-shopping-cart"></i></div><div><h3>{{ totalOrders }}</h3><p>Total Orders</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#45b7d1"><i class="fas fa-chart-line"></i></div><div><h3>${{ avgOrder }}</h3><p>Avg Order Value</p></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#96ceb4"><i class="fas fa-box"></i></div><div><h3>{{ totalItems }}</h3><p>Items Sold</p></div></div>
@@ -70,7 +70,7 @@ onMounted(loadData)
 .page-header h1 { margin: 0; }
 .date-filter { display: flex; gap: 8px; align-items: center; }
 .date-filter input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; }
-.btn-filter { padding: 8px 16px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-filter { padding: 8px 16px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 25px; }
 .stat-card { background: #fff; padding: 20px; border-radius: 10px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .stat-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
@@ -80,7 +80,7 @@ onMounted(loadData)
 .chart-section h2, .table-section h2 { margin: 0 0 20px; font-size: 18px; }
 .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding: 0 10px; }
 .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
-.bar { width: 100%; background: linear-gradient(to top, #FF9900, #ff6b81); border-radius: 4px 4px 0 0; position: relative; min-height: 4px; transition: height 0.5s; }
+.bar { width: 100%; background: linear-gradient(to top, var(--brand-primary, #FF9900), #ff6b81); border-radius: 4px 4px 0 0; position: relative; min-height: 4px; transition: height 0.5s; }
 .bar-val { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #666; white-space: nowrap; }
 .bar-label { font-size: 11px; color: #999; margin-top: 8px; }
 .table-wrapper { overflow-x: auto; }

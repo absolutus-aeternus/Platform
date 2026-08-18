@@ -97,7 +97,7 @@ onMounted(load)
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-add { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
 .filters input { flex: 1; }
@@ -111,7 +111,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .status.inactive { background: #f8d7da; color: #721c24; }
 .actions { display: flex; gap: 6px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-danger:hover { border-color: #dc3545; color: #dc3545; }
+.btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty, .loading { text-align: center; padding: 40px; color: #999; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
 .modal { background: #fff; border-radius: 12px; padding: 30px; width: 500px; max-width: 90vw; }
@@ -122,7 +122,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; }
-.btn-save { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-save { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }

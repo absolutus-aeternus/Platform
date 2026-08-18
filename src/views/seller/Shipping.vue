@@ -74,21 +74,21 @@ onMounted(async () => { try {
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
 .card h2 { margin: 0 0 20px; font-size: 16px; display: flex; align-items: center; gap: 10px; }
-.card h2 i { color: #FF9900; }
+.card h2 i { color: var(--brand-primary, #FF9900); }
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
 .form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-.form-group input:focus, .form-group select:focus { outline: none; border-color: #FF9900; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--brand-primary, #FF9900); }
 .hint { font-size: 12px; color: #999; margin-top: 4px; }
-.btn-save { padding: 12px 24px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.btn-save { padding: 12px 24px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
 .zone-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
 .zone-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8f9fa; border-radius: 8px; }
 .zone-info { flex: 1; }
 .zone-info p { font-size: 12px; color: #999; margin: 2px 0 0; }
-.zone-rate { font-weight: 600; color: #FF9900; }
+.zone-rate { font-weight: 600; color: var(--brand-primary, #FF9900); }
 .zone-days { font-size: 13px; color: #666; }
 .btn-add-zone { padding: 10px; width: 100%; border: 2px dashed #ddd; background: none; border-radius: 8px; cursor: pointer; color: #666; }
-.btn-add-zone:hover { border-color: #FF9900; color: #FF9900; }
+.btn-add-zone:hover { border-color: var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
 th { background: #f8f9fa; font-weight: 600; color: #555; }

@@ -4,7 +4,7 @@
     <div v-if="loading" class="loading">Loading...</div>
     <div v-else class="banner-grid">
       <div v-for="b in banners" :key="b.id" class="banner-card" :class="{ inactive: !b.is_active }">
-        <div class="banner-preview" :style="{ background: b.gradient || 'linear-gradient(135deg, #FF9900, #ff6b81)' }">
+        <div class="banner-preview" :style="{ background: b.gradient || 'linear-gradient(135deg, var(--brand-primary, #FF9900), #ff6b81)' }">
           <h3>{{ b.title || 'Banner' }}</h3>
           <p>{{ b.link || '' }}</p>
         </div>
@@ -85,7 +85,7 @@ onMounted(load)
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-add { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .banner-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: all 0.3s; }
 .banner-card.inactive { opacity: 0.6; }
@@ -100,7 +100,7 @@ onMounted(load)
 .status.inactive { background: #f8d7da; color: #721c24; }
 .banner-actions { padding: 12px 16px; display: flex; gap: 8px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-danger:hover { border-color: #dc3545; color: #dc3545; }
+.btn-danger:hover { border-color: var(--error, #CC0C39); color: var(--error, #CC0C39); }
 .empty-card { grid-column: 1 / -1; text-align: center; padding: 60px; background: #fff; border-radius: 12px; color: #999; }
 .empty-card i { font-size: 48px; color: #ddd; margin-bottom: 15px; display: block; }
 .loading { text-align: center; padding: 40px; color: #999; }
@@ -114,7 +114,7 @@ onMounted(load)
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; }
-.btn-save { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-save { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 
 /* Responsive */
 @media (max-width: 768px) {

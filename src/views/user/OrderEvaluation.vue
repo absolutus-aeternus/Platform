@@ -84,17 +84,17 @@ const submitReview = async () => {
 .rating-section { text-align: center; padding: 20px 0; }
 .star-rating { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; }
 .star { font-size: 40px; color: #ddd; cursor: pointer; transition: all 0.2s; }
-.star.active { color: #ffc107; }
-.star:hover { color: #ffc107; transform: scale(1.1); }
+.star.active { color: var(--warning, #B45309); }
+.star:hover { color: var(--warning, #B45309); transform: scale(1.1); }
 .rating-text { font-size: 16px; color: #666; font-weight: 500; }
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
 .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-.form-group input:focus, .form-group textarea:focus { outline: none; border-color: #FF9900; }
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--brand-primary, #FF9900); }
 .form-group textarea { resize: vertical; }
 .photo-grid { display: flex; gap: 10px; }
 .photo-upload { width: 80px; height: 80px; border: 2px dashed #ddd; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-.photo-upload:hover { border-color: #FF9900; background: #fff8f0; }
+.photo-upload:hover { border-color: var(--brand-primary, #FF9900); background: #fff8f0; }
 .photo-upload i { font-size: 18px; color: #ddd; }
 .photo-upload p { font-size: 10px; color: #999; margin: 4px 0 0; }
 .sub-ratings { display: flex; flex-direction: column; gap: 15px; }
@@ -102,8 +102,8 @@ const submitReview = async () => {
 .sub-rating span { font-size: 14px; color: #555; }
 .mini-stars { display: flex; gap: 4px; }
 .mini-star { font-size: 20px; color: #ddd; cursor: pointer; }
-.mini-star.active { color: #ffc107; }
-.btn-submit { width: 100%; padding: 14px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
+.mini-star.active { color: var(--warning, #B45309); }
+.btn-submit { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
 .btn-submit:disabled { background: #ccc; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }

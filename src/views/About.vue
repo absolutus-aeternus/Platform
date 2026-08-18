@@ -28,7 +28,7 @@
         <p>Live Chat: Available 24/7 via the chat widget</p>
         <div style="margin-top:24px;display:flex;gap:12px">
           <router-link to="/register" class="btn-primary" style="padding:12px 24px;border-radius:8px;text-decoration:none"><i class="fas fa-rocket"></i> Start Selling</router-link>
-          <router-link to="/customer-service" class="btn-primary" style="padding:12px 24px;border-radius:8px;text-decoration:none;background:#fff;color:#FF9900;border:1px solid #FF9900"><i class="fas fa-headset"></i> Contact Support</router-link>
+          <router-link to="/customer-service" class="btn-primary" style="padding:12px 24px;border-radius:8px;text-decoration:none;background:#fff;color:var(--brand-primary, var(--brand-primary, #FF9900));border:1px solid var(--brand-primary, var(--brand-primary, #FF9900))"><i class="fas fa-headset"></i> Contact Support</router-link>
         </div>
       </div>
     </section>

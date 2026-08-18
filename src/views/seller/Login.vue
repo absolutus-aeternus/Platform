@@ -318,7 +318,7 @@ const handleLogin = async () => {
 }
 .login-tabs button.active {
   background: #fff;
-  color: #FF9900;
+  color: var(--brand-primary, #FF9900);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
@@ -357,7 +357,7 @@ const handleLogin = async () => {
 }
 .input-wrapper input:focus {
   outline: none;
-  border-color: #FF9900;
+  border-color: var(--brand-primary, #FF9900);
   box-shadow: 0 0 0 3px rgba(254,44,85,0.08);
   background: #fff;
 }
@@ -387,9 +387,9 @@ const handleLogin = async () => {
   color: #666;
   cursor: pointer;
 }
-.remember-me input { accent-color: #FF9900; }
+.remember-me input { accent-color: var(--brand-primary, #FF9900); }
 .forgot-link {
-  color: #FF9900;
+  color: var(--brand-primary, #FF9900);
   text-decoration: none;
   font-weight: 500;
 }
@@ -418,7 +418,7 @@ const handleLogin = async () => {
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #FF9900, #ff6b81);
+  background: linear-gradient(90deg, var(--brand-primary, #FF9900), #ff6b81);
   border-radius: 17px;
   transition: width 0.1s;
 }
@@ -426,7 +426,7 @@ const handleLogin = async () => {
   width: 34px;
   height: 34px;
   background: #fff;
-  color: #FF9900;
+  color: var(--brand-primary, #FF9900);
   border-radius: 50%;
   position: absolute;
   top: 0;
@@ -445,7 +445,7 @@ const handleLogin = async () => {
 .captcha-success {
   text-align: center;
   padding: 12px;
-  color: #28a745;
+  color: var(--success, #067D62);
   font-size: 14px;
   margin-bottom: 20px;
   background: #f0fff4;
@@ -457,7 +457,7 @@ const handleLogin = async () => {
 .btn-login {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #FF9900, #ff6b81);
+  background: linear-gradient(135deg, var(--brand-primary, #FF9900), #ff6b81);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -548,8 +548,8 @@ const handleLogin = async () => {
   color: #555;
 }
 .btn-social:hover {
-  border-color: #FF9900;
-  color: #FF9900;
+  border-color: var(--brand-primary, #FF9900);
+  color: var(--brand-primary, #FF9900);
   background: #fff8f0;
 }
 
@@ -565,7 +565,7 @@ const handleLogin = async () => {
   color: #888;
 }
 .card-footer a {
-  color: #FF9900;
+  color: var(--brand-primary, #FF9900);
   text-decoration: none;
   font-weight: 600;
 }

@@ -72,14 +72,14 @@ const saveProfile = async () => {
 h1 { margin-bottom: 25px; }
 .profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; }
 .profile-card { background: #fff; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.avatar { width: 80px; height: 80px; background: #FF9900; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 15px; }
+.avatar { width: 80px; height: 80px; background: var(--brand-primary, #FF9900); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 15px; }
 .stats { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
 .profile-form { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
 .form-group input, .form-group textarea { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
 .form-group textarea { height: 100px; resize: vertical; }
-.btn-save { padding: 12px 30px; background: #FF9900; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.btn-save { padding: 12px 30px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
 
 /* Responsive */
 @media (max-width: 768px) {

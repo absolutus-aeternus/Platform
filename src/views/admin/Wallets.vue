@@ -152,7 +152,7 @@ onMounted(loadWallets)
 .header-stats { display: flex; gap: 12px; }
 .stat-card { background: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
 .stat-label { display: block; font-size: 11px; color: #999; margin-bottom: 4px; }
-.stat-value { font-size: 18px; font-weight: 700; color: #FF9900; }
+.stat-value { font-size: 18px; font-weight: 700; color: var(--brand-primary, #FF9900); }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
 .filters input { flex: 1; }
@@ -161,8 +161,8 @@ table { width: 100%; border-collapse: collapse; }
 th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
 th { background: #f8f9fa; font-weight: 600; color: #555; }
 .amount { font-weight: 600; font-family: monospace; }
-.amount.frozen { color: #ffc107; }
-.amount.total { color: #FF9900; }
+.amount.frozen { color: var(--warning, #B45309); }
+.amount.total { color: var(--brand-primary, #FF9900); }
 .actions { display: flex; gap: 6px; }
 .btn-sm { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-sm:hover { background: #f5f5f5; }
@@ -176,7 +176,7 @@ th { background: #f8f9fa; font-weight: 600; color: #555; }
 .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; }
-.btn-save { padding: 10px 20px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.btn-save { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }

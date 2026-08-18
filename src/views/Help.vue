@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="padding:40px 20px;max-width:800px">
-    <h1 style="margin-bottom:30px"><i class="fas fa-question-circle" style="color:#FF9900"></i> Help Center</h1>
+    <h1 style="margin-bottom:30px"><i class="fas fa-question-circle" style="color:var(--brand-primary, var(--brand-primary, #FF9900))"></i> Help Center</h1>
     <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
       <div v-for="(faq, i) in faqs" :key="i" style="margin-bottom:16px;border-bottom:1px solid #f0f0f0;padding-bottom:16px">
         <h3 style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px" @click="faq.open = !faq.open">

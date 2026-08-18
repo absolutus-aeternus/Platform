@@ -165,16 +165,16 @@ const deleteUser = async (user) => {
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
-.btn-primary { padding: 8px 16px; background: #FF9900; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.btn-primary { padding: 8px 16px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
 .btn-secondary { padding: 8px 16px; background: #f0f0f0; color: #333; border: none; border-radius: 6px; cursor: pointer; }
-.btn-danger { background: #dc3545; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 4px; }
+.btn-danger { background: var(--error, #CC0C39); color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 4px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
 th { background: #f8f8f8; font-weight: 600; }
 .role-badge { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
 .role-badge.super_admin { background: #ff4757; color: #fff; }
-.role-badge.admin { background: #FF9900; color: #fff; }
+.role-badge.admin { background: var(--brand-primary, #FF9900); color: #fff; }
 .role-badge.seller { background: #ffa502; color: #fff; }
 .role-badge.member { background: #2ed573; color: #fff; }
 .role-select { padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; margin-right: 4px; }
@@ -185,8 +185,8 @@ th { background: #f8f8f8; font-weight: 600; }
 .form-group label { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; }
 .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
 .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
-.error-msg { color: #dc3545; margin-top: 8px; font-size: 13px; }
-.success-msg { color: #28a745; margin-top: 8px; font-size: 13px; }
+.error-msg { color: var(--error, #CC0C39); margin-top: 8px; font-size: 13px; }
+.success-msg { color: var(--success, #067D62); margin-top: 8px; font-size: 13px; }
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -61,7 +61,7 @@ const history = ref([])
 const selectedChannel = computed(() => channels.value.find(c => c.id === selected.value))
 const fee = computed(() => ((amount.value || 0) * (selectedChannel.value?.fee || 0) / 100).toFixed(2))
 const receiveAmount = computed(() => Math.max(0, (amount.value || 0) - parseFloat(fee.value)).toFixed(2))
-const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || '#FF9900')
+const coinColor = (c) => ({ USDT: '#26a17b', USDC: '#2775ca', BTC: '#f7931a', ETH: '#627eea' }[c] || 'var(--brand-primary, #FF9900)')
 
 onMounted(async () => { try {
   if (!userStore.supabaseUser) return
@@ -113,8 +113,8 @@ const submitWithdraw = async () => {
 .section h2 { margin: 0 0 18px; font-size: 16px; color: #333; }
 .channels { display: flex; flex-direction: column; gap: 10px; }
 .channel-card { display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
-.channel-card.active { border-color: #FF9900; background: #fff8f0; }
-.channel-card:hover { border-color: #FF9900; }
+.channel-card.active { border-color: var(--brand-primary, #FF9900); background: #fff8f0; }
+.channel-card:hover { border-color: var(--brand-primary, #FF9900); }
 .ch-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
 .ch-info strong { font-size: 14px; }
 .ch-info p { margin: 2px 0 0; font-size: 12px; color: #999; }
@@ -122,15 +122,15 @@ const submitWithdraw = async () => {
 .form-group { margin-bottom: 18px; }
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
 .form-group input { width: 100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-.form-group input:focus { outline: none; border-color: #FF9900; }
+.form-group input:focus { outline: none; border-color: var(--brand-primary, #FF9900); }
 .withdraw-summary { background: #f8f9fa; padding: 18px; border-radius: 10px; }
 .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
-.summary-row.total { border-top: 1px solid #e0e0e0; margin-top: 8px; padding-top: 12px; font-size: 16px; font-weight: 700; color: #FF9900; }
-.btn-submit { width: 100%; padding: 14px; background: #FF9900; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
+.summary-row.total { border-top: 1px solid #e0e0e0; margin-top: 8px; padding-top: 12px; font-size: 16px; font-weight: 700; color: var(--brand-primary, #FF9900); }
+.btn-submit { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
 .btn-submit:disabled { background: #ccc; }
 .balance-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 16px; text-align: center; }
 .balance-card h3 { margin: 0 0 8px; font-size: 13px; color: #999; }
-.balance { font-size: 32px; font-weight: 700; color: #FF9900; margin: 0; }
+.balance { font-size: 32px; font-weight: 700; color: var(--brand-primary, #FF9900); margin: 0; }
 .history-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 .history-card h3 { margin: 0 0 15px; font-size: 14px; }
 .history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
