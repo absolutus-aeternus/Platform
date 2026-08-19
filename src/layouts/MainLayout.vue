@@ -198,13 +198,24 @@
               </ul>
             </div>
             <div class="footer-col">
-              <h4>Customer Service</h4>
+              <h4>Partner Marketplace</h4>
               <ul>
-                <li><router-link to="/track-order">Track Order</router-link></li>
-                <li><router-link to="/returns">Returns & Refunds</router-link></li>
-                <li><router-link to="/shipping-info">Shipping Info</router-link></li>
-                <li><router-link to="/payment-methods">Payment Methods</router-link></li>
-                <li><router-link to="/help">Help Center</router-link></li>
+                <li><a href="https://www.amazon.com" target="_blank" rel="noopener noreferrer">Amazon</a></li>
+                <li><a href="https://www.aliexpress.com" target="_blank" rel="noopener noreferrer">AliExpress</a></li>
+                <li><a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer">Shopify</a></li>
+                <li><a href="https://www.tiktokshop.com" target="_blank" rel="noopener noreferrer">TikTok Shop</a></li>
+                <li><a href="https://shopee.com" target="_blank" rel="noopener noreferrer">Shopee International</a></li>
+                <li><a href="https://www.ebay.com" target="_blank" rel="noopener noreferrer">eBay</a></li>
+                <li><a href="https://www.walmart.com/marketplace" target="_blank" rel="noopener noreferrer">Walmart Marketplace</a></li>
+                <li><a href="https://www.etsy.com" target="_blank" rel="noopener noreferrer">Etsy</a></li>
+                <li><a href="https://global.rakuten.com" target="_blank" rel="noopener noreferrer">Rakuten</a></li>
+                <li><a href="https://www.lazada.com" target="_blank" rel="noopener noreferrer">Lazada</a></li>
+                <li><a href="https://www.mercadolibre.com" target="_blank" rel="noopener noreferrer">Mercado Libre</a></li>
+                <li><a href="https://allegro.pl" target="_blank" rel="noopener noreferrer">Allegro</a></li>
+                <li><a href="https://www.coupang.com" target="_blank" rel="noopener noreferrer">Coupang</a></li>
+                <li><a href="https://www.jd.com" target="_blank" rel="noopener noreferrer">JD.com</a></li>
+                <li><a href="https://www.tmall.com" target="_blank" rel="noopener noreferrer">Tmall (Taobao)</a></li>
+                <li><a href="https://www.flipkart.com" target="_blank" rel="noopener noreferrer">Flipkart</a></li>
               </ul>
             </div>
             <div class="footer-col">
@@ -217,20 +228,16 @@
               </ul>
             </div>
             <div class="footer-col">
-              <h4>Payment Partners</h4>
+              <h4>Support Payment</h4>
               <div class="payment-grid">
-                <span class="pay-icon"><i class="fab fa-cc-visa"></i> Visa</span>
-                <span class="pay-icon"><i class="fab fa-cc-mastercard"></i> Mastercard</span>
                 <span class="pay-icon"><i class="fab fa-cc-paypal"></i> PayPal</span>
                 <span class="pay-icon"><i class="fab fa-bitcoin"></i> Binance</span>
                 <span class="pay-icon"><i class="fas fa-exchange-alt"></i> OKX</span>
                 <span class="pay-icon"><i class="fas fa-coins"></i> Coinbase</span>
-                <span class="pay-icon"><i class="fab fa-ethereum"></i> MetaMask</span>
                 <span class="pay-icon"><i class="fas fa-chart-line"></i> KuCoin</span>
                 <span class="pay-icon"><i class="fas fa-water"></i> Kraken</span>
                 <span class="pay-icon"><i class="fas fa-bolt"></i> Bybit</span>
                 <span class="pay-icon"><i class="fas fa-gem"></i> Gate.io</span>
-                <span class="pay-icon"><i class="fas fa-fire"></i> HTX</span>
                 <span class="pay-icon"><i class="fas fa-shield-alt"></i> Bitget</span>
                 <span class="pay-icon"><i class="fas fa-globe"></i> MEXC</span>
                 <span class="pay-icon"><i class="fas fa-link"></i> Crypto.com</span>
@@ -343,6 +350,18 @@ onMounted(async () => {
     const { data } = await fetchCategories()
     categories.value = data || []
   } catch (e) { console.warn('MainLayout: fetchCategories failed:', e.message) }
+
+  // Header scroll shadow effect
+  const header = document.querySelector('header')
+  const handleScroll = () => {
+    if (window.scrollY > 10) {
+      header?.classList.add('scrolled')
+    } else {
+      header?.classList.remove('scrolled')
+    }
+  }
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  // Cleanup on unmount (though layout persists)
 })
 </script>
 
@@ -370,8 +389,24 @@ onMounted(async () => {
 .lang-dropdown div:hover { background: #f5f5f5; }
 .lang-dropdown div.active { background: var(--brand-primary, #FF9900); color: #fff; }
 
-/* ===== MAIN HEADER ===== */
-.header { background: var(--brand-dark, #131921); padding: 0.5rem 0; position: sticky; top: 0; z-index: 400; overflow: visible; }
+.header {
+  background: var(--brand-dark, #131921);
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 400;
+  overflow: visible;
+}
+.header.scrolled {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Mobile: ensure header stays on top with proper background */
+@media (max-width: 767px) {
+  header {
+    background: var(--brand-dark, #131921);
+  }
+}
 .header-inner { display: flex; align-items: center; gap: 0.75rem; padding: 0.375rem 0; }
 .hamburger-btn { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 0.25rem; width: 2.25rem; height: 2.25rem; background: none; border: none; cursor: pointer; padding: 0.375rem; border-radius: 2px; }
 .hamburger-btn:hover { background: rgba(255,255,255,0.1); }
@@ -469,8 +504,13 @@ onMounted(async () => {
 .cart-action { flex-direction: row; align-items: center; gap: 0.375rem; }
 .cart-action strong { font-size: 0.75rem; }
 
-/* ===== SUB HEADER ===== */
-.sub-header { background: var(--brand-nav, #232F3E); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sub-header {
+  position: sticky;
+  top: var(--header-height, 60px);
+  z-index: 350;
+  background: var(--brand-nav, #232F3E);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
 .sub-header-inner { display: flex; justify-content: space-between; align-items: center; }
 .sub-left { display: flex; align-items: center; gap: 0; overflow-x: auto; }
 .sub-left::-webkit-scrollbar { height: 0; }
@@ -499,9 +539,18 @@ onMounted(async () => {
 .mobile-logout { color: #CC0C39 !important; border-top: 1px solid #eee !important; margin-top: 0.5rem; }
 
 /* ===== MAIN CONTENT ===== */
-.main-content { min-height: 60vh; }
+.main-content {
+  min-height: 60vh;
+  padding-top: 0;
+}
 
-/* ===== FOOTER ===== */
+/* Mobile: ensure content doesn't get hidden under fixed header and tab bar */
+@media (max-width: 767px) {
+  .main-content {
+    padding-top: calc(var(--header-height, 60px) + 8px);
+    padding-bottom: calc(var(--tab-bar-height, 56px) + 24px);
+  }
+}
 .back-to-top { background: #37475a; text-align: center; padding: 0.75rem; cursor: pointer; transition: background 0.2s; }
 .back-to-top:hover { background: #485769; }
 .back-to-top span { color: #fff; font-size: 0.8125rem; }
