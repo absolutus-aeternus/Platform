@@ -745,7 +745,7 @@ export default {
       }
 
       // ─── Orders (AUTH REQUIRED) ───
-      if (path === '/api/orders' && method === 'GET') {
+      if (path === '/api/orders' || path === '/api/user/orders' && method === 'GET') {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
 
