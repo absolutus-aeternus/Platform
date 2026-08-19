@@ -8,9 +8,27 @@ export default {
     function getServiceHeaders(extra = {}) {
       return { 'apikey': env.SUPABASE_SERVICE_ROLE_KEY, 'Authorization': 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, ...extra };
     }
-    // ─── Helper: Anon headers (RLS-enforced) ───
-    function getAnonHeaders(extra = {}) {
-      return { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, ...extra };
+    // ─── Helpers: Validation ───
+    function validateUUID(str) {
+      return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+    }
+    function validatePositiveInt(n) {
+      const num = Number(n);
+      return Number.isInteger(num) && num > 0 && num <= 999999;
+    }
+
+    // ─── Helper: Standardized Error Handler ───
+    function handleError(e, status = 500) {
+      console.error(`[Worker Error] ${path}:`, e.message || e);
+      return json({ error: 'Internal server error', message: e.message }, { status, ...corsHeaders });
+    }
+
+    // ─── Helper: CSRF Verification ───
+    function verifyCSRFToken(req) {
+      const cookie = req.headers.get('Cookie') || '';
+      const token = cookie.split(';').find(c => c.trim().startsWith('csrf='))?.split('=')[1];
+      const header = req.headers.get('X-CSRF-Token');
+      return token && header && token === header;
     }
 
     const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
@@ -609,139 +627,42 @@ export default {
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests. Please wait.' }, { status: 429, ...corsHeaders });
 
         const body = await request.json();
-        
-        // BUG-003 FIX: Idempotency key check
-        const idempotencyKey = request.headers.get('Idempotency-Key');
-        if (idempotencyKey) {
-          const existingOrder = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?idempotency_key=eq.' + encodeURIComponent(idempotencyKey) + '&select=id,order_no', { headers: getServiceHeaders() });
-          const existing = await existingOrder.json();
-          if (existing.length > 0) {
-            return json({ order: existing[0], order_no: existing[0].order_no, message: 'Order already exists (idempotent)' }, corsHeaders);
-          }
-        }
+        const idempotencyKey = request.headers.get('Idempotency-Key') || `checkout:${user.id}:${Date.now()}`;
 
-        // BUG-007 FIX: Input validation
+        // Basic validation
         if (!body.items?.length) return json({ error: 'Cart is empty' }, { status: 400, ...corsHeaders });
-        for (const item of body.items) {
-          if (!item.product_id || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.product_id)) {
-            return json({ error: 'Invalid product ID format' }, { status: 400, ...corsHeaders });
-          }
-          if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 999) {
-            return json({ error: 'Invalid quantity (must be 1-999)' }, { status: 400, ...corsHeaders });
-          }
-        }
-
-        // Use service role for checkout operations (bypasses RLS)
-        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
-        const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         
-        // BUG-007 FIX: Single loop — validate stock + calculate total (merged)
-        let serverTotal = 0;
-        const validatedItems = [];
-        const productIds = body.items.map(i => i.product_id);
-        // Fetch all products in one batch query
-        const batchResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,price,stock,name,seller_id,cost_price,platform_commission_rate&id=in.(' + productIds.join(',') + ')', {
-          headers: getAnonHeaders()
-        });
-        const productsMap = {};
-        (await batchResp.json()).forEach(p => productsMap[p.id] = p);
-        
-        for (const item of body.items) {
-          const prod = productsMap[item.product_id];
-          if (!prod) return json({ error: 'Product not found: ' + item.product_id }, { status: 400, ...corsHeaders });
-          if (prod.stock !== null && prod.stock < item.quantity) {
-            return json({ error: 'Insufficient stock for ' + (prod.name || item.product_id) + '. Available: ' + prod.stock + ', Requested: ' + item.quantity }, { status: 400, ...corsHeaders });
-          }
-          serverTotal += prod.price * item.quantity;
-          validatedItems.push({ product_id: prod.id, quantity: item.quantity, price: prod.price, name: prod.name, seller_id: prod.seller_id, cost_price: prod.cost_price, commission_rate: prod.platform_commission_rate });
-        }
-        
-        // Reject if client total doesn't match server total (price manipulation attempt)
-        if (body.total && Math.abs(body.total - serverTotal) > 0.01) {
-          return json({ error: 'Price mismatch. Expected: $' + serverTotal.toFixed(2) }, { status: 400, ...corsHeaders });
-        }
-
-        // BUG-001 FIX: Atomic stock decrement via Supabase RPC
-        const stockErrors = [];
-        for (const item of validatedItems) {
-          try {
-            const stockResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/decrement_stock', {
-              method: 'POST',
-              headers: getServiceHeaders({ 'Content-Type': 'application/json' }),
-              body: JSON.stringify({ p_product_id: item.product_id, p_quantity: item.quantity })
-            });
-            const stockResult = await stockResp.json();
-            if (stockResult[0] && !stockResult[0].success) {
-              stockErrors.push({ product: item.name, error: stockResult[0].error_msg });
-            }
-          } catch (e) {
-            stockErrors.push({ product: item.name, error: e.message });
-          }
-        }
-        
-        // BUG-004 FIX: Rollback if any stock decrement failed
-        if (stockErrors.length > 0) {
-          return json({ error: 'Stock validation failed', details: stockErrors }, { status: 400, ...corsHeaders });
-        }
-
-        const order = {
-          user_id: user.id,
-          order_no: orderNo,
-          status: 'pending',
-          total_amount: serverTotal,
-          shipping_address: JSON.stringify(body.address),
-          payment_method: body.payment_method || 'wallet',
-          idempotency_key: idempotencyKey || null,
-        };
-        const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders', {
-          method: 'POST', headers: h, body: JSON.stringify(order)
-        });
-        const orderData = await resp.json();
-        if (!orderData[0]?.id) {
-          return json({ error: 'Failed to create order' }, { status: 500, ...corsHeaders });
-        }
-        
-        if (validatedItems.length) {
-          const items = validatedItems.map(i => ({
-            order_id: orderData[0].id,
-            product_id: i.product_id,
-            quantity: i.quantity,
-            price: i.price,
-          }));
-          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/order_items', {
-            method: 'POST', headers: h, body: JSON.stringify(items)
+        // Use service role for atomic checkout RPC (BUG-001, BUG-003, BUG-004 FIX)
+        try {
+          const orderNo = 'ORD-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+          
+          const rpcResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/process_checkout', {
+            method: 'POST',
+            headers: getServiceHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({
+              p_user_id: user.id,
+              p_seller_id: body.seller_id || null,
+              p_order_no: orderNo,
+              p_total_amount: body.total,
+              p_shipping_fee: body.shipping_fee || 0,
+              p_payment_method: body.payment_method || 'wallet',
+              p_shipping_address: body.address || {},
+              p_notes: body.notes || '',
+              p_idempotency_key: idempotencyKey,
+              p_items: body.items // {product_id, quantity, price, name}
+            })
           });
-        }
-        // Commission calculation after successful order (BUG-007 FIX: reuse fetched data)
-        if (orderData[0]?.id && validatedItems.length) {
-          try {
-            const commSettings = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/platform_settings?key=eq.commission_rates&select=value', { headers: h });
-            const rates = (await commSettings.json())[0]?.value || { default: 0.05 };
-            
-            for (const item of validatedItems) {
-              if (item.seller_id) {
-                const cogs = item.cost_price || 0;
-                const markup = item.price - cogs;
-                const rate = item.commission_rate || rates.default || 0.05;
-                const platformFee = cogs * rate;
-                const sellerCommission = Math.max(0, markup - platformFee);
-                
-                await fetch(env.VITE_SUPABASE_URL + '/rest/v1/commissions', {
-                  method: 'POST', headers: h,
-                  body: JSON.stringify({
-                    seller_id: item.seller_id,
-                    order_id: orderData[0].id,
-                    type: 'sale',
-                    amount: sellerCommission,
-                    status: 'pending'
-                  })
-                });
-              }
-            }
-          } catch (commErr) { console.warn('Commission calc error:', commErr.message); }
-        }
 
-        return json({ order: orderData[0], order_no: orderNo }, corsHeaders);
+          const result = await rpcResp.json();
+          if (result.success) {
+            return json({ order_id: result.order_id, order_no: orderNo, is_duplicate: result.is_duplicate }, corsHeaders);
+          } else {
+            return json({ error: result.error || 'Checkout failed' }, { status: 400, ...corsHeaders });
+          }
+        } catch (e) {
+          return handleError(e);
+        }
+      }
       }
 
       // ─── Orders (AUTH REQUIRED) ───
@@ -815,21 +736,17 @@ export default {
 
       // ─── Admin: Change User Role (ADMIN ONLY + AUDIT) ───
       if (path === '/api/admin/change-role' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
-        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
-        
-        // Verify requester is ADMIN or SUPER_ADMIN
-        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: h });
-        const reqRoleData = await reqRoleResp.json();
-        const reqRole = reqRoleData[0]?.role;
-        
-        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRole)) {
-          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
-        }
-        
         const { userId, newRole, reason } = await request.json();
+        if (!validateUUID(userId)) return json({ error: 'Invalid User ID' }, { status: 400, ...corsHeaders });
+        if (!['MEMBER', 'SELLER', 'ADMIN', 'SUPER_ADMIN'].includes(newRole)) {
+          return json({ error: 'Invalid role' }, { status: 400, ...corsHeaders });
+        }
+
+        const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         
         // Only SUPER_ADMIN can assign SUPER_ADMIN role
         if (newRole === 'SUPER_ADMIN' && reqRole !== 'SUPER_ADMIN') {
