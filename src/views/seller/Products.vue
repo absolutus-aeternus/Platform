@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-products">
     <h1>My Products</h1>
     <button class="btn-add" @click="showAdd = true">+ Add Product</button>
@@ -51,6 +52,7 @@
         </form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

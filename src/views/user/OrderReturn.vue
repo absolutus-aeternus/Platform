@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="order-return">
     <div class="page-header"><h1>Return Request</h1></div>
     <div class="return-container">
@@ -36,6 +37,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -61,6 +63,7 @@ const submitReturn = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .return-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }

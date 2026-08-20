@@ -10,7 +10,7 @@
     <header class="user-header">
       <div class="container header-inner">
         <button class="mobile-toggle" @click="showSidebar = !showSidebar"><i class="fas fa-bars"></i></button>
-        <router-link to="/" class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-nav" /></router-link>
+        <router-link to="/" class="logo"><img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-nav" /></router-link>
         <nav class="header-nav">
           <router-link to="/user">Dashboard</router-link>
           <router-link to="/user/orders">Orders</router-link>
@@ -96,4 +96,6 @@ const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
   .menu-item i { margin-right: 0; margin-bottom: 0.25rem; }
 }
 
+
+img { max-width: 100%; height: auto; }
 </style>

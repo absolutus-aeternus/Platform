@@ -1,6 +1,8 @@
 <template>
+  <div class="component-wrapper">
   <div class="bento-grid">
     <slot />
+  </div>
   </div>
 </template>
 

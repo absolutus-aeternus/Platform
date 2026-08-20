@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-edit"></i> Write Review</h2>
@@ -8,6 +9,7 @@
       <button class="btn btn-primary" style="width:100%;justify-content:center" @click="submitReview"><i class="fas fa-paper-plane"></i> Submit Review</button>
       <p v-if="msg" :style="{ color: msgColor, textAlign: 'center', marginTop: '16px' }">{{ msg }}</p>
     </div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -31,4 +33,6 @@ const submitReview = async () => {
   } catch (e) { console.error('Evaluation error:', e); msg.value = 'Failed to submit review'; msgColor.value = '#dc2626' }
 }
 </script>
-<style scoped>.form-group { margin-bottom: 20px; } .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }</style>
+<style scoped>.form-group { margin-bottom: 20px; } .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }
+input, select, textarea { background: #ffffff; color: #1a1a1a; border: 1px solid #ddd; }
+</style>

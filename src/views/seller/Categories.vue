@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-categories">
     <div class="page-header"><h1>Product Categories</h1><p class="subtitle">Browse available categories for your products</p></div>
     <div class="filters"><input v-model="search" placeholder="Search categories..."></div>
@@ -29,6 +30,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -54,6 +56,7 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { margin-bottom: 20px; }
 .page-header h1 { margin: 0 0 4px; }
 .subtitle { color: #999; font-size: 14px; margin: 0; }

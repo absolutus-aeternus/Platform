@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-dashboard">
     <h1>Dashboard</h1>
     
@@ -104,7 +105,7 @@
     <div class="tables-row">
       <div class="table-card">
         <h3>Recent Orders</h3>
-        <table>
+        <div style="overflow-x:auto;"><table>
           <thead>
             <tr>
               <th>Order #</th>
@@ -121,11 +122,11 @@
               <td><span class="status" :class="order.status">{{ order.status }}</span></td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
       <div class="table-card">
         <h3>Top Products</h3>
-        <table>
+        <div style="overflow-x:auto;"><table>
           <thead>
             <tr>
               <th>Product</th>
@@ -142,7 +143,7 @@
               <td>${{ product.revenue }}</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
 
@@ -150,7 +151,7 @@
     <div class="tables-row">
       <div class="table-card">
         <h3>Top Sellers</h3>
-        <table>
+        <div style="overflow-x:auto;"><table>
           <thead>
             <tr><th>Seller</th><th>Products</th><th>Sales</th></tr>
           </thead>
@@ -161,11 +162,11 @@
               <td>{{ s.sales }}</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
       <div class="table-card">
         <h3>Latest Reviews</h3>
-        <table>
+        <div style="overflow-x:auto;"><table>
           <thead>
             <tr><th>User</th><th>Product</th><th>Rating</th><th>Comment</th></tr>
           </thead>
@@ -177,9 +178,10 @@
               <td>{{ r.comment }}</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -315,6 +317,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 
 /* Rating Plus Stats */

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-wallets">
     <div class="page-header">
       <h1>Wallets</h1>
@@ -80,6 +81,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -155,6 +157,7 @@ onMounted(loadWallets)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
 .page-header h1 { margin: 0; }
 .header-stats { display: flex; gap: 12px; }

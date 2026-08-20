@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="track-order-page">
     <div class="container">
       <h1><i class="fas fa-truck"></i> Track Your Order</h1>
@@ -82,6 +83,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -128,12 +130,15 @@ const trackOrder = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
 h1 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
 h1 i { color: var(--brand-primary); }
 .track-card { background: #fff; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 1.5rem; }
 .track-search { display: flex; gap: 0.75rem; }
-.track-search input { flex: 1; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 0.875rem; }
+.track-search input { flex: 1; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 0.875rem; background: #ffffff; color: #1a1a1a; }
+.track-search input::placeholder { color: #888888; }
 .track-search input:focus { outline: none; border-color: var(--brand-primary); }
 .track-search button { padding: 0.75rem 1.5rem; background: var(--brand-primary); color: var(--brand-dark); border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
 .track-search button:disabled { background: #ccc; cursor: not-allowed; }
@@ -189,4 +194,6 @@ h1 i { color: var(--brand-primary); }
   .order-item { flex-wrap: wrap; }
   .item-total { width: 100%; text-align: right; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

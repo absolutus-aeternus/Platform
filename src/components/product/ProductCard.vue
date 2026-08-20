@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="product-card" @click="$router.push(`/product/${product.id}`)">
     <!-- Image -->
     <div class="product-card__img">
@@ -65,6 +66,7 @@
         <i class="fas fa-shopping-cart"></i> Add to Cart
       </button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -332,4 +334,6 @@ function formatCount(n) {
     font-size: 12px;
   }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="sales-chart">
     <div class="sales-chart__header">
       <h3 class="sales-chart__title">{{ title }}</h3>
@@ -29,6 +30,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

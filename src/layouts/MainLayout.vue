@@ -1,5 +1,5 @@
 <template><div v-if="userStore.isSuperAdmin" style="padding:6px 16px;background:#1a1a2e;display:flex;gap:12px;justify-content:center;font-size:12px"><router-link to="/superadmin" style="color:#f39c12;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link><router-link to="/admin" style="color:#fff;text-decoration:none"><i class="fas fa-shield-alt"></i> Admin</router-link><router-link to="/seller" style="color:#fff;text-decoration:none"><i class="fas fa-store"></i> Seller</router-link><router-link to="/user" style="color:#fff;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link><router-link to="/ratingplus" style="color:#fff;text-decoration:none"><i class="fas fa-star"></i> R+</router-link></div>
-  <div class="app-layout">
+  <div class="app-layout" style="position: relative; z-index: 1;">
     <!-- ===== TOP BAR (Amazon-style thin bar) ===== -->
     <div class="top-bar">
       <div class="container top-bar-inner">
@@ -35,7 +35,7 @@
 
         <!-- Logo -->
         <router-link to="/" class="logo">
-          <img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img" />
+          <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img" />
         </router-link>
 
         <!-- Search Bar -->
@@ -64,7 +64,7 @@
               class="search-suggestion"
               @mousedown.prevent="goToProduct(s)"
             >
-              <img v-if="s.images?.[0]" :src="s.images[0]" class="search-suggestion__img" :alt="s.name" />
+              <img loading="lazy" v-if="s.images?.[0]" :src="s.images[0]" class="search-suggestion__img" :alt="s.name" />
               <div v-else class="search-suggestion__placeholder">{{ (s.name || '?')[0] }}</div>
               <div class="search-suggestion__info">
                 <div class="search-suggestion__name">{{ s.name }}</div>
@@ -138,7 +138,7 @@
     <div v-if="showMobile" class="mobile-overlay" @click="showMobile = false"></div>
     <aside class="mobile-sidebar" :class="{ open: showMobile }">
       <div class="mobile-header">
-        <img src="/images/logo-alliance.svg" alt="AllianceHub" class="mobile-logo" />
+        <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="mobile-logo" />
         <button @click="showMobile = false" class="mobile-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
       </div>
       <div class="mobile-user" v-if="userStore.isLoggedIn">
@@ -188,13 +188,20 @@
         <div class="container">
           <div class="footer-grid">
             <div class="footer-col">
+              <h4>Customer Service</h4>
+              <ul>
+                <li><router-link to="/help">Help Center</router-link></li>
+                <li><router-link to="/how-to-buy">How to Buy</router-link></li>
+                <li><router-link to="/returns">Returns & Refunds</router-link></li>
+                <li><router-link to="/contact">Contact Us</router-link></li>
+              </ul>
+            </div>
+            <div class="footer-col">
               <h4>Get to Know Us</h4>
               <ul>
                 <li><router-link to="/about">About AllianceHub</router-link></li>
                 <li><router-link to="/blog">Blog & Guides</router-link></li>
-                <li><router-link to="/how-to-buy">How to Buy</router-link></li>
                 <li><router-link to="/comparison">Compare Products</router-link></li>
-                <li><router-link to="/contact">Contact Us</router-link></li>
               </ul>
             </div>
             <div class="footer-col">
@@ -616,4 +623,6 @@ onMounted(async () => {
 @media (max-width: 767px) {
   .main-content { padding-bottom: calc(var(--tab-bar-height, 56px) + 16px); }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="sticky-cta" v-if="visible">
     <div class="sticky-cta__price" v-if="price">
       <span class="sticky-cta__price-value">${{ price }}</span>
@@ -15,6 +16,7 @@
         Buy Now
       </button>
     </div>
+  </div>
   </div>
 </template>
 

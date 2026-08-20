@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <Teleport to="body">
     <Transition name="toast">
       <div v-if="visible" class="global-toast" :class="type">
@@ -7,6 +8,7 @@
       </div>
     </Transition>
   </Teleport>
+  </div>
 </template>
 <script setup>
 import { ref, computed } from 'vue'

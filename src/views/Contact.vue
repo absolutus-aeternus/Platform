@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h1 style="margin-bottom:30px"><i class="fas fa-envelope" style="color:var(--brand-primary, #FF9900)"></i> Contact Us</h1>
     <div class="contact-grid">
@@ -29,6 +30,7 @@
 
     <!-- Loading State -->
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
   </div>
 </template>
 <script setup>

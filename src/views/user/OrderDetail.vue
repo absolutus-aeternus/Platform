@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="order-detail">
     <h1>Order Detail</h1>
     <div v-if="loading" class="loading">Loading...</div>
@@ -27,7 +28,9 @@
           <button v-if="order.status === 'completed'" @click="$router.push(`/user/order-evaluation?order=${order.id}`)">Leave Review</button>
         </div>
       </div>
-    </template>
+      </div>
+</template>
+  </div>
   </div>
 </template>
 
@@ -59,6 +62,8 @@ const confirmReceipt = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading, .not-found { text-align: center; padding: 40px; color: #999; }
 .order-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }

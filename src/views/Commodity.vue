@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="commodity-page">
     <div class="container">
       <h1 class="page-title">All Products</h1>
@@ -38,6 +39,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -71,6 +73,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 .page-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #222; }
 .filters { background: #fff; padding: 12px 16px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); margin-bottom: 16px; }

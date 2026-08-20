@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="settings">
     <h1>Settings</h1>
     <div class="settings-form">
@@ -31,6 +32,7 @@
         <button class="btn-logout" @click="handleLogout">Logout</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -84,6 +86,7 @@ const handleLogout = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .settings-form { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 500px; }
 .form-group { margin-bottom: 20px; }

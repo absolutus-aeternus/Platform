@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-report">
     <div class="page-header"><h1>Sales Report</h1><div class="date-filter"><input v-model="dateFrom" type="date"><span>to</span><input v-model="dateTo" type="date"><button class="btn-filter" @click="loadData">Filter</button></div></div>
     <div class="stats-grid">
@@ -27,6 +28,7 @@
         </table>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -66,6 +68,7 @@ onMounted(loadData)
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
 .page-header h1 { margin: 0; }
 .date-filter { display: flex; gap: 8px; align-items: center; }

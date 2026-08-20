@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-banners">
     <div class="page-header"><h1>Banners</h1><button class="btn-add" @click="openModal()"><i class="fas fa-plus"></i> Add Banner</button></div>
     <div v-if="loading" class="loading">Loading...</div>
@@ -37,6 +38,7 @@
         </div>
       </form>
     </BaseModal>
+  </div>
   </div>
 </template>
 
@@ -78,6 +80,7 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }

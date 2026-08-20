@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-analytics">
     <h1>Analytics</h1>
 
@@ -38,6 +39,7 @@
         </div>
       </div>
     </BentoGrid>
+  </div>
   </div>
 </template>
 

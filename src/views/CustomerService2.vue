@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h2 style="margin-bottom:24px"><i class="fas fa-headset" style="color:var(--brand-primary, #FF9900)"></i> Customer Service</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
@@ -19,6 +20,7 @@
       <router-link to="/help" style="color:var(--brand-primary, #FF9900);margin-right:20px">Help Center</router-link>
       <router-link to="/complaint" style="color:#fe2c50">File Complaint</router-link>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

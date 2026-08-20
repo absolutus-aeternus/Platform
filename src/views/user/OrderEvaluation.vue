@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="order-evaluation">
     <div class="page-header"><h1>Write Review</h1></div>
     <div class="eval-container">
@@ -33,6 +34,7 @@
         <button class="btn-submit" @click="submitReview" :disabled="!rating || !comment">Submit Review</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -76,6 +78,7 @@ const submitReview = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .eval-container { max-width: 700px; }

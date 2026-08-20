@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="login-page">
     <div class="login-bg"></div>
     <div class="login-card animate-in">
@@ -59,8 +60,7 @@
       <div class="divider"><span>or sign up with</span></div>
 
       <div class="social-btns">
-        <button class="btn-social" @click="window.__toast?.show('Google signup coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
-        <button class="btn-social" @click="window.__toast?.show('Facebook signup coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
+
       </div>
 
       <div class="login-footer">
@@ -68,6 +68,7 @@
         <p><router-link to="/merchant-settled" class="seller-link"><i class="fas fa-store"></i> Register as Seller</router-link></p>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -145,4 +146,6 @@ const handleRegister = async () => {
 .animate-in { animation: slideUp 0.5s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) { .login-card { padding: 28px 20px; } .form-row { grid-template-columns: 1fr; } }
+
+img { max-width: 100%; height: auto; }
 </style>

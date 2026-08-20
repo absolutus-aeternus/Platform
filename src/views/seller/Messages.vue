@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-messages">
     <h1>Customer Messages</h1>
     
@@ -39,8 +40,10 @@
                 <div class="msg-footer">
                   <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                   <span v-if="msg.is_own" class="msg-check" :class="{ read: msg.is_read }">
-                    <template v-if="msg.is_read">✓✓</template>
-                    <template v-else>✓</template>
+                    <template v-if="msg.is_read">✓✓  </div>
+</template>
+                    <template v-else>✓  </div>
+</template>
                   </span>
                 </div>
               </div>
@@ -50,9 +53,11 @@
             <input v-model="newMessage" placeholder="Type a reply..." @keyup.enter="sendMessage">
             <button @click="sendMessage" :disabled="!newMessage.trim()">Send</button>
           </div>
-        </template>
+          </div>
+</template>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -175,6 +180,7 @@ const sendMessage = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 h1 { margin-bottom: 25px; }
 .messages-layout { display: grid; grid-template-columns: 280px 1fr; height: 60vh; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
 .conv-list { border-right: 1px solid #eee; overflow-y: auto; }

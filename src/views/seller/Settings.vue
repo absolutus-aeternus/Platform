@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-settings">
     <div class="page-header"><h1>Store Settings</h1><button class="btn-save" @click="saveSettings" :disabled="saving">{{ saving ? 'Saving...' : 'Save Changes' }}</button></div>
     <div class="settings-grid">
@@ -30,6 +31,7 @@
       <div class="form-group"><label>Store Policies</label><textarea v-model="form.policies" placeholder="Enter your store policies..." rows="4"></textarea></div>
     </div>
     <div v-if="saved" class="toast"><i class="fas fa-check-circle"></i> Settings saved!</div>
+  </div>
   </div>
 </template>
 

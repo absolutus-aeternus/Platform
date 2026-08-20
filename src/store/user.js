@@ -159,20 +159,22 @@ export const useUserStore = defineStore('user', {
     async updateProfile(updates) {
       if (!this.supabaseUser) return { error: 'Not logged in' }
       try {
+        // SECURITY: Never allow client-side role changes or critical status modifications
+        // Delete these fields BEFORE sending the update payload to Supabase
+        const safeUpdates = { ...updates }
+        delete safeUpdates.role
+        delete safeUpdates.kyc_status
+        delete safeUpdates.status
+
         const { error } = await supabase
           .from('users')
-          .update(updates)
+          .update(safeUpdates)
           .eq('id', this.supabaseUser.id)
         
         if (error) throw error
 
         // Bug #4: Sync store state immediately
-        if (updates.username) this.userInfo.username = updates.username
-        // SECURITY: Never allow client-side role changes
-        delete updates.role
-        delete updates.kyc_status
-        delete updates.status
-        // SECURITY: Do not allow client-side role changes
+        if (safeUpdates.username) this.userInfo.username = safeUpdates.username
 
         return { success: true }
       } catch (e) {

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="orders">
     <h1>My Orders</h1>
     <div class="order-tabs">
@@ -33,6 +34,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -77,6 +79,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+footer { position: relative; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .order-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
 .order-tabs button { padding: 10px 25px; border: 1px solid #ddd; background: #fff; border-radius: 20px; cursor: pointer; }

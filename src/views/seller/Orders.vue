@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-orders">
     <h1>Orders</h1>
     <div class="order-tabs">
@@ -37,6 +38,7 @@
       </div>
       <BasePagination v-if="orders.length > perPage" v-model="page" :total="orders.length" :per-page="perPage" />
     </div>
+  </div>
   </div>
 </template>
 
@@ -105,6 +107,8 @@ onMounted(loadOrders)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .seller-orders { max-width: 1000px; }
 h1 { margin-bottom: 20px; }
 .loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 40px; color: var(--neutral-500, #888); }

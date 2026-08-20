@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="how-to-buy-page">
     <div class="container">
       <h1><i class="fas fa-shopping-basket"></i> How to Buy</h1>
@@ -37,6 +38,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -73,6 +75,7 @@ const faqs = [
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
 h1 { font-size: 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
 h1 i { color: var(--brand-primary); }

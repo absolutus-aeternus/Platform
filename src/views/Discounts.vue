@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="discounts-page">
     <div class="container">
       <h1>🔥 Hot Deals</h1>
@@ -12,6 +13,7 @@
         />
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -39,6 +41,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
 h1 { margin-bottom: 30px; }
 .loading, .empty { text-align: center; padding: 40px; color: #999; }

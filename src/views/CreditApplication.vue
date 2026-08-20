@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="credit-application">
     <h1>Apply for Credit</h1>
     <div class="application-form">
@@ -30,6 +31,7 @@
       </div>
       <button class="btn-submit" @click="submitApplication" :disabled="!amount || !purpose">Submit Application</button>
     </div>
+  </div>
   </div>
 </template>
 

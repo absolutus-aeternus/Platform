@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="addresses">
     <h1>My Addresses</h1>
     <button class="btn-add" @click="showAdd = true">+ Add Address</button>
@@ -72,6 +73,7 @@
         </form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

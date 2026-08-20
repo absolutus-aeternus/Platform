@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="reports">
     <h1>Reports</h1>
     <div class="report-grid">
@@ -23,6 +24,7 @@
         <p>Total Customers</p>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -56,6 +58,7 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .report-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .report-card { background: #fff; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }

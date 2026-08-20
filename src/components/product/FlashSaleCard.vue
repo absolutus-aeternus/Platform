@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="flash-card" @click="$router.push(`/product/${product.id}`)">
     <div class="flash-card__img">
       <!-- Skeleton loader (prevents CLS) -->
@@ -36,6 +37,7 @@
         <span class="flash-card__sold-text">Sold {{ formatSales(product.sales_count) }}</span>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -179,4 +181,6 @@ function formatSales(n) {
   .flash-card__info { padding: 6px; }
   .flash-card__price { font-size: 14px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-report">
     <div class="page-header"><h1>Customer Report</h1></div>
     <div class="stats-grid">
@@ -10,8 +11,8 @@
     <div class="grid-2">
       <div class="card">
         <h2>Top Customers by Spending</h2>
-        <table><thead><tr><th>#</th><th>Customer</th><th>Orders</th><th>Total Spent</th></tr></thead>
-        <tbody><tr v-for="(c,i) in topSpenders" :key="c.id"><td>{{ i+1 }}</td><td>{{ c.email }}</td><td>{{ c.orderCount }}</td><td>${{ c.totalSpent.toFixed(2) }}</td></tr></tbody></table>
+        <div style="overflow-x:auto;"><table><thead><tr><th>#</th><th>Customer</th><th>Orders</th><th>Total Spent</th></tr></thead>
+        <tbody><tr v-for="(c,i) in topSpenders" :key="c.id"><td>{{ i+1 }}</td><td>{{ c.email }}</td><td>{{ c.orderCount }}</td><td>${{ c.totalSpent.toFixed(2) }}</td></tr></tbody></table></div>
       </div>
       <div class="card">
         <h2>Customer Registration Trend</h2>
@@ -26,9 +27,10 @@
     <div class="card">
       <h2>All Customers</h2>
       <div class="filters"><input v-model="search" placeholder="Search by email..."><select v-model="roleFilter"><option value="">All Roles</option><option value="MEMBER">Member</option><option value="SELLER">Seller</option><option value="ADMIN">Admin</option></select></div>
-      <table><thead><tr><th>Email</th><th>Role</th><th>KYC</th><th>Joined</th><th>Last Login</th></tr></thead>
-      <tbody><tr v-for="u in filtered" :key="u.id"><td>{{ u.email }}</td><td><span class="role-badge" :class="u.role?.toLowerCase()">{{ u.role || 'MEMBER' }}</span></td><td>{{ u.kyc_status || 0 }}</td><td>{{ new Date(u.created_at).toLocaleDateString() }}</td><td>{{ u.lastlogintime ? new Date(u.lastlogintime).toLocaleDateString() : 'Never' }}</td></tr></tbody></table>
+      <div style="overflow-x:auto;"><table><thead><tr><th>Email</th><th>Role</th><th>KYC</th><th>Joined</th><th>Last Login</th></tr></thead>
+      <tbody><tr v-for="u in filtered" :key="u.id"><td>{{ u.email }}</td><td><span class="role-badge" :class="u.role?.toLowerCase()">{{ u.role || 'MEMBER' }}</span></td><td>{{ u.kyc_status || 0 }}</td><td>{{ new Date(u.created_at).toLocaleDateString() }}</td><td>{{ u.lastlogintime ? new Date(u.lastlogintime).toLocaleDateString() : 'Never' }}</td></tr></tbody></table></div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -86,6 +88,7 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 25px; }

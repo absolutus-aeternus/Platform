@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="credit-page">
     <div class="hero">
       <div class="container">
@@ -31,6 +32,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

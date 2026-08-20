@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="scraper-page">
     <div class="page-header">
       <h1><i class="fas fa-spider"></i> Product Scraper</h1>
@@ -183,6 +184,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -317,6 +319,7 @@ const editProduct = () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .scraper-page { padding: 24px; max-width: 1200px; margin: 0 auto; }
 .page-header { margin-bottom: 32px; }
 .page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h2 style="margin-bottom:24px"><i class="fas fa-life-ring" style="color:var(--brand-primary, #FF9900)"></i> Support Center</h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
@@ -27,6 +28,7 @@
         <h3>Privacy</h3>
       </router-link>
     </div>
+  </div>
   </div>
 </template>
 <script setup></script>

@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <nav class="base-pagination" v-if="totalPages > 1" aria-label="Pagination">
     <button
       class="base-pagination__btn"
@@ -20,7 +21,8 @@
       >
         {{ page }}
       </button>
-    </template>
+      </div>
+</template>
 
     <button
       class="base-pagination__btn"
@@ -31,6 +33,7 @@
       <i class="fas fa-chevron-right"></i>
     </button>
   </nav>
+  </div>
 </template>
 
 <script setup>

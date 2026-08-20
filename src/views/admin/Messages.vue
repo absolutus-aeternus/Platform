@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-messages">
     <div class="page-header"><h1>Messages</h1><span class="badge">System-wide message monitoring</span></div>
     <div class="filters">
@@ -23,6 +24,7 @@
       </table>
       <div v-if="filtered.length === 0" class="empty">No messages found</div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -55,6 +57,8 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .page-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .badge { background: #f0f0f0; padding: 5px 12px; border-radius: 12px; font-size: 12px; color: #666; }

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="login-page">
     <div class="login-bg"></div>
     <div class="login-card animate-in">
@@ -43,7 +44,8 @@
             <button type="button" class="toggle-pw" @click="showPw = !showPw">
               <i :class="showPw ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
-          </template>
+            </div>
+</template>
         </BaseInput>
 
         <div class="form-options">
@@ -62,8 +64,7 @@
       <div class="divider"><span>or continue with</span></div>
 
       <div class="social-btns">
-        <button class="btn-social" @click="window.__toast?.show('Google login coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
-        <button class="btn-social" @click="window.__toast?.show('Facebook login coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
+
       </div>
 
       <div class="login-footer">
@@ -72,6 +73,7 @@
         <p><router-link to="/ratingplus" class="seller-link" style="color: var(--brand-primary-hover, #E68A00) !important"><i class="fas fa-star"></i> Join Rating Plus — Earn Money</router-link></p>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -163,4 +165,6 @@ const handleLogin = async () => {
 .animate-in { animation: slideUp 0.5s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) { .login-card { padding: 28px 20px; } .logo-text { font-size: 20px; } }
+
+img { max-width: 100%; height: auto; }
 </style>

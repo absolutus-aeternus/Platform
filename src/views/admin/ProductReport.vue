@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-report">
     <div class="page-header"><h1>Product Report</h1></div>
     <div class="stats-grid">
@@ -15,6 +16,7 @@
       <div class="filters"><input v-model="search" placeholder="Search products..."><select v-model="statusFilter"><option value="">All Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
       <table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Sales</th><th>Rating</th><th>Status</th></tr></thead><tbody><tr v-for="p in filtered" :key="p.id"><td>{{ p.name?.substring(0,35) }}</td><td>{{ p.categories?.name || '-' }}</td><td>${{ p.price }}</td><td>{{ p.stock || 0 }}</td><td>{{ p.sales_count || 0 }}</td><td>⭐ {{ p.rating || 0 }}</td><td><span class="status" :class="p.status">{{ p.status }}</span></td></tr></tbody></table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -51,6 +53,8 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 25px; }

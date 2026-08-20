@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="comparison-page">
     <div class="container">
       <h1><i class="fas fa-balance-scale"></i> Product Comparison</h1>
@@ -36,6 +37,7 @@
         </table>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -103,4 +105,6 @@ h1 i { color: var(--brand-primary); }
   .comparison-table th:first-child { min-width: 80px; }
   .comp-product img, .img-placeholder { width: 48px; height: 48px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

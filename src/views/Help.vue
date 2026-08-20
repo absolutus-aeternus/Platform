@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h1 style="margin-bottom:30px"><i class="fas fa-question-circle" style="color:var(--brand-primary, #FF9900)"></i> Help Center</h1>
     <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
@@ -18,6 +19,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
+  </div>
 </template>
 <script setup>
 import { ref } from "vue"
@@ -33,3 +35,17 @@ const faqs = ref([
   { q: 'How do I track my order?', a: 'Go to My Orders, click on the order, and view the logistics timeline. You\'ll see real-time updates on shipping status.', open: false },
 ])
 </script>
+
+
+<style scoped>
+.page-wrapper { position: relative; z-index: 1; }
+.page-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+</style>
+
+
+@media (max-width: 768px) {
+  .page-wrapper, .about-container, .help-container, .terms-container, .policy-container {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}

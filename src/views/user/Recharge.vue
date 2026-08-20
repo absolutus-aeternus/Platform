@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="recharge">
     <div class="page-header"><h1>Recharge Wallet</h1></div>
     <div class="recharge-container">
@@ -45,6 +46,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -97,6 +99,7 @@ const submitRecharge = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .recharge-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }

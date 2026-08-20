@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="wallet">
     <h1>My Wallet</h1>
     <div v-if="loading" class="loading">Loading wallet...</div>
@@ -30,7 +31,9 @@
           </div>
         </div>
       </div>
-    </template>
+      </div>
+</template>
+  </div>
   </div>
 </template>
 
@@ -62,6 +65,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .balance-card { background: linear-gradient(135deg, var(--brand-primary, #FF9900) 0%, #ff6b81 100%); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 20px; }

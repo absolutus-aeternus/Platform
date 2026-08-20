@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:600px">
     <div class="auth-card">
       <h2><i class="fas fa-phone"></i> Bind Phone Number</h2>
@@ -10,6 +11,7 @@
       </form>
       <p v-if="msg" :style="{ color: msgColor, textAlign: 'center', marginTop: '16px' }">{{ msg }}</p>
     </div>
+  </div>
   </div>
 </template>
 

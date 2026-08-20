@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="product-detail">
     <div class="container">
       <!-- Breadcrumb -->
@@ -311,7 +312,8 @@
             </div>
           </div>
         </div>
-      </template>
+        </div>
+</template>
     </div>
 
     <!-- Size Chart Modal -->
@@ -362,6 +364,7 @@
       @buy-now="handleBuyNow"
       @chat="chatSeller"
     />
+  </div>
   </div>
 </template>
 
@@ -873,4 +876,6 @@ const chatSeller = () => {
   .qty-control button { width: 32px; height: 32px; }
   .variant-chip { padding: 6px 12px; font-size: 12px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

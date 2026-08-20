@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-coupons">
     <div class="page-header">
       <h1>Coupons</h1>
@@ -52,6 +53,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -93,6 +95,7 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; }

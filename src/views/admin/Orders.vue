@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-orders">
     <h1>Orders</h1>
     <div class="filters">
@@ -33,6 +34,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </template>
 
@@ -85,6 +87,8 @@ const viewOrder = (order) => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 20px; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }
 .filters input, .filters select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; }

@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <nav class="dynamic-nav" :class="{ 'dynamic-nav--vertical': vertical }">
     <template v-for="item in filteredItems" :key="item.path || item.label">
       <!-- Regular link -->
@@ -33,8 +34,10 @@
           </router-link>
         </div>
       </div>
-    </template>
+      </div>
+</template>
   </nav>
+  </div>
 </template>
 
 <script setup>

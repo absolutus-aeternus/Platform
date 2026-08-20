@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-settings">
     <div class="page-header"><h1>System Settings</h1><button class="btn-save" @click="saveSettings" :disabled="saving">{{ saving ? 'Saving...' : 'Save All Settings' }}</button></div>
     <div class="settings-grid">
@@ -25,6 +26,7 @@
       </div>
     </div>
     <div v-if="saved" class="save-toast"><i class="fas fa-check-circle"></i> Settings saved successfully!</div>
+  </div>
   </div>
 </template>
 

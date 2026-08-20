@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-star"></i> All Reviews</h2>
@@ -13,6 +14,7 @@
       </div>
     </div>
     <div v-else style="text-align:center;padding:60px"><i class="fas fa-star" style="font-size:48px;color:#94a3b8"></i><p style="color:#64748b;margin-top:16px">No reviews yet</p></div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -30,3 +32,17 @@ onMounted(async () => {
   } catch (e) { console.error('All reviews error:', e) }
 })
 </script>
+
+
+<style scoped>
+.page-wrapper { position: relative; z-index: 1; }
+.page-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+</style>
+
+
+@media (max-width: 768px) {
+  .page-wrapper, .about-container, .help-container, .terms-container, .policy-container {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}

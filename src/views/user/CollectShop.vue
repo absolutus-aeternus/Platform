@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="collect-shop">
     <div class="page-header"><h1>Followed Shops</h1><span class="badge">{{ shops.length }} shops</span></div>
     <div v-if="loading" class="loading">Loading...</div>
@@ -23,6 +24,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -51,6 +53,7 @@ const unfollow = async (shop) => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .badge { background: #f0f0f0; padding: 5px 12px; border-radius: 12px; font-size: 13px; color: #666; }

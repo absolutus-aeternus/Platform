@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="unauthorized-page">
     <div class="unauthorized-card">
       <div class="unauthorized-icon">
@@ -24,6 +25,7 @@
         If you believe this is an error, please contact support.
       </p>
     </div>
+  </div>
   </div>
 </template>
 

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="product-list">
     <div class="page-header">
       <h1>Products</h1>
@@ -49,6 +50,7 @@
       </table>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -94,6 +96,7 @@ onMounted(loadProducts)
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 .btn-add { padding: 10px 20px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; text-decoration: none; }
 .filters { display: flex; gap: 10px; margin-bottom: 20px; }

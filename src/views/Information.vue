@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div>
     <section class="info-hero">
       <div class="container">
@@ -20,6 +21,7 @@
         <p>Live Chat: Available 24/7 via the chat widget</p>
       </div>
     </section>
+  </div>
   </div>
 </template>
 <style scoped>

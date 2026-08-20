@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-transactions">
     <div class="page-header"><h1>Transactions</h1></div>
     <div class="summary-cards">
@@ -29,6 +30,7 @@
       </table>
       <div v-if="filtered.length === 0" class="empty">No transactions found</div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -72,6 +74,8 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 25px; }

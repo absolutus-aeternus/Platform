@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="product-add">
     <h1>Add Product</h1>
     <form @submit.prevent="addProduct" class="product-form">
@@ -42,6 +43,7 @@
         <button type="submit" class="btn-primary" :disabled="saving">{{ saving ? 'Saving...' : 'Add Product' }}</button>
       </div>
     </form>
+  </div>
   </div>
 </template>
 
@@ -87,6 +89,7 @@ const addProduct = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .product-form { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 700px; }
 .form-group { margin-bottom: 20px; }

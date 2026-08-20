@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <nav class="mobile-tab-bar" aria-label="Mobile navigation">
     <router-link
       v-for="tab in tabs"
@@ -14,6 +15,7 @@
       <span class="mobile-tab-bar__label">{{ tab.label }}</span>
     </router-link>
   </nav>
+  </div>
 </template>
 
 <script setup>

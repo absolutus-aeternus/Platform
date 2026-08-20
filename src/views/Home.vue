@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="home">
     <!-- Error State -->
     <div v-if="error" class="error-banner">
@@ -226,6 +227,7 @@
         </div>
       </div>
     </section>
+  </div>
   </div>
 </template>
 
@@ -572,4 +574,6 @@ onUnmounted(() => {
 @media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .sidebar-cats { display: none; } .hero-side-cards { flex-direction: row; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(3, 1fr); } .seo-footer-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { .hero-side-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; } .hero-banner { min-height: 10rem; } .product-grid-amazon { grid-template-columns: repeat(3, 1fr); } .mall-grid { grid-template-columns: repeat(2, 1fr); } .services-row { grid-template-columns: repeat(2, 1fr); } .banner-content { padding: 1rem; } .banner-text h2 { font-size: 1rem; } .banner-visual { font-size: 2rem; } .filter-bar-sticky { top: 48px; } }
 @media (max-width: 480px) { .product-grid-amazon { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .pg-body { padding: 0.375rem; } .pg-name { font-size: 0.75rem; min-height: 2rem; } .pg-price { font-size: 0.875rem; } .hero-side-cards { grid-template-columns: 1fr; } .side-card { padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; } .side-card small { display: none; } .banner-content { padding: 0.75rem; } .banner-text { max-width: 60%; } .banner-text h2 { font-size: 0.875rem; } .banner-text p { font-size: 0.6875rem; } .banner-visual { font-size: 1.5rem; } .flash-card { min-width: 7rem; } .fc-info { padding: 0.25rem; } .fc-price { font-size: 0.75rem; } .mall-grid { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; } .cat-icon-item { min-width: 3.75rem; } .seo-footer-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
+
+img { max-width: 100%; height: auto; }
 </style>

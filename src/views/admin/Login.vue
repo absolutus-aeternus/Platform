@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="auth-page admin-auth">
     <div class="auth-bg"><div class="auth-particles"></div></div>
     <div class="auth-container animate-in">
@@ -32,6 +33,7 @@
         <router-link to="/login" class="forgot-link">← Back to Buyer Login</router-link>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -88,6 +90,7 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%); position: relative; overflow: hidden; }
 .auth-bg { position: absolute; inset: 0; }
 .auth-particles { position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(254,44,85,0.1), transparent 50%), radial-gradient(circle at 70% 60%, rgba(108,92,231,0.08), transparent 50%); }
@@ -116,4 +119,6 @@ const handleLogin = async () => {
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+
+img { max-width: 100%; height: auto; }
 </style>

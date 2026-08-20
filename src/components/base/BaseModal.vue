@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <Teleport to="body">
     <Transition :name="transitionName">
       <div v-if="modelValue" class="base-modal__backdrop" :class="[`base-modal__backdrop--${position}`]" @click.self="closeOnBackdrop && $emit('update:modelValue', false)">
@@ -25,6 +26,7 @@
       </div>
     </Transition>
   </Teleport>
+  </div>
 </template>
 
 <script setup>

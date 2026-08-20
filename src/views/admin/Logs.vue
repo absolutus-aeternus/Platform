@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-logs">
     <div class="page-header"><h1>Activity Logs</h1><button class="btn-refresh" @click="load"><i class="fas fa-sync-alt"></i> Refresh</button></div>
     <div class="filters">
@@ -27,6 +28,7 @@
       </div>
       <div v-if="filtered.length === 0" class="empty"><i class="fas fa-clipboard-list"></i><p>No logs found</p></div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -76,6 +78,9 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+footer { position: relative; }
+header { z-index: 2; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .btn-refresh { padding: 8px 16px; background: #fff; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 13px; }

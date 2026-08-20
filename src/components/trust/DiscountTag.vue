@@ -1,7 +1,9 @@
 <template>
+  <div class="component-wrapper">
   <span class="discount-tag" :class="`discount-tag--${size}`">
     -{{ percentage }}%
   </span>
+  </div>
 </template>
 
 <script setup>

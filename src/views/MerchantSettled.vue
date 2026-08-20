@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="merchant-settled">
     <!-- Hero -->
     <section class="settled-hero">
@@ -60,7 +61,8 @@
                 <label>Phone Number *</label>
                 <div class="input-wrap"><i class="fas fa-phone"></i><input v-model="form.phone" type="tel" placeholder="+62 812 3456 7890" required></div>
               </div>
-            </template>
+              </div>
+</template>
             <div v-else class="notice-logged">
               <i class="fas fa-check-circle"></i>
               Logged in as <strong>{{ userStore.supabaseUser?.email }}</strong>
@@ -262,6 +264,7 @@
       </div>
     </section>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -419,6 +422,7 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
 /* Hero */

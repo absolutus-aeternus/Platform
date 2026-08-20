@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="user-download">
     <div class="page-header"><h1>Downloads</h1></div>
     <div v-if="downloads.length === 0" class="empty-state">
@@ -18,6 +19,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -34,6 +36,7 @@ const downloadFile = (dl) => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .empty-state { text-align: center; padding: 80px 20px; }

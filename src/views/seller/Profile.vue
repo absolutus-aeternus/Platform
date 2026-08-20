@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-profile">
     <h1>Store Profile</h1>
     <div class="profile-grid">
@@ -32,6 +33,7 @@
         <button class="btn-save" @click="saveProfile">Save Profile</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -69,6 +71,7 @@ const saveProfile = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; }
 .profile-card { background: #fff; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="my-loan">
     <h1>My Loans</h1>
     <div v-if="loading" class="loading">Loading...</div>
@@ -21,6 +22,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -31,6 +33,8 @@ const loading = ref(false)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }

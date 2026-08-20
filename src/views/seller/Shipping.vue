@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-shipping">
     <div class="page-header"><h1>Shipping</h1></div>
     <div class="grid-2">
@@ -29,13 +30,14 @@
     <div class="card">
       <h2><i class="fas fa-truck"></i> Recent Shipments</h2>
       <div v-if="shipments.length === 0" class="empty">No recent shipments</div>
-      <table v-else>
+      <div style="overflow-x:auto;"><table v-else>
         <thead><tr><th>Order #</th><th>Customer</th><th>Method</th><th>Tracking #</th><th>Status</th><th>Date</th></tr></thead>
         <tbody>
           <tr v-for="s in shipments" :key="s.id"><td>{{ s.order_no }}</td><td>{{ s.customer }}</td><td>{{ s.method }}</td><td class="tracking">{{ s.tracking || '-' }}</td><td><span class="status" :class="s.status">{{ s.status }}</span></td><td>{{ s.date }}</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -70,6 +72,7 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }

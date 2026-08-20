@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="favorites">
     <h1>My Favorites</h1>
     <div v-if="loading" class="loading">Loading favorites...</div>
@@ -19,6 +20,7 @@
         </button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -58,6 +60,8 @@ onMounted(loadFavorites)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }

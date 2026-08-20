@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div
     class="base-skeleton"
     :class="{ 'base-skeleton--animated': animated }"
@@ -6,6 +7,7 @@
     role="presentation"
     aria-hidden="true"
   />
+  </div>
 </template>
 
 <script setup>

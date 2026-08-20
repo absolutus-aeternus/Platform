@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="not-found-page">
     <div class="container">
       <div class="nf-content">
@@ -20,6 +21,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

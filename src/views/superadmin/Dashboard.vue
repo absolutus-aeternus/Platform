@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="sa-dashboard">
     <div class="sa-header">
       <h1><i class="fas fa-crown"></i> Super Admin Control Center</h1>
@@ -66,6 +67,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -114,6 +116,7 @@ onMounted(() => { loadStats(); loadLogs() })
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .sa-dashboard { padding: 24px; max-width: 1400px; margin: 0 auto; }
 .sa-header { margin-bottom: 30px; }
 .sa-header h1 { font-size: 28px; color: #1a1a2e; display: flex; align-items: center; gap: 12px; }

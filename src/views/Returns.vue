@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h1 style="margin-bottom:30px"><i class="fas fa-undo" style="color:var(--brand-primary, #FF9900)"></i> Return Policy</h1>
     <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);line-height:1.8">
@@ -31,4 +32,19 @@
       <p>If you have questions about a return, contact us through <router-link to="/customer-service" style="color:var(--brand-primary, #FF9900)">Customer Service</router-link> or live chat.</p>
     </div>
   </div>
+  </div>
 </template>
+
+
+<style scoped>
+.page-wrapper { position: relative; z-index: 1; }
+.page-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+</style>
+
+
+@media (max-width: 768px) {
+  .page-wrapper, .about-container, .help-container, .terms-container, .policy-container {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}

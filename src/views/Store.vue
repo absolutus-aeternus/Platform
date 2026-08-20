@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="store-page">
     <div class="container">
       <div v-if="loading" class="loading">Loading store...</div>
@@ -60,8 +61,10 @@
             </div>
           </div>
         </div>
-      </template>
+        </div>
+</template>
     </div>
+  </div>
   </div>
 </template>
 
@@ -124,6 +127,8 @@ const toggleFollow = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 .loading, .not-found, .empty { text-align: center; padding: 60px 0; color: #999; }
 
@@ -174,4 +179,6 @@ const toggleFollow = async () => {
 @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); } .store-profile { flex-direction: column; text-align: center; margin-top: -30px; } }
 @media (max-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+
+img { max-width: 100%; height: auto; }
 </style>

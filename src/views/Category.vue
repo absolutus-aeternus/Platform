@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="category-page">
     <div class="container">
       <h1 class="page-title">All Categories</h1>
@@ -12,6 +13,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

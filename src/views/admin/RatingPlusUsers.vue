@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="rplus-users">
     <div class="page-header">
       <h1>⭐ Rating Plus — User Management</h1>
@@ -50,6 +51,7 @@
       </table>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -99,6 +101,8 @@ onMounted(loadUsers)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .rplus-users { max-width: 1200px; }
 .page-header { margin-bottom: 24px; }
 .page-header h1 { font-size: 22px; margin-bottom: 4px; }

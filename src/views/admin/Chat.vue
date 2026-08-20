@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-chat">
     <h1>Customer Service Chat</h1>
     
@@ -75,8 +76,10 @@
                   <div class="msg-footer">
                     <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                     <span v-if="msg.is_admin" class="msg-check" :class="{ read: msg.is_read }">
-                      <template v-if="msg.is_read">✓✓</template>
-                      <template v-else>✓</template>
+                      <template v-if="msg.is_read">✓✓  </div>
+</template>
+                      <template v-else>✓  </div>
+</template>
                     </span>
                   </div>
                   <button v-if="msg.is_admin" class="msg-delete" @click="deleteMessage(msg)" title="Delete message"><i class="fas fa-trash"></i></button>
@@ -92,7 +95,8 @@
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
-        </template>
+          </div>
+</template>
       </div>
       
       <!-- Info Panel -->
@@ -140,6 +144,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -477,6 +482,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 h1 { margin-bottom: 25px; }
 .chat-layout { display: grid; grid-template-columns: 280px 1fr 250px; height: 70vh; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="promotions">
     <h1>Promotions</h1>
     <button class="btn-add" @click="showAdd = true">+ Create Promotion</button>
@@ -57,6 +58,7 @@
         </form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

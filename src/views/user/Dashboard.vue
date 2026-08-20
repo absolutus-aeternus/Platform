@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="dashboard">
     <h1>My Dashboard</h1>
     <div v-if="loading" class="loading">Loading...</div>
@@ -58,7 +59,9 @@
           <div><div>Join Rating Plus</div><small style="opacity:0.8;font-weight:400">Earn money daily</small></div>
         </router-link>
       </div>
-    </template>
+      </div>
+</template>
+  </div>
   </div>
 </template>
 

@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="stat-card" :style="{ '--accent': color }">
     <div class="stat-card__icon">
       <i :class="icon"></i>
@@ -17,6 +18,7 @@
         <i class="fas fa-exclamation-triangle"></i> {{ alert }}
       </div>
     </div>
+  </div>
   </div>
 </template>
 

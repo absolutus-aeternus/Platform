@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-users">
     <div class="page-header"><h1>Users</h1><span class="badge">{{ filtered.length }} users</span></div>
     <div class="filters">
@@ -48,6 +49,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -92,6 +94,7 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .badge { background: #f0f0f0; padding: 5px 12px; border-radius: 12px; font-size: 13px; color: #666; }

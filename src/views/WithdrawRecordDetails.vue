@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-file-invoice-dollar"></i> Withdrawal Details</h2>
@@ -14,6 +15,7 @@
         <div style="display:flex;justify-content:space-between;padding:12px 0"><span style="color:#64748b">Date</span><span>{{ new Date(record.created_at).toLocaleString() }}</span></div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

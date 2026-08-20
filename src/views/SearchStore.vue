@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="search-store">
     <div class="container">
       <h1>Search Stores</h1>
@@ -25,6 +26,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -50,6 +52,7 @@ onMounted(() => search())
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
 h1 { margin-bottom: 20px; font-size: 1.25rem; }
 .search-bar { display: flex; gap: 10px; margin-bottom: 25px; }
@@ -85,4 +88,6 @@ h1 { margin-bottom: 20px; font-size: 1.25rem; }
   .store-logo-wrap { width: 48px; height: 48px; }
   .avatar { font-size: 18px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

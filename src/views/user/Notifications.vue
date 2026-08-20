@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="notifications">
     <h1>Notifications</h1>
     <div v-if="loading" class="loading">Loading notifications...</div>
@@ -18,6 +19,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -79,6 +81,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading { text-align: center; padding: 40px; color: #999; }
 .empty-state { text-align: center; padding: 60px 0; }

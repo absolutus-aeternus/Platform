@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="cart-page">
     <div class="container">
       <h1 class="page-title"><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
@@ -73,6 +74,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -106,6 +108,8 @@ const removeItem = async (id) => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 .page-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #222; }
 .page-title i { color: var(--brand-primary, #FF9900); }
@@ -165,4 +169,6 @@ const removeItem = async (id) => {
   .item-qty button { width: 28px; height: 28px; font-size: 12px; }
   .item-qty span { width: 32px; font-size: 12px; line-height: 28px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="store-report">
     <div class="container">
       <h1>Store Report</h1>
@@ -23,6 +24,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

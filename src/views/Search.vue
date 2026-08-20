@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="search-page">
     <div class="container">
       <!-- Search Header -->
@@ -70,6 +71,7 @@
         v-model:filters="activeFilters"
       />
     </div>
+  </div>
   </div>
 </template>
 
@@ -187,6 +189,7 @@ onMounted(() => { doSearch() })
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .search-page { min-height: 60vh; }
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 

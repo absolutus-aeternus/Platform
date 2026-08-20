@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-credit-card"></i> Pending Payment</h2>
     <div v-if="order" class="payment-card">
@@ -20,6 +21,7 @@
       <button class="btn btn-primary" style="width:100%;justify-content:center" @click="payNow"><i class="fas fa-lock"></i> Pay ${{ order.total_amount }}</button>
     </div>
     <div v-else style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#64748b"></i><p style="margin-top:12px;color:#64748b">Loading order...</p></div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -49,6 +51,7 @@ const payNow = async () => {
 }
 </script>
 <style scoped>
+header { z-index: 2; }
 .payment-card { background: white; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; }
 .payment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
 .order-items { margin-bottom: 24px; }

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="inventory">
     <h1>Inventory</h1>
     <div class="summary">
@@ -46,6 +47,7 @@
       </table>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -85,6 +87,8 @@ onMounted(async () => { try {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
 .summary-card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }

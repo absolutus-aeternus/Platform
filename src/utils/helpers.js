@@ -3,7 +3,7 @@
 export function formatPrice(amount, currency = 'USD') {
   const symbols = { USD: '$', EUR: '€', GBP: '£', JPY: '¥', CNY: '¥', IDR: 'Rp', MYR: 'RM', THB: '฿', VND: '₫', PHP: '₱', SGD: 'S$', AUD: 'A$', CAD: 'C$', INR: '₹', BRL: 'R$', MXN: 'MX$', KRW: '₩', TWD: 'NT$', HKD: 'HK$' }
   const symbol = symbols[currency] || '$'
-  if (['JPY', 'KRW', 'VND'].includes(currency)) return `${symbol}${Math.round(amount).toLocaleString()}`
+  if (['JPY', 'KRW', 'VND', 'IDR'].includes(currency)) return `${symbol}${Math.round(amount).toLocaleString()}`
   return `${symbol}${parseFloat(amount).toFixed(2)}`
 }
 

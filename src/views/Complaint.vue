@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-exclamation-triangle"></i> Submit Complaint</h2>
     <div style="background:white;padding:32px;border-radius:16px;border:1px solid #e2e8f0">
@@ -11,6 +12,7 @@
       </form>
       <p v-if="msg" :style="{ color: msgColor, textAlign: 'center', marginTop: '16px' }">{{ msg }}</p>
     </div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -29,4 +31,6 @@ const submitComplaint = async () => {
   } catch (e) { console.error('Complaint error:', e); msg.value = 'Failed to submit complaint'; msgColor.value = '#dc2626' }
 }
 </script>
-<style scoped>.form-group { margin-bottom: 20px; } .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }</style>
+<style scoped>.form-group { margin-bottom: 20px; } .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }
+input, select, textarea { background: #ffffff; color: #1a1a1a; border: 1px solid #ddd; }
+</style>

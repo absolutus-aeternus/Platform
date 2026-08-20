@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:600px">
     <div class="auth-card">
       <h2><i class="fas fa-university"></i> Bank Cards</h2>
@@ -17,6 +18,7 @@
         <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" :disabled="loading"><i class="fas fa-spinner fa-spin" v-if="loading"></i><i class="fas fa-plus" v-else></i> {{ loading ? "Adding..." : "Add Card" }}</button>
       </form>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

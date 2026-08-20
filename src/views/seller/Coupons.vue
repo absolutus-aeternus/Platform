@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="coupons">
     <h1>Coupons</h1>
     <button class="btn-add" @click="showAdd = true">+ Create Coupon</button>
@@ -67,6 +68,7 @@
         </form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

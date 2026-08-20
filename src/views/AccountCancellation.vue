@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:600px">
     <div style="background:#fff;padding:40px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08)">
       <h2 style="margin-bottom:16px"><i class="fas fa-user-times" style="color:var(--error, #CC0C39)"></i> Account Cancellation</h2>
@@ -12,6 +13,7 @@
       </form>
       <p v-if="msg" style="color:var(--error, #CC0C39);text-align:center;margin-top:16px">{{ msg }}</p>
     </div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -30,3 +32,17 @@ const cancelAccount = async () => {
   loading.value = false
 }
 </script>
+
+
+<style scoped>
+.page-wrapper { position: relative; z-index: 1; }
+.page-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+</style>
+
+
+@media (max-width: 768px) {
+  .page-wrapper, .about-container, .help-container, .terms-container, .policy-container {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}

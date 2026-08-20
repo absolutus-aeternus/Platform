@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px;max-width:600px">
     <h2 style="margin-bottom:24px"><i class="fas fa-user-circle"></i> Choose Avatar</h2>
@@ -10,6 +11,7 @@
       </div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:24px" @click="saveAvatar"><i class="fas fa-check"></i> Save Avatar</button>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

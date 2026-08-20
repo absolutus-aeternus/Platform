@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="payment-methods-page">
     <div class="container">
       <h1><i class="fas fa-credit-card"></i> Payment Methods</h1>
@@ -46,6 +47,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

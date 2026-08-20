@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <button
     :class="[
       'base-btn',
@@ -13,6 +14,7 @@
     <i v-if="icon && !loading" :class="icon" class="base-btn__icon"></i>
     <span v-if="$slots.default" class="base-btn__text"><slot /></span>
   </button>
+  </div>
 </template>
 
 <script setup>

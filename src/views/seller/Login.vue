@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-login">
     <!-- Animated background -->
     <div class="login-bg">
@@ -93,12 +94,7 @@
 
         <!-- Social Login -->
         <div class="social-buttons">
-          <button class="btn-social google" @click="window.__toast?.show('Google login coming soon', 'info')">
-            <i class="fab fa-google"></i> Google
-          </button>
-          <button class="btn-social facebook" @click="window.__toast?.show('Facebook login coming soon', 'info')">
-            <i class="fab fa-facebook-f"></i> Facebook
-          </button>
+
         </div>
 
         <!-- Footer -->
@@ -115,6 +111,7 @@
         </select>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -192,6 +189,7 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .seller-login {
   min-height: 100vh;
   display: flex;
@@ -606,4 +604,6 @@ const handleLogin = async () => {
   .card-header h2 { font-size: 18px; }
   .social-buttons { flex-direction: column; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

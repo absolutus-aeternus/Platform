@@ -10,7 +10,7 @@
     <header class="seller-header">
       <div class="container header-inner">
         <button class="mobile-toggle" @click="showSidebar = !showSidebar"><i class="fas fa-bars"></i></button>
-        <router-link to="/" class="logo"><img src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-nav" /><span class="logo-sub">Seller</span></router-link>
+        <router-link to="/" class="logo"><img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-nav" /><span class="logo-sub">Seller</span></router-link>
         <nav class="header-nav"><router-link to="/seller">Dashboard</router-link><router-link to="/seller/products">Products</router-link><router-link to="/seller/orders">Orders</router-link></nav>
         <div class="header-right"><router-link to="/" class="btn-outline-sm"><i class="fas fa-store"></i> View Store</router-link></div>
       </div>
@@ -93,4 +93,6 @@ const showSidebar = ref(false)
   .seller-main { margin-left: 0; padding-bottom: 60px; }
 }
 
+
+img { max-width: 100%; height: auto; }
 </style>

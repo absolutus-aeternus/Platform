@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="base-input" :class="{ 'base-input--error': error, 'base-input--disabled': disabled }">
     <label v-if="label" class="base-input__label" :for="inputId">
       {{ label }}
@@ -42,6 +43,7 @@
     <div v-if="maxlength && showCount" class="base-input__count">
       {{ (modelValue || '').length }}/{{ maxlength }}
     </div>
+  </div>
   </div>
 </template>
 

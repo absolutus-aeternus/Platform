@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="seller-dashboard">
     <div class="seller-dashboard__header">
       <h1>Seller Dashboard</h1>
@@ -151,7 +152,9 @@
           </div>
         </div>
       </BentoGrid>
-    </template>
+      </div>
+</template>
+  </div>
   </div>
 </template>
 
@@ -225,6 +228,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .seller-dashboard { max-width: 1200px; margin: 0 auto; }
 .seller-dashboard__header { margin-bottom: 24px; }
 .seller-dashboard__header h1 { margin: 0; }
@@ -333,4 +337,6 @@ onMounted(async () => {
   .seller-actions__grid { grid-template-columns: repeat(2, 1fr); }
   .seller-alerts__item { padding: 8px; }
 }
+
+img { max-width: 100%; height: auto; }
 </style>

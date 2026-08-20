@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div>
     <section style="background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:60px 0;text-align:center">
       <div class="container">
@@ -33,8 +34,23 @@
       </div>
     </section>
   </div>
+  </div>
 </template>
 
 <script setup>
 // Static page — no data loading needed
 </script>
+
+
+<style scoped>
+.page-wrapper { position: relative; z-index: 1; }
+.page-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+</style>
+
+
+@media (max-width: 768px) {
+  .page-wrapper, .about-container, .help-container, .terms-container, .policy-container {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}

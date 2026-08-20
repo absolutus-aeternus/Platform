@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="manage-admins">
     <div class="page-header">
       <h1>Manage Admin Accounts</h1>
@@ -75,6 +76,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </template>
 
@@ -182,6 +184,7 @@ const deleteUser = async (user) => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }
 .btn-primary { padding: 8px 16px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }

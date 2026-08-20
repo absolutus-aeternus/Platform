@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-recharges">
     <div class="page-header">
       <h1>Recharges</h1>
@@ -29,7 +30,8 @@
               <template v-if="r.status === 'pending'">
                 <button class="btn-sm btn-approve" @click="confirm(r)"><i class="fas fa-check"></i></button>
                 <button class="btn-sm btn-reject" @click="reject(r)"><i class="fas fa-times"></i></button>
-              </template>
+                </div>
+</template>
               <span v-else class="done">Done</span>
             </td>
           </tr>
@@ -37,6 +39,7 @@
       </table>
       <div v-if="filtered.length === 0" class="empty">No recharges found</div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -82,6 +85,8 @@ onMounted(load)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
 .page-header h1 { margin: 0; }
 .header-stats { display: flex; gap: 12px; }

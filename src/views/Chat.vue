@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="chat-page">
     <div class="container">
       <div class="chat-container">
@@ -89,10 +90,12 @@
                 <i class="fas fa-paper-plane"></i>
               </button>
             </div>
-          </template>
+            </div>
+</template>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -363,6 +366,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
 .chat-container { display: grid; grid-template-columns: 320px 1fr; height: 70vh; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 .chat-sidebar { border-right: 1px solid #eee; display: flex; flex-direction: column; }

@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="sa-page">
     <div class="sa-header">
       <h1><i class="fas fa-shield-alt"></i> Security Center</h1>
@@ -48,6 +49,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -99,6 +101,7 @@ onMounted(loadSecurityData)
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .sa-page { padding: 24px; max-width: 1400px; margin: 0 auto; }
 .sa-header { margin-bottom: 24px; }
 .sa-header h1 { font-size: 24px; color: #1a1a2e; display: flex; align-items: center; gap: 10px; }

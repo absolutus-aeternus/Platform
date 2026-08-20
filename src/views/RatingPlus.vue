@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="rplus-page">
     <!-- Animated Background -->
     <div class="bg-mesh"></div>
@@ -203,6 +204,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

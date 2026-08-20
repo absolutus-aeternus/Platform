@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="finance">
     <h1>Finance</h1>
     <div class="stats-grid">
@@ -25,7 +26,7 @@
       <div v-if="loading" class="loading">Loading...</div>
       <div v-else-if="transactions.length === 0" class="empty">No transactions</div>
       <div v-else class="table-container">
-        <table>
+        <div style="overflow-x:auto;"><table>
           <thead>
             <tr>
               <th>Date</th>
@@ -42,9 +43,10 @@
               <td><span class="status" :class="tx.status">{{ tx.status }}</span></td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -77,6 +79,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
 .stat-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }

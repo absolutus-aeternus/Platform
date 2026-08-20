@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="rplus-chat">
     <div class="page-header">
       <h1>⭐ Rating Plus — Live Chat</h1>
@@ -51,9 +52,11 @@
             <input v-model="newMessage" type="text" placeholder="Type a message..." @keyup.enter="sendMessage" class="chat-input">
             <button @click="sendMessage" class="btn-send" :disabled="!newMessage.trim()"><i class="fas fa-paper-plane"></i></button>
           </div>
-        </template>
+          </div>
+</template>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -115,6 +118,7 @@ onMounted(loadChatters)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .rplus-chat { max-width: 1200px; height: calc(100vh - 120px); }
 .page-header { margin-bottom: 20px; }
 .page-header h1 { font-size: 22px; margin-bottom: 4px; }

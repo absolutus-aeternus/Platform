@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-truck"></i> Order Logistics</h2>
@@ -14,6 +15,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -41,6 +43,7 @@ onMounted(async () => { try {
 })
 </script>
 <style scoped>
+header { z-index: 2; }
 .logistics-timeline { position: relative; padding-left: 30px; }
 .timeline-item { position: relative; padding-bottom: 24px; padding-left: 20px; border-left: 2px solid #e2e8f0; }
 .timeline-item.active { border-left-color: #ff6b35; }

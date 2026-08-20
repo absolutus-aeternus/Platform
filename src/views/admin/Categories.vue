@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-categories">
     <div class="page-header">
       <h1>Categories</h1>
@@ -85,6 +86,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -158,6 +160,7 @@ onMounted(loadCategories)
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
 .admin-categories { padding: 0; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-header h1 { margin: 0; }

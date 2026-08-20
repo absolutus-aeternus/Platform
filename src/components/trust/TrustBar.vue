@@ -1,4 +1,5 @@
 <template>
+  <div class="component-wrapper">
   <div class="trust-bar" :class="{ 'trust-bar--vertical': vertical }">
     <div class="trust-bar__item">
       <i class="fas fa-shield-alt"></i>
@@ -16,6 +17,7 @@
       <i class="fas fa-truck"></i>
       <span>{{ shipping }}</span>
     </div>
+  </div>
   </div>
 </template>
 

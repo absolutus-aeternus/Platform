@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="admin-blockchain">
     <div class="page-header"><h1>Blockchain Channels</h1><button class="btn-add" @click="openModal()"><i class="fas fa-plus"></i> Add Channel</button></div>
     <div v-if="loading" class="loading">Loading...</div>
@@ -40,6 +41,7 @@
         </div>
       </form>
     </BaseModal>
+  </div>
   </div>
 </template>
 

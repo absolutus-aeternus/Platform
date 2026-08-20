@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-headset"></i> Customer Service</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
@@ -27,6 +28,7 @@
         <router-link to="/complaint" class="btn btn-secondary"><i class="fas fa-edit"></i> File Complaint</router-link>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

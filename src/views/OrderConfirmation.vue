@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-truck"></i> Order Confirmation</h2>
@@ -28,6 +29,7 @@
         <router-link to="/user/orders" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Orders</router-link>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script setup>

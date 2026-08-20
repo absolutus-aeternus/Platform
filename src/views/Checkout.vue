@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="checkout-page">
     <div class="container">
       <h1>Checkout</h1>
@@ -73,6 +74,7 @@
 
     <!-- Loading State -->
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
+  </div>
   </div>
 </template>
 
@@ -185,6 +187,7 @@ const placeOrder = async () => {
 </script>
 
 <style scoped>
+header { z-index: 2; }
 .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 .page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
 .checkout-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; }

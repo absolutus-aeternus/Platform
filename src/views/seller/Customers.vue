@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
   <div class="customers">
     <h1>Customers</h1>
     <div v-if="loading" class="loading">Loading...</div>
@@ -23,6 +24,7 @@
         </tbody>
       </table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -60,6 +62,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+body, html { overflow-x: hidden; }
+header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading, .empty { text-align: center; padding: 40px; color: #999; }
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }

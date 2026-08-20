@@ -5,7 +5,7 @@
     <div v-if="showSidebar" class="mobile-overlay" @click="showSidebar = false"></div>
     <aside class="sa-sidebar" :class="{ open: showSidebar }">
       <div class="sidebar-header">
-        <img src="/images/logo-alliance.svg" alt="AllianceHub" class="sidebar-logo">
+        <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="sidebar-logo">
         <span class="sidebar-title">Super Admin</span>
       </div><!-- Portal Switcher -->
 <div class="portal-switcher">
@@ -216,4 +216,6 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .switcher-btn:hover { background: rgba(255,255,255,0.1); color: white; }
 .switcher-btn.active { background: var(--brand-dark, #131921); color: white; }
 .switcher-btn i { font-size: 14px; }
+
+img { max-width: 100%; height: auto; }
 </style>
