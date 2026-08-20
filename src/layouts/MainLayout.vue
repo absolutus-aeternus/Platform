@@ -270,9 +270,8 @@
 
     <ChatWidget />
   </div>
-
-<!-- Mobile Bottom Navigation -->
-<MobileTabBar />
+    <MobileTabBar />
+  </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -281,6 +280,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchCategories } from '@/services/supabase'
 import ChatWidget from '@/components/ChatWidget.vue'
+
 import MobileTabBar from '@/components/layout/MobileTabBar.vue'
 import { useDevice } from '@/composables/useDevice'
 import { useDarkMode } from '@/composables/useDarkMode'
