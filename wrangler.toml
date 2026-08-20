@@ -1,49 +1,11 @@
 name = "alliancehub-api"
-main = "src/worker/index.js"
+main = "src/index.js"
 compatibility_date = "2024-01-01"
+account_id = "f891a7b56743e4fb41751c507e3c1c3d"
 
 [vars]
-# Supabase
-VITE_SUPABASE_URL = "https://cfzmdvymqqnrzrytcrie.supabase.co"
-SUPABASE_URL = "https://cfzmdvymqqnrzrytcrie.supabase.co"
+# Non-secret configuration only
+# Secrets must be set via: wrangler secret put <NAME>
 
-# R2 / B2 Storage
-VITE_R2_PUBLIC_URL = "/api/file"
-VITE_R2_BUCKET_NAME = "alliancehub"
-B2_BUCKET_NAME = "alliancehub"
-R2_BUCKET_NAME = "alliancehub-assets"
-R2_ACCOUNT_ID = "f891a7b56743e4fb41751c507e3c1c3d"
-
-# Algolia
-VITE_ALGOLIA_APP_ID = "GLRKXLGDD9"
-
-# MongoDB
-MONGODB_DB_NAME = "alliancehub"
-MONGODB_DATA_API_URL = "https://data.mongodb-api.com/app/data-api/endpoint/data/v1"
-
-# Email
-BREVO_FROM_EMAIL = "noreply@alliancehub.com"
-
-# Redis
-UPSTASH_REDIS_URL = "https://modest-gopher-184544.upstash.io"
-
-# CORS
-ALLOWED_ORIGINS = "https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000"
-
-# Sensitive keys MUST be set via Wrangler Secrets (not here):
-# wrangler secret put VITE_SUPABASE_ANON_KEY
-# wrangler secret put SUPABASE_SERVICE_ROLE_KEY
-# wrangler secret put VITE_ALGOLIA_SEARCH_KEY
-# wrangler secret put ALGOLIA_WRITE_KEY
-# wrangler secret put CRON_JOB_TOKEN
-# wrangler secret put B2_KEY_ID
-# wrangler secret put B2_APPLICATION_KEY
-# wrangler secret put B2_BUCKET_ID
-# wrangler secret put UPSTASH_REDIS_REST_URL
-# wrangler secret put UPSTASH_REDIS_REST_TOKEN
-# wrangler secret put RESEND_API_KEY
-# wrangler secret put BREVO_API_KEY
-# wrangler secret put BREVO_SMTP_KEY
-
-[triggers]
-crons = ["0 */6 * * *"]
+[env.production]
+name = "alliancehub-api-production"
