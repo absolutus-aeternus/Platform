@@ -84,7 +84,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -127,6 +126,8 @@ const trackOrder = async () => {
   } catch (e) { error.value = 'Failed to fetch order details.' }
   loading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>

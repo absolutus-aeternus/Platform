@@ -1,45 +1,91 @@
+```
+# Dependencies
 node_modules/
-dist/
-*.log
-.env
-.env*
-.env.local
-.env.*.local
-.progress
-.openclaw/
-*.sql.bak
-.DS_Store
-Thumbs.db
 
-# IDE
+# Build artifacts
+dist/
+build/
+target/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+*.env.*
+
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
+*.tmp
 
-# OS
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git-flow-*
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Build
-*.tsbuildinfo
-.wrangler/
-.dev.vars
-
-# Test & Coverage
-coverage/
-.nyc_output/
-
-# Debug
+# Node.js specific
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
+node_modules/
+jspm_packages/
+typings/
+.nyc_output
+coverage/
+*.lcov
+.nyc_output/
+coverage/
+lib-cov/
+*.info
+*.log
+npm-shrinkwrap.json
+*.tgz
+*.tar.gz
+*.zip
+*.gz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 
-# Editor directories and files
-*.ntvs*
-*.njsproj
-*.sln
-*.user
+# Vue.js specific
+.vuepress/dist
+.vuepress/.cache
+.vuepress/.temp
+```

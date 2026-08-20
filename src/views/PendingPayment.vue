@@ -23,7 +23,6 @@
     <div v-else style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:#64748b"></i><p style="margin-top:12px;color:#64748b">Loading order...</p></div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref, onMounted } from 'vue'
@@ -49,6 +48,8 @@ const payNow = async () => {
   try { await supabase.from('orders').update({ payment_method: payment.value, payment_status: 'paid', status: 'processing' }).eq('id', order.value.id) } catch(_e) { console.error('PendingPayment:', _e); window.__toast?.show('Payment failed', 'error') }
   router.push(`/pay-success?order=${order.value.order_no}`)
 }
+</template>
+
 </script>
 <style scoped>
 header { z-index: 2; }

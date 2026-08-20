@@ -17,7 +17,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref, onMounted } from 'vue'
@@ -41,6 +40,8 @@ onMounted(async () => { try {
   loading.value = false
 } catch (e) { console.error('Logistics error:', e) }
 })
+</template>
+
 </script>
 <style scoped>
 header { z-index: 2; }

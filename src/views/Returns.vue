@@ -33,7 +33,6 @@
     </div>
   </div>
   </div>
-</template>
 
 
 <style scoped>
@@ -48,3 +47,4 @@
     max-width: 100% !important;
   }
 }
+</template>

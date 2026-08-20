@@ -41,9 +41,9 @@
                   <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                   <span v-if="msg.is_own" class="msg-check" :class="{ read: msg.is_read }">
                     <template v-if="msg.is_read">✓✓  </div>
-</template>
+
                     <template v-else>✓  </div>
-</template>
+
                   </span>
                 </div>
               </div>
@@ -218,7 +218,7 @@ h1 { margin-bottom: 25px; }
 
 @media (max-width: 768px) {
   h1 { font-size: 1.25rem; margin-bottom: 16px; }
-  .messages-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .messages-layout { grid-template-columns: 1fr; height: calc(100dvh - 10rem); position: relative; }
   .conv-list { position: absolute; inset: 0; z-index: 10; background: #fff; }
   .conv-list.hidden { display: none; }
   .chat-header { padding: 12px 15px; }

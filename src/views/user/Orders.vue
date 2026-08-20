@@ -36,7 +36,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
@@ -76,6 +75,8 @@ onMounted(async () => {
 onUnmounted(() => {
   if (unsubscribe) unsubscribe()
 })
+</template>
+
 </script>
 
 <style scoped>

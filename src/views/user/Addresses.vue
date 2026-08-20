@@ -75,7 +75,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -139,6 +138,8 @@ const deleteAddress = async (id) => {
 }
 
 onMounted(loadAddresses)
+</template>
+
 </script>
 
 <style scoped>

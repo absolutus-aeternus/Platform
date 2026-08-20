@@ -38,7 +38,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -60,6 +59,8 @@ const submitReturn = async () => {
   window.__toast?.show('Return request submitted successfully!')
   router.push('/user/orders')
 }
+</template>
+
 </script>
 
 <style scoped>

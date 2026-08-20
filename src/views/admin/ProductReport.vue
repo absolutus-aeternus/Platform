@@ -18,7 +18,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -50,6 +49,8 @@ onMounted(async () => { try {
   products.value = data || []
 } catch (e) { console.error("ProductReport.vue error:", e) }
 })
+</template>
+
 </script>
 
 <style scoped>

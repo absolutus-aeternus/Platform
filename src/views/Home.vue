@@ -243,7 +243,6 @@
     </section>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
@@ -409,6 +408,8 @@ onUnmounted(() => {
   if (realtimeChannel) supabase.removeChannel(realtimeChannel)
   if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
 })
+</template>
+
 </script>
 
 <style scoped>

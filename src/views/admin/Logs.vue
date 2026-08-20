@@ -30,7 +30,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -75,6 +74,8 @@ const load = async () => {
   } catch (e) { console.error('Logs error:', e) }
 }
 onMounted(load)
+</template>
+
 </script>
 
 <style scoped>

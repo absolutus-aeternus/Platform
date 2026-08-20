@@ -13,7 +13,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -56,6 +55,8 @@ const bindPhone = async () => {
   }
   loading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>

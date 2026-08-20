@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div
     class="base-skeleton"
     :class="{ 'base-skeleton--animated': animated }"
@@ -7,8 +6,6 @@
     role="presentation"
     aria-hidden="true"
   />
-  </div>
-</template>
 
 <script setup>
 import { computed } from 'vue'
@@ -33,6 +30,8 @@ const skeletonStyle = computed(() => ({
   height: props.height,
   borderRadius: props.borderRadius
 }))
+</template>
+
 </script>
 
 <style scoped>

@@ -1,16 +1,15 @@
 <template>
-  <div class="component-wrapper">
   <span class="discount-tag" :class="`discount-tag--${size}`">
     -{{ percentage }}%
   </span>
-  </div>
-</template>
 
 <script setup>
 defineProps({
   percentage: { type: [Number, String], required: true },
   size: { type: String, default: 'sm', validator: v => ['sm', 'md', 'lg'].includes(v) }
 })
+</template>
+
 </script>
 
 <style scoped>

@@ -9,11 +9,12 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const msg = route.query.message || 'Your operation has been completed successfully.'
+</template>
+
 </script>
 
 

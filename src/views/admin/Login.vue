@@ -35,7 +35,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -87,11 +86,13 @@ const handleLogin = async () => {
     loading.value = false
   }
 }
+</template>
+
 </script>
 
 <style scoped>
 body, html { overflow-x: hidden; }
-.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%); position: relative; overflow: hidden; }
+.auth-page { min-height: 100dvh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%); position: relative; overflow: hidden; }
 .auth-bg { position: absolute; inset: 0; }
 .auth-particles { position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(254,44,85,0.1), transparent 50%), radial-gradient(circle at 70% 60%, rgba(108,92,231,0.08), transparent 50%); }
 .auth-container { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 16px; padding: 40px; width: 420px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; z-index: 2; border-top: 4px solid var(--brand-primary, #FF9900); }

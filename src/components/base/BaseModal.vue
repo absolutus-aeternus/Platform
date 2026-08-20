@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <Teleport to="body">
     <Transition :name="transitionName">
       <div v-if="modelValue" class="base-modal__backdrop" :class="[`base-modal__backdrop--${position}`]" @click.self="closeOnBackdrop && $emit('update:modelValue', false)">
@@ -26,8 +25,6 @@
       </div>
     </Transition>
   </Teleport>
-  </div>
-</template>
 
 <script setup>
 import { computed, ref } from 'vue'
@@ -70,6 +67,8 @@ function onTouchEnd() {
     emit('update:modelValue', false)
   }
 }
+</template>
+
 </script>
 
 <style scoped>
@@ -102,8 +101,8 @@ function onTouchEnd() {
 .base-modal--lg { max-width: 700px; }
 .base-modal--fullscreen {
   max-width: 100%;
-  max-height: 100vh;
-  height: 100vh;
+  max-height: 100dvh;
+  height: 100dvh;
   border-radius: 0;
 }
 

@@ -26,7 +26,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -50,6 +49,8 @@ const unfollow = async (shop) => {
   try { await supabase.from('followed_sellers').delete().eq('id', shop.id) } catch(_e) { console.error('CollectShop.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   shops.value = shops.value.filter(s => s.id !== shop.id)
 }
+</template>
+
 </script>
 
 <style scoped>

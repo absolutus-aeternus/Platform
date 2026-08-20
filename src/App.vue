@@ -7,7 +7,6 @@
       </transition>
     </router-view>
   </div>
-</template>
 
 <style>
 #app { max-width: 100vw; overflow-x: hidden; }
@@ -102,4 +101,6 @@ watch(() => userStore.isLoggedIn, (loggedIn) => {
 onUnmounted(() => {
   disconnect()
 })
+</template>
+
 </script>

@@ -165,7 +165,6 @@
       <router-view />
     </main>
   </div>
-</template>
 
 <script setup>
 import { useRouter } from 'vue-router'
@@ -175,11 +174,13 @@ const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
 const handleLogout = async () => { await userStore.logout(); router.push('/login/admin') }
+</template>
+
 </script>
 
 <style scoped>
-.sa-layout { display: flex; min-height: 100vh; background: #EAEDED; }
-.sa-sidebar { width: 260px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: #fff; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; overflow-y: auto; }
+.sa-layout { display: flex; min-height: 100dvh; background: #EAEDED; }
+.sa-sidebar { width: 260px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: #fff; display: flex; flex-direction: column; position: fixed; height: 100dvh; z-index: 100; overflow-y: auto; }
 .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .sidebar-logo { width: 32px; height: 32px; }
 .sidebar-title { font-size: 16px; font-weight: 700; color: #f39c12; }
@@ -197,7 +198,7 @@ const handleLogout = async () => { await userStore.logout(); router.push('/login
 .user-role { font-size: 11px; color: rgba(255,255,255,0.5); }
 .logout-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 16px; padding: 8px; border-radius: 6px; }
 .logout-btn:hover { background: rgba(255,255,255,0.1); color: #ff7675; }
-.sa-main { flex: 1; margin-left: 260px; min-height: 100vh; }
+.sa-main { flex: 1; margin-left: 260px; min-height: 100dvh; }
 @media (max-width: 1023px) { .sa-sidebar { width: 60px; } .sidebar-title, .nav-label, .nav-item span, .user-info div { display: none; } .nav-item { justify-content: center; padding: 10px; } .nav-item i { width: auto; } .sa-main { margin-left: 60px; } }
 @media (max-width: 768px) {
   .mobile-toggle { display: block; position: fixed; top: 12px; left: 12px; z-index: 300; background: #1a1a2e; color: #fff; border: none; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; cursor: pointer; }

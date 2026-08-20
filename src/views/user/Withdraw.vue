@@ -42,7 +42,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -105,6 +104,8 @@ const submitWithdraw = async () => {
   amount.value = 0; address.value = ''
   balance.value = (parseFloat(balance.value) - amount.value).toFixed(2)
 }
+</template>
+
 </script>
 
 <style scoped>

@@ -41,12 +41,13 @@
       <main class="main-content"><router-view /></main>
     </div>
   </div>
-</template>
 <script setup>
 import { useUserStore } from "@/store/user"
 const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
+</template>
+
 </script>
 <style scoped>
 .seller-header { background: var(--brand-dark, #131921); color: #fff; padding: 0 15px; position: sticky; top: 0; z-index: 100; }
@@ -64,7 +65,7 @@ const showSidebar = ref(false)
 .btn-outline-sm { padding: 6px 14px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; color: #fff; font-size: 13px; text-decoration: none; transition: all 0.2s; }
 .btn-outline-sm:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-.main-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 24px 0; min-height: calc(100vh - 56px); }
+.main-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 24px 0; min-height: calc(100dvh - 56px); }
 .sidebar { position: sticky; top: 80px; height: fit-content; }
 .sidebar-overlay { display: none; }
 .sidebar-content { display: flex; flex-direction: column; gap: 4px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
@@ -77,10 +78,10 @@ const showSidebar = ref(false)
   .mobile-toggle { display: block; }
   .header-nav { display: none; }
   .main-layout { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100vh; z-index: 200; transition: left 0.3s; }
+  .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100dvh; z-index: 200; transition: left 0.3s; }
   .sidebar.open { left: 0; }
   .sidebar.open .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: -1; }
-  .sidebar-content { border-radius: 0; height: 100vh; overflow-y: auto; padding-top: 60px; }
+  .sidebar-content { border-radius: 0; height: 100dvh; overflow-y: auto; padding-top: 60px; }
 }
 
 /* Seller Responsive */

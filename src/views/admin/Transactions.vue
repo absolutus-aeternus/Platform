@@ -32,7 +32,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -71,6 +70,8 @@ onMounted(async () => { try {
   loading.value = false
 } catch (e) { console.error("Transactions.vue error:", e) }
 })
+</template>
+
 </script>
 
 <style scoped>

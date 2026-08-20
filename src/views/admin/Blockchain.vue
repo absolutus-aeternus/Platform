@@ -43,7 +43,6 @@
     </BaseModal>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -84,6 +83,8 @@ const toggleActive = async (ch) => { await supabase.from('blockchain_channels').
 const deleteChannel = async (ch) => { if (!confirm('Delete channel?')) return; await supabase.from('blockchain_channels').delete().eq('id', ch.id); await load() }
   saving.value = false
 onMounted(load)
+</template>
+
 </script>
 
 <style scoped>

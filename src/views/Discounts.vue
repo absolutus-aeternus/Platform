@@ -15,7 +15,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -38,6 +37,8 @@ onMounted(async () => {
   }
   loading.value = false
 })
+</template>
+
 </script>
 
 <style scoped>

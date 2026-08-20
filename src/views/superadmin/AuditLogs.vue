@@ -36,7 +36,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -72,6 +71,8 @@ const exportLogs = () => {
 }
 
 onMounted(loadLogs)
+</template>
+
 </script>
 
 <style scoped>

@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="flash-card" @click="$router.push(`/product/${product.id}`)">
     <div class="flash-card__img">
       <!-- Skeleton loader (prevents CLS) -->
@@ -38,8 +37,6 @@
       </div>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 import { ref, computed } from 'vue'
@@ -70,6 +67,8 @@ function formatSales(n) {
   if (n >= 1000) return (n / 1000).toFixed(1) + 'K'
   return n.toString()
 }
+</template>
+
 </script>
 
 <style scoped>

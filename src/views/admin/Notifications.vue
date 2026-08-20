@@ -47,7 +47,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -93,6 +92,8 @@ const sendNotification = async () => {
 }
 const deleteNotification = async (n) => { if (!confirm('Delete?')) return; await supabase.from('notifications').delete().eq('id', n.id); await load() }
 onMounted(load)
+</template>
+
 </script>
 
 <style scoped>

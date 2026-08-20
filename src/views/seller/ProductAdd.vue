@@ -45,7 +45,6 @@
     </form>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -86,6 +85,8 @@ const addProduct = async () => {
   saving.value = false
   loading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>

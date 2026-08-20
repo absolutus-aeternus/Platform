@@ -23,7 +23,6 @@
     </section>
   </div>
   </div>
-</template>
 <style scoped>
 .info-hero { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 80px 0; text-align: center; }
 .info-hero-title { font-size: 42px; font-weight: 900; margin-bottom: 16px; }
@@ -44,3 +43,4 @@
   .info-card { padding: 16px; }
 }
 </style>
+</template>

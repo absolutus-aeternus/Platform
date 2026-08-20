@@ -273,7 +273,6 @@
 
 <!-- Mobile Bottom Navigation -->
 <MobileTabBar />
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -370,6 +369,8 @@ onMounted(async () => {
   window.addEventListener('scroll', handleScroll, { passive: true })
   // Cleanup on unmount (though layout persists)
 })
+</template>
+
 </script>
 
 <style scoped>

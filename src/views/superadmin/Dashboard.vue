@@ -68,7 +68,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -113,6 +112,8 @@ const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
 const clearCache = () => { localStorage.clear(); window.__toast?.show('Cache cleared!', 'success') }
 
 onMounted(() => { loadStats(); loadLogs() })
+</template>
+
 </script>
 
 <style scoped>

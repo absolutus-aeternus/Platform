@@ -224,3 +224,48 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
+
+/* ── Mobile Optimizations ── */
+@media (max-width: 767px) {
+  :root {
+    /* Better touch targets on mobile */
+    --space-2: 10px; /* Increase from 8px for better touch spacing */
+    --radius-md: 10px;
+  }
+}
+
+/* ── Overscroll Behavior for Modals/Sheets ── */
+.filter-sheet,
+.base-modal,
+.modal-backdrop {
+  overscroll-behavior: contain;
+}
+
+/* ── Touch Feedback for Interactive Elements ── */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  .btn:active,
+  .product-card:active,
+  .filter-sheet__chip:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* ── Safe Area Support for Mobile Browsers ── */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right, 0);
+}
+

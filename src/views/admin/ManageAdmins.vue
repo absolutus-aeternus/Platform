@@ -78,7 +78,6 @@
     </table>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -181,6 +180,8 @@ const deleteUser = async (user) => {
     window.__toast?.show('Failed to delete', 'error')
   }
 }
+</template>
+
 </script>
 
 <style scoped>

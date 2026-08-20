@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="sales-chart">
     <div class="sales-chart__header">
       <h3 class="sales-chart__title">{{ title }}</h3>
@@ -31,8 +30,6 @@
       </div>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 import { computed } from 'vue'
@@ -58,6 +55,8 @@ function formatValue(v) {
   if (v >= 1000) return (v / 1000).toFixed(0) + 'K'
   return v.toString()
 }
+</template>
+
 </script>
 
 <style scoped>

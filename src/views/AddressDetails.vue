@@ -18,7 +18,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -49,6 +48,8 @@ const saveAddress = async () => {
     router.push('/user/addresses')
   } catch (e) { console.error('Save address error:', e); window.__toast?.show('Failed to save address', 'error') }
 }
+</template>
+
 </script>
 <style scoped>.form-group { margin-bottom: 16px; } .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: var(--brand-primary, #FF9900); outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }
 input, select, textarea { background: #ffffff; color: #1a1a1a; border: 1px solid #ddd; }

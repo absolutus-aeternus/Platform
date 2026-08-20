@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="stat-card" :style="{ '--accent': color }">
     <div class="stat-card__icon">
       <i :class="icon"></i>
@@ -19,8 +18,6 @@
       </div>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 defineProps({
@@ -33,6 +30,8 @@ defineProps({
   alert: { type: String, default: '' },
   color: { type: String, default: '#007185' }
 })
+</template>
+
 </script>
 
 <style scoped>

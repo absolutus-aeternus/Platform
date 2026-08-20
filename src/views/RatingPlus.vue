@@ -206,7 +206,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -284,6 +283,8 @@ const handleDaftar = async () => {
   } catch (e) { authError.value = 'Terjadi kesalahan' }
   authLoading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>
@@ -299,7 +300,7 @@ const handleDaftar = async () => {
 .section-desc { color: rgba(240,236,230,0.5); font-size: 0.875rem; }
 
 /* ===== HERO ===== */
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px 60px; position: relative; }
+.hero { min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 100px 20px 60px; position: relative; }
 .hero::before { content: ''; position: absolute; top: -30%; right: -20%; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(255,77,0,.15), transparent 60%); pointer-events: none; filter: blur(60px); }
 .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; align-items: center; position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; background: rgba(255,77,0,0.1); border: 1px solid rgba(255,77,0,0.2); font-size: 0.72rem; font-weight: 700; color: var(--brand-primary-hover, #E68A00); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; }

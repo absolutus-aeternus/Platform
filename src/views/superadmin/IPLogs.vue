@@ -104,7 +104,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -176,6 +175,8 @@ const exportCSV = () => {
 }
 
 onMounted(loadLogs)
+</template>
+
 </script>
 
 <style scoped>

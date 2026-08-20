@@ -208,7 +208,6 @@
       </main>
     </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed } from 'vue'
@@ -228,13 +227,15 @@ const logout = async () => {
     router.push('/login')
   } catch (e) { console.warn('AdminLayout: logout failed:', e.message) }
 }
+</template>
+
 </script>
 
 <style scoped>
-.admin-layout { display: flex; min-height: 100vh; }
+.admin-layout { display: flex; min-height: 100dvh; }
 
 /* Sidebar */
-.sidebar { width: 250px; background: var(--brand-nav, #232F3E); color: #fff; transition: width 0.3s; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+.sidebar { width: 250px; background: var(--brand-nav, #232F3E); color: #fff; transition: width 0.3s; position: fixed; height: 100dvh; overflow-y: auto; z-index: 100; }
 .sidebar-collapsed .sidebar { width: 70px; }
 .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
@@ -277,7 +278,7 @@ const logout = async () => {
 .dropdown-divider { height: 1px; background: #eee; margin: 5px 0; }
 
 /* Page Content */
-.page-content { padding: 20px; min-height: calc(100vh - 60px); }
+.page-content { padding: 20px; min-height: calc(100dvh - 60px); }
 
 @media (max-width: 768px) {
   .sidebar { transform: translateX(-100%); }

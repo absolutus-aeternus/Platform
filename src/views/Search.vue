@@ -73,7 +73,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
@@ -186,6 +185,8 @@ watch(() => route.query.q, (newQ) => {
 })
 
 onMounted(() => { doSearch() })
+</template>
+
 </script>
 
 <style scoped>

@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="sticky-cta" v-if="visible">
     <div class="sticky-cta__price" v-if="price">
       <span class="sticky-cta__price-value">${{ price }}</span>
@@ -17,8 +16,6 @@
       </button>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 defineProps({
@@ -27,6 +24,8 @@ defineProps({
   originalPrice: { type: [Number, String], default: '' }
 })
 defineEmits(['chat', 'add-to-cart', 'buy-now'])
+</template>
+
 </script>
 
 <style scoped>

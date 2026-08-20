@@ -36,7 +36,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -75,6 +74,8 @@ const submitReview = async () => {
   loading.value = false
   } catch (e) { console.error('Order evaluation error:', e); window.__toast?.show('Failed to submit review', 'error') }
 }
+</template>
+
 </script>
 
 <style scoped>

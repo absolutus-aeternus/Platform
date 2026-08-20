@@ -26,7 +26,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -54,6 +53,8 @@ const load = async () => {
 }
 const deleteMsg = async (m) => { if (!confirm('Delete message?')) return; await supabase.from('chat_messages').delete().eq('id', m.id); await load() }
 onMounted(load)
+</template>
+
 </script>
 
 <style scoped>

@@ -31,7 +31,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref, onMounted } from 'vue'
@@ -44,6 +43,8 @@ onMounted(async () => { try {
   loading.value = false
   if (data) order.value = data } catch (e) { console.error("Order load error:", e) }
 })
+</template>
+
 </script>
 <style scoped>
 @media (max-width: 768px) {

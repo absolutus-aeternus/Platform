@@ -34,7 +34,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <style scoped>
 .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 60px 0; text-align: center; }
@@ -51,3 +50,4 @@
 @media (max-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 0; } .feature-card { padding: 20px; } .feature-card i { font-size: 28px; } }
 @media (max-width: 480px) { .features-grid { grid-template-columns: 1fr; } }
 </style>
+</template>

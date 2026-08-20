@@ -28,7 +28,6 @@
     <div v-if="saved" class="save-toast"><i class="fas fa-check-circle"></i> Settings saved successfully!</div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -83,6 +82,8 @@ const saveSettings = async () => {
   saved.value = true
   setTimeout(() => { saved.value = false }, 3000)
 }
+</template>
+
 </script>
 
 <style scoped>

@@ -23,7 +23,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <style scoped>
 .not-found-page { min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
@@ -38,3 +37,4 @@
 .nf-links a { color: var(--text-link); font-size: 0.875rem; }
 .nf-links a:hover { color: var(--text-link-hover); text-decoration: underline; }
 </style>
+</template>

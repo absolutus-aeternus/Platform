@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <Teleport to="body">
     <Transition name="toast">
       <div v-if="visible" class="global-toast" :class="type">
@@ -8,8 +7,6 @@
       </div>
     </Transition>
   </Teleport>
-  </div>
-</template>
 <script setup>
 import { ref, computed } from 'vue'
 const visible = ref(false)
@@ -32,6 +29,8 @@ const show = (msg, t = 'success', duration = 3000) => {
 }
 
 defineExpose({ show })
+</template>
+
 </script>
 <style scoped>
 .global-toast { position: fixed; top: 80px; right: 20px; z-index: 950; padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); max-width: 400px; }

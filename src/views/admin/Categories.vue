@@ -87,7 +87,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -157,6 +156,8 @@ const deleteCategory = async (cat) => {
 }
 
 onMounted(loadCategories)
+</template>
+
 </script>
 
 <style scoped>

@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <Teleport to="body">
     <Transition name="sheet">
       <div v-if="modelValue" class="filter-sheet__backdrop" @click.self="$emit('update:modelValue', false)">
@@ -29,8 +28,7 @@
                     {{ opt.label }}
                   </button>
                 </div>
-                </div>
-</template>
+              </template>
               <!-- Price range -->
               <template v-else-if="section.type === 'range'">
                 <div class="filter-sheet__range">
@@ -38,8 +36,7 @@
                   <span>—</span>
                   <input type="number" :value="getRangeMax(section.key)" @input="setRangeMax(section.key, $event.target.value)" placeholder="Max" />
                 </div>
-                </div>
-</template>
+              </template>
               <!-- Toggle -->
               <template v-else-if="section.type === 'toggle'">
                 <label v-for="opt in section.options" :key="opt.value" class="filter-sheet__toggle">
@@ -47,8 +44,7 @@
                   <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
                   <span class="filter-sheet__toggle-track"></span>
                 </label>
-                </div>
-</template>
+              </template>
             </div>
           </div>
           <div class="filter-sheet__footer">
@@ -61,8 +57,6 @@
       </div>
     </Transition>
   </Teleport>
-  </div>
-</template>
 
 <script setup>
 import { computed } from 'vue'

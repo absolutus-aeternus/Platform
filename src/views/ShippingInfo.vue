@@ -57,7 +57,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -76,6 +75,8 @@ const faqs = [
   { q: 'What if my package is lost?', a: 'Contact our customer service within 30 days of the expected delivery date. We will investigate and provide a full refund if confirmed lost.' },
   { q: 'Can I change my shipping address after ordering?', a: 'You can change the address within 1 hour of placing the order. After that, please contact customer service.' },
 ]
+</template>
+
 </script>
 
 <style scoped>

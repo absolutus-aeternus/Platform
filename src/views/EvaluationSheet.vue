@@ -11,7 +11,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref } from 'vue'
@@ -32,6 +31,8 @@ const submitReview = async () => {
   loading.value = false
   } catch (e) { console.error('Evaluation error:', e); msg.value = 'Failed to submit review'; msgColor.value = '#dc2626' }
 }
+</template>
+
 </script>
 <style scoped>.form-group { margin-bottom: 20px; } .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; } .form-input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; } .form-input:focus { border-color: #ff6b35; outline: none; } textarea.form-input { resize: vertical; font-family: inherit; }
 input, select, textarea { background: #ffffff; color: #1a1a1a; border: 1px solid #ddd; }

@@ -77,9 +77,9 @@
                     <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                     <span v-if="msg.is_admin" class="msg-check" :class="{ read: msg.is_read }">
                       <template v-if="msg.is_read">✓✓  </div>
-</template>
+
                       <template v-else>✓  </div>
-</template>
+
                     </span>
                   </div>
                   <button v-if="msg.is_admin" class="msg-delete" @click="deleteMessage(msg)" title="Delete message"><i class="fas fa-trash"></i></button>
@@ -585,7 +585,7 @@ h1 { margin-bottom: 25px; }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .chat-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .chat-layout { grid-template-columns: 1fr; height: calc(100dvh - 10rem); position: relative; }
   .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; }
   .chat-sidebar.hidden { display: none; }
   .chat-info-panel { display: none; }

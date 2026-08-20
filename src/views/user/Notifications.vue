@@ -21,7 +21,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
@@ -78,6 +77,8 @@ onMounted(() => {
 onUnmounted(() => {
   if (unsubscribe) unsubscribe()
 })
+</template>
+
 </script>
 
 <style scoped>

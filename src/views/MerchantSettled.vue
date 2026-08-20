@@ -265,7 +265,6 @@
     </section>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'

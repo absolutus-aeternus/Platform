@@ -52,7 +52,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -98,6 +97,8 @@ const removeUser = async (user) => {
 }
 
 onMounted(loadUsers)
+</template>
+
 </script>
 
 <style scoped>

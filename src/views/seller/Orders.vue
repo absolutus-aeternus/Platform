@@ -40,7 +40,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -104,6 +103,8 @@ const updateStatus = async (orderId, status) => {
 }
 
 onMounted(loadOrders)
+</template>
+
 </script>
 
 <style scoped>
