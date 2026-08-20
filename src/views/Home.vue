@@ -1,5 +1,4 @@
 <template>
-  <div class="page-wrapper">
   <div class="home">
     <!-- Error State -->
     <div v-if="error" class="error-banner">
@@ -241,7 +240,6 @@
         </div>
       </div>
     </section>
-  </div>
   </div>
 
 <script setup>
