@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="product-detail">
     <div class="container">
       <!-- Breadcrumb -->
@@ -312,60 +311,7 @@
             </div>
           </div>
         </div>
-        </div>
-</template>
-    </div>
-
-    <!-- Size Chart Modal -->
-    <BaseModal v-model="showSizeChart" title="Size Chart" position="bottom" size="lg">
-      <div class="size-chart-content">
-        <table class="size-chart-table">
-          <thead>
-            <tr><th>Size</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hip (cm)</th><th>Length (cm)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>XS</td><td>80-84</td><td>60-64</td><td>86-90</td><td>64</td></tr>
-            <tr><td>S</td><td>84-88</td><td>64-68</td><td>90-94</td><td>66</td></tr>
-            <tr><td>M</td><td>88-92</td><td>68-72</td><td>94-98</td><td>68</td></tr>
-            <tr><td>L</td><td>92-96</td><td>72-76</td><td>98-102</td><td>70</td></tr>
-            <tr><td>XL</td><td>96-100</td><td>76-80</td><td>102-106</td><td>72</td></tr>
-            <tr><td>XXL</td><td>100-104</td><td>80-84</td><td>106-110</td><td>74</td></tr>
-          </tbody>
-        </table>
-        <p class="size-chart-note">* Measurements are approximate. For the best fit, refer to the specific product measurements.</p>
-      </div>
-    </BaseModal>
-
-    <!-- Variant Selection Bottom Sheet -->
-    <BaseModal v-model="showVariantSheet" title="Select Variant" position="bottom" size="sm">
-      <div class="variant-sheet-content">
-        <div v-for="group in variantGroups" :key="group.name" class="variant-sheet-group">
-          <h4>{{ group.name }}</h4>
-          <div class="variant-options">
-            <button
-              v-for="opt in group.options"
-              :key="opt"
-              class="variant-chip"
-              :class="{ active: selectedVariants[group.name] === opt }"
-              @click="selectVariant(group.name, opt)"
-            >{{ opt }}</button>
-          </div>
-        </div>
-        <button class="btn-variant-confirm" @click="confirmVariantSelection">Confirm</button>
-      </div>
-    </BaseModal>
-
-    <!-- Mobile Sticky CTA Bar -->
-    <StickyCTA
-      :visible="!!product && product.stock > 0"
-      :price="product?.price"
-      :original-price="product?.original_price"
-      @add-to-cart="handleAddToCart"
-      @buy-now="handleBuyNow"
-      @chat="chatSeller"
-    />
-  </div>
-  </div>
+        </div></template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'

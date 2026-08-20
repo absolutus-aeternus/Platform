@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="commodity-page">
     <div class="container">
       <h1 class="page-title">All Products</h1>
@@ -40,6 +39,35 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { fetchProducts, fetchCategories } from '@/services/supabase'
+import ProductCard from '@/components/product/ProductCard.vue'
+
+const products = ref([])
+const categories = ref([])
+const loading = ref(true)
+const activeCat = ref(null)
+const sort = ref('popular')
+
+const filteredProducts = computed(() => {
+  let result = [...products.value]
+  if (activeCat.value) result = result.filter(p => String(p.category_id) === String(activeCat.value))
+  if (sort.value === 'price') result.sort((a, b) => a.price - b.price)
+  if (sort.value === 'price_desc') result.sort((a, b) => b.price - a.price)
+  if (sort.value === 'newest') result.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+  return result
+})
+
+onMounted(async () => {
+  try {
+    const [catRes, prodRes] = await Promise.all([fetchCategories(), fetchProducts({ limit: 100 })])
+    categories.value = catRes.data || []
+    products.value = prodRes.data || []
+  } catch (e) { console.error('Failed:', e) }
+  loading.value = false
+})</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="blog-page">
     <div class="container">
       <h1><i class="fas fa-newspaper"></i> Blog & Guides</h1>
@@ -38,6 +37,19 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+const selectedCat = ref('')
+const categories = ['Shopping Tips', 'Seller Guide', 'Product Reviews', 'Tutorials', 'Industry News', 'Promotions']
+const posts = [
+  { id: 1, title: 'How to Find the Best Deals on AllianceHub', excerpt: 'Discover insider tips for finding the lowest prices, using flash sales, and stacking coupons for maximum savings.', tag: 'Shopping Tips', date: 'Aug 10, 2026', views: '2.3K', icon: 'fas fa-tags', gradient: 'linear-gradient(135deg, var(--brand-primary, #FF9900), var(--brand-primary-hover, #E68A00))' },
+  { id: 2, title: 'Complete Guide to Starting Your Online Store', excerpt: 'Everything you need to know about becoming a seller on AllianceHub, from registration to your first sale.', tag: 'Seller Guide', date: 'Aug 8, 2026', views: '1.8K', icon: 'fas fa-store', gradient: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)' },
+  { id: 3, title: 'Top 10 Electronics Under $50', excerpt: 'Our curated list of the best budget electronics available on the platform with real user reviews.', tag: 'Product Reviews', date: 'Aug 5, 2026', views: '3.1K', icon: 'fas fa-laptop', gradient: 'linear-gradient(135deg, #067D62, #00a07a)' },
+  { id: 4, title: 'Understanding Crypto Payments', excerpt: 'A beginner-friendly guide to using cryptocurrency for online shopping on AllianceHub.', tag: 'Tutorials', date: 'Aug 3, 2026', views: '1.5K', icon: 'fab fa-bitcoin', gradient: 'linear-gradient(135deg, #F0B90B, #e6a800)' },
+  { id: 5, title: 'Summer Sale: Up to 70% Off', excerpt: 'Our biggest sale of the season is here. Thousands of products at incredible prices.', tag: 'Promotions', date: 'Aug 1, 2026', views: '5.2K', icon: 'fas fa-fire', gradient: 'linear-gradient(135deg, #CC0C39, #ff4757)' },
+  { id: 6, title: 'Shipping & Delivery: What You Need to Know', excerpt: 'Complete guide to shipping options, tracking, and delivery times for all regions.', tag: 'Tutorials', date: 'Jul 28, 2026', views: '980', icon: 'fas fa-truck', gradient: 'linear-gradient(135deg, #6c5ce7, #a29bfe)' },
+]</template>
 
 <script setup>
 import { ref } from 'vue'

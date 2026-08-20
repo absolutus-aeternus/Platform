@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:600px">
     <div class="auth-card">
       <h2><i class="fas fa-phone"></i> Bind Phone Number</h2>
@@ -13,6 +12,48 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { supabase } from '@/services/supabase'
+
+const router = useRouter()
+const phone = ref('')
+const code = ref('')
+const countdown = ref(0)
+const loading = ref(false)
+const msg = ref('')
+const msgColor = ref('#059669')
+
+const sendCode = () => {
+  countdown.value = 60
+  const t = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) clearInterval(t)
+  }, 1000)
+}
+
+const bindPhone = async () => {
+  loading.value = true
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { router.push('/login'); return }
+    const { error } = await supabase.from('users').update({ phone: phone.value }).eq('id', user.id)
+    if (error) {
+      msg.value = error.message
+      msgColor.value = '#dc2626'
+    } else {
+      msg.value = 'Phone bound successfully!'
+      msgColor.value = '#059669'
+    }
+  } catch (e) {
+    console.error('Bind phone error:', e)
+    msg.value = 'Failed to bind phone'
+    msgColor.value = '#dc2626'
+  }
+  loading.value = false
+}</template>
 
 <script setup>
 import { ref } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="unauthorized-page">
     <div class="unauthorized-card">
       <div class="unauthorized-icon">
@@ -27,6 +26,31 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
+import BaseButton from '@/components/base/BaseButton.vue'
+
+const route = useRoute()
+const router = useRouter()
+const { userRole, getRedirectForRole } = useAuth()
+
+const requiredRole = computed(() => route.query.required || null)
+
+function goHome() {
+  const dashboard = getRedirectForRole(userRole.value)
+  router.push(dashboard)
+}
+
+function goBack() {
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    goHome()
+  }
+}</template>
 
 <script setup>
 import { computed } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="container" style="padding:40px 20px;max-width:800px">
     <h2 style="margin-bottom:24px"><i class="fas fa-life-ring" style="color:var(--brand-primary, #FF9900)"></i> Support Center</h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
@@ -32,7 +31,10 @@
   </div>
 <script setup></template>
 
+<script setup></template>
+
 </script>
+
 <style scoped>
 @media (max-width: 768px) {
   div[style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }

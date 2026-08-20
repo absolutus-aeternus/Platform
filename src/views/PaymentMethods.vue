@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="payment-methods-page">
     <div class="container">
       <h1><i class="fas fa-credit-card"></i> Payment Methods</h1>
@@ -49,6 +48,18 @@
     </div>
   </div>
   </div>
+
+<script setup>
+const methods = [
+  { id: 'binance', name: 'Binance Pay', icon: 'fab fa-bitcoin', color: '#F0B90B', type: 'Crypto', desc: 'Pay with Binance account. Supports 300+ cryptocurrencies with zero fees.' },
+  { id: 'okx', name: 'OKX', icon: 'fas fa-exchange-alt', color: '#00C4B3', type: 'Crypto', desc: 'Fast and secure payments through OKX exchange wallet.' },
+  { id: 'coinbase', name: 'Coinbase', icon: 'fas fa-coins', color: '#0052FF', type: 'Crypto', desc: 'Pay with Coinbase account. Easy setup for beginners.' },
+  { id: 'metamask', name: 'MetaMask', icon: 'fab fa-ethereum', color: '#F6851B', type: 'Wallet', desc: 'Connect your MetaMask wallet directly for on-chain payments.' },
+  { id: 'kucoin', name: 'KuCoin', icon: 'fas fa-chart-line', color: '#23AFDA', type: 'Crypto', desc: 'Pay through KuCoin exchange with multiple crypto options.' },
+  { id: 'kraken', name: 'Kraken', icon: 'fas fa-water', color: '#7B61FF', type: 'Crypto', desc: 'Secure payments via Kraken exchange platform.' },
+  { id: 'bitfinex', name: 'Bitfinex', icon: 'fas fa-link', color: '#16B979', type: 'Crypto', desc: 'Professional-grade payment through Bitfinex.' },
+  { id: 'huobi', name: 'Huobi', icon: 'fas fa-fire', color: '#1B6BF0', type: 'Crypto', desc: 'Pay with Huobi global exchange account.' },
+]</template>
 
 <script setup>
 const methods = [

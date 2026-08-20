@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-headset"></i> Customer Service</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
@@ -34,10 +33,17 @@
 const openChat = () => {
   const el = document.querySelector('.chat-toggle')
   if (el) el.click()
+}</template>
+
+<script setup>
+const openChat = () => {
+  const el = document.querySelector('.chat-toggle')
+  if (el) el.click()
 }
 </template>
 
 </script>
+
 <style scoped>
 @media (max-width: 768px) {
   div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; gap: 16px !important; }

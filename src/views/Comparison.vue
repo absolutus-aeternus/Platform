@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="comparison-page">
     <div class="container">
       <h1><i class="fas fa-balance-scale"></i> Product Comparison</h1>
@@ -39,6 +38,31 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/services/supabase'
+
+const products = ref([])
+
+const formatNumber = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
+const truncate = (s, l) => { if (!s || s.length <= l) return s; return s.substring(0, l) + '...' }
+
+const removeProduct = (id) => { products.value = products.value.filter(p => p.id !== id); saveToStorage() }
+
+const saveToStorage = () => {
+  try { localStorage.setItem('comparison', JSON.stringify(products.value.map(p => p.id))) } catch (e) { console.warn("[Comparison] Error:", e.message) }
+}
+
+onMounted(async () => {
+  try {
+    const ids = JSON.parse(localStorage.getItem('comparison') || '[]')
+    if (ids.length > 0) {
+      const { data } = await supabase.from('products').select('*').in('id', ids).eq('is_active', true)
+      products.value = data || []
+    }
+  } catch (e) { console.warn("[Comparison] Error:", e.message) }
+})</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'

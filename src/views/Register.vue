@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="login-page">
     <div class="login-bg"></div>
     <div class="login-card animate-in">
@@ -70,6 +69,37 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import BaseInput from '@/components/base/BaseInput.vue'
+
+const router = useRouter()
+const userStore = useUserStore()
+const email = ref('')
+const password = ref('')
+const confirm = ref('')
+const agree = ref(false)
+const loading = ref(false)
+const error = ref('')
+const success = ref('')
+
+const handleRegister = async () => {
+  if (!email.value || !email.value.includes('@')) { error.value = 'Please enter a valid email'; return }
+  if (password.value !== confirm.value) { error.value = 'Passwords do not match'; return }
+  if (password.value.length < 6) { error.value = 'Password must be at least 6 characters'; return }
+  loading.value = true; error.value = ''; success.value = ''
+  try {
+    const result = await userStore.register(email.value, password.value)
+    if (result.success) {
+      success.value = 'Account created! You can now login.'
+      setTimeout(() => router.push('/login'), 2000)
+    } else { error.value = result.msg || 'Registration failed' }
+  } catch { error.value = 'An error occurred' }
+  loading.value = false
+}</template>
 
 <script setup>
 import { ref } from 'vue'

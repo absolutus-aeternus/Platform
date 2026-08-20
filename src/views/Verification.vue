@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="verification-page">
     <div class="bg-video"></div>
     <div class="content">
@@ -14,6 +13,16 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const enterSite = () => {
+  localStorage.setItem('verified', 'true')
+  router.push('/')
+}</template>
 
 <script setup>
 import { useRouter } from 'vue-router'

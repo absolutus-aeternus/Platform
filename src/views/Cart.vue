@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="cart-page">
     <div class="container">
       <h1 class="page-title"><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
@@ -75,6 +74,35 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
   </div>
+
+<script setup>
+import { ref, watch } from "vue"
+import { useUserStore } from '@/store/user'
+
+const loading = ref(false)
+const userStore = useUserStore()
+const selectAll = ref(true)
+
+// Initialize all items as selected
+userStore.cart.forEach(item => { item.selected = true })
+
+// Watch selectAll to toggle all items
+watch(selectAll, (val) => {
+  userStore.cart.forEach(item => { item.selected = val })
+})
+
+const changeQty = async (item, delta) => {
+  try {
+    const newQty = item.quantity + delta
+    if (newQty < 1) await userStore.removeFromCart(item.id)
+    else await userStore.updateItemQuantity(item.id, newQty)
+  } catch (e) { console.warn('Cart: changeQty failed:', e.message) }
+}
+
+const removeItem = async (id) => {
+  try { await userStore.removeFromCart(id) }
+  catch (e) { console.warn('Cart: removeItem failed:', e.message) }
+}</template>
 
 <script setup>
 import { ref, watch } from "vue"

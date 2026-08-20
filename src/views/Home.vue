@@ -1,5 +1,4 @@
-<template>
-  <div class="home">
+<template><div class="home">
     <!-- Error State -->
     <div v-if="error" class="error-banner">
       <div class="container">
@@ -241,6 +240,337 @@
       </div>
     </section>
   </div>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { supabase, fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
+import { useUserStore } from '@/store/user'
+import ProductCard from '@/components/product/ProductCard.vue'
+import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
+
+const userStore = useUserStore()
+const categories = ref([])
+const products = ref([])
+const sellers = ref([])
+const loading = ref(true)
+const error = ref(null)
+const loadTimedOut = ref(false)
+const sort = ref('popular')
+const limit = ref(20)
+const bannerIndex = ref(0)
+const activeFilter = ref(null)
+const followedSellers = ref(new Set())
+const filterPinned = ref(false)
+const discoverSection = ref(null)
+let bannerTimer = null
+let countdownTimer = null
+let realtimeChannel = null
+let loadTimeout = null
+let scrollHandler = null
+
+const banners = [
+  { tag: '🔥 Hot Deals', title: 'Mega Sale Festival', desc: 'Up to 70% OFF on selected items', btn: 'Shop Now', link: '/discounts', bg: 'linear-gradient(135deg, var(--brand-nav, #232F3E), #37475a)', emoji: '🛍️' },
+  { tag: '⭐ New Users', title: 'Welcome Bonus $10', desc: 'Sign up and get instant coupon', btn: 'Register', link: '/register', bg: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)', emoji: '🎁' },
+  { tag: '🚚 Free Shipping', title: 'Free Delivery Week', desc: 'No minimum order required', btn: 'Browse', link: '/commodity', bg: 'linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #ff9900)', emoji: '📦' }
+]
+
+const sideCards = [
+  { icon: 'fas fa-user-plus', title: 'New User?', desc: 'Get Coupon', bg: 'linear-gradient(135deg, var(--brand-primary, #FF9900), #ffad33)' },
+  { icon: 'fas fa-percentage', title: 'Daily Deals', desc: 'Up to 50% OFF', bg: 'linear-gradient(135deg, #067D62, #00a07a)' },
+  { icon: 'fas fa-truck-fast', title: 'Free Shipping', desc: 'Min. $30 order', bg: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)' }
+]
+
+const hours = ref('02')
+const minutes = ref('45')
+const seconds = ref('30')
+
+const startCountdown = () => {
+  const updateCountdown = () => {
+    const now = new Date()
+    const endOfDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1))
+    const diff = Math.max(0, Math.floor((endOfDay - now) / 1000))
+    hours.value = String(Math.floor(diff / 3600)).padStart(2, '0')
+    minutes.value = String(Math.floor((diff % 3600) / 60)).padStart(2, '0')
+    seconds.value = String(diff % 60).padStart(2, '0')
+  }
+  updateCountdown()
+  countdownTimer = setInterval(updateCountdown, 1000)
+}
+
+const startBannerRotation = () => { bannerTimer = setInterval(() => { bannerIndex.value = (bannerIndex.value + 1) % banners.length }, 5000) }
+const nextBanner = () => { bannerIndex.value = (bannerIndex.value + 1) % banners.length; resetBannerTimer() }
+const prevBanner = () => { bannerIndex.value = (bannerIndex.value - 1 + banners.length) % banners.length; resetBannerTimer() }
+const resetBannerTimer = () => { if (bannerTimer) clearInterval(bannerTimer); startBannerRotation() }
+
+const flashProducts = computed(() => {
+  const flash = products.value.filter(p => p.discount || (p.sales_count && p.sales_count > 5000))
+  return flash.length ? flash.slice(0, 8) : products.value.slice(0, 8)
+})
+
+const sortedProducts = computed(() => {
+  let result = [...products.value]
+  if (activeFilter.value) result = result.filter(p => String(p.category_id) === String(activeFilter.value))
+  result = result.slice(0, limit.value)
+  if (sort.value === 'price') result.sort((a, b) => a.price - b.price)
+  if (sort.value === 'newest') result.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+  return result
+})
+
+const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
+const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00)','var(--brand-nav, #232F3E)']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
+
+const addToCart = async (product) => {
+  try {
+    await userStore.addToCart({ id: product.id, quantity: 1 })
+    if (window.__toast) window.__toast.show('Added to cart!', 'success')
+  } catch (e) {
+    if (window.__toast) window.__toast.show('Please sign in first', 'error')
+  }
+}
+
+const toggleFollow = (seller) => {
+  const set = new Set(followedSellers.value)
+  if (set.has(seller.id)) {
+    set.delete(seller.id)
+    if (window.__toast) window.__toast.show(`Unfollowed ${seller.name || seller.store_name}`, 'info')
+  } else {
+    set.add(seller.id)
+    if (window.__toast) window.__toast.show(`Following ${seller.name || seller.store_name}!`, 'success')
+  }
+  followedSellers.value = set
+}
+
+const loadMore = () => { limit.value += 20 }
+
+const loadData = async () => {
+  loading.value = true
+  error.value = null
+  loadTimedOut.value = false
+
+  loadTimeout = setTimeout(() => { loadTimedOut.value = true }, 8000)
+
+  try {
+    const [catRes, prodRes, sellerRes] = await Promise.all([
+      fetchCategories().catch(() => ({ data: [] })),
+      fetchProducts({ limit: 100 }).catch(() => ({ data: [] })),
+      fetchSellers({ recommended: true }).catch(() => ({ data: [] }))
+    ])
+
+    categories.value = catRes.data || []
+    products.value = prodRes.data || []
+    sellers.value = sellerRes.data || []
+
+    if (products.value.length === 0 && categories.value.length === 0) {
+      error.value = 'Unable to connect to the server. Please try again later.'
+    }
+  } catch (e) {
+    console.error('Failed to load data:', e)
+    error.value = 'An error occurred while loading data.'
+  } finally {
+    loading.value = false
+    clearTimeout(loadTimeout)
+  }
+}
+
+const retryLoad = () => {
+  error.value = null
+  loadData()
+}
+
+// Sticky filter bar observer
+const setupStickyFilter = () => {
+  scrollHandler = () => {
+    if (!discoverSection.value) return
+    const rect = discoverSection.value.getBoundingClientRect()
+    filterPinned.value = rect.top <= 60
+  }
+  window.addEventListener('scroll', scrollHandler, { passive: true })
+}
+
+onMounted(() => {
+  startCountdown()
+  startBannerRotation()
+  loadData()
+  setupStickyFilter()
+
+  realtimeChannel = supabase.channel('products-home')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => { loadData() })
+    .subscribe()
+})
+
+onUnmounted(() => {
+  if (countdownTimer) clearInterval(countdownTimer)
+  if (bannerTimer) clearInterval(bannerTimer)
+  if (loadTimeout) clearTimeout(loadTimeout)
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
+})</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { supabase, fetchProducts, fetchCategories, fetchSellers } from '@/services/supabase'
+import { useUserStore } from '@/store/user'
+import ProductCard from '@/components/product/ProductCard.vue'
+import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
+
+const userStore = useUserStore()
+const categories = ref([])
+const products = ref([])
+const sellers = ref([])
+const loading = ref(true)
+const error = ref(null)
+const loadTimedOut = ref(false)
+const sort = ref('popular')
+const limit = ref(20)
+const bannerIndex = ref(0)
+const activeFilter = ref(null)
+const followedSellers = ref(new Set())
+const filterPinned = ref(false)
+const discoverSection = ref(null)
+let bannerTimer = null
+let countdownTimer = null
+let realtimeChannel = null
+let loadTimeout = null
+let scrollHandler = null
+
+const banners = [
+  { tag: '🔥 Hot Deals', title: 'Mega Sale Festival', desc: 'Up to 70% OFF on selected items', btn: 'Shop Now', link: '/discounts', bg: 'linear-gradient(135deg, var(--brand-nav, #232F3E), #37475a)', emoji: '🛍️' },
+  { tag: '⭐ New Users', title: 'Welcome Bonus $10', desc: 'Sign up and get instant coupon', btn: 'Register', link: '/register', bg: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)', emoji: '🎁' },
+  { tag: '🚚 Free Shipping', title: 'Free Delivery Week', desc: 'No minimum order required', btn: 'Browse', link: '/commodity', bg: 'linear-gradient(135deg, var(--brand-primary-hover, #E68A00), #ff9900)', emoji: '📦' }
+]
+
+const sideCards = [
+  { icon: 'fas fa-user-plus', title: 'New User?', desc: 'Get Coupon', bg: 'linear-gradient(135deg, var(--brand-primary, #FF9900), #ffad33)' },
+  { icon: 'fas fa-percentage', title: 'Daily Deals', desc: 'Up to 50% OFF', bg: 'linear-gradient(135deg, #067D62, #00a07a)' },
+  { icon: 'fas fa-truck-fast', title: 'Free Shipping', desc: 'Min. $30 order', bg: 'linear-gradient(135deg, var(--brand-accent, #007185), #00a0c4)' }
+]
+
+const hours = ref('02')
+const minutes = ref('45')
+const seconds = ref('30')
+
+const startCountdown = () => {
+  const updateCountdown = () => {
+    const now = new Date()
+    const endOfDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1))
+    const diff = Math.max(0, Math.floor((endOfDay - now) / 1000))
+    hours.value = String(Math.floor(diff / 3600)).padStart(2, '0')
+    minutes.value = String(Math.floor((diff % 3600) / 60)).padStart(2, '0')
+    seconds.value = String(diff % 60).padStart(2, '0')
+  }
+  updateCountdown()
+  countdownTimer = setInterval(updateCountdown, 1000)
+}
+
+const startBannerRotation = () => { bannerTimer = setInterval(() => { bannerIndex.value = (bannerIndex.value + 1) % banners.length }, 5000) }
+const nextBanner = () => { bannerIndex.value = (bannerIndex.value + 1) % banners.length; resetBannerTimer() }
+const prevBanner = () => { bannerIndex.value = (bannerIndex.value - 1 + banners.length) % banners.length; resetBannerTimer() }
+const resetBannerTimer = () => { if (bannerTimer) clearInterval(bannerTimer); startBannerRotation() }
+
+const flashProducts = computed(() => {
+  const flash = products.value.filter(p => p.discount || (p.sales_count && p.sales_count > 5000))
+  return flash.length ? flash.slice(0, 8) : products.value.slice(0, 8)
+})
+
+const sortedProducts = computed(() => {
+  let result = [...products.value]
+  if (activeFilter.value) result = result.filter(p => String(p.category_id) === String(activeFilter.value))
+  result = result.slice(0, limit.value)
+  if (sort.value === 'price') result.sort((a, b) => a.price - b.price)
+  if (sort.value === 'newest') result.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+  return result
+})
+
+const formatSales = (n) => { if (!n) return '0'; if (n >= 10000) return (n/10000).toFixed(1)+'w'; if (n >= 1000) return (n/1000).toFixed(1)+'k'; return String(n) }
+const getGradient = (name) => { const colors = ['var(--brand-primary, #FF9900)','var(--brand-accent, #007185)','#067D62','var(--brand-dark, #131921)','var(--brand-primary-hover, #E68A00)','var(--brand-nav, #232F3E)']; const idx = (name?.charCodeAt(0)||0)%colors.length; return `linear-gradient(135deg, ${colors[idx]}aa, ${colors[(idx+3)%colors.length]}aa)` }
+
+const addToCart = async (product) => {
+  try {
+    await userStore.addToCart({ id: product.id, quantity: 1 })
+    if (window.__toast) window.__toast.show('Added to cart!', 'success')
+  } catch (e) {
+    if (window.__toast) window.__toast.show('Please sign in first', 'error')
+  }
+}
+
+const toggleFollow = (seller) => {
+  const set = new Set(followedSellers.value)
+  if (set.has(seller.id)) {
+    set.delete(seller.id)
+    if (window.__toast) window.__toast.show(`Unfollowed ${seller.name || seller.store_name}`, 'info')
+  } else {
+    set.add(seller.id)
+    if (window.__toast) window.__toast.show(`Following ${seller.name || seller.store_name}!`, 'success')
+  }
+  followedSellers.value = set
+}
+
+const loadMore = () => { limit.value += 20 }
+
+const loadData = async () => {
+  loading.value = true
+  error.value = null
+  loadTimedOut.value = false
+
+  loadTimeout = setTimeout(() => { loadTimedOut.value = true }, 8000)
+
+  try {
+    const [catRes, prodRes, sellerRes] = await Promise.all([
+      fetchCategories().catch(() => ({ data: [] })),
+      fetchProducts({ limit: 100 }).catch(() => ({ data: [] })),
+      fetchSellers({ recommended: true }).catch(() => ({ data: [] }))
+    ])
+
+    categories.value = catRes.data || []
+    products.value = prodRes.data || []
+    sellers.value = sellerRes.data || []
+
+    if (products.value.length === 0 && categories.value.length === 0) {
+      error.value = 'Unable to connect to the server. Please try again later.'
+    }
+  } catch (e) {
+    console.error('Failed to load data:', e)
+    error.value = 'An error occurred while loading data.'
+  } finally {
+    loading.value = false
+    clearTimeout(loadTimeout)
+  }
+}
+
+const retryLoad = () => {
+  error.value = null
+  loadData()
+}
+
+// Sticky filter bar observer
+const setupStickyFilter = () => {
+  scrollHandler = () => {
+    if (!discoverSection.value) return
+    const rect = discoverSection.value.getBoundingClientRect()
+    filterPinned.value = rect.top <= 60
+  }
+  window.addEventListener('scroll', scrollHandler, { passive: true })
+}
+
+onMounted(() => {
+  startCountdown()
+  startBannerRotation()
+  loadData()
+  setupStickyFilter()
+
+  realtimeChannel = supabase.channel('products-home')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => { loadData() })
+    .subscribe()
+})
+
+onUnmounted(() => {
+  if (countdownTimer) clearInterval(countdownTimer)
+  if (bannerTimer) clearInterval(bannerTimer)
+  if (loadTimeout) clearTimeout(loadTimeout)
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
+})
+</template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="my-loan">
     <h1>My Loans</h1>
     <div v-if="loading" class="loading">Loading...</div>
@@ -23,6 +22,12 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+
+const loans = ref([])
+const loading = ref(false)</template>
 
 <script setup>
 import { ref } from 'vue'

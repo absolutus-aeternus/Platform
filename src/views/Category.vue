@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="category-page">
     <div class="container">
       <h1 class="page-title">All Categories</h1>
@@ -15,6 +14,21 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { fetchCategories } from '@/services/supabase'
+
+const categories = ref([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const { data } = await fetchCategories()
+    categories.value = data || []
+  } catch (e) { console.error('Failed:', e) }
+  loading.value = false
+})</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'

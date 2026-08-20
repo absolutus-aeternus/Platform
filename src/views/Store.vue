@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="store-page">
     <div class="container">
       <div v-if="loading" class="loading">Loading store...</div>
@@ -61,11 +60,7 @@
             </div>
           </div>
         </div>
-        </div>
-</template>
-    </div>
-  </div>
-  </div>
+        </div></template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

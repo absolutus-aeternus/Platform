@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="store-report">
     <div class="container">
       <h1>Store Report</h1>
@@ -26,6 +25,23 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { supabase } from '@/services/supabase'
+
+const route = useRoute()
+const store = ref(null)
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const { data } = await supabase.from('sellers').select('*').eq('id', route.params.sellerId).single()
+    store.value = data
+  } catch (e) { console.error('Store report error:', e) }
+  loading.value = false
+})</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="search-store">
     <div class="container">
       <h1>Search Stores</h1>
@@ -27,6 +26,27 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/services/supabase'
+
+const query = ref('')
+const stores = ref([])
+const loading = ref(false)
+
+const search = async () => {
+  loading.value = true
+  try {
+    let q = supabase.from('sellers').select('*').eq('status', 'active')
+    if (query.value) q = q.ilike('name', `%${query.value}%`)
+    const { data } = await q.order('followers', { ascending: false }).limit(30)
+    stores.value = data || []
+  } catch (e) { console.error('Search stores error:', e) }
+  loading.value = false
+}
+
+onMounted(() => search())</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'

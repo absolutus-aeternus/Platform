@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="search-page">
     <div class="container">
       <!-- Search Header -->
@@ -73,6 +72,118 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import ProductCard from '@/components/product/ProductCard.vue'
+import FilterSidebar from '@/components/layout/FilterSidebar.vue'
+import FilterSheet from '@/components/layout/FilterSheet.vue'
+import BasePagination from '@/components/base/BasePagination.vue'
+
+const route = useRoute()
+const query = ref(route.query.q || '')
+const sort = ref('popular')
+const products = ref([])
+const loading = ref(true)
+const page = ref(1)
+const perPage = 20
+const showFilterSheet = ref(false)
+const activeFilters = ref({ brand: [], price: {}, rating: null, shipping: [] })
+
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
+const filterSections = [
+  {
+    key: 'brand',
+    label: 'Brand',
+    type: 'checkbox',
+    options: [
+      { label: 'Samsung', value: 'samsung' },
+      { label: 'Apple', value: 'apple' },
+      { label: 'Xiaomi', value: 'xiaomi' },
+      { label: 'Sony', value: 'sony' },
+      { label: 'Oppo', value: 'oppo' },
+      { label: 'Huawei', value: 'huawei' },
+    ]
+  },
+  {
+    key: 'price',
+    label: 'Price Range',
+    type: 'range'
+  },
+  {
+    key: 'rating',
+    label: 'Rating',
+    type: 'rating'
+  },
+  {
+    key: 'shipping',
+    label: 'Shipping',
+    type: 'toggle',
+    options: [
+      { label: 'Free Shipping', value: 'free' },
+      { label: 'Verified Seller', value: 'verified' },
+    ]
+  }
+]
+
+const filteredProducts = computed(() => {
+  let result = [...products.value]
+
+  // Brand filter
+  const brands = activeFilters.value.brand || []
+  if (brands.length > 0) {
+    result = result.filter(p => {
+      const name = (p.name || '').toLowerCase()
+      return brands.some(b => name.includes(b))
+    })
+  }
+
+  // Price filter
+  const price = activeFilters.value.price || {}
+  if (price.min !== undefined) result = result.filter(p => parseFloat(p.price) >= price.min)
+  if (price.max !== undefined) result = result.filter(p => parseFloat(p.price) <= price.max)
+
+  // Rating filter
+  if (activeFilters.value.rating) {
+    result = result.filter(p => (p.rating || 4) >= activeFilters.value.rating)
+  }
+
+  return result
+})
+
+const totalPages = computed(() => Math.ceil(filteredProducts.value.length / perPage))
+
+const doSearch = async () => {
+  loading.value = true
+  page.value = 1
+  try {
+    if (!query.value.trim()) {
+      const resp = await fetch(`${WORKER_URL}/api/products?sort=sales&limit=40`)
+      const result = await resp.json()
+      products.value = result.data || []
+    } else {
+      const resp = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(query.value)}&limit=40`)
+      const result = await resp.json()
+      products.value = result.hits || []
+    }
+  } catch (e) {
+    console.error('Search error:', e)
+    products.value = []
+  }
+  loading.value = false
+}
+
+// Update search when route query changes
+watch(() => route.query.q, (newQ) => {
+  if (newQ !== undefined) {
+    query.value = newQ
+    doSearch()
+  }
+})
+
+onMounted(() => { doSearch() })</template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'

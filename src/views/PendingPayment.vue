@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-credit-card"></i> Pending Payment</h2>
     <div v-if="order" class="payment-card">
@@ -47,10 +46,37 @@ const payNow = async () => {
   loading.value = false
   try { await supabase.from('orders').update({ payment_method: payment.value, payment_status: 'paid', status: 'processing' }).eq('id', order.value.id) } catch(_e) { console.error('PendingPayment:', _e); window.__toast?.show('Payment failed', 'error') }
   router.push(`/pay-success?order=${order.value.order_no}`)
+}</template>
+
+<script setup>
+const loading = ref(true)
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { supabase } from '@/services/supabase'
+
+const route = useRoute()
+const router = useRouter()
+const order = ref(null)
+const payment = ref('Credit Card')
+const methods = ['Credit Card', 'PayPal', 'Crypto (BTC/USDT)', 'Bank Transfer']
+
+onMounted(async () => {
+  const orderId = route.query.order
+  if (!orderId) { router.push('/user/orders'); return }
+  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', orderId).single()
+  if (data) order.value = data
+})
+
+const payNow = async () => {
+  if (!order.value) return
+  loading.value = false
+  try { await supabase.from('orders').update({ payment_method: payment.value, payment_status: 'paid', status: 'processing' }).eq('id', order.value.id) } catch(_e) { console.error('PendingPayment:', _e); window.__toast?.show('Payment failed', 'error') }
+  router.push(`/pay-success?order=${order.value.order_no}`)
 }
 </template>
 
 </script>
+
 <style scoped>
 header { z-index: 2; }
 .payment-card { background: white; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; }

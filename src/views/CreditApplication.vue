@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="credit-application">
     <h1>Apply for Credit</h1>
     <div class="application-form">
@@ -33,6 +32,21 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const amount = ref(0)
+const purpose = ref('')
+const period = ref('6')
+const income = ref(0)
+
+const submitApplication = () => {
+  window.__toast?.show('Credit application submitted! We will review your application within 24 hours.')
+  router.push('/credit/myLoan')
+}</template>
 
 <script setup>
 import { ref } from 'vue'

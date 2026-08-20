@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="track-order-page">
     <div class="container">
       <h1><i class="fas fa-truck"></i> Track Your Order</h1>
@@ -84,6 +83,48 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { supabase } from '@/services/supabase'
+
+const orderNo = ref('')
+const order = ref(null)
+const loading = ref(false)
+const error = ref('')
+
+const steps = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'completed']
+
+const isStepActive = (step) => {
+  if (!order.value) return false
+  const currentIdx = steps.indexOf(order.value.status)
+  const stepIdx = steps.indexOf(step)
+  return stepIdx <= currentIdx
+}
+
+const getStatusColor = (status) => {
+  const colors = { pending: 'var(--warning, #B45309)', paid: '#17a2b8', processing: '#17a2b8', shipped: 'var(--brand-accent, #007185)', delivered: 'var(--success, #067D62)', completed: 'var(--success, #067D62)', cancelled: 'var(--error, #CC0C39)' }
+  return colors[status] || '#6c757d'
+}
+
+const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''
+
+const trackOrder = async () => {
+  if (!orderNo.value.trim()) return
+  loading.value = true
+  error.value = ''
+  order.value = null
+  try {
+    const { data, error: err } = await supabase
+      .from('orders')
+      .select('*, order_items(*)')
+      .eq('order_no', orderNo.value.trim())
+      .single()
+    if (err || !data) { error.value = 'Order not found. Please check the order number.'; return }
+    order.value = data
+  } catch (e) { error.value = 'Failed to fetch order details.' }
+  loading.value = false
+}</template>
 
 <script setup>
 import { ref } from 'vue'

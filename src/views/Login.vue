@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="login-page">
     <div class="login-bg"></div>
     <div class="login-card animate-in">
@@ -74,6 +73,49 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import BaseInput from '@/components/base/BaseInput.vue'
+import { logLoginEvent } from '@/utils/deviceLogger'
+
+const router = useRouter()
+const userStore = useUserStore()
+const method = ref('email')
+const email = ref('')
+const password = ref('')
+const showPw = ref(false)
+const remember = ref(false)
+const loading = ref(false)
+const error = ref('')
+
+const handleLogin = async () => {
+  if (!email.value || !password.value) { error.value = 'Please fill all fields'; return }
+  loading.value = true
+  error.value = ''
+  try {
+    const result = await userStore.login(email.value, password.value)
+    if (result.success) {
+      const role = result.role || userStore.role
+      if (role === 'ADMIN') { error.value = 'Admin accounts must use admin login'; await userStore.logout(); return }
+      if (role === 'SELLER') { error.value = 'Seller accounts must use seller login'; await userStore.logout(); return }
+      if (role === 'SUPER_ADMIN') { error.value = 'Super Admin accounts must use admin login'; await userStore.logout(); return }
+      if (role === 'RATING_PLUS') { error.value = 'Rating Plus members must use Rating Plus login'; await userStore.logout(); return }
+      logLoginEvent({ email: email.value, role: 'MEMBER', login_status: 'success', login_type: 'login' });
+      router.push('/user')
+    } else {
+      const msg = result.msg || ''
+      if (msg.includes('Invalid')) {
+        logLoginEvent({ email: email.value, login_status: 'failed', login_type: 'login' });
+        error.value = 'Invalid email or password'
+      } else if (msg.includes('not confirmed')) error.value = 'Please confirm your email first'
+      else error.value = msg || 'Login failed'
+    }
+  } catch { error.value = 'An error occurred' }
+  loading.value = false
+}</template>
 
 <script setup>
 import { ref } from 'vue'

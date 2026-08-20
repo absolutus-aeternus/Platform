@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="discounts-page">
     <div class="container">
       <h1>🔥 Hot Deals</h1>
@@ -15,6 +14,28 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { fetchProducts } from '@/services/supabase'
+import FlashSaleCard from '@/components/product/FlashSaleCard.vue'
+
+const products = ref([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const { data } = await fetchProducts({ limit: 12, sort: 'sales' })
+    const allData = data || []
+    products.value = allData.filter(p => p.discount > 0)
+    if (products.value.length === 0) {
+      products.value = allData
+    }
+  } catch (e) {
+    console.error('Failed to load deals:', e)
+  }
+  loading.value = false
+})</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'

@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="checkout-page">
     <div class="container">
       <h1>Checkout</h1>
@@ -76,6 +75,113 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
   </div>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import TrustBar from '@/components/trust/TrustBar.vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import { supabase, fetchAddresses } from '@/services/supabase'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const addresses = ref([])
+const selectedAddress = ref({})
+const paymentMethods = ['Binance', 'Huobi', 'OKX', 'Coinbase', 'MetaMask', 'KuCoin']
+const selectedPayment = ref('Binance')
+const ordering = ref(false)
+const loading = ref(false)
+const error = ref(null)
+
+const subtotal = computed(() => {
+  return userStore.cart.reduce((sum, item) => {
+    const price = item.products?.price || item.price || 0
+    return sum + price * item.quantity
+  }, 0).toFixed(2)
+})
+
+onMounted(async () => {
+  if (userStore.supabaseUser) {
+    const { data } = await fetchAddresses(userStore.supabaseUser.id)
+    addresses.value = data || []
+    if (addresses.value.length > 0) {
+      selectedAddress.value = addresses.value.find(a => a.is_default) || addresses.value[0]
+    }
+  }
+})
+
+const validateOrder = () => {
+  if (!userStore.supabaseUser) {
+    error.value = 'Please login to place an order'
+    return false
+  }
+  if (addresses.value.length === 0) {
+    error.value = 'Please add a shipping address'
+    return false
+  }
+  if (!selectedAddress.value?.address) {
+    error.value = 'Please select a shipping address'
+    return false
+  }
+  if (userStore.cart.length === 0) {
+    error.value = 'Your cart is empty'
+    return false
+  }
+  if (parseFloat(subtotal.value) <= 0) {
+    error.value = 'Invalid order total'
+    return false
+  }
+  error.value = null
+  return true
+}
+
+const placeOrder = async () => {
+  if (!validateOrder()) return
+  
+  ordering.value = true
+  error.value = null
+  
+  try {
+    const token = userStore.token
+    if (!token) throw new Error('Authentication required')
+
+    // Use Worker API (with auth verification)
+    const resp = await fetch(`${import.meta.env.VITE_WORKER_URL}/api/checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        total: parseFloat(subtotal.value),
+        address: selectedAddress.value,
+        payment_method: selectedPayment.value,
+        items: userStore.cart.map(item => ({
+          product_id: item.product_id || item.id,
+          quantity: item.quantity,
+          price: item.products?.price || item.price || 0
+        }))
+      })
+    })
+
+    const result = await resp.json()
+    
+    if (!resp.ok) {
+      throw new Error(result.error || 'Failed to place order')
+    }
+
+    // Clear local cart
+    await userStore.clearCart()
+    
+    window.__toast?.show('Order placed successfully!', 'success')
+    router.push('/user/orders')
+  } catch (e) {
+    error.value = e.message || 'Failed to place order'
+    window.__toast?.show(error.value, 'error')
+  }
+  ordering.value = false
+}</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

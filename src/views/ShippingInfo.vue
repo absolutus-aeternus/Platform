@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="shipping-page">
     <div class="container">
       <h1><i class="fas fa-truck"></i> Shipping Information</h1>
@@ -57,6 +56,24 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+const openFaq = ref(-1)
+const carriers = [
+  { name: 'FedEx', icon: 'fas fa-box', color: '#4D148C' },
+  { name: 'UPS', icon: 'fas fa-box', color: '#351C15' },
+  { name: 'DHL', icon: 'fas fa-box', color: '#FFCC00' },
+  { name: 'USPS', icon: 'fas fa-box', color: '#333366' },
+  { name: 'J&T Express', icon: 'fas fa-box', color: '#E60012' },
+  { name: 'JNE', icon: 'fas fa-box', color: '#CC0000' },
+]
+const faqs = [
+  { q: 'Do you ship internationally?', a: 'Yes, we ship to 50+ countries worldwide. Shipping rates and delivery times vary by destination.' },
+  { q: 'How can I track my order?', a: 'Once your order is shipped, you will receive a tracking number. Use our Track Order page to check the status.' },
+  { q: 'What if my package is lost?', a: 'Contact our customer service within 30 days of the expected delivery date. We will investigate and provide a full refund if confirmed lost.' },
+  { q: 'Can I change my shipping address after ordering?', a: 'You can change the address within 1 hour of placing the order. After that, please contact customer service.' },
+]</template>
 
 <script setup>
 import { ref } from 'vue'

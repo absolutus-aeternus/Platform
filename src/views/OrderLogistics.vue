@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-truck"></i> Order Logistics</h2>
@@ -39,10 +38,35 @@ onMounted(async () => { try {
   }
   loading.value = false
 } catch (e) { console.error('Logistics error:', e) }
+})</template>
+
+<script setup>
+const loading = ref(true)
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { supabase } from '@/services/supabase'
+const route = useRoute()
+const order = ref(null)
+const timeline = ref([])
+onMounted(async () => { try {
+  const { data } = await supabase.from('orders').select('*').eq('id', route.query.order).single()
+  if (data) {
+    order.value = data
+    timeline.value = [
+      { title: 'Order Placed', desc: 'Your order has been placed successfully', time: new Date(data.created_at).toLocaleString() },
+      { title: 'Payment Confirmed', desc: data.payment_status === 'paid' ? 'Payment received' : 'Awaiting payment', time: data.payment_status === 'paid' ? new Date(data.created_at).toLocaleString() : 'Pending' },
+      { title: 'Processing', desc: 'Seller is preparing your order', time: data.status !== 'pending' ? new Date(data.updated_at).toLocaleString() : 'Pending' },
+      { title: 'Shipped', desc: data.tracking_no ? `Tracking: ${data.tracking_no}` : 'Not yet shipped', time: data.tracking_no ? new Date(data.updated_at).toLocaleString() : 'Pending' },
+      { title: 'Delivered', desc: 'Order delivered', time: data.status === 'delivered' ? new Date(data.updated_at).toLocaleString() : 'Pending' },
+    ]
+  }
+  loading.value = false
+} catch (e) { console.error('Logistics error:', e) }
 })
 </template>
 
 </script>
+
 <style scoped>
 header { z-index: 2; }
 .logistics-timeline { position: relative; padding-left: 30px; }

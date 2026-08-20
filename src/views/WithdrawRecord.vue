@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div v-if="loading" class="loading-state" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
 <div v-else class="container" style="padding:40px 20px">
     <h2 style="margin-bottom:24px"><i class="fas fa-money-bill-wave"></i> Withdrawal History</h2>
@@ -33,9 +32,23 @@ onMounted(async () => {
     if (user) { const { data } = await supabase.from('withdrawals').select('*').eq('user_id', user.id).order('created_at', { ascending: false }); if (data) records.value = data }
   loading.value = false
   } catch (e) { console.error('Withdraw record error:', e) }
+})</template>
+
+<script setup>
+const loading = ref(true)
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/services/supabase'
+const records = ref([])
+onMounted(async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) { const { data } = await supabase.from('withdrawals').select('*').eq('user_id', user.id).order('created_at', { ascending: false }); if (data) records.value = data }
+  loading.value = false
+  } catch (e) { console.error('Withdraw record error:', e) }
 })
 </template>
 
 </script>
+
 <style scoped>
 body, html { overflow-x: hidden; }.data-table { width: 100%; border-collapse: collapse; } .data-table th { background: #1a1a2e; color: white; padding: 14px 16px; text-align: left; font-size: 13px; } .data-table td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; } .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; } .status-badge.pending { background: #fef3c7; color: #92400e; } .status-badge.completed { background: #d1fae5; color: #065f46; }</style>

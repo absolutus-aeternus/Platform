@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="rplus-page">
     <!-- Animated Background -->
     <div class="bg-mesh"></div>
@@ -206,6 +205,83 @@
     </div>
   </div>
   </div>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const showAuth = ref(false)
+const authTab = ref('register')
+const authEmail = ref('')
+const authPassword = ref('')
+const authName = ref('')
+const authReferral = ref('')
+const authError = ref('')
+const authSuccess = ref('')
+const authLoading = ref(false)
+const openFaq = ref(-1)
+
+const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
+
+const howSteps = [
+  { icon: 'fas fa-user-plus', title: 'Daftar Akun', desc: 'Buat akun gratis dalam 1 menit. Tanpa biaya pendaftaran.', color: 'rgba(255,77,0,0.15)' },
+  { icon: 'fas fa-tasks', title: 'Pilih Tugas', desc: 'Pilih tugas yang tersedia sesuai kemampuan dan waktu kamu.', color: 'rgba(0,230,138,0.15)' },
+  { icon: 'fas fa-check-circle', title: 'Selesaikan Tugas', desc: 'Ikuti instruksi, selesaikan tugas, dan kirim bukti.', color: 'rgba(124,92,255,0.15)' },
+  { icon: 'fas fa-wallet', title: 'Terima Komisi', desc: 'Komisi langsung masuk ke dompet digital You.', color: 'rgba(0,180,216,0.15)' },
+]
+
+const programs = [
+  { icon: 'fas fa-star', title: 'Rating Produk', amount: '$5 - $50', desc: 'Beri rating dan review produk di marketplace.', bg: 'rgba(255,77,0,0.15)', color: 'var(--brand-primary-hover, #E68A00)' },
+  { icon: 'fas fa-shopping-cart', title: 'Mystery Shopper', amount: '$10 - $100', desc: 'Beli produk dan berikan feedback detail.', bg: 'rgba(0,230,138,0.15)', color: '#00e68a' },
+  { icon: 'fas fa-share-alt', title: 'Social Meina', amount: '$3 - $30', desc: 'Bagikan konten dan dapatkan komisi per interaksi.', bg: 'rgba(124,92,255,0.15)', color: '#7c5cff' },
+]
+
+const testimonials = [
+  { name: 'Sari Dewi', role: 'Partner sejak 2024', text: 'Dalam 2 month, saya already earning lebih from $500. Sangat flexible dan can dilakukan dari rumah.', color: 'var(--brand-primary-hover, #E68A00)' },
+  { name: 'Buin Santoso', role: 'Partner sejak 2023', text: 'At first I was stoptical, but it really pays. Sekarang ini penghasilan utama saya.', color: '#00e68a' },
+  { name: 'Maya Putri', role: 'Partner sejak 2024', text: 'Tugasnya mudah dan jelas. Dukungan team also very responsive. Sangat direkomendasikan!', color: '#7c5cff' },
+]
+
+const faqs = [
+  { q: 'Apakah true-true gratis?', a: 'Ya, pendaftaran 100% gratis. Tidak ada biaya tersembunyi.' },
+  { q: 'Bagaimana cara mencairkan komisi?', a: 'Commission can ditarik ke rekening bank or dompet digital kapan saja.' },
+  { q: 'Berapa old proses pencairan?', a: 'Proses pencairan instan untuk dompet digital, 1-2 hari untuk bank.' },
+  { q: 'Apakah ada batasan waktu?', a: 'Tidak ada. Kamu bisa mengerjakan tugas kapan saja sesuai waktu luang.' },
+]
+
+const handleLogin = async () => {
+  authError.value = ''
+  authLoading.value = true
+  try {
+    const result = await userStore.login(authEmail.value, authPassword.value)
+    if (result.success) {
+      showAuth.value = false
+      router.push('/user')
+    } else {
+      authError.value = result.msg || 'Login gagal'
+    }
+  } catch (e) { authError.value = 'Terjadi kesalahan' }
+  authLoading.value = false
+}
+
+const handleDaftar = async () => {
+  authError.value = ''
+  authLoading.value = true
+  try {
+    const result = await userStore.register(authEmail.value, authPassword.value)
+    if (result.success) {
+      authSuccess.value = 'Akun berhasil dibuat! Silakan login.'
+      authTab.value = 'login'
+    } else {
+      authError.value = result.msg || 'Registrasi gagal'
+    }
+  } catch (e) { authError.value = 'Terjadi kesalahan' }
+  authLoading.value = false
+}</template>
 
 <script setup>
 import { ref } from 'vue'
