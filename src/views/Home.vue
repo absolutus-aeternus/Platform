@@ -215,14 +215,28 @@
               <router-link v-for="cat in categories.slice(0, 6)" :key="cat.id" :to="`/search?category=${cat.id}`">{{ cat.name }}</router-link>
             </div>
           </div>
-          <div class="seo-col">
-            <h4>Customer Service</h4>
-            <ul>
-              <li><router-link to="/help">Help Center</router-link></li>
-              <li><router-link to="/how-to-buy">How to Buy</router-link></li>
-              <li><router-link to="/returns">Returns &amp; Refunds</router-link></li>
-              <li><router-link to="/contact">Contact Us</router-link></li>
-            </ul>
+        </div>
+        <div class="seo-footer-grid" style="margin-top: 2rem;">
+          <div class="seo-col" style="flex: 100%;">
+            <h4>Partner Marketplace</h4>
+            <div class="seo-cat-links">
+              <a href="#" target="_blank">Amazon</a>
+              <a href="#" target="_blank">AliExpress</a>
+              <a href="#" target="_blank">Shopify</a>
+              <a href="#" target="_blank">TikTok Shop</a>
+              <a href="#" target="_blank">Shopee International</a>
+              <a href="#" target="_blank">eBay</a>
+              <a href="#" target="_blank">Walmart Marketplace</a>
+              <a href="#" target="_blank">Etsy</a>
+              <a href="#" target="_blank">Rakuten</a>
+              <a href="#" target="_blank">Lazada</a>
+              <a href="#" target="_blank">Mercado Libre</a>
+              <a href="#" target="_blank">Allegro</a>
+              <a href="#" target="_blank">Coupang</a>
+              <a href="#" target="_blank">JD.com</a>
+              <a href="#" target="_blank">Tmall (Taobao)</a>
+              <a href="#" target="_blank">Flipkart</a>
+            </div>
           </div>
         </div>
       </div>
