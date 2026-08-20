@@ -571,7 +571,10 @@ onUnmounted(() => {
 .svc-item p { font-size: 0.6875rem; color: #565959; margin: 0.125rem 0 0; }
 
 /* SEO Footer Section */
-.seo-footer-section { background: var(--brand-nav, #232F3E); padding: 2rem 0; margin-top: 0.5rem; color: #ddd; }
+.seo-footer-section { background: #ffffff; padding: 2rem 0; margin-top: 0.5rem; color: #1a1a1a; }
+.seo-footer-section h4 { color: #1a1a1a; }
+.seo-footer-section a, .seo-footer-section p { color: #4a4a4a; }
+.seo-footer-section a:hover { color: #fe2c55; }
 .seo-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
 .seo-col h4 { font-size: 0.875rem; color: #fff; margin: 0 0 0.75rem; font-weight: 600; }
 .seo-col p { font-size: 0.75rem; line-height: 1.6; color: #aaa; margin: 0; }
