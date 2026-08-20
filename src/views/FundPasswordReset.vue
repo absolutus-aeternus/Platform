@@ -13,7 +13,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 import { ref } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -27,6 +26,8 @@ const resetPassword = async () => {
   } catch (e) { console.error('Fund password reset error:', e); msg.value = 'Failed to reset password'; msgColor.value = '#dc2626' }
   loading.value = false
 }
+</template>
+
 </script>
 
 

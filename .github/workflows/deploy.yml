@@ -1,199 +1,57 @@
-name: Build and Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Pages
 
 on:
   push:
+    branches: [main, develop, qwen-code-*]
+  pull_request:
     branches: [main]
 
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
-
-env:
-  NODE_VERSION: '20'
-  WORKER_URL: 'https://alliancehub-api.absolutus-aeternus.workers.dev'
-
 jobs:
-  lint:
-    name: Lint Check
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    
     steps:
-      - uses: actions/checkout@v4
-
+      - name: Checkout
+        uses: actions/checkout@v4
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '20'
           cache: 'npm'
-
+      
       - name: Install dependencies
         run: npm ci
-
-      - name: Run ESLint
-        run: npm run lint
-
-  build:
-    name: Build & Validate
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Frontend
-        run: |
-          echo "Node version: $(node --version)"
-          echo "NPM version: $(npm --version)"
-          echo "Starting build..."
-          npm run build 2>&1
+      
+      - name: Build
+        run: npm run build
         env:
-          NODE_OPTIONS: '--max-old-space-size=4096'
-          VITE_WORKER_URL: ${{ env.WORKER_URL }}
-          VITE_SUPABASE_URL: 'https://cfzmdvymqqnrzrytcrie.supabase.co'
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-          VITE_ALGOLIA_APP_ID: 'GLRKXLGDD9'
-          VITE_ONESIGNAL_APP_ID: ${{ secrets.VITE_ONESIGNAL_APP_ID }}
-          VITE_CLARITY_PROJECT_ID: ${{ secrets.VITE_CLARITY_PROJECT_ID }}
-
-      - name: Validate Build Output
-        run: |
-          echo "📦 Checking build output..."
-          if [ ! -d "dist" ]; then
-            echo "❌ Build output directory 'dist' not found!"
-            exit 1
-          fi
-
-          SIZE=$(du -sh dist | cut -f1)
-          FILE_COUNT=$(find dist -type f | wc -l)
-          echo "✅ Build output: $SIZE ($FILE_COUNT files)"
-
-          # Warn if bundle is unexpectedly large (>50MB)
-          SIZE_BYTES=$(du -sb dist | cut -f1)
-          if [ "$SIZE_BYTES" -gt 52428800 ]; then
-            echo "⚠️ Warning: Build output exceeds 50MB. Review bundle size."
-          fi
-
-          # Check for index.html
-          if [ ! -f "dist/index.html" ]; then
-            echo "❌ dist/index.html not found!"
-            exit 1
-          fi
-          echo "✅ Build validation passed"
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 1
-
-  deploy-frontend:
-    name: Deploy Frontend
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://alliancehub.dpdns.org
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          VITE_UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          VITE_ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+          VITE_WORKER_URL: ${{ secrets.WORKER_URL }}
+          VITE_CLARITY_PROJECT_ID: ${{ secrets.CLARITY_PROJECT_ID }}
+      
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=platform
-
-  deploy-worker:
-    name: Deploy Worker
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Deploy Cloudflare Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
-
-  health-check:
-    name: Post-Deploy Health Check
-    needs: [deploy-frontend, deploy-worker]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait for deployment propagation
-        run: sleep 30
-
-      - name: Check Frontend Health
-        run: |
-          echo "🔍 Checking frontend..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://alliancehub.dpdns.org/ --max-time 15)
-          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
-            echo "✅ Frontend OK (HTTP $STATUS)"
-          else
-            echo "❌ Frontend returned HTTP $STATUS"
-            exit 1
-          fi
-
-      - name: Check Worker Health
-        run: |
-          echo "🔍 Checking worker API..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://alliancehub-api.absolutus-aeternus.workers.dev/ --max-time 15)
-          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 500 ]; then
-            echo "✅ Worker API OK (HTTP $STATUS)"
-          else
-            echo "⚠️ Worker API returned HTTP $STATUS (may be expected for root path)"
-          fi
-
-      - name: Check Security Headers
-        run: |
-          echo "🔒 Verifying security headers..."
-          HEADERS=$(curl -sI https://alliancehub.dpdns.org/ --max-time 15)
-          for HEADER in "x-frame-options: DENY" "x-content-type-options: nosniff" "strict-transport-security"; do
-            if echo "$HEADERS" | grep -qi "$HEADER"; then
-              echo "✅ $HEADER present"
-            else
-              echo "⚠️ $HEADER missing"
-            fi
-          done
-
-  notify:
-    name: Deployment Notification
-    needs: health-check
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
+          command: pages deploy dist --project-name=alliancehub --branch=${{ github.ref_name }}
+      
       - name: Deployment Summary
         run: |
-          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Branch:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Frontend:** https://alliancehub.dpdns.org" >> $GITHUB_STEP_SUMMARY
-          echo "- **Worker:** ${{ env.WORKER_URL }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Status:** ${{ needs.health-check.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployed by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Time**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [Cloudflare Dashboard](https://dash.cloudflare.com/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/view/alliancehub)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Preview URL](https://${{ github.ref_name }}--alliancehub.pages.dev)" >> $GITHUB_STEP_SUMMARY

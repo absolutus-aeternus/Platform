@@ -22,7 +22,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -63,6 +62,8 @@ const saveFlags = async () => {
 }
 
 onMounted(loadFlags)
+</template>
+
 </script>
 
 <style scoped>

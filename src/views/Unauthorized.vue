@@ -27,7 +27,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { computed } from 'vue'
@@ -53,6 +52,8 @@ function goBack() {
     goHome()
   }
 }
+</template>
+
 </script>
 
 <style scoped>

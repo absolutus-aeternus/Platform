@@ -70,7 +70,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -164,6 +163,8 @@ const deleteCoupon = async (id) => {
 }
 
 onMounted(loadCoupons)
+</template>
+
 </script>
 
 <style scoped>

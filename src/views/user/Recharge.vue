@@ -48,7 +48,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -96,6 +95,8 @@ const submitRecharge = async () => {
   window.__toast?.show('Recharge request submitted! Please send the payment to the wallet address.')
   amount.value = 0
 }
+</template>
+
 </script>
 
 <style scoped>

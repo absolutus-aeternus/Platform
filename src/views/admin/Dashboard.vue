@@ -183,7 +183,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -314,6 +313,8 @@ onMounted(async () => {
     rplusStats.value = rpStats
   } catch (e) { console.warn('[Admin] R+ stats fetch failed:', e.message) }
 })
+</template>
+
 </script>
 
 <style scoped>

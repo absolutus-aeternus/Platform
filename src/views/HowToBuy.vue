@@ -39,7 +39,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -72,6 +71,8 @@ const faqs = [
   { q: 'How do I track my order?', a: 'Go to Track Order page and enter your order number. You will see real-time updates on your shipment status.' },
   { q: 'How do I become a seller?', a: 'Click "Sell on AllianceHub" in the top bar or visit our Merchant Settled page to apply. Approval takes 1-3 business days.' },
 ]
+</template>
+
 </script>
 
 <style scoped>

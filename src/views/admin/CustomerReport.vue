@@ -32,7 +32,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -85,6 +84,8 @@ onMounted(async () => { try {
   sellers.value = s.data || []
 } catch (e) { console.error("CustomerReport.vue error:", e) }
 })
+</template>
+
 </script>
 
 <style scoped>

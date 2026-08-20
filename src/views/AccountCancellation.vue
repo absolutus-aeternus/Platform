@@ -15,7 +15,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -31,6 +30,8 @@ const cancelAccount = async () => {
   } catch (e) { console.error('Cancel account error:', e); msg.value = 'Failed to cancel account' }
   loading.value = false
 }
+</template>
+
 </script>
 
 

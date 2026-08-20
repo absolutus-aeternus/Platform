@@ -35,10 +35,11 @@
     </section>
   </div>
   </div>
-</template>
 
 <script setup>
 // Static page — no data loading needed
+</template>
+
 </script>
 
 

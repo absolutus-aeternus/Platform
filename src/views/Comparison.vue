@@ -39,7 +39,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -65,6 +64,8 @@ onMounted(async () => {
     }
   } catch (e) { console.warn("[Comparison] Error:", e.message) }
 })
+</template>
+
 </script>
 
 <style scoped>

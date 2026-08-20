@@ -33,7 +33,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -49,6 +48,8 @@ const submitApplication = () => {
   window.__toast?.show('Credit application submitted! We will review your application within 24 hours.')
   router.push('/credit/myLoan')
 }
+</template>
+
 </script>
 
 <style scoped>

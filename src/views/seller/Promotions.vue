@@ -60,7 +60,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -153,6 +152,8 @@ const deletePromo = async (id) => {
 }
 
 onMounted(loadData)
+</template>
+
 </script>
 
 <style scoped>

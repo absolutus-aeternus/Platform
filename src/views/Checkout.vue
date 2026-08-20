@@ -76,7 +76,6 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -184,6 +183,8 @@ const placeOrder = async () => {
   }
   ordering.value = false
 }
+</template>
+
 </script>
 
 <style scoped>

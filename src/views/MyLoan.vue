@@ -23,13 +23,14 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
 
 const loans = ref([])
 const loading = ref(false)
+</template>
+
 </script>
 
 <style scoped>

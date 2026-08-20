@@ -22,7 +22,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -57,6 +56,8 @@ const removeFavorite = async (id) => {
 }
 
 onMounted(loadFavorites)
+</template>
+
 </script>
 
 <style scoped>

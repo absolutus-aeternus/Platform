@@ -84,7 +84,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -177,6 +176,8 @@ const resetPassword = async (u) => {
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'
 onMounted(loadUsers)
+</template>
+
 </script>
 
 <style scoped>

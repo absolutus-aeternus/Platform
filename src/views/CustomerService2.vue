@@ -22,9 +22,10 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const openChat = () => { const el = document.querySelector('.chat-widget button, [class*="chat-toggle"]'); if (el) el.click() }
+</template>
+
 </script>
 <style scoped>
 @media (max-width: 768px) {

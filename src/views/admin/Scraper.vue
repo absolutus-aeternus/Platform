@@ -185,7 +185,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -316,6 +315,8 @@ const saveToSupabase = async () => {
 const editProduct = () => {
   // Enable inline editing (already enabled via v-model)
 }
+</template>
+
 </script>
 
 <style scoped>

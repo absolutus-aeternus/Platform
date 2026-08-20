@@ -30,7 +30,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -65,6 +64,8 @@ const loadData = async () => {
   } catch (e) { console.error('Sales report error:', e) }
 }
 onMounted(loadData)
+</template>
+
 </script>
 
 <style scoped>

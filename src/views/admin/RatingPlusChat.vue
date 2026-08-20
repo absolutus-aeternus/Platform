@@ -58,7 +58,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue'
@@ -119,7 +118,7 @@ onMounted(loadChatters)
 
 <style scoped>
 body, html { overflow-x: hidden; }
-.rplus-chat { max-width: 1200px; height: calc(100vh - 120px); }
+.rplus-chat { max-width: 1200px; height: calc(100dvh - 120px); }
 .page-header { margin-bottom: 20px; }
 .page-header h1 { font-size: 22px; margin-bottom: 4px; }
 .page-header p { color: #666; font-size: 14px; }
@@ -161,7 +160,7 @@ body, html { overflow-x: hidden; }
 .btn-send { width: 40px; height: 40px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 .btn-send:disabled { background: #ccc; cursor: not-allowed; }
 @media (max-width: 768px) {
-  .chat-layout { grid-template-columns: 1fr; height: calc(100vh - 10rem); position: relative; }
+  .chat-layout { grid-template-columns: 1fr; height: calc(100dvh - 10rem); position: relative; }
   .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; }
   .chat-sidebar.hidden { display: none; }
   .chat-header { padding: 10px 12px; }

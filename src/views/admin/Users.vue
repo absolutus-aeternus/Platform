@@ -50,7 +50,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -91,6 +90,8 @@ const editRole = async (u) => {
 }
 const deleteUser = async (u) => { if (!confirm(`Delete user ${u.email}?`)) return; await supabase.from('users').delete().eq('id', u.id); await load() }
 onMounted(load)
+</template>
+
 </script>
 
 <style scoped>

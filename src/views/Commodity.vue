@@ -40,7 +40,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -70,6 +69,8 @@ onMounted(async () => {
   } catch (e) { console.error('Failed:', e) }
   loading.value = false
 })
+</template>
+
 </script>
 
 <style scoped>

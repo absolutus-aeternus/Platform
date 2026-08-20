@@ -9,33 +9,6 @@
   </div>
 </template>
 
-<style>
-#app { max-width: 100vw; overflow-x: hidden; }
-.page-fade-enter-active, .page-fade-leave-active { transition: opacity 0.15s ease; }
-.page-fade-enter-from, .page-fade-leave-to { opacity: 0; }
-
-/* === GLOBAL RESPONSIVE === */
-@media (max-width: 1200px) {
-  .container { padding: 0 1rem; }
-}
-
-@media (max-width: 768px) {
-  .flash-products { gap: 0.375rem !important; }
-  .product-grid { gap: 0.5rem !important; }
-  .category-bar { overflow-x: auto; flex-wrap: nowrap !important; }
-  .cat-item { min-width: 60px; }
-  .page-header { flex-direction: column; gap: 0.75rem; }
-  .page-header h1 { font-size: 1.25rem; }
-  .filters { flex-direction: column; }
-  .modal { width: 95vw !important; margin: 1rem; }
-  .form-group input, .form-group select { font-size: 16px; /* prevent zoom on iOS */ }
-}
-
-@media (max-width: 480px) {
-  .banner-arrow { display: none !important; }
-}
-</style>
-
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -103,3 +76,30 @@ onUnmounted(() => {
   disconnect()
 })
 </script>
+
+<style>
+#app { max-width: 100vw; overflow-x: hidden; }
+.page-fade-enter-active, .page-fade-leave-active { transition: opacity 0.15s ease; }
+.page-fade-enter-from, .page-fade-leave-to { opacity: 0; }
+
+/* === GLOBAL RESPONSIVE === */
+@media (max-width: 1200px) {
+  .container { padding: 0 1rem; }
+}
+
+@media (max-width: 768px) {
+  .flash-products { gap: 0.375rem !important; }
+  .product-grid { gap: 0.5rem !important; }
+  .category-bar { overflow-x: auto; flex-wrap: nowrap !important; }
+  .cat-item { min-width: 60px; }
+  .page-header { flex-direction: column; gap: 0.75rem; }
+  .page-header h1 { font-size: 1.25rem; }
+  .filters { flex-direction: column; }
+  .modal { width: 95vw !important; margin: 1rem; }
+  .form-group input, .form-group select { font-size: 16px; /* prevent zoom on iOS */ }
+}
+
+@media (max-width: 480px) {
+  .banner-arrow { display: none !important; }
+}
+</style>

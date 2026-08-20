@@ -82,7 +82,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -154,6 +153,8 @@ const confirmAdjust = async () => {
 const viewHistory = (wallet) => window.__toast?.show(`Wallet history for ${wallet.users?.email} - Feature coming soon`)
 
 onMounted(loadWallets)
+</template>
+
 </script>
 
 <style scoped>

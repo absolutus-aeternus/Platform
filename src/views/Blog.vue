@@ -38,7 +38,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -52,6 +51,8 @@ const posts = [
   { id: 5, title: 'Summer Sale: Up to 70% Off', excerpt: 'Our biggest sale of the season is here. Thousands of products at incredible prices.', tag: 'Promotions', date: 'Aug 1, 2026', views: '5.2K', icon: 'fas fa-fire', gradient: 'linear-gradient(135deg, #CC0C39, #ff4757)' },
   { id: 6, title: 'Shipping & Delivery: What You Need to Know', excerpt: 'Complete guide to shipping options, tracking, and delivery times for all regions.', tag: 'Tutorials', date: 'Jul 28, 2026', views: '980', icon: 'fas fa-truck', gradient: 'linear-gradient(135deg, #6c5ce7, #a29bfe)' },
 ]
+</template>
+
 </script>
 
 <style scoped>

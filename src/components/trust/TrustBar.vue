@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="trust-bar" :class="{ 'trust-bar--vertical': vertical }">
     <div class="trust-bar__item">
       <i class="fas fa-shield-alt"></i>
@@ -18,8 +17,6 @@
       <span>{{ shipping }}</span>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 defineProps({
@@ -28,6 +25,8 @@ defineProps({
   shipping: { type: String, default: '' },
   vertical: { type: Boolean, default: false }
 })
+</template>
+
 </script>
 
 <style scoped>

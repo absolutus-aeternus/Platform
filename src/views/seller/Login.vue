@@ -113,7 +113,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -186,12 +185,14 @@ const handleLogin = async () => {
   }
   loading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>
 body, html { overflow-x: hidden; }
 .seller-login {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;

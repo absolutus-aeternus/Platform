@@ -20,7 +20,6 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
   </div>
-</template>
 <script setup>
 import { ref } from "vue"
 const loading = ref(false)
@@ -34,6 +33,8 @@ const faqs = ref([
   { q: 'What payment methods are accepted?', a: 'We accept crypto payments: USDT (TRC20/ERC20), BTC, ETH, and more. Recharge your wallet first, then use wallet balance for purchases.', open: false },
   { q: 'How do I track my order?', a: 'Go to My Orders, click on the order, and view the logistics timeline. You\'ll see real-time updates on shipping status.', open: false },
 ])
+</template>
+
 </script>
 
 

@@ -17,7 +17,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref, onMounted } from 'vue'
@@ -32,5 +31,7 @@ onMounted(async () => {
   loading.value = false
   } catch (e) { console.error('Withdraw details error:', e) }
 })
+</template>
+
 </script>
 <style scoped>.status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; } .status-badge.pending { background: #fef3c7; color: #92400e; } .status-badge.completed { background: #d1fae5; color: #065f46; }</style>

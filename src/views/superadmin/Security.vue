@@ -51,7 +51,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -98,6 +97,8 @@ const loadSecurityData = async () => {
 }
 
 onMounted(loadSecurityData)
+</template>
+
 </script>
 
 <style scoped>

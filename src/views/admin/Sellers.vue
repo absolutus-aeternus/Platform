@@ -88,7 +88,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -128,6 +127,8 @@ const toggleSellerStatus = async (seller) => {
 }
 
 onMounted(loadSellers)
+</template>
+
 </script>
 
 <style scoped>

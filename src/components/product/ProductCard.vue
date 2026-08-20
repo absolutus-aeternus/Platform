@@ -1,5 +1,4 @@
 <template>
-  <div class="component-wrapper">
   <div class="product-card" @click="$router.push(`/product/${product.id}`)">
     <!-- Image -->
     <div class="product-card__img">
@@ -67,8 +66,6 @@
       </button>
     </div>
   </div>
-  </div>
-</template>
 
 <script setup>
 import { ref, computed } from 'vue'
@@ -95,6 +92,8 @@ function formatCount(n) {
   if (n >= 1000) return (n / 1000).toFixed(1) + 'K'
   return n.toString()
 }
+</template>
+
 </script>
 
 <style scoped>

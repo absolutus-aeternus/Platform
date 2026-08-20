@@ -16,7 +16,6 @@
     <div v-else style="text-align:center;padding:60px"><i class="fas fa-star" style="font-size:48px;color:#94a3b8"></i><p style="color:#64748b;margin-top:16px">No reviews yet</p></div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref, onMounted } from 'vue'
@@ -31,6 +30,8 @@ onMounted(async () => {
   loading.value = false
   } catch (e) { console.error('All reviews error:', e) }
 })
+</template>
+
 </script>
 
 

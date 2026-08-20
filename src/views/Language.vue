@@ -10,7 +10,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 import { ref, onMounted } from 'vue'
 const current = ref(localStorage.getItem('lang') || 'en')
@@ -29,6 +28,8 @@ const languages = [
   { code: 'th', name: 'ไทย', flag: '🇹🇭' },
 ]
 const setLang = (code) => { current.value = code; localStorage.setItem('lang', code); location.reload() }
+</template>
+
 </script>
 
 

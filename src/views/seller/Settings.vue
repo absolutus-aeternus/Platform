@@ -33,7 +33,6 @@
     <div v-if="saved" class="toast"><i class="fas fa-check-circle"></i> Settings saved!</div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -74,6 +73,8 @@ const saveSettings = async () => {
   saved.value = true
   setTimeout(() => { saved.value = false }, 3000)
 }
+</template>
+
 </script>
 
 <style scoped>

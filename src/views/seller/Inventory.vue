@@ -48,7 +48,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -84,6 +83,8 @@ onMounted(async () => { try {
 } catch (e) { console.error("Inventory.vue error:", e) }
   loading.value = false
 })
+</template>
+
 </script>
 
 <style scoped>

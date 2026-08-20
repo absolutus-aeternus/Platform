@@ -97,7 +97,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
@@ -424,7 +423,7 @@ body, html { overflow-x: hidden; }
 .chat-input button:disabled { background: #ccc; cursor: not-allowed; }
 
 @media (max-width: 768px) {
-  .chat-container { grid-template-columns: 1fr; height: calc(100vh - 10rem); }
+  .chat-container { grid-template-columns: 1fr; height: calc(100dvh - 10rem); }
   .chat-sidebar { position: absolute; inset: 0; z-index: 10; background: #fff; display: flex; }
   .chat-sidebar.hidden { display: none; }
   .chat-main { width: 100%; }

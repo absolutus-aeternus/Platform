@@ -35,7 +35,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -68,6 +67,8 @@ const saveProfile = async () => {
     window.__toast?.show('Failed to save profile', 'error')
   }
 }
+</template>
+
 </script>
 
 <style scoped>

@@ -59,7 +59,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const loading = ref(true)
@@ -95,6 +94,8 @@ const saveSettings = async () => {
 }
 
 onMounted(loadSettings)
+</template>
+
 </script>
 
 <style scoped>

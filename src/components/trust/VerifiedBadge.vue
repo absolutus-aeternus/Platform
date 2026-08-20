@@ -1,11 +1,8 @@
 <template>
-  <div class="component-wrapper">
   <span class="verified-badge" :class="`verified-badge--${size}`" :title="tooltip">
     <span class="verified-badge__icon">✓</span>
     <span v-if="showLabel" class="verified-badge__label">Verified</span>
   </span>
-  </div>
-</template>
 
 <script setup>
 defineProps({
@@ -13,6 +10,8 @@ defineProps({
   showLabel: { type: Boolean, default: true },
   tooltip: { type: String, default: 'Verified seller' }
 })
+</template>
+
 </script>
 
 <style scoped>

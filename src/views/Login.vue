@@ -45,7 +45,6 @@
               <i :class="showPw ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
             </div>
-</template>
         </BaseInput>
 
         <div class="form-options">
@@ -75,7 +74,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -119,10 +117,12 @@ const handleLogin = async () => {
   } catch { error.value = 'An error occurred' }
   loading.value = false
 }
+</template>
+
 </script>
 
 <style scoped>
-.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; background: #f5f5f5; }
+.login-page { min-height: 100dvh; display: flex; align-items: center; justify-content: center; position: relative; background: #f5f5f5; }
 .login-bg { position: fixed; inset: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0a0a1a 100%); z-index: 0; }
 .login-card { position: relative; z-index: 2; background: #fff; border-radius: 16px; padding: 40px; width: 420px; max-width: 92vw; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .login-header { text-align: center; margin-bottom: 28px; }

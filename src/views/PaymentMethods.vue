@@ -49,7 +49,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 const methods = [
@@ -62,6 +61,8 @@ const methods = [
   { id: 'bitfinex', name: 'Bitfinex', icon: 'fas fa-link', color: '#16B979', type: 'Crypto', desc: 'Professional-grade payment through Bitfinex.' },
   { id: 'huobi', name: 'Huobi', icon: 'fas fa-fire', color: '#1B6BF0', type: 'Crypto', desc: 'Pay with Huobi global exchange account.' },
 ]
+</template>
+
 </script>
 
 <style scoped>

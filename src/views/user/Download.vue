@@ -20,7 +20,6 @@
     </div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref } from 'vue'
@@ -33,6 +32,8 @@ const downloadFile = (dl) => {
     window.__toast?.show('Download link not available', 'error')
   }
 }
+</template>
+
 </script>
 
 <style scoped>

@@ -13,7 +13,6 @@
     </div>
   </div>
   </div>
-</template>
 <script setup>
 const loading = ref(true)
 import { ref } from 'vue'
@@ -31,6 +30,8 @@ const saveAvatar = async () => {
   try { await supabase.from('users').update({ avatar: String(selected.value) }).eq('id', user.id) } catch(_e) { console.error('AvatarSelection.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   router.push('/user/settings')
 }
+</template>
+
 </script>
 <style scoped>
 .avatar-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }

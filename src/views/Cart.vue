@@ -75,7 +75,6 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
   </div>
-</template>
 
 <script setup>
 import { ref, watch } from "vue"
@@ -105,6 +104,8 @@ const removeItem = async (id) => {
   try { await userStore.removeFromCart(id) }
   catch (e) { console.warn('Cart: removeItem failed:', e.message) }
 }
+</template>
+
 </script>
 
 <style scoped>
