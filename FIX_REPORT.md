@@ -119,6 +119,85 @@ The i18n setup only imported `en`, `id`, and `zh` locale files, but the project 
 
 ---
 
+---
+
+### 🟡 BUG #7 — Login.vue: Missing `</template>` tag (CRITICAL)
+
+**File:** `src/views/Login.vue`
+**Severity:** CRITICAL — Vue SFC compilation would fail
+
+**Problem:** The `<template>` section was not properly closed before `<script setup>`. The closing `</template>` tag was missing entirely.
+
+**Fix:** Added `</template>` before `<script setup>`.
+
+---
+
+### 🟡 BUG #8 — Worker /api/dashboard: Wrong status filter
+
+**File:** `src/worker/index.js`
+**Severity:** MEDIUM — Dashboard would show no products
+
+**Problem:** Dashboard endpoint used `status=eq.published` but the products table uses `status=active`.
+
+**Fix:** Changed to `status=eq.active`.
+
+---
+
+### 🟡 BUG #9 — Worker /api/products: Search input not sanitized
+
+**File:** `src/worker/index.js`
+**Severity:** MEDIUM — Pattern manipulation via `%` and `_` wildcards
+
+**Problem:** The `search` parameter was passed directly to `ilike` without escaping `%` and `_` characters, allowing users to manipulate pattern matching.
+
+**Fix:** Added `replace(/%/g, '\\%').replace(/_/g, '\\_')` sanitization to all search paths (worker, supabase.js, products.js, search.js).
+
+---
+
+### 🟡 BUG #10 — Worker /api/seller/payout: Non-atomic payout + wallet deduction
+
+**File:** `src/worker/index.js`
+**Severity:** MEDIUM — Wallet deduction failure leaves orphaned payout record
+
+**Problem:** Payout record was created first, then wallet balance deducted separately. If wallet deduction failed, the payout record persisted without balance being deducted.
+
+**Fix:** Added rollback logic — if wallet PATCH fails, the payout record is deleted.
+
+---
+
+### 🟢 BUG #11 — search.js: Wrong filter column `is_active`
+
+**File:** `src/utils/search.js`
+**Severity:** LOW — Search may return no results
+
+**Problem:** Used `.eq('is_active', true)` but the products table uses `status` column, not `is_active`.
+
+**Fix:** Changed to `.eq('status', 'active')`.
+
+---
+
+### 🟢 BUG #12 — orders.js: `cancelOrder` ignores reason parameter
+
+**File:** `src/store/orders.js`
+**Severity:** LOW — Cancellation reason not persisted
+
+**Problem:** The `reason` parameter was accepted but never passed to the database update.
+
+**Fix:** Now passes `cancel_reason` to the Supabase update and syncs local state.
+
+---
+
+### 🟢 BUG #13 — package.json: Unused `axios` dependency
+
+**File:** `package.json`
+**Severity:** LOW — Dead weight in bundle
+
+**Problem:** `axios` was listed as a devDependency but the codebase uses `fetch` exclusively.
+
+**Fix:** Removed `axios` from devDependencies.
+
+---
+
 ## Recommendations
 
 1. **Run tests:** `npm test` to verify all fixes
