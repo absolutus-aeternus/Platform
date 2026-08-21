@@ -12,8 +12,9 @@ WHERE NOT EXISTS (
 )
 ON CONFLICT DO NOTHING;
 
--- Step 2: Create a view for backward compatibility
-CREATE OR REPLACE VIEW public.favorites AS
+-- Step 2: Drop favorites table and create view for backward compatibility
+DROP TABLE IF EXISTS public.favorites CASCADE;
+CREATE VIEW public.favorites AS
 SELECT id, user_id, product_id, created_at FROM public.wishlists;
 
 -- Step 3: Create a function to redirect favorites inserts to wishlists

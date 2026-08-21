@@ -95,6 +95,7 @@ CREATE INDEX IF NOT EXISTS idx_commissions_seller ON commissions(seller_id, stat
 CREATE INDEX IF NOT EXISTS idx_commissions_order ON commissions(order_id);
 CREATE INDEX IF NOT EXISTS idx_commissions_type ON commissions(type, status);
 CREATE INDEX IF NOT EXISTS idx_review_validations_user ON review_validations(user_id, product_id);
+ALTER TABLE review_validations ADD COLUMN IF NOT EXISTS is_suspicious BOOLEAN DEFAULT false;
 CREATE INDEX IF NOT EXISTS idx_review_validations_suspicious ON review_validations(is_suspicious) WHERE is_suspicious = true;
 CREATE INDEX IF NOT EXISTS idx_payouts_seller ON payouts(seller_id, status);
 CREATE INDEX IF NOT EXISTS idx_seller_products_seller ON seller_products(seller_id);

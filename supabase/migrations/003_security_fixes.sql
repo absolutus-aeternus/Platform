@@ -15,10 +15,10 @@ BEGIN
   -- If the role is being changed, check if the user is an admin
   IF NEW.role IS DISTINCT FROM OLD.role THEN
     -- Only allow role changes by service_role (not by user themselves)
-    IF current_setting(request.jwt.claims, true)::json->>role = service_role THEN
+    IF current_setting('request.jwt.claims', true)::json->>'role' = 'service_role' THEN
       RETURN NEW;
     ELSE
-      RAISE EXCEPTION Cannot change role via client API;
+      RAISE EXCEPTION 'Cannot change role via client API';
     END IF;
   END IF;
   RETURN NEW;

@@ -54,22 +54,3 @@ CREATE TABLE IF NOT EXISTS login_logs (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Indexes
-CREATE INDEX IF NOT EXISTS idx_login_logs_user_id ON login_logs(user_id);
-CREATE INDEX IF NOT EXISTS idx_login_logs_email ON login_logs(email);
-CREATE INDEX IF NOT EXISTS idx_login_logs_ip ON login_logs(ip_address);
-CREATE INDEX IF NOT EXISTS idx_login_logs_created ON login_logs(created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_login_logs_status ON login_logs(login_status);
-
--- RLS
-ALTER TABLE login_logs ENABLE ROW LEVEL SECURITY;
-
--- Only admins can read logs
-CREATE POLICY admin_read_logs ON login_logs
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM users WHERE users.id = auth.uid() AND users.role IN ('ADMIN', 'SUPER_ADMIN'))
-  );
-
--- Anyone can insert (for logging)
-CREATE POLICY insert_logs ON login_logs
-  FOR INSERT WITH CHECK (true);
