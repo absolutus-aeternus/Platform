@@ -60,6 +60,9 @@
         </router-link>
       </div>
       </div>
+        </template>
+      </div>
+      </div>
 </template>
   </div>
   </div>

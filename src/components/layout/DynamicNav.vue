@@ -33,6 +33,7 @@
           </router-link>
         </div>
       </div>
+        </template>
       </template>
   </nav>
 

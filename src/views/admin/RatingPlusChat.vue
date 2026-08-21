@@ -53,6 +53,11 @@
             <button @click="sendMessage" class="btn-send" :disabled="!newMessage.trim()"><i class="fas fa-paper-plane"></i></button>
           </div>
           </div>
+        </template>
+      </div>
+      </div>
+      </div>
+      </div>
 </template>
       </div>
     </div>

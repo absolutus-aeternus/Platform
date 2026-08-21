@@ -60,7 +60,14 @@
                 <label>Phone Number *</label>
                 <div class="input-wrap"><i class="fas fa-phone"></i><input v-model="form.phone" type="tel" placeholder="+62 812 3456 7890" required></div>
               </div>
-              </div></template>
+              </template>
+        </form>
+      </div>
+    </section>
+    </div>
+  </div>
+</div>
+</template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'

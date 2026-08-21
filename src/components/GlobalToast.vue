@@ -7,30 +7,16 @@
       </div>
     </Transition>
   </Teleport>
-<script setup>
-import { ref, computed } from 'vue'
-const visible = ref(false)
-const message = ref('')
-const type = ref('success')
-const icon = computed(() => ({
-  success: 'fas fa-check-circle',
-  error: 'fas fa-exclamation-circle',
-  warning: 'fas fa-exclamation-triangle',
-  info: 'fas fa-info-circle'
-}[type.value]))
-
-let timer = null
-const show = (msg, t = 'success', duration = 3000) => {
-  message.value = msg
-  type.value = t
-  visible.value = true
-  clearTimeout(timer)
-  timer = setTimeout(() => visible.value = false, duration)
-}
-
-defineExpose({ show })
 </template>
-
+<script setup>
+import { ref, computed } from "vue"
+const visible = ref(false)
+const message = ref("")
+const type = ref("success")
+const icon = computed(() => ({ success: "fas fa-check-circle", error: "fas fa-exclamation-circle", warning: "fas fa-exclamation-triangle", info: "fas fa-info-circle" }[type.value]))
+let timer = null
+const show = (msg, t = "success", duration = 3000) => { message.value = msg; type.value = t; visible.value = true; clearTimeout(timer); timer = setTimeout(() => visible.value = false, duration) }
+defineExpose({ show })
 </script>
 <style scoped>
 .global-toast { position: fixed; top: 80px; right: 20px; z-index: 950; padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); max-width: 400px; }
@@ -42,8 +28,5 @@ defineExpose({ show })
 .toast-leave-active { animation: slideOutRight 0.3s ease; }
 @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-
-@media (max-width: 768px) {
-  .global-toast { top: auto; bottom: 5rem; left: 1rem; right: 1rem; max-width: none; font-size: 13px; padding: 12px 16px; }
-}
+@media (max-width: 768px) { .global-toast { top: auto; bottom: 5rem; left: 1rem; right: 1rem; max-width: none; font-size: 13px; padding: 12px 16px; } }
 </style>

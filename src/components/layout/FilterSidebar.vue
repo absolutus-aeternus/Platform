@@ -37,6 +37,10 @@
               <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
               <span class="filter-sidebar__toggle-track"></span>
             </label>
+        </template>
+      </div>
+      </div>
+      </div>
             </template>
         </div>
       </div>

@@ -20,6 +20,7 @@
       >
         {{ page }}
       </button>
+        </template>
     </template>
 
     <button

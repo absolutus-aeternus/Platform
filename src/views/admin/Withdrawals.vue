@@ -41,6 +41,10 @@
                 <button class="btn-sm btn-approve" @click="updateStatus(w, 'approved')"><i class="fas fa-check"></i></button>
                 <button class="btn-sm btn-reject" @click="updateStatus(w, 'rejected')"><i class="fas fa-times"></i></button>
                 </div>
+        </template>
+      </div>
+      </div>
+      </div>
 </template>
               <span v-else class="processed">Processed</span>
             </td>
