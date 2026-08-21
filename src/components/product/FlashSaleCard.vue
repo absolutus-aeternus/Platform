@@ -182,6 +182,8 @@ function formatSales(n) {
   .flash-card { min-width: 120px; max-width: 160px; }
   .flash-card__info { padding: 6px; }
   .flash-card__price { font-size: 14px; }
+  /* Disable hover effects on touch */
+  .flash-card:hover { transform: none; box-shadow: none; }
 }
 
 img { max-width: 100%; height: auto; }

@@ -153,17 +153,20 @@ const removeItem = async (id) => {
   .item-price { grid-column: 2; font-size: 13px; }
   .item-qty { grid-column: 2; }
   .item-total { grid-column: 2; font-size: 13px; font-weight: 700; }
-  .item-remove { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; }
+  .item-remove { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
   .cart-summary { position: static; }
   .page-title { font-size: 18px; }
+  .btn-checkout { min-height: 48px; font-size: 15px; }
 }
 @media (max-width: 480px) {
   .cart-item { grid-template-columns: 1fr; gap: 8px; padding: 12px 8px; }
   .item-check { display: none; }
   .item-product { grid-column: 1; }
-  .item-price, .item-qty, .item-total { font-size: 12px; }
+  .item-price { font-size: 13px; }
+  .item-total { font-size: 13px; font-weight: 700; }
   .item-remove { grid-column: 1; justify-self: end; }
-  .item-qty button { width: 28px; height: 28px; font-size: 12px; }
-  .item-qty span { width: 32px; font-size: 12px; line-height: 28px; }
+  .item-qty button { width: 36px; height: 36px; font-size: 14px; } /* 36px touch target */
+  .item-qty span { width: 40px; font-size: 13px; line-height: 36px; }
+  .item-qty { min-height: 36px; }
 }
 </style>

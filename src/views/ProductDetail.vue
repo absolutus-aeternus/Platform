@@ -798,22 +798,28 @@ const chatSeller = () => {
   .product-main { grid-template-columns: 1fr; gap: 16px; padding: 12px; }
   .product-gallery { position: static; }
   .main-image img { aspect-ratio: 1; }
+  .zoom-hint { display: none; } /* Hide hover-to-zoom on touch devices */
   .thumb { width: 48px; height: 48px; }
   .product-title { font-size: 16px; }
   .current-price { font-size: 20px; }
   .original-price { font-size: 14px; }
   .action-row { flex-direction: column; gap: 8px; }
   .btn-fav { width: 100%; height: 44px; }
-  .btn-add-cart, .btn-buy-now { padding: 12px; font-size: 14px; }
+  .btn-add-cart, .btn-buy-now { padding: 12px; font-size: 14px; min-height: 44px; }
   .info-row { font-size: 13px; }
   .info-row .label { width: 70px; }
-  .product-tabs button { font-size: 13px; padding: 10px; }
-  .tab-content { padding: 16px; }
-  .review-filter-tabs { gap: 4px; }
-  .review-filter-tabs button { padding: 5px 10px; font-size: 11px; }
+  .product-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .product-tabs button { font-size: 13px; padding: 10px; white-space: nowrap; min-height: 44px; }
+  .tab-content { padding: 16px; overflow-x: auto; }
+  .tab-content table { min-width: 480px; display: block; }
+  .review-filter-tabs { gap: 4px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .review-filter-tabs button { padding: 6px 12px; font-size: 11px; min-height: 32px; white-space: nowrap; flex-shrink: 0; }
   .lightbox__nav { padding: 12px 8px; font-size: 18px; }
   .lightbox__nav--prev { left: 8px; }
   .lightbox__nav--next { right: 8px; }
+  .lightbox__close { top: 8px; right: 8px; padding: 10px 14px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  .comment-input-wrap textarea { font-size: 16px; } /* Prevent iOS zoom */
+  .reply-form input { font-size: 16px; min-height: 40px; } /* Prevent iOS zoom */
 }
 @media (max-width: 480px) {
   .breadcrumb { font-size: 11px; }

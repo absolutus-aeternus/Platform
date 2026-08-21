@@ -327,14 +327,22 @@ function formatCount(n) {
   .product-card__stars { font-size: 10px; }
   .product-card__seller { font-size: 10px; }
   .product-card__cart-btn { display: none; }
-  .product-card__wishlist { opacity: 1; width: 28px; height: 28px; font-size: 12px; }
+  .product-card__wishlist {
+    opacity: 1;
+    width: 32px; height: 32px;  /* 32px min touch target */
+    font-size: 13px;
+    top: 6px; right: 6px;
+  }
   .product-card__quick-add {
     opacity: 1;
     transform: scale(1);
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
+    width: 36px; height: 36px;  /* 36px touch target */
+    font-size: 13px;
+    bottom: 6px; right: 6px;
   }
+  /* Disable hover effects on touch */
+  .product-card:hover { transform: none; box-shadow: none; }
+  .product-card:hover .product-card__img img { transform: none; }
 }
 
 img { max-width: 100%; height: auto; }

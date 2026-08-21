@@ -163,5 +163,16 @@ const handleLogin = async () => {
 
 .animate-in { animation: slideUp 0.5s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 480px) { .login-card { padding: 28px 20px; } .logo-text { font-size: 20px; } }
+@media (max-width: 480px) {
+  .login-card { padding: 24px 16px; border-radius: 12px; }
+  .logo-img { width: 40px; height: 40px; }
+  .login-header h2 { font-size: 18px; }
+  .login-header p { font-size: 13px; }
+  .login-tabs button { padding: 10px 8px; font-size: 13px; min-height: 44px; }
+  .btn-login { padding: 14px; font-size: 15px; min-height: 48px; }
+  .btn-social { padding: 11px 8px; font-size: 12px; min-height: 44px; }
+  .form-options { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .social-btns { flex-direction: column; gap: 8px; }
+  .login-footer p { font-size: 12px; margin-bottom: 10px; }
+}
 </style>
