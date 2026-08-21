@@ -75,6 +75,8 @@ The i18n setup only imported `en`, `id`, and `zh` locale files, but the project 
 | `src/i18n/index.js` | Added all 9 locale imports + language list |
 | `src/layouts/MainLayout.vue` | Updated language dropdown to include all 9 locales |
 | `wrangler.toml` | Fixed `main` entry point path |
+| `src/views/Register.vue` | Added `showToast()` method for template access |
+| `src/composables/useDarkMode.js` | Removed unused `watch` import |
 
 ---
 
@@ -92,6 +94,28 @@ The i18n setup only imported `en`, `id`, and `zh` locale files, but the project 
 - **Remote:** `git@github.com:absolutus-aeternus/Platform.git`
 - **SSH Key:** `~/.ssh/id_ed25519` (ed25519)
 - **Status:** ✅ Connected
+
+---
+
+### 🟡 BUG #5 — Register.vue: Same `window.__toast` template bug
+
+**File:** `src/views/Register.vue`
+**Severity:** MEDIUM — Social signup buttons would throw silent errors
+
+**Problem:** Same as Bug #2 — `window.__toast` used directly in Vue template.
+
+**Fix:** Added `showToast()` method.
+
+---
+
+### 🟢 BUG #6 — useDarkMode.js: Unused `watch` import
+
+**File:** `src/composables/useDarkMode.js`
+**Severity:** LOW — Dead code
+
+**Problem:** `watch` was imported from Vue but never used.
+
+**Fix:** Removed unused import.
 
 ---
 
