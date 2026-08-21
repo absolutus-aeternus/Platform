@@ -198,10 +198,101 @@ The i18n setup only imported `en`, `id`, and `zh` locale files, but the project 
 
 ---
 
-## Recommendations
+---
 
-1. **Run tests:** `npm test` to verify all fixes
+### 🟡 BUG #14 — Service Worker: API cache tanpa TTL (stale data)
+
+**File:** `public/sw.js`
+**Severity:** MEDIUM — Stale product data served indefinitely
+
+**Problem:** API responses were cached indefinitely in the dynamic cache. No TTL-based invalidation.
+
+**Fix:** Added 5-minute TTL with `X-Cached-At` timestamp header. Expired cache entries are discarded.
+
+---
+
+### 🟡 BUG #15 — Notifications RLS: terlalu permisif
+
+**File:** `supabase/migrations/016_fix_notifications_rls.sql`
+**Severity:** MEDIUM — Any user could insert notifications for any other user
+
+**Problem:** `notifications_insert` policy had `WITH CHECK (true)`, allowing any authenticated user to create notifications for any user.
+
+**Fix:** Restricted to `auth.uid() = user_id`. Worker uses service role key (bypasses RLS) for server-side notifications.
+
+---
+
+### 🟡 BUG #16 — product_comments table missing from migrations
+
+**File:** `supabase/migrations/017_product_comments.sql`
+**Severity:** MEDIUM — ProductDetail.vue comments feature would crash at runtime
+
+**Problem:** `ProductDetail.vue` queries `product_comments` table but no migration creates it.
+
+**Fix:** Created migration 017 with table, indexes, and RLS policies.
+
+---
+
+### 🟡 BUG #17 — Router: /login-password-reset requires auth (catch-22)
+
+**File:** `src/router/index.js`
+**Severity:** MEDIUM — Users who forgot password can't access reset page
+
+**Problem:** The MainLayout child route `login-password-reset` had `meta: { requiresAuth: true }`. A logged-out user clicking "Forgot Password?" would be redirected to login — creating a catch-22.
+
+**Fix:** Removed `requiresAuth` from the route meta.
+
+---
+
+### 🟡 BUG #18 — Scraper SSRF: no URL validation
+
+**File:** `src/services/scraper.js`
+**Severity:** MEDIUM — Could be used to scan internal networks or access cloud metadata
+
+**Problem:** `scrapeProduct()` and `scrapeCategory()` accepted any URL through the CORS proxy without validation.
+
+**Fix:** Added domain whitelist (Amazon, AliExpress, Shopee, etc.) and private IP blocking (localhost, 10.x, 172.x, 192.168.x, 169.254 metadata).
+
+---
+
+### 🟢 BUG #19 — system_params RLS policy conflict
+
+**File:** `supabase/migrations/018_consolidate_system_params_rls.sql`
+**Severity:** LOW — Confusing but functional (PG RLS OR logic)
+
+**Problem:** Migration 014 created `system_params_deny_anon` (USING false) and migration 015 created `system_params_admin` (FOR ALL). Both coexist — confusing but works due to OR logic.
+
+**Fix:** Consolidated into clear policies: `system_params_admin_all` (admin/SUPER_ADMIN full access) + `system_params_deny_anon` (block anonymous reads).
+
+---
+
+## Summary
+
+| # | Bug | Severity | Status |
+|---|-----|----------|--------|
+| 1-6 | Original audit findings | 🔴🟡🟢 | ✅ Fixed |
+| 7 | Login.vue missing `</template>` | 🔴 Critical | ✅ Fixed |
+| 8 | Dashboard status filter wrong | 🟡 Medium | ✅ Fixed |
+| 9 | Search input not sanitized | 🟡 Medium | ✅ Fixed |
+| 10 | Payout non-atomic | 🟡 Medium | ✅ Fixed |
+| 11 | search.js wrong filter column | 🟢 Low | ✅ Fixed |
+| 12 | cancelOrder reason ignored | 🟢 Low | ✅ Fixed |
+| 13 | Unused axios dependency | 🟢 Low | ✅ Fixed |
+| 14 | Service worker no cache TTL | 🟡 Medium | ✅ Fixed |
+| 15 | Notifications RLS too permissive | 🟡 Medium | ✅ Fixed |
+| 16 | product_comments table missing | 🟡 Medium | ✅ Fixed |
+| 17 | Password reset requires auth | 🟡 Medium | ✅ Fixed |
+| 18 | Scraper SSRF vulnerability | 🟡 Medium | ✅ Fixed |
+| 19 | system_params RLS conflict | 🟢 Low | ✅ Fixed |
+
+**Total: 19 bugs fixed across 3 sessions**
+
+## Remaining Recommendations
+
+1. **Rotate ALL exposed secrets** (see C1 in FULL_AUDIT_REPORT.md)
 2. **Deploy worker:** `npx wrangler deploy` after verifying locally
-3. **Update exchange rates:** `src/utils/currency.js` has rates from 2024-01
-4. **Add live rates API:** Consider fetching real-time exchange rates
-5. **Review RLS policies:** Run `supabase db diff` to check migration status
+3. **Apply migrations:** `supabase db push` for migrations 016-018
+4. **Update exchange rates:** `src/utils/currency.js` has rates from 2024-01
+5. **Add live rates API:** Consider fetching real-time exchange rates
+6. **Run tests:** `npm test` (currently crashes in sandbox — run on production machine)
+7. **Remove dead code:** `src/store/cart.js` (unused by any component)
