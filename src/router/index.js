@@ -50,7 +50,7 @@ const routes = [
       { path: 'bind-email', name: 'BindEmail', component: () => import('@/views/BindEmail.vue'), meta: { requiresAuth: true } },
       { path: 'bank-card', name: 'BankCard', component: () => import('@/views/BankCard.vue'), meta: { requiresAuth: true } },
       { path: 'fund-password', name: 'FundPasswordSettings', component: () => import('@/views/FundPasswordSettings.vue'), meta: { requiresAuth: true } },
-      { path: 'login-password-reset', name: 'LoginPasswordReset', component: () => import('@/views/LoginPasswordReset.vue'), meta: { requiresAuth: true } },
+      { path: 'login-password-reset', name: 'LoginPasswordReset', component: () => import('@/views/LoginPasswordReset.vue') },
       { path: 'successful-operation', name: 'SuccessfulOperation', component: () => import('@/views/SuccessfulOperation.vue') },
     ]
   },

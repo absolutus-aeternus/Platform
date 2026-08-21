@@ -1,8 +1,32 @@
 // Scraper Service - uses fetch (no cheerio/axios needed in browser)
 const CORS_PROXY = 'https://api.allorigins.win/raw?url='
 
+// Allowed domains for scraping (SSRF protection)
+const ALLOWED_DOMAINS = [
+  'amazon.com', 'aliexpress.com', 'shopee.com', 'lazada.com',
+  'ebay.com', 'walmart.com', 'etsy.com', 'rakuten.com',
+  'coupang.com', 'jd.com', 'tmall.com', 'taobao.com',
+  'flipkart.com', 'mercadolibre.com', 'allegro.pl',
+  'tiktokshop.com', 'shopify.com'
+]
+
+function isAllowedUrl(urlStr) {
+  try {
+    const url = new URL(urlStr)
+    if (!['http:', 'https:'].includes(url.protocol)) return false
+    // Block private/internal IPs
+    const hostname = url.hostname
+    if (['localhost', '127.0.0.1', '0.0.0.0', '::1'].includes(hostname)) return false
+    if (hostname.startsWith('10.') || hostname.startsWith('172.') || hostname.startsWith('192.168.')) return false
+    if (hostname.includes('169.254')) return false // AWS metadata
+    // Check domain whitelist
+    return ALLOWED_DOMAINS.some(d => hostname.endsWith(d))
+  } catch { return false }
+}
+
 export const scrapeProduct = async (url) => {
   try {
+    if (!isAllowedUrl(url)) return { error: 'URL not allowed', success: false }
     const proxyUrl = CORS_PROXY + encodeURIComponent(url)
     const res = await fetch(proxyUrl)
     const html = await res.text()
@@ -24,6 +48,7 @@ export const scrapeProduct = async (url) => {
 
 export const scrapeCategory = async (url) => {
   try {
+    if (!isAllowedUrl(url)) return { error: 'URL not allowed', success: false }
     const proxyUrl = CORS_PROXY + encodeURIComponent(url)
     const res = await fetch(proxyUrl)
     const html = await res.text()
