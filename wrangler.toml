@@ -1,5 +1,5 @@
 name = "alliancehub-api"
-main = "src/index.js"
+main = "src/worker/index.js"
 compatibility_date = "2024-01-01"
 account_id = "f891a7b56743e4fb41751c507e3c1c3d"
 

@@ -307,7 +307,13 @@ let suggestTimer = null
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'id', name: 'Indonesia', flag: '🇮🇩' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' }
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'ms', name: 'Melayu', flag: '🇲🇾' },
+  { code: 'th', name: 'ไทย', flag: '🇹🇭' },
+  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
 ]
 
 const currentLang = computed(() => languages.find(l => l.code === locale.value) || languages[0])

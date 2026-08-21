@@ -671,7 +671,6 @@ export default {
           return handleError(e);
         }
       }
-      }
 
       // ─── Orders (AUTH REQUIRED) ───
       if ((path === '/api/orders' || path === '/api/user/orders') && method === 'GET') {

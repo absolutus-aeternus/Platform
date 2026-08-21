@@ -62,8 +62,8 @@
       <div class="divider"><span>or continue with</span></div>
 
       <div class="social-btns">
-        <button class="btn-social" @click="window.__toast?.show('Google login coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
-        <button class="btn-social" @click="window.__toast?.show('Facebook login coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
+        <button class="btn-social" @click="showToast('Google login coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
+        <button class="btn-social" @click="showToast('Facebook login coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
       </div>
 
       <div class="login-footer">
@@ -91,6 +91,8 @@ const showPw = ref(false)
 const remember = ref(false)
 const loading = ref(false)
 const error = ref('')
+
+const showToast = (msg, type = 'info') => { window.__toast?.show(msg, type) }
 
 const handleLogin = async () => {
   if (!email.value || !password.value) { error.value = 'Please fill all fields'; return }
