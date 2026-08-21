@@ -110,8 +110,10 @@ export const useNotificationStore = defineStore('notifications', {
     },
 
     removeNotification(notificationId) {
+      const notification = this.notifications.find(n => n.id === notificationId)
+      const wasUnread = notification && !notification.is_read
       this.notifications = this.notifications.filter(n => n.id !== notificationId)
-      if (!this.notifications.find(n => n.id === notificationId && !n.is_read)) {
+      if (wasUnread) {
         this.unreadCount = Math.max(0, this.unreadCount - 1)
       }
     },

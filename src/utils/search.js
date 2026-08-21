@@ -3,6 +3,7 @@ import { supabase } from '@/services/supabase'
 
 let searchCache = new Map()
 let debounceTimer = null
+const MAX_CACHE_SIZE = 100
 
 export async function searchProducts(query, filters = {}) {
   if (!query?.trim()) return []
@@ -60,6 +61,12 @@ export async function searchProducts(query, filters = {}) {
     if (error) throw error
 
     const results = data || []
+
+    // Evict oldest entries if cache is full
+    if (searchCache.size >= MAX_CACHE_SIZE) {
+      const firstKey = searchCache.keys().next().value
+      searchCache.delete(firstKey)
+    }
     searchCache.set(cacheKey, results)
 
     // Auto-clear cache after 5 minutes

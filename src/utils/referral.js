@@ -75,10 +75,22 @@ export async function applyReferralCode(userId, code) {
       }).eq('id', wallet.id)
     }
 
-    // Add coins to referred user
-    await supabase.from('profiles').update({
-      coins: supabase.rpc ? 100 : undefined
-    }).eq('id', userId)
+    // Add coins to referred user (profiles table was renamed to users in migration 011)
+    // Note: coins column may not exist — use system_params or wallet instead
+    try {
+      const { data: wallet } = await supabase
+        .from('wallets')
+        .select('id, balance')
+        .eq('user_id', userId)
+        .single()
+      if (wallet) {
+        await supabase.from('wallets').update({
+          balance: parseFloat(wallet.balance || 0) + 100
+        }).eq('id', wallet.id)
+      }
+    } catch (e) {
+      console.warn('Failed to add referral coins:', e.message)
+    }
 
     return { success: true, reward: 5.00 }
   } catch (e) {

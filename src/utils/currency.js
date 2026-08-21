@@ -1,4 +1,9 @@
 // ==================== CURRENCY SERVICE ====================
+// ⚠️ WARNING: Exchange rates are hardcoded and will become stale.
+// TODO: Fetch live rates from an API (e.g., exchangerate-api.com)
+// Rates last updated: 2024-01 (approximate)
+export const RATES_UPDATED = '2024-01-01'
+
 export const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1 },
   { code: 'EUR', name: 'Euro', symbol: '€', rate: 0.92 },

@@ -42,8 +42,21 @@ serve(async (req) => {
       })
     }
 
-    // ─── Execute SQL (admin only) ───
+    // ─── Execute SQL (admin only, READ-ONLY) ───
     const { sql } = await req.json()
+
+    // SECURITY: Only allow SELECT queries — block all DDL/DML
+    const normalizedSql = sql.trim().toUpperCase()
+    const forbiddenKeywords = ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'ALTER', 'CREATE', 'TRUNCATE', 'GRANT', 'REVOKE', 'EXEC', 'EXECUTE']
+    const isReadOnly = normalizedSql.startsWith('SELECT') || normalizedSql.startsWith('WITH')
+    const hasForbidden = forbiddenKeywords.some(kw => normalizedSql.includes(kw))
+
+    if (!isReadOnly || hasForbidden) {
+      return new Response(JSON.stringify({ error: "Only SELECT queries are allowed" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      })
+    }
 
     const supabase = createClient(supabaseUrl, supabaseKey)
     const { data, error } = await supabase.rpc("exec_sql", { sql })

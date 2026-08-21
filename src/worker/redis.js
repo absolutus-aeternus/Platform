@@ -108,6 +108,10 @@ export class UpstashRedis {
     return this.command('ZCARD', key)
   }
 
+  async zincrby(key, increment, member) {
+    return this.command('ZINCRBY', key, increment, member)
+  }
+
   // ─── Rate Limiting ───
   async rateLimit(ip, maxRequests = 50, windowSeconds = 60) {
     const key = `rl:${ip}`

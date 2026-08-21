@@ -8,7 +8,6 @@
     </router-view>
   </div>
 </template>
-</template>
 
 
 <script setup>

@@ -44,11 +44,6 @@
               <i :class="showPw ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
           </template>
-</baseinput>
-</form>
-</div>
-</div>
-</template>
         </BaseInput>
 
         <div class="form-options">
@@ -80,7 +75,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -109,7 +103,6 @@ const handleLogin = async () => {
       if (role === 'ADMIN') { error.value = 'Admin accounts must use admin login'; await userStore.logout(); return }
       if (role === 'SELLER') { error.value = 'Seller accounts must use seller login'; await userStore.logout(); return }
       if (role === 'SUPER_ADMIN') { error.value = 'Super Admin accounts must use admin login'; await userStore.logout(); return }
-      // RATING_PLUS can login here — redirect to /user like normal members
       logLoginEvent({ email: email.value, role: 'MEMBER', login_status: 'success', login_type: 'login' });
       router.push('/user')
     } else {
