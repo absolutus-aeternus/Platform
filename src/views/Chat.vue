@@ -1,5 +1,4 @@
-<template>
-  <div class="page-wrapper">
+<template><div class="page-wrapper">
   <div class="chat-page">
     <div class="container">
       <div class="chat-container">
@@ -90,13 +89,7 @@
                 <i class="fas fa-paper-plane"></i>
               </button>
             </div>
-            </div>
-</template>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+            </div></template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
