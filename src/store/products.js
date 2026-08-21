@@ -146,10 +146,12 @@ export const useProductStore = defineStore('products', {
       this.isLoading = true
       
       try {
+        // Escape % and _ to prevent pattern manipulation
+        const safe = query.replace(/%/g, '\%').replace(/_/g, '\_')
         const { data, error } = await supabase
           .from('products')
           .select('*, sellers(name, store_name)')
-          .ilike('name', `%${query}%`)
+          .ilike('name', `%${safe}%`)
           .limit(options.limit || 20)
         
         if (error) throw error

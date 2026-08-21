@@ -26,7 +26,6 @@
     "@supabase/cli-linux-x64": "^1.0.0",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/test-utils": "^2.4.11",
-    "axios": "^1.19.0",
     "cheerio": "^1.2.0",
     "esbuild": "^0.28.2",
     "jsdom": "^30.0.1",

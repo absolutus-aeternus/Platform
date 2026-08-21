@@ -203,7 +203,35 @@ export const useOrderStore = defineStore('orders', {
     },
 
     async cancelOrder(orderId, reason) {
-      return await this.updateOrderStatus(orderId, 'cancelled')
+      try {
+        const { supabase } = await import('@/services/supabase')
+        
+        const updateData = { status: 'cancelled', updated_at: new Date().toISOString() }
+        if (reason) updateData.cancel_reason = reason
+        
+        const { error } = await supabase
+          .from('orders')
+          .update(updateData)
+          .eq('id', orderId)
+
+        if (error) throw error
+
+        // Update local state
+        const orderIndex = this.orders.findIndex(o => o.id === orderId)
+        if (orderIndex !== -1) {
+          this.orders[orderIndex].status = 'cancelled'
+          if (reason) this.orders[orderIndex].cancel_reason = reason
+        }
+        if (this.currentOrder?.id === orderId) {
+          this.currentOrder.status = 'cancelled'
+          if (reason) this.currentOrder.cancel_reason = reason
+        }
+
+        return { success: true }
+      } catch (e) {
+        console.error('cancelOrder error:', e)
+        return { success: false, error: e.message }
+      }
     },
 
     setFilters(filters) {

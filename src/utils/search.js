@@ -15,10 +15,12 @@ export async function searchProducts(query, filters = {}) {
     let dbQuery = supabase
       .from('products')
       .select('*, sellers(name)')
-      .eq('is_active', true)
+      .eq('status', 'active')
 
     if (query) {
-      dbQuery = dbQuery.or(`name.ilike.%${query}%,description.ilike.%${query}%`)
+      // Escape % and _ to prevent pattern manipulation
+      const safe = query.replace(/%/g, '\%').replace(/_/g, '\_')
+      dbQuery = dbQuery.or(`name.ilike.%${safe}%,description.ilike.%${safe}%`)
     }
 
     if (filters.category) {

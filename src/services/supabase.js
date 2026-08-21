@@ -44,7 +44,7 @@ export const resetPassword = (email) =>
 export const fetchProducts = async (params = {}) => {
   let query = supabase.from('products').select('*, sellers(name, store_name, logo)')
   if (params.category) query = query.eq('category_id', params.category)
-  if (params.search) query = query.ilike('name', `%${params.search}%`)
+  if (params.search) { const s = params.search.replace(/%/g, '\%').replace(/_/g, '\_'); query = query.ilike('name', `%${s}%`) }
   if (params.sort === 'price') query = query.order('price', { ascending: true })
   if (params.sort === 'sales') query = query.order('sales_count', { ascending: false })
   if (params.sort === 'newest') query = query.order('created_at', { ascending: false })
@@ -78,7 +78,7 @@ export const fetchCategories = async () => {
 export const fetchSellers = async (params = {}) => {
   let query = supabase.from('sellers').select('*')
   if (params.recommended) query = query.eq('is_recommended', true)
-  if (params.search) query = query.ilike('name', `%${params.search}%`)
+  if (params.search) { const s = params.search.replace(/%/g, '\%').replace(/_/g, '\_'); query = query.ilike('name', `%${s}%`) }
   const { data, error } = await query.limit(params.limit || 20)
   return { data: data || [], error }
 }
@@ -241,7 +241,7 @@ export const fetchBanners = async () => {
 // ─── Search ───
 export const searchProducts = async (keyword, filters = {}) => {
   let query = supabase.from('products').select('*, sellers(name)')
-  if (keyword) query = query.ilike('name', `%${keyword}%`)
+  if (keyword) { const s = keyword.replace(/%/g, '\%').replace(/_/g, '\_'); query = query.ilike('name', `%${s}%`) }
   if (filters.category) query = query.eq('category_id', filters.category)
   if (filters.minPrice) query = query.gte('price', filters.minPrice)
   if (filters.maxPrice) query = query.lte('price', filters.maxPrice)

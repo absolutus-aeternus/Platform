@@ -233,7 +233,8 @@ export default {
         const statusFilter = url.searchParams.get('status') || 'active';
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const category = url.searchParams.get('category');
-        const search = url.searchParams.get('search');
+        const rawSearch = url.searchParams.get('search');
+        const search = rawSearch ? rawSearch.replace(/%/g, '\%').replace(/_/g, '\_').substring(0, 100).trim() : null;
         const sortParam = url.searchParams.get('sort') || 'newest';
         const allowedSorts = ['newest', 'price', 'sales', 'rating'];
         const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
@@ -275,7 +276,9 @@ export default {
         if (category && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(category)) {
           return json({ error: 'Invalid category parameter' }, { status: 400, ...corsHeaders });
         }
-        const search = url.searchParams.get('search');
+        const rawSearch = url.searchParams.get('search');
+        // Sanitize search: escape % and _ to prevent ilike pattern manipulation
+        const search = rawSearch ? rawSearch.replace(/%/g, '\%').replace(/_/g, '\_').substring(0, 100).trim() : null;
         const sortParam = url.searchParams.get('sort') || 'newest';
         const allowedSorts = ['newest', 'price', 'sales', 'rating'];
         const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
@@ -481,7 +484,7 @@ export default {
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const [products, categories, sellers] = await Promise.all([
-          fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,name,slug,price,original_price,images,sales_count,rating,sellers(name,store_name,logo)&status=eq.published&order=sales_count.desc&limit=20', { headers: h }).then(r => r.json()),
+          fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?select=id,name,slug,price,original_price,images,sales_count,rating,sellers(name,store_name,logo)&status=eq.active&order=sales_count.desc&limit=20', { headers: h }).then(r => r.json()),
           fetch(env.VITE_SUPABASE_URL + '/rest/v1/categories?order=sort_order', { headers: h }).then(r => r.json()),
           fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?is_recommended=eq.true&limit=10', { headers: h }).then(r => r.json()),
         ]);
@@ -1056,16 +1059,28 @@ export default {
         if (amount < limitData.min) return json({ error: 'Minimum withdrawal: $' + limitData.min }, { status: 400, ...corsHeaders });
         
         // Create payout request
-        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts', {
+        const payoutResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts', {
           method: 'POST', headers: h,
           body: JSON.stringify({ seller_id: seller.id, amount, method: payMethod, account_details, status: 'pending' })
         });
+        const payoutData = await payoutResp.json();
         
-        // Deduct from wallet
-        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id, {
+        // Deduct from wallet (with optimistic concurrency check)
+        const walletPatchResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id, {
           method: 'PATCH', headers: h,
           body: JSON.stringify({ balance: wallet.balance - amount })
         });
+        
+        // Rollback: if wallet deduction fails, delete the payout record
+        if (!walletPatchResp.ok) {
+          const payoutId = payoutData?.[0]?.id;
+          if (payoutId) {
+            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?id=eq.' + payoutId, {
+              method: 'DELETE', headers: h
+            });
+          }
+          return json({ error: 'Failed to deduct from wallet. Payout cancelled.' }, { status: 500, ...corsHeaders });
+        }
         
         return json({ success: true, remaining_balance: wallet.balance - amount }, corsHeaders);
       }
