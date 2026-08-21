@@ -305,7 +305,10 @@ const logout = async () => {
   .admin-layout {
     flex-direction: column;
   }
-  /* Sidebar overlay when open */
+}
+
+/* Mobile sidebar overlay */
+@media (max-width: 768px) {
   .sidebar-collapsed .sidebar::before {
     content: '';
     position: fixed;

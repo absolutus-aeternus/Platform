@@ -33,16 +33,12 @@
           </router-link>
         </div>
       </div>
-        </template>
-</nav>
-</div>
-      
+    </template>
   </nav>
-
-
+</template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
@@ -160,5 +156,16 @@ function toggleGroup(label) {
 /* Horizontal layout */
 .dynamic-nav:not(.dynamic-nav--vertical) .dynamic-nav__item {
   padding: 6px 16px;
+}
+
+/* Mobile: vertical stack */
+@media (max-width: 767px) {
+  .dynamic-nav:not(.dynamic-nav--vertical) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dynamic-nav:not(.dynamic-nav--vertical) .dynamic-nav__item {
+    padding: 10px 12px;
+  }
 }
 </style>

@@ -155,6 +155,11 @@
         <router-link to="/discounts" @click="showMobile = false"><i class="fas fa-bolt"></i> Today's Deals</router-link>
         <router-link to="/commodity" @click="showMobile = false"><i class="fas fa-th"></i> All Products</router-link>
         <router-link to="/search-store" @click="showMobile = false"><i class="fas fa-store"></i> Stores</router-link>
+        <router-link to="/merchant-settled" @click="showMobile = false"><i class="fas fa-handshake"></i> Sell on AllianceHub</router-link>
+        <router-link to="/help" @click="showMobile = false"><i class="fas fa-question-circle"></i> Customer Service</router-link>
+        <router-link to="/how-to-buy" @click="showMobile = false"><i class="fas fa-shopping-bag"></i> How to Buy</router-link>
+        <router-link to="/shipping-info" @click="showMobile = false"><i class="fas fa-truck"></i> Shipping Info</router-link>
+        <router-link to="/returns" @click="showMobile = false"><i class="fas fa-undo"></i> Returns & Refunds</router-link>
 
         <div class="mobile-nav-title">Shop by Category</div>
         <router-link v-for="cat in navCategories" :key="cat.id" :to="`/search?category=${cat.id}`" @click="showMobile = false">

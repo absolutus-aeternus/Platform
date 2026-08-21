@@ -85,16 +85,8 @@ const showSidebar = ref(false)
   .sidebar.open { left: 0; }
   .sidebar.open .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: -1; }
   .sidebar-content { border-radius: 0; height: 100dvh; overflow-y: auto; padding-top: 60px; }
-}
-
-/* Seller Responsive */
-@media (max-width: 768px) {
-  .seller-layout { flex-direction: column; }
-  .seller-sidebar { width: 100%; position: fixed; bottom: 0; left: 0; right: 0; height: auto; flex-direction: row; z-index: 100; }
-  .sidebar-header { display: none; }
-  .nav-item { flex-direction: column; padding: 0.5rem; font-size: 0.625rem; min-width: 48px; text-align: center; }
-  .nav-item i { margin: 0; }
-  .seller-main { margin-left: 0; padding-bottom: 60px; }
+  .seller-header { padding: 0 12px; }
+  .logo-img-nav { height: 1.5rem; }
 }
 
 

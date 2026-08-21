@@ -88,16 +88,8 @@ const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
   .sidebar.open { left: 0; }
   .sidebar.open .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: -1; }
   .sidebar-content { border-radius: 0; height: 100dvh; overflow-y: auto; padding-top: 60px; }
-}
-
-/* User Responsive */
-@media (max-width: 768px) {
-  .user-layout { flex-direction: column; }
-  .user-sidebar { width: 100%; position: fixed; bottom: 0; left: 0; right: 0; height: auto; flex-direction: row; z-index: 100; background: #fff; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
-  .user-main { margin-left: 0; padding-bottom: 60px; }
-  .sidebar-menu { flex-direction: row; overflow-x: auto; }
-  .menu-item { min-width: 60px; text-align: center; flex-direction: column; padding: 0.5rem; font-size: 0.625rem; }
-  .menu-item i { margin-right: 0; margin-bottom: 0.25rem; }
+  .user-header { padding: 0 12px; }
+  .logo-img-nav { height: 1.5rem; }
 }
 
 

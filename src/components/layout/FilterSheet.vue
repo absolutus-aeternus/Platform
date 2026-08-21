@@ -29,9 +29,6 @@
                   </button>
                 </div>
               </template>
-</transition>
-</teleport>
-</div>
               <!-- Price range -->
               <template v-else-if="section.type === 'range'">
                 <div class="filter-sheet__range">
@@ -39,7 +36,7 @@
                   <span>—</span>
                   <input type="number" :value="getRangeMax(section.key)" @input="setRangeMax(section.key, $event.target.value)" placeholder="Max" />
                 </div>
-              </div>
+              </template>
               <!-- Toggle -->
               <template v-else-if="section.type === 'toggle'">
                 <label v-for="opt in section.options" :key="opt.value" class="filter-sheet__toggle">
@@ -47,8 +44,9 @@
                   <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
                   <span class="filter-sheet__toggle-track"></span>
                 </label>
-        </div>
-              
+              </template>
+            </div>
+          </div>
           <div class="filter-sheet__footer">
             <button class="filter-sheet__reset" @click="clearAll">Reset</button>
             <button class="filter-sheet__apply" @click="$emit('update:modelValue', false)">
@@ -59,10 +57,7 @@
       </div>
     </Transition>
   </Teleport>
-
-
-
-
+</template>
 
 <script setup>
 import { computed } from 'vue'
@@ -163,7 +158,6 @@ function clearAll() {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 4px;
-  /* Hide scrollbar but keep scroll */
   scrollbar-width: none;
 }
 .filter-sheet__chips::-webkit-scrollbar { display: none; }
