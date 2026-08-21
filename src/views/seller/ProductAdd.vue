@@ -74,7 +74,6 @@ const addProduct = async () => {
     const { error } = await supabase.from('products').insert({
       ...form.value,
       seller_id: seller.id,
-      goods_id: 'PROD-' + Date.now(),
       status: 'active'
     })
     if (error) throw error

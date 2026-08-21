@@ -50,8 +50,9 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
+
+const loading = ref(true)
 import { useUserStore } from '@/store/user'
 import { supabase, fetchBlockchainChannels, fetchWallet, createRecharge } from '@/services/supabase'
 

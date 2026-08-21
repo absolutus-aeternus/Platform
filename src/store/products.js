@@ -39,7 +39,7 @@ export const useProductStore = defineStore('products', {
       }
       
       if (state.filters.rating > 0) {
-        filtered = filtered.filter(p => (p.average_rating || 0) >= state.filters.rating)
+        filtered = filtered.filter(p => (p.rating || 0) >= state.filters.rating)
       }
       
       const [minPrice, maxPrice] = state.filters.priceRange
@@ -48,7 +48,6 @@ export const useProductStore = defineStore('products', {
         return price >= minPrice && price <= maxPrice
       })
       
-      // Sorting
       switch (state.filters.sortBy) {
         case 'price_asc':
           filtered.sort((a, b) => (a.price || 0) - (b.price || 0))
@@ -57,7 +56,7 @@ export const useProductStore = defineStore('products', {
           filtered.sort((a, b) => (b.price || 0) - (a.price || 0))
           break
         case 'rating':
-          filtered.sort((a, b) => (b.average_rating || 0) - (a.average_rating || 0))
+          filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0))
           break
         case 'newest':
           filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -76,9 +75,8 @@ export const useProductStore = defineStore('products', {
       try {
         let query = supabase
           .from('products')
-          .select('*, categories(name), product_images(image_url)', { count: 'exact' })
+          .select('*, sellers(name, store_name, logo)', { count: 'exact' })
         
-        // Apply filters
         if (this.filters.category) {
           query = query.eq('category_id', this.filters.category)
         }
@@ -87,9 +85,8 @@ export const useProductStore = defineStore('products', {
           query = query.gt('stock', 0)
         }
         
-        // Pagination
-        const from = (options.page - 1) * options.limit
-        const to = from + options.limit - 1
+        const from = ((options.page || 1) - 1) * (options.limit || 20)
+        const to = from + (options.limit || 20) - 1
         
         query = query.range(from, to)
         
@@ -100,7 +97,7 @@ export const useProductStore = defineStore('products', {
         this.products = data || []
         this.pagination.total = count || 0
         this.pagination.hasMore = from + (data?.length || 0) < count
-        this.pagination.page = options.page
+        this.pagination.page = options.page || 1
         
       } catch (e) {
         this.error = e.message
@@ -115,7 +112,7 @@ export const useProductStore = defineStore('products', {
         const { data, error } = await supabase
           .from('categories')
           .select('*')
-          .order('name')
+          .order('sort_order')
         
         if (error) throw error
         this.categories = data || []
@@ -128,9 +125,9 @@ export const useProductStore = defineStore('products', {
       try {
         const { data, error } = await supabase
           .from('products')
-          .select('*, product_images(image_url)')
-          .eq('is_featured', true)
-          .gt('stock', 0)
+          .select('*, sellers(name, store_name, logo)')
+          .eq('status', 'published')
+          .order('sales_count', { ascending: false })
           .limit(limit)
         
         if (error) throw error
@@ -149,10 +146,11 @@ export const useProductStore = defineStore('products', {
       this.isLoading = true
       
       try {
-        const { data, error } = await supabase.rpc('search_products', {
-          search_query: query,
-          result_limit: options.limit || 20
-        })
+        const { data, error } = await supabase
+          .from('products')
+          .select('*, sellers(name, store_name)')
+          .ilike('name', `%${query}%`)
+          .limit(options.limit || 20)
         
         if (error) throw error
         this.searchResults = data || []
@@ -166,17 +164,12 @@ export const useProductStore = defineStore('products', {
 
     async fetchProductById(id) {
       try {
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
         const { data, error } = await supabase
           .from('products')
-          .select(`
-            *,
-            categories(name),
-            product_images(image_url),
-            seller_profiles(full_name, avatar_url),
-            reviews(rating, comment, created_at, users(username))
-          `)
-          .eq('id', id)
-          .single()
+          .select('*, sellers(id, name, store_name, user_id, description, logo, rating)')
+          .eq(isUUID ? 'id' : 'slug', id)
+          .maybeSingle()
         
         if (error) throw error
         return data

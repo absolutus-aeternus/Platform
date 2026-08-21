@@ -41,10 +41,10 @@ export const useWishlistStore = defineStore('wishlist', {
               name,
               price,
               original_price,
-              image_url,
+              images,
               stock,
-              average_rating,
-              categories(name)
+              rating,
+              slug
             )
           `)
           .eq('user_id', userId)
@@ -88,9 +88,10 @@ export const useWishlistStore = defineStore('wishlist', {
               name,
               price,
               original_price,
-              image_url,
+              images,
               stock,
-              average_rating
+              rating,
+              slug
             )
           `)
           .single()

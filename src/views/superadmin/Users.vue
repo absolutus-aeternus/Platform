@@ -86,8 +86,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, onMounted } from 'vue'
+const loading = ref(true)
 import { supabase } from '@/services/supabase'
 
 const users = ref([])
@@ -133,7 +133,7 @@ const createUser = async () => {
       }).eq('id', uid)
 
       // Step3: Create wallet
-      await supabase.from('wallets').insert({ user_id: uid, balance: 0, rebate: 0, frozen_money: 0 })
+      await supabase.from('wallets').insert({ user_id: uid, balance: 0, pending_balance: 0, frozen_balance: 0 })
     }
 
     showAdd.value = false

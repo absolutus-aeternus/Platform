@@ -25,6 +25,9 @@ export default {
 
     // ─── Helper: CSRF Verification ───
     function verifyCSRFToken(req) {
+      // Safe methods don't need CSRF
+      const m = req.method;
+      if (['GET', 'HEAD', 'OPTIONS'].includes(m)) return true;
       const cookie = req.headers.get('Cookie') || '';
       const token = cookie.split(';').find(c => c.trim().startsWith('csrf='))?.split('=')[1];
       const header = req.headers.get('X-CSRF-Token');
@@ -322,21 +325,22 @@ export default {
         // Fetch approved sellers ordered by rating
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?select=id,name,store_name,logo,description,rating,is_recommended&approval_status=eq.approved&order=rating.desc&limit=' + limit, { headers: h });
         const sellers = await resp.json();
-        // Fetch follower counts for each seller
-        const sellersWithCounts = await Promise.all(
-          sellers.map(async (seller) => {
-            const countResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows?seller_id=eq.' + seller.id + '&select=id', { headers: h });
-            const countData = await countResp.json();
-            return { ...seller, follower_count: countData.length || 0 };
-          })
-        );
-        // Sort by follower count
-        sellersWithCounts.sort((a, b) => b.follower_count - a.follower_count);
+        if (!sellers?.length) return json({ data: [] }, corsHeaders);
+        // Fetch ALL follower counts in ONE query (avoids N+1)
+        const sellerIds = sellers.map(s => s.id).join(',');
+        const followsResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/follows?seller_id=in.(' + sellerIds + ')&select=seller_id', { headers: h });
+        const follows = await followsResp.json();
+        const countMap = {};
+        (follows || []).forEach(f => { countMap[f.seller_id] = (countMap[f.seller_id] || 0) + 1; });
+        const sellersWithCounts = sellers
+          .map(s => ({ ...s, follower_count: countMap[s.id] || 0 }))
+          .sort((a, b) => b.follower_count - a.follower_count);
         return json({ data: sellersWithCounts }, corsHeaders);
       }
 
       // ─── Follow Seller (AUTH REQUIRED) ───
       if (path === '/api/follow' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -356,6 +360,7 @@ export default {
 
       // ─── Unfollow Seller (AUTH REQUIRED) ───
       if (path === '/api/follow' && method === 'DELETE') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -379,6 +384,7 @@ export default {
 
       // ─── Wishlist Toggle (POST - auth required) ───
       if (path === '/api/wishlist' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -484,6 +490,7 @@ export default {
 
       // ─── Seller Registration (AUTH REQUIRED) ───
       if (path === '/api/seller/register' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -534,6 +541,7 @@ export default {
 
       // ─── Admin: Approve/Reject Seller (ADMIN ONLY) ───
       if (path === '/api/admin/seller-approval' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -666,7 +674,7 @@ export default {
       }
 
       // ─── Orders (AUTH REQUIRED) ───
-      if (path === '/api/orders' || path === '/api/user/orders' && method === 'GET') {
+      if ((path === '/api/orders' || path === '/api/user/orders') && method === 'GET') {
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
 
@@ -685,7 +693,101 @@ export default {
         return json({ status: 'executed', timestamp: new Date().toISOString() }, corsHeaders);
       }
 
-      
+      // ─── Send Email (AUTH REQUIRED) ───
+      if (path === '/api/email/send' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        const user = await verifyAuth(request);
+        if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
+
+        const { to, subject, html, type } = await request.json();
+        if (!to || !subject || !html) return json({ error: 'Missing required fields: to, subject, html' }, { status: 400, ...corsHeaders });
+
+        // Only allow sending to own email (prevent abuse)
+        const h = getServiceHeaders();
+        const userResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=email&id=eq.' + user.id, { headers: h });
+        const userData = await userResp.json();
+        const userEmail = userData[0]?.email;
+        if (!userEmail || userEmail !== to) {
+          return json({ error: 'Can only send emails to your own address' }, { status: 403, ...corsHeaders });
+        }
+
+        try {
+          const resendResp = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + env.RESEND_API_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              from: env.BREVO_FROM_EMAIL || 'noreply@alliancehub.com',
+              to: [to],
+              subject,
+              html
+            })
+          });
+
+          if (!resendResp.ok) {
+            const errText = await resendResp.text();
+            console.error('Resend API error:', errText);
+            return json({ error: 'Failed to send email' }, { status: 500, ...corsHeaders });
+          }
+
+          const result = await resendResp.json();
+          return json({ success: true, id: result.id }, corsHeaders);
+        } catch (e) {
+          return handleError(e);
+        }
+      }
+
+      // ─── Payment Webhook (Gateway → Server) ───
+      if (path === '/api/webhook/payment' && method === 'POST') {
+        try {
+          const gateway = url.searchParams.get('gateway') || 'unknown';
+          const body = await request.json();
+          const signature = request.headers.get('X-Webhook-Signature') || request.headers.get('X-Signature') || '';
+
+          // Find payment by transaction ID
+          const txnId = body.transaction_id || body.orderId || body.id;
+          if (!txnId) return json({ error: 'Missing transaction reference' }, { status: 400, ...corsHeaders });
+
+          const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
+          const payResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payments?select=id,order_id,status,method&transaction_id=eq.' + txnId, { headers: h });
+          const payments = await payResp.json();
+          const payment = payments[0];
+          if (!payment) return json({ error: 'Payment not found' }, { status: 404, ...corsHeaders });
+          if (payment.status === 'completed') return json({ success: true, processed: false }, corsHeaders);
+
+          // Map gateway status
+          const gwStatus = (body.status || body.event || 'unknown').toLowerCase();
+          const successStatuses = ['completed', 'confirmed', 'success', 'paid', 'settled'];
+          const failedStatuses = ['failed', 'cancelled', 'expired', 'error', 'rejected'];
+          let newStatus = 'pending';
+          if (successStatuses.includes(gwStatus)) newStatus = 'completed';
+          else if (failedStatuses.includes(gwStatus)) newStatus = 'failed';
+
+          // Update payment
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payments?id=eq.' + payment.id, {
+            method: 'PATCH', headers: h,
+            body: JSON.stringify({
+              status: newStatus,
+              verified_at: newStatus === 'completed' ? new Date().toISOString() : null,
+              metadata: { webhook_at: new Date().toISOString(), gateway, gwStatus }
+            })
+          });
+
+          // Update order if completed
+          if (newStatus === 'completed' && payment.order_id) {
+            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/orders?id=eq.' + payment.order_id, {
+              method: 'PATCH', headers: h,
+              body: JSON.stringify({ payment_status: 'paid', status: 'paid' })
+            });
+          }
+
+          return json({ success: true, processed: true, status: newStatus }, corsHeaders);
+        } catch (e) { return handleError(e); }
+      }
+
       // ─── Admin: System Params (ADMIN ONLY) ───
       if (path === '/api/admin/system-params' && method === 'GET') {
         const _u = await verifyAuth(request);
@@ -748,6 +850,16 @@ export default {
 
         const h = getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' });
         
+        // Fetch requester's role for authorization
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
+        const reqRoleData = await reqRoleResp.json();
+        const reqRole = reqRoleData[0]?.role || 'MEMBER';
+        
+        // Only ADMIN or SUPER_ADMIN can change roles
+        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRole)) {
+          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        }
+        
         // Only SUPER_ADMIN can assign SUPER_ADMIN role
         if (newRole === 'SUPER_ADMIN' && reqRole !== 'SUPER_ADMIN') {
           return json({ error: 'Only SUPER_ADMIN can assign SUPER_ADMIN role' }, { status: 403, ...corsHeaders });
@@ -793,6 +905,7 @@ export default {
 
       // ─── Submit Review (AUTH REQUIRED + VALIDATION) ───
       if (path === '/api/review' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
@@ -869,6 +982,7 @@ export default {
 
       // ─── Seller: Set Product Markup (AUTH REQUIRED) ───
       if (path === '/api/seller/markup' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -923,6 +1037,7 @@ export default {
 
       // ─── Seller: Request Payout (AUTH REQUIRED) ───
       if (path === '/api/seller/payout' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -974,6 +1089,7 @@ export default {
 
       // ─── Admin: Approve Commission (ADMIN ONLY) ───
       if (path === '/api/admin/commission/approve' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
@@ -1028,6 +1144,7 @@ export default {
 
       // ─── Admin: Process Payout (ADMIN ONLY) ───
       if (path === '/api/admin/payout/process' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
@@ -1077,20 +1194,11 @@ export default {
 };
 
 
-// CSRF Token helpers
+// CSRF Token generator (used in /api/health)
 function generateCSRFToken() {
   const arr = new Uint8Array(32);
   crypto.getRandomValues(arr);
   return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
-}
-
-function verifyCSRFToken(request) {
-  const method = request.method;
-  if (['GET', 'HEAD', 'OPTIONS'].includes(method)) return true;
-  const token = request.headers.get('X-CSRF-Token') || '';
-  const cookie = (request.headers.get('Cookie') || '').match(/csrf=([^;]+)/);
-  if (!token || !cookie) return false;
-  return token === cookie[1];
 }
 
 

@@ -37,9 +37,9 @@
           <tr v-for="wallet in filteredWallets" :key="wallet.id">
             <td>{{ wallet.users?.email || 'N/A' }}</td>
             <td class="amount">${{ parseFloat(wallet.balance || 0).toFixed(2) }}</td>
-            <td class="amount">${{ parseFloat(wallet.rebate || 0).toFixed(2) }}</td>
-            <td class="amount frozen">${{ parseFloat(wallet.frozen_money || 0).toFixed(2) }}</td>
-            <td class="amount total">${{ (parseFloat(wallet.balance || 0) + parseFloat(wallet.rebate || 0) + parseFloat(wallet.frozen_money || 0)).toFixed(2) }}</td>
+            <td class="amount">${{ parseFloat(wallet.pending_balance || 0).toFixed(2) }}</td>
+            <td class="amount frozen">${{ parseFloat(wallet.frozen_balance || 0).toFixed(2) }}</td>
+            <td class="amount total">${{ (parseFloat(wallet.balance || 0) + parseFloat(wallet.pending_balance || 0) + parseFloat(wallet.frozen_balance || 0)).toFixed(2) }}</td>
             <td>{{ new Date(wallet.updated_at).toLocaleDateString() }}</td>
             <td class="actions">
               <button class="btn-sm" @click="adjustWallet(wallet)" title="Adjust"><i class="fas fa-edit"></i></button>
@@ -97,14 +97,14 @@ const adjustAmount = ref(0)
 const adjustReason = ref('')
 
 const totalBalance = computed(() => wallets.value.reduce((s, w) => s + parseFloat(w.balance || 0), 0).toFixed(2))
-const totalFrozen = computed(() => wallets.value.reduce((s, w) => s + parseFloat(w.frozen_money || 0), 0).toFixed(2))
-const totalRebate = computed(() => wallets.value.reduce((s, w) => s + parseFloat(w.rebate || 0), 0).toFixed(2))
+const totalFrozen = computed(() => wallets.value.reduce((s, w) => s + parseFloat(w.frozen_balance || 0), 0).toFixed(2))
+const totalRebate = computed(() => wallets.value.reduce((s, w) => s + parseFloat(w.pending_balance || 0), 0).toFixed(2))
 
 const filteredWallets = computed(() => {
   let result = wallets.value
   if (search.value) result = result.filter(w => w.users?.email?.toLowerCase().includes(search.value.toLowerCase()))
   if (sortBy.value === 'balance') result.sort((a, b) => parseFloat(b.balance || 0) - parseFloat(a.balance || 0))
-  if (sortBy.value === 'frozen') result.sort((a, b) => parseFloat(b.frozen_money || 0) - parseFloat(a.frozen_money || 0))
+  if (sortBy.value === 'frozen') result.sort((a, b) => parseFloat(b.frozen_balance || 0) - parseFloat(a.frozen_balance || 0))
   return result
 })
 
@@ -126,7 +126,7 @@ const confirmAdjust = async () => {
   if (adjustAmount.value <= 0) return window.__toast?.show('Enter a valid amount', 'error')
   const wallet = adjusting.value
   const currentBalance = parseFloat(wallet.balance || 0)
-  const currentFrozen = parseFloat(wallet.frozen_money || 0)
+  const currentFrozen = parseFloat(wallet.frozen_balance || 0)
   if ((adjustType.value === 'deduct' || adjustType.value === 'freeze') && adjustAmount.value > currentBalance) {
     return window.__toast?.show('Insufficient balance for this adjustment', 'error')
   }
@@ -138,10 +138,10 @@ const confirmAdjust = async () => {
   if (adjustType.value === 'deduct') updates.balance = Math.max(0, currentBalance - adjustAmount.value)
   if (adjustType.value === 'freeze') {
     updates.balance = Math.max(0, currentBalance - adjustAmount.value)
-    updates.frozen_money = currentFrozen + adjustAmount.value
+    updates.frozen_balance = currentFrozen + adjustAmount.value
   }
   if (adjustType.value === 'unfreeze') {
-    updates.frozen_money = Math.max(0, currentFrozen - adjustAmount.value)
+    updates.frozen_balance = Math.max(0, currentFrozen - adjustAmount.value)
     updates.balance = currentBalance + adjustAmount.value
   }
   updates.updated_at = new Date().toISOString()

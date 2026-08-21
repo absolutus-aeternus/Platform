@@ -218,7 +218,7 @@ onMounted(async () => {
     supabase.from('sellers').select('*').order('sales_count', { ascending: false }),
     supabase.from('categories').select('*'),
     supabase.from('evaluations').select('*, users(email), products(name)').order('created_at', { ascending: false }).limit(5),
-    supabase.from('wallets').select('balance, frozen_money, rebate'),
+    supabase.from('wallets').select('balance, frozen_balance, pending_balance'),
   ])
 
   const orders = ordersRes.data || []

@@ -42,11 +42,13 @@
   </div>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
 import BaseButton from '@/components/base/BaseButton.vue'
 import BasePagination from '@/components/base/BasePagination.vue'
+
+let realtimeChannel = null
 
 const userStore = useUserStore()
 const tab = ref('all')
@@ -102,7 +104,25 @@ const updateStatus = async (orderId, status) => {
   }
 }
 
-onMounted(loadOrders)
+onMounted(() => {
+  loadOrders()
+  // Subscribe to order updates for this seller
+  realtimeChannel = supabase.channel('seller-orders')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, (payload) => {
+      if (payload.eventType === 'INSERT') {
+        orders.value.unshift(payload.new)
+        window.__toast?.show('New order received!', 'info')
+      } else if (payload.eventType === 'UPDATE') {
+        const idx = orders.value.findIndex(o => o.id === payload.new.id)
+        if (idx !== -1) orders.value[idx] = { ...orders.value[idx], ...payload.new }
+      }
+    })
+    .subscribe()
+})
+
+onUnmounted(() => {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+})
 </template>
 
 </script>

@@ -38,8 +38,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, computed } from 'vue'
+const loading = ref(true)
 import { useRoute, useRouter } from 'vue-router'
 import { supabase, createReview as createEvaluation } from '@/services/supabase'
 import { useUserStore } from '@/store/user'

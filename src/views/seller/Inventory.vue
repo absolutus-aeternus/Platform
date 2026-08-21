@@ -35,7 +35,7 @@
         <tbody>
           <tr v-for="p in products" :key="p.id">
             <td>{{ p.name.substring(0, 40) }}...</td>
-            <td>{{ p.goods_id }}</td>
+            <td>{{ p.sku || p.id }}</td>
             <td>{{ p.stock || 0 }}</td>
             <td>
               <span class="stock-status" :class="getStockClass(p.stock)">

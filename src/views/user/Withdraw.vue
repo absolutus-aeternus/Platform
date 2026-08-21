@@ -44,8 +44,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
+const loading = ref(true)
 import { useUserStore } from '@/store/user'
 import { supabase, fetchBlockchainChannels, fetchWallet, createWithdrawal, fetchWithdrawals } from '@/services/supabase'
 
@@ -96,7 +96,7 @@ const submitWithdraw = async () => {
   })
   await supabase.from('wallets').update({
     balance: parseFloat(balance.value) - amount.value,
-    frozen_money: amount.value,
+    frozen_balance: amount.value,
     updated_at: new Date().toISOString()
   }).eq('user_id', userStore.supabaseUser.id)
   submitting.value = false

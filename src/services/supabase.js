@@ -307,24 +307,35 @@ export const subscribe = async (email, userId) => {
 // ─── Top Sellers ───
 export const fetchTopSellers = async (limit = 10) => {
   try {
-    const { data, error } = await supabase
+    // Fetch sellers
+    const { data: sellers, error } = await supabase
       .from('sellers')
       .select('id, name, store_name, logo, description, rating, is_recommended')
       .eq('approval_status', 'approved')
       .order('rating', { ascending: false })
       .limit(limit)
     if (error) throw error
-    // Fetch follower counts
-    const sellersWithCounts = await Promise.all(
-      (data || []).map(async (seller) => {
-        const { count } = await supabase
-          .from('follows')
-          .select('*', { count: 'exact', head: true })
-          .eq('seller_id', seller.id)
-        return { ...seller, follower_count: count || 0 }
-      })
-    )
-    return { data: sellersWithCounts.sort((a, b) => b.follower_count - a.follower_count), error: null }
+    if (!sellers?.length) return { data: [], error: null }
+
+    // Fetch all follower counts in ONE query (avoids N+1)
+    const sellerIds = sellers.map(s => s.id)
+    const { data: follows } = await supabase
+      .from('follows')
+      .select('seller_id')
+      .in('seller_id', sellerIds)
+
+    // Count followers per seller
+    const countMap = {}
+    ;(follows || []).forEach(f => {
+      countMap[f.seller_id] = (countMap[f.seller_id] || 0) + 1
+    })
+
+    // Merge and sort
+    const sellersWithCounts = sellers
+      .map(s => ({ ...s, follower_count: countMap[s.id] || 0 }))
+      .sort((a, b) => b.follower_count - a.follower_count)
+
+    return { data: sellersWithCounts, error: null }
   } catch (e) {
     console.error('fetchTopSellers error:', e)
     return { data: [], error: e.message }

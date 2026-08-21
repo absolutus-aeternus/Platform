@@ -27,9 +27,15 @@ ALTER TABLE IF EXISTS blockchain_channels ENABLE ROW LEVEL SECURITY;
 
 -- PRODUCTS: public read, seller write own
 CREATE POLICY IF NOT EXISTS "products_public_read" ON products FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "products_seller_insert" ON products FOR INSERT WITH CHECK (auth.uid() = seller_id);
-CREATE POLICY IF NOT EXISTS "products_seller_update" ON products FOR UPDATE USING (auth.uid() = seller_id);
-CREATE POLICY IF NOT EXISTS "products_seller_delete" ON products FOR DELETE USING (auth.uid() = seller_id);
+CREATE POLICY IF NOT EXISTS "products_seller_insert" ON products FOR INSERT WITH CHECK (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
+CREATE POLICY IF NOT EXISTS "products_seller_update" ON products FOR UPDATE USING (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
+CREATE POLICY IF NOT EXISTS "products_seller_delete" ON products FOR DELETE USING (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
 
 -- CATEGORIES: public read, admin write
 CREATE POLICY IF NOT EXISTS "categories_public_read" ON categories FOR SELECT USING (true);

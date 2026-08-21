@@ -288,7 +288,7 @@ const saveToSupabase = async () => {
   try {
     const p = scrapedProduct.value
     const { error: err } = await supabase.from('products').insert({
-      goods_id: 'SCRAPER-' + Date.now(),
+      
       name: p.name,
       description: p.description?.substring(0, 500) || '',
       price: p.price || 0,

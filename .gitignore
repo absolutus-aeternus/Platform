@@ -11,9 +11,11 @@ target/
 node_modules/
 venv/
 .venv/
+# Environment secrets — NEVER commit
 .env
 .env.local
 .env.*
+!.env.example
 
 # Logs and temp files
 *.log
@@ -91,3 +93,5 @@ build/
 *.bak
 *.swp
 *.swo
+# Windows NTFS Alternate Data Streams
+*:Zone.Identifier

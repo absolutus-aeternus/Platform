@@ -38,8 +38,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, computed, onMounted } from 'vue'
+const loading = ref(true)
 import { supabase } from '@/services/supabase'
 
 const logs = ref([])

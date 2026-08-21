@@ -1,10 +1,20 @@
 -- Fix RLS Security: use auth.uid() properly
 -- Products: public read, seller write own
 DROP POLICY IF EXISTS "Anyone can view products" ON products;
+DROP POLICY IF EXISTS "products_seller_insert" ON products;
+DROP POLICY IF EXISTS "products_seller_update" ON products;
+DROP POLICY IF EXISTS "products_seller_delete" ON products;
+
 CREATE POLICY "products_public_read" ON products FOR SELECT USING (status = 'active' OR status = 'published');
-CREATE POLICY "products_seller_insert" ON products FOR INSERT WITH CHECK (auth.uid() = seller_id);
-CREATE POLICY "products_seller_update" ON products FOR UPDATE USING (auth.uid() = seller_id);
-CREATE POLICY "products_seller_delete" ON products FOR DELETE USING (auth.uid() = seller_id);
+CREATE POLICY "products_seller_insert" ON products FOR INSERT WITH CHECK (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
+CREATE POLICY "products_seller_update" ON products FOR UPDATE USING (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
+CREATE POLICY "products_seller_delete" ON products FOR DELETE USING (
+  seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid())
+);
 
 -- Categories: public read only
 DROP POLICY IF EXISTS "Anyone can view categories" ON categories;

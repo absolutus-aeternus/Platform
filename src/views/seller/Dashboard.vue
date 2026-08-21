@@ -207,17 +207,32 @@ onMounted(async () => {
       .single()
 
     if (seller) {
-      const [ordersRes, productsRes] = await Promise.all([
-        supabase.from('orders').select('id, total_amount, status, created_at').eq('seller_id', seller.id).order('created_at', { ascending: false }).limit(5),
-        supabase.from('products').select('id, name, image, stock').eq('seller_id', seller.id)
+      // Fetch seller info for rating
+      const { data: sellerInfo } = await supabase
+        .from('sellers')
+        .select('rating')
+        .eq('id', seller.id)
+        .single()
+
+      const [productsRes, ordersRes] = await Promise.all([
+        supabase.from('products').select('id, name, images, stock, sales_count, price').eq('seller_id', seller.id),
+        supabase.from('order_items')
+          .select('id, quantity, price, order_id, orders(id, total_amount, status, created_at, user_id)')
+          .eq('products.seller_id', seller.id)
+          .order('created_at', { ascending: false })
+          .limit(20)
       ])
 
-      stats.value.orders = ordersRes.data?.length || 0
-      stats.value.products = productsRes.data?.length || 0
-      stats.value.revenue = (ordersRes.data || []).reduce((sum, o) => sum + parseFloat(o.total_amount || 0), 0).toFixed(2)
-      stats.value.sales = stats.value.orders
-      recentOrders.value = ordersRes.data || []
-      lowStockProducts.value = (productsRes.data || []).filter(p => p.stock !== null && p.stock < 5)
+      const products = productsRes.data || []
+      const orderItems = ordersRes.data || []
+
+      stats.value.products = products.length
+      stats.value.orders = orderItems.length
+      stats.value.revenue = orderItems.reduce((sum, item) => sum + parseFloat(item.price || 0) * (item.quantity || 1), 0).toFixed(2)
+      stats.value.sales = products.reduce((sum, p) => sum + (p.sales_count || 0), 0)
+      stats.value.rating = sellerInfo?.rating || '0.0'
+      recentOrders.value = orderItems.map(item => item.orders).filter(Boolean).slice(0, 5)
+      lowStockProducts.value = products.filter(p => p.stock !== null && p.stock < 5)
     }
   } catch (e) {
     console.error('Failed to load stats:', e)

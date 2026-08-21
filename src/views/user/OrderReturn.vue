@@ -40,8 +40,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref } from 'vue'
+const loading = ref(true)
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/services/supabase'
 

@@ -30,8 +30,8 @@
   </div>
 
 <script setup>
-const loading = ref(true)
 import { ref, onMounted } from 'vue'
+const loading = ref(true)
 import { supabase } from '@/services/supabase'
 
 const saving = ref(false)

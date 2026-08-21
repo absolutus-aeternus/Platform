@@ -14,12 +14,12 @@
       </div>
       <div class="wallet-info">
         <div class="info-item">
-          <span>Rebate</span>
-          <span>${{ wallet.rebate || '0.00' }}</span>
+          <span>Pending</span>
+          <span>${{ wallet.pending_balance || '0.00' }}</span>
         </div>
         <div class="info-item">
           <span>Frozen</span>
-          <span>${{ wallet.frozen_money || '0.00' }}</span>
+          <span>${{ wallet.frozen_balance || '0.00' }}</span>
         </div>
       </div>
       <div class="blockchain-section">
