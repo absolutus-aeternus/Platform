@@ -37,6 +37,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -83,7 +87,7 @@ const filteredOrders = computed(() => {
 const viewOrder = (order) => {
   window.__toast?.show(`Order ${order.order_no}: ${order.status}`, 'info')
 }
-</template>
+
 
 </script>
 

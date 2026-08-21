@@ -15,6 +15,8 @@
               <span v-if="opt.count !== undefined" class="filter-sidebar__count">{{ opt.count }}</span>
             </label>
             </template>
+</aside>
+</div>
           <!-- Price range -->
           <template v-else-if="section.type === 'range'">
             <div class="filter-sidebar__range">
@@ -22,14 +24,14 @@
               <span class="filter-sidebar__range-sep">—</span>
               <input type="number" :value="getRangeMax(section.key)" @input="setRangeMax(section.key, $event.target.value)" :placeholder="'Max'" class="filter-sidebar__range-input" />
             </div>
-            </template>
+            </div>
           <!-- Rating -->
           <template v-else-if="section.type === 'rating'">
             <button v-for="stars in [5,4,3,2,1]" :key="stars" class="filter-sidebar__rating" :class="{ active: isSelected(section.key, stars) }" @click="toggleFilter(section.key, stars)">
               <i v-for="i in 5" :key="i" :class="i <= stars ? 'fas fa-star' : 'far fa-star'"></i>
               <span>& up</span>
             </button>
-            </template>
+            </div>
           <!-- Toggle -->
           <template v-else-if="section.type === 'toggle'">
             <label v-for="opt in section.options" :key="opt.value" class="filter-sidebar__toggle">
@@ -37,18 +39,18 @@
               <input type="checkbox" :checked="isSelected(section.key, opt.value)" @change="toggleFilter(section.key, opt.value)" />
               <span class="filter-sidebar__toggle-track"></span>
             </label>
-        </template>
-      </div>
-      </div>
-      </div>
-            </template>
         </div>
-      </div>
+            
       <button v-if="hasActiveFilters" class="filter-sidebar__clear" @click="clearAll">
         <i class="fas fa-times"></i> Clear All Filters
       </button>
     </div>
   </aside>
+</template>
+</template>
+</template>
+</template>
+
 
 <script setup>
 import { ref, reactive, computed } from 'vue'

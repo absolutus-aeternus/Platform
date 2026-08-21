@@ -27,6 +27,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -54,7 +58,7 @@ onMounted(async () => { try {
   loading.value = false
 } catch (e) { console.error("Reports.vue error:", e); loading.value = false }
 })
-</template>
+
 
 </script>
 

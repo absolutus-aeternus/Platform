@@ -79,6 +79,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -180,7 +184,7 @@ const deleteUser = async (user) => {
     window.__toast?.show('Failed to delete', 'error')
   }
 }
-</template>
+
 
 </script>
 

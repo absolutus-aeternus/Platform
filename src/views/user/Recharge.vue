@@ -49,6 +49,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
@@ -96,7 +100,7 @@ const submitRecharge = async () => {
   window.__toast?.show('Recharge request submitted! Please send the payment to the wallet address.')
   amount.value = 0
 }
-</template>
+
 
 </script>
 

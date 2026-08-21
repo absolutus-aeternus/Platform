@@ -1,4 +1,5 @@
-<template><div class="page-wrapper">
+<template>
+<div class="page-wrapper">
   <div class="product-detail">
     <div class="container">
       <!-- Breadcrumb -->
@@ -32,7 +33,7 @@
         <router-link to="/" class="btn-primary">Back to Home</router-link>
       </div>
 
-      <template v-else>
+      <div v-else>
         <!-- Product Main -->
         <div class="product-main">
           <!-- Image Gallery -->
@@ -313,8 +314,11 @@
         </div>
         </template>
       </div>
-      </div>
-        </div></template>
+    </div>
+  </div>
+</div>
+</template>
+
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'

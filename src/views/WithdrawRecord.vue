@@ -21,6 +21,9 @@
     <div v-else style="text-align:center;padding:60px"><i class="fas fa-money-bill-wave" style="font-size:48px;color:#94a3b8"></i><p style="color:#64748b;margin-top:16px">No withdrawal records yet</p></div>
   </div>
 </template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 const loading = ref(true)

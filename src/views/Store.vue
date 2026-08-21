@@ -1,9 +1,10 @@
-<template><div class="page-wrapper">
+<template>
+<div class="page-wrapper">
   <div class="store-page">
     <div class="container">
       <div v-if="loading" class="loading">Loading store...</div>
       <div v-else-if="!store" class="not-found">Store not found</div>
-      <template v-else>
+      <div v-else>
         <!-- Store Header -->
         <div class="store-header">
           <div class="store-banner" :style="{ background: getGradient(store.name || store.store_name) }"></div>
@@ -60,10 +61,12 @@
             </div>
           </div>
         </div>
-        </template>
-      </div>
-      </div>
-        </div></template>
+        </div>
+</template>
+</div>
+</div>
+</div>
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

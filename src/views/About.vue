@@ -34,6 +34,8 @@
     </section>
   </div>
 </template>
+</template>
+
 
 <script setup>
 // Static page — no data loading needed

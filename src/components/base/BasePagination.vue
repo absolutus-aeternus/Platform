@@ -21,7 +21,9 @@
         {{ page }}
       </button>
         </template>
-    </template>
+</nav>
+</div>
+    
 
     <button
       class="base-pagination__btn"
@@ -32,6 +34,8 @@
       <i class="fas fa-chevron-right"></i>
     </button>
   </nav>
+</template>
+
 
 <script setup>
 import { computed } from 'vue'

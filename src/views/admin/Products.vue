@@ -40,6 +40,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -84,7 +88,7 @@ const deleteProduct = async (id) => {
     window.__toast?.show('Product deleted', 'success')
   } catch(e) { console.error('Delete error:', e); window.__toast?.show('Delete failed', 'error') }
 }
-</template>
+
 
 </script>
 

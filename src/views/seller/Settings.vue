@@ -34,6 +34,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -73,7 +77,7 @@ const saveSettings = async () => {
   saved.value = true
   setTimeout(() => { saved.value = false }, 3000)
 }
-</template>
+
 
 </script>
 

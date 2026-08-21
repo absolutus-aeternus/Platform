@@ -31,6 +31,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 const loading = ref(true)
@@ -74,7 +78,7 @@ const load = async () => {
   } catch (e) { console.error('Logs error:', e) }
 }
 onMounted(load)
-</template>
+
 
 </script>
 

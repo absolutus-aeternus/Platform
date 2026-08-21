@@ -37,6 +37,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed } from 'vue'
 const loading = ref(true)
@@ -74,7 +78,7 @@ const submitReview = async () => {
   loading.value = false
   } catch (e) { console.error('Order evaluation error:', e); window.__toast?.show('Failed to submit review', 'error') }
 }
-</template>
+
 
 </script>
 

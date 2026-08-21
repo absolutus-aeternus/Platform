@@ -7,6 +7,11 @@
     aria-hidden="true"
   />
 
+</template>
+</div>
+</template>
+
+
 <script setup>
 import { computed } from 'vue'
 
@@ -30,7 +35,7 @@ const skeletonStyle = computed(() => ({
   height: props.height,
   borderRadius: props.borderRadius
 }))
-</template>
+
 
 </script>
 

@@ -21,6 +21,9 @@
     </div>
   </div>
 </template>
+</template>
+
+
 <script setup>
 const openChat = () => { const el = document.querySelector('.chat-widget button, [class*="chat-toggle"]'); if (el) el.click() }
 </script>

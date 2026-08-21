@@ -1,73 +1,70 @@
-<template><div class="page-wrapper">
+<template>
+<div class="page-wrapper">
   <div class="merchant-settled">
-    <!-- Hero -->
     <section class="settled-hero">
       <div class="container">
         <h1>Become a Seller on AllianceHub</h1>
-        <p>Start your dropshipping business with zero inventory. List products, set your price, and we handle fulfillment.</p>
+        <p>Start your dropshipping business with zero inventory.</p>
         <div class="settled-features">
-          <div class="sf-item"><i class="fas fa-box-open"></i><h3>No Inventory</h3><p>List thousands of products without stocking anything</p></div>
-          <div class="sf-item"><i class="fas fa-tags"></i><h3>Auto Pricing</h3><p>Your seller level determines your cost automatically</p></div>
-          <div class="sf-item"><i class="fas fa-shipping-fast"></i><h3>Global Shipping</h3><p>We ship to 112+ countries worldwide</p></div>
-          <div class="sf-item"><i class="fas fa-headset"></i><h3>24/7 Support</h3><p>Live chat support for all sellers</p></div>
+          <div class="sf-item"><i class="fas fa-box-open"></i><h3>No Inventory</h3><p>List products without stocking</p></div>
+          <div class="sf-item"><i class="fas fa-tags"></i><h3>Auto Pricing</h3><p>Your seller level determines cost</p></div>
+          <div class="sf-item"><i class="fas fa-shipping-fast"></i><h3>Global Shipping</h3><p>Ship to 112+ countries</p></div>
+          <div class="sf-item"><i class="fas fa-headset"></i><h3>24/7 Support</h3><p>Live chat for all sellers</p></div>
         </div>
       </div>
     </section>
-
-    <!-- Registration Form -->
     <section class="settled-form-section">
       <div class="container" style="max-width:680px">
-        <!-- Progress Steps -->
         <div class="progress-steps">
           <div v-for="(s, i) in steps" :key="i" class="step" :class="{ active: step === i, done: step > i }">
-            <div class="step-num">
-              <i v-if="step > i" class="fas fa-check"></i>
-              <span v-else>{{ i + 1 }}</span>
-            </div>
+            <div class="step-num"><i v-if="step > i" class="fas fa-check"></i><span v-else>{{ i + 1 }}</span></div>
             <span class="step-label">{{ s }}</span>
           </div>
         </div>
-
         <div class="auth-card">
-          <!-- STEP 1: Account -->
           <form v-if="step === 0" @submit.prevent="nextStep" class="step-form">
-            <div class="card-header">
-              <div class="card-icon">👤</div>
-              <h2>Create Your Account</h2>
-              <p>Enter your credentials to get started</p>
+            <div class="card-header"><div class="card-icon">👤</div><h2>Create Your Account</h2></div>
+            <div v-if="!isLoggedIn" class="form-group"><label>Full Name *</label><div class="input-wrap"><i class="fas fa-user"></i><input v-model="form.fullName" required></div></div>
+            <div v-if="!isLoggedIn" class="form-group"><label>Email *</label><div class="input-wrap"><i class="fas fa-envelope"></i><input v-model="form.email" type="email" required></div></div>
+            <div v-if="!isLoggedIn" class="form-row">
+              <div class="form-group"><label>Password *</label><div class="input-wrap"><i class="fas fa-lock"></i><input v-model="form.password" type="password" required minlength="6"></div></div>
+              <div class="form-group"><label>Confirm *</label><div class="input-wrap"><i class="fas fa-lock"></i><input v-model="form.confirmPassword" type="password" required></div></div>
             </div>
-
-            <template v-if="!isLoggedIn">
-              <div class="form-group">
-                <label>Full Name *</label>
-                <div class="input-wrap"><i class="fas fa-user"></i><input v-model="form.fullName" placeholder="John Doe" required></div>
-              </div>
-              <div class="form-group">
-                <label>Email Address *</label>
-                <div class="input-wrap"><i class="fas fa-envelope"></i><input v-model="form.email" type="email" placeholder="seller@example.com" required></div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Password *</label>
-                  <div class="input-wrap"><i class="fas fa-lock"></i><input v-model="form.password" type="password" placeholder="Min 6 characters" required minlength="6"></div>
-                </div>
-                <div class="form-group">
-                  <label>Confirm Password *</label>
-                  <div class="input-wrap"><i class="fas fa-lock"></i><input v-model="form.confirmPassword" type="password" placeholder="Re-enter" required></div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Phone Number *</label>
-                <div class="input-wrap"><i class="fas fa-phone"></i><input v-model="form.phone" type="tel" placeholder="+62 812 3456 7890" required></div>
-              </div>
-              </template>
-        </form>
+            <div v-if="!isLoggedIn" class="form-group"><label>Phone *</label><div class="input-wrap"><i class="fas fa-phone"></i><input v-model="form.phone" type="tel" required></div></div>
+            <div v-if="error" class="error-msg"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+            <div class="btn-row"><button type="submit" class="btn-submit">Continue <i class="fas fa-arrow-right"></i></button></div>
+          </form>
+          <form v-if="step === 1" @submit.prevent="nextStep" class="step-form">
+            <div class="card-header"><div class="card-icon">🪪</div><h2>Verify Identity</h2></div>
+            <div class="form-group"><label>ID Type *</label><div class="input-wrap"><i class="fas fa-id-card"></i><select v-model="form.idType" required><option value="">Select</option><option value="ktp">KTP</option><option value="passport">Passport</option></select></div></div>
+            <div class="form-group"><label>ID Number *</label><div class="input-wrap"><i class="fas fa-hashtag"></i><input v-model="form.idNumber" required></div></div>
+            <div class="form-group"><label>Name on ID *</label><div class="input-wrap"><i class="fas fa-user"></i><input v-model="form.idName" required></div></div>
+            <div v-if="error" class="error-msg"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+            <div class="btn-row"><button type="button" class="btn-back" @click="step--"><i class="fas fa-arrow-left"></i> Back</button><button type="submit" class="btn-submit">Continue <i class="fas fa-arrow-right"></i></button></div>
+          </form>
+          <form v-if="step === 2" @submit.prevent="handleSubmit" class="step-form">
+            <div class="card-header"><div class="card-icon">🏪</div><h2>Set Up Store</h2></div>
+            <div class="form-group"><label>Store Name *</label><div class="input-wrap"><i class="fas fa-store"></i><input v-model="form.storeName" required></div></div>
+            <div class="form-group"><label>Description</label><textarea v-model="form.storeDesc" rows="3"></textarea></div>
+            <div class="form-group"><label>Category *</label><div class="input-wrap"><i class="fas fa-th-large"></i><select v-model="form.category" required><option value="">Select</option><option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option></select></div></div>
+            <div class="form-check"><input type="checkbox" v-model="form.agree" id="agree"><label for="agree">I agree to the <a href="#">Seller Terms</a></label></div>
+            <div v-if="error" class="error-msg"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+            <div class="btn-row"><button type="button" class="btn-back" @click="step--"><i class="fas fa-arrow-left"></i> Back</button><button type="submit" class="btn-submit btn-submit-green" :disabled="loading"><span v-if="loading" class="spinner"></span><span v-else><i class="fas fa-check"></i> Submit</span></button></div>
+          </form>
+          <div v-if="step === 3" class="success-step">
+            <div class="success-icon">🎉</div>
+            <h2>Application Submitted!</h2>
+            <p>Under review. You'll be notified within 24-48h.</p>
+            <div class="success-actions"><router-link to="/" class="btn-primary"><i class="fas fa-home"></i> Home</router-link></div>
+          </div>
+        </div>
       </div>
     </section>
-    </div>
   </div>
 </div>
 </template>
+</template>
+
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'

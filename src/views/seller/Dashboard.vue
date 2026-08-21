@@ -10,7 +10,7 @@
       <span>Loading dashboard...</span>
     </div>
 
-    <template v-else>
+    <div v-else>
       <!-- Stats Row -->
       <BentoGrid>
         <StatCard
@@ -153,12 +153,10 @@
         </div>
       </BentoGrid>
       </div>
-        </template>
-      </div>
-      </div>
+        </div>
+</div>
 </template>
-  </div>
-  </div>
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

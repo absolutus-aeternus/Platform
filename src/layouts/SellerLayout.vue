@@ -41,12 +41,16 @@
       <main class="main-content"><router-view /></main>
     </div>
   </div>
+</template>
+</template>
+
+
 <script setup>
 import { useUserStore } from "@/store/user"
 const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
-</template>
+
 
 </script>
 <style scoped>

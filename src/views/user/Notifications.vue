@@ -22,6 +22,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -77,7 +81,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (unsubscribe) unsubscribe()
 })
-</template>
+
 
 </script>
 

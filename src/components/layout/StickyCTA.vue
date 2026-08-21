@@ -17,6 +17,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   visible: { type: Boolean, default: true },
@@ -24,7 +28,7 @@ defineProps({
   originalPrice: { type: [Number, String], default: '' }
 })
 defineEmits(['chat', 'add-to-cart', 'buy-now'])
-</template>
+
 
 </script>
 

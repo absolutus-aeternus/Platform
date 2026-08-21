@@ -23,6 +23,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -56,7 +60,7 @@ const removeFavorite = async (id) => {
 }
 
 onMounted(loadFavorites)
-</template>
+
 
 </script>
 

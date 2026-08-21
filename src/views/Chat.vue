@@ -1,4 +1,5 @@
-<template><div class="page-wrapper">
+<template>
+<div class="page-wrapper">
   <div class="chat-page">
     <div class="container">
       <div class="chat-container">
@@ -40,7 +41,7 @@
             <p>Select a conversation to start chatting</p>
           </div>
 
-          <template v-else>
+          <div v-else>
             <!-- Chat Header -->
             <div class="chat-header">
               <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
@@ -89,12 +90,14 @@
                 <i class="fas fa-paper-plane"></i>
               </button>
             </div>
-        </template>
-      </div>
-      </div>
-      </div>
-      </div>
-            </div></template>
+        </div>
+</template>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'

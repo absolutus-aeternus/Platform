@@ -36,6 +36,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -67,7 +71,7 @@ const saveProfile = async () => {
     window.__toast?.show('Failed to save profile', 'error')
   }
 }
-</template>
+
 
 </script>
 

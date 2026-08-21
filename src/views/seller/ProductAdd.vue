@@ -46,6 +46,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -84,7 +88,7 @@ const addProduct = async () => {
   saving.value = false
   loading.value = false
 }
-</template>
+
 
 </script>
 

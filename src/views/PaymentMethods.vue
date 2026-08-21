@@ -48,6 +48,8 @@
     </div>
   </div>
 </template>
+</template>
+
 
 <script setup>
 const methods = [

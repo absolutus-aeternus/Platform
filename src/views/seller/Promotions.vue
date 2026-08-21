@@ -61,6 +61,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -152,7 +156,7 @@ const deletePromo = async (id) => {
 }
 
 onMounted(loadData)
-</template>
+
 
 </script>
 

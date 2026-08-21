@@ -29,6 +29,9 @@
     </div>
   </div>
 </template>
+</template>
+
+
 <script setup></script>
 <style scoped>
 @media (max-width: 768px) {

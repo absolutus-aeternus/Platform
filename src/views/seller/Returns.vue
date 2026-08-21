@@ -34,6 +34,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -67,7 +71,7 @@ const rejectReturn = async (ret) => {
   try { await supabase.from('orders').update({ status: 'return_rejected' }).eq('id', ret.id) } catch(_e) { console.error('Returns.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   returns.value = returns.value.filter(r => r.id !== ret.id)
 }
-</template>
+
 
 </script>
 

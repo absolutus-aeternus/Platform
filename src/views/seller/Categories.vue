@@ -32,6 +32,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { fetchCategories } from '@/services/supabase'
@@ -52,7 +56,7 @@ onMounted(async () => { try {
   loading.value = false
 } catch (e) { console.error("Categories.vue error:", e) }
 })
-</template>
+
 
 </script>
 

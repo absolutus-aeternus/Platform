@@ -28,7 +28,7 @@
           <i class="fas fa-inbox"></i>
           <p>Select a conversation</p>
         </div>
-        <template v-else>
+        <div v-else>
           <div class="chat-header">
             <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
             <h4>{{ activeConv.customer_email || 'Customer' }}</h4>
@@ -42,7 +42,7 @@
                   <span v-if="msg.is_own" class="msg-check" :class="{ read: msg.is_read }">
                     <template v-if="msg.is_read">✓✓  </div>
 
-                    <template v-else>✓  </div>
+                    <div v-else>✓  </div>
 
                   </span>
                 </div>
@@ -54,18 +54,12 @@
             <button @click="sendMessage" :disabled="!newMessage.trim()">Send</button>
           </div>
           </div>
+</div>
+</div>
 </template>
-      </div>
-    </div>
-  </div>
-  </div>
-        </template>
-        </template>
-      </div>
-      </div>
-      </div>
-      </div>
 </template>
+</div>
+
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'

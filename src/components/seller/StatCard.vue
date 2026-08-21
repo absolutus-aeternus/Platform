@@ -19,6 +19,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   icon: { type: String, required: true },
@@ -30,7 +34,7 @@ defineProps({
   alert: { type: String, default: '' },
   color: { type: String, default: '#007185' }
 })
-</template>
+
 
 </script>
 

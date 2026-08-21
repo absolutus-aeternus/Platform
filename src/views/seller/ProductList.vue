@@ -52,6 +52,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -92,7 +96,7 @@ const deleteProduct = async (id) => {
 }
 
 onMounted(loadProducts)
-</template>
+
 
 </script>
 

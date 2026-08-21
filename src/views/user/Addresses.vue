@@ -76,6 +76,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -138,7 +142,7 @@ const deleteAddress = async (id) => {
 }
 
 onMounted(loadAddresses)
-</template>
+
 
 </script>
 

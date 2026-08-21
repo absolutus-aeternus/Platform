@@ -209,6 +209,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -227,7 +231,7 @@ const logout = async () => {
     router.push('/login')
   } catch (e) { console.warn('AdminLayout: logout failed:', e.message) }
 }
-</template>
+
 
 </script>
 

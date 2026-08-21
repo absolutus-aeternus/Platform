@@ -29,6 +29,9 @@
     </div>
   </div>
 </template>
+</template>
+
+
 <script setup>
 const openChat = () => {
   const el = document.querySelector('.chat-toggle')

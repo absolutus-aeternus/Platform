@@ -49,6 +49,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
@@ -75,7 +79,7 @@ onMounted(async () => {
   }
   loading.value = false
 })
-</template>
+
 
 </script>
 

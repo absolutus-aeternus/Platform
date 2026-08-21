@@ -1,2 +1,6 @@
-<template><div></div></template>
+<template>
+<div></div></template>
+</template>
+
+
 <script setup></script>

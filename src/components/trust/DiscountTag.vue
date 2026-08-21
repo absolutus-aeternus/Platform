@@ -3,12 +3,16 @@
     -{{ percentage }}%
   </span>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   percentage: { type: [Number, String], required: true },
   size: { type: String, default: 'sm', validator: v => ['sm', 'md', 'lg'].includes(v) }
 })
-</template>
+
 
 </script>
 

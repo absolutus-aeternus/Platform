@@ -18,6 +18,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   returnDays: { type: Number, default: 7 },
@@ -25,7 +29,7 @@ defineProps({
   shipping: { type: String, default: '' },
   vertical: { type: Boolean, default: false }
 })
-</template>
+
 
 </script>
 

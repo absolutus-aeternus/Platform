@@ -69,6 +69,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 const loading = ref(true)
@@ -112,7 +116,7 @@ const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
 const clearCache = () => { localStorage.clear(); window.__toast?.show('Cache cleared!', 'success') }
 
 onMounted(() => { loadStats(); loadLogs() })
-</template>
+
 
 </script>
 

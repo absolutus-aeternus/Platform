@@ -35,6 +35,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -82,7 +86,7 @@ const handleLogout = async () => {
   await userStore.logout()
   router.push('/login')
 }
-</template>
+
 
 </script>
 

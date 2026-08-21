@@ -39,6 +39,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref } from 'vue'
 const loading = ref(true)
@@ -59,7 +63,7 @@ const submitReturn = async () => {
   window.__toast?.show('Return request submitted successfully!')
   router.push('/user/orders')
 }
-</template>
+
 
 </script>
 

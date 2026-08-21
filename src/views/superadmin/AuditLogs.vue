@@ -37,6 +37,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 const loading = ref(true)
@@ -71,7 +75,7 @@ const exportLogs = () => {
 }
 
 onMounted(loadLogs)
-</template>
+
 
 </script>
 

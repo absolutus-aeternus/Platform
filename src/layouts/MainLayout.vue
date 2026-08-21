@@ -1,4 +1,5 @@
-<template><div v-if="userStore.isSuperAdmin" style="padding:6px 16px;background:#1a1a2e;display:flex;gap:12px;justify-content:center;font-size:12px"><router-link to="/superadmin" style="color:#f39c12;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link><router-link to="/admin" style="color:#fff;text-decoration:none"><i class="fas fa-shield-alt"></i> Admin</router-link><router-link to="/seller" style="color:#fff;text-decoration:none"><i class="fas fa-store"></i> Seller</router-link><router-link to="/user" style="color:#fff;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link><router-link to="/ratingplus" style="color:#fff;text-decoration:none"><i class="fas fa-star"></i> R+</router-link></div>
+<template>
+<div v-if="userStore.isSuperAdmin" style="padding:6px 16px;background:#1a1a2e;display:flex;gap:12px;justify-content:center;font-size:12px"><router-link to="/superadmin" style="color:#f39c12;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link><router-link to="/admin" style="color:#fff;text-decoration:none"><i class="fas fa-shield-alt"></i> Admin</router-link><router-link to="/seller" style="color:#fff;text-decoration:none"><i class="fas fa-store"></i> Seller</router-link><router-link to="/user" style="color:#fff;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link><router-link to="/ratingplus" style="color:#fff;text-decoration:none"><i class="fas fa-star"></i> R+</router-link></div>
   <div class="app-layout" style="position: relative; z-index: 1;">
     <!-- ===== TOP BAR (Amazon-style thin bar) ===== -->
     <div class="top-bar">
@@ -272,6 +273,8 @@
     <MobileTabBar />
   </div>
 </template>
+</template>
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

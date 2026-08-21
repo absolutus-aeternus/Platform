@@ -14,6 +14,10 @@
     <span v-if="$slots.default" class="base-btn__text"><slot /></span>
   </button>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   variant: { type: String, default: 'primary', validator: v => ['primary', 'secondary', 'tertiary', 'danger', 'ghost', 'quick-add'].includes(v) },
@@ -24,7 +28,7 @@ defineProps({
   disabled: { type: Boolean, default: false }
 })
 defineEmits(['click'])
-</template>
+
 
 </script>
 

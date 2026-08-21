@@ -31,6 +31,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { computed } from 'vue'
 
@@ -55,7 +59,7 @@ function formatValue(v) {
   if (v >= 1000) return (v / 1000).toFixed(0) + 'K'
   return v.toString()
 }
-</template>
+
 
 </script>
 

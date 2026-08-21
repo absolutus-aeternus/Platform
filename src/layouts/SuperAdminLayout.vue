@@ -166,6 +166,10 @@
     </main>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
@@ -174,7 +178,7 @@ const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
 const handleLogout = async () => { await userStore.logout(); router.push('/login/admin') }
-</template>
+
 
 </script>
 

@@ -15,6 +15,10 @@
     </router-link>
   </nav>
 
+</template>
+</template>
+
+
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -35,7 +39,7 @@ function isActive(path) {
   if (path === '/') return route.path === '/'
   return route.path.startsWith(path)
 }
-</template>
+
 
 </script>
 

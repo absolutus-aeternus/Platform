@@ -55,6 +55,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -91,7 +95,7 @@ const createCoupon = async () => {
 const toggleActive = async (c) => { await supabase.from('coupons').update({ is_active: !c.is_active }).eq('id', c.id); await load() }
 const deleteCoupon = async (c) => { if (!confirm(`Delete "${c.code}"?`)) return; await supabase.from('coupons').delete().eq('id', c.id); await load() }
 onMounted(load)
-</template>
+
 
 </script>
 

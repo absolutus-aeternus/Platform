@@ -53,6 +53,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { fetchRplusUsers, updateRplusUser, deleteRplusUser } from '@/services/rplus'
@@ -97,7 +101,7 @@ const removeUser = async (user) => {
 }
 
 onMounted(loadUsers)
-</template>
+
 
 </script>
 

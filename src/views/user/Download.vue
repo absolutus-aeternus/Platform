@@ -21,6 +21,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref } from 'vue'
 const downloads = ref([])
@@ -32,7 +36,7 @@ const downloadFile = (dl) => {
     window.__toast?.show('Download link not available', 'error')
   }
 }
-</template>
+
 
 </script>
 

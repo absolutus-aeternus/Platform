@@ -44,6 +44,11 @@
               <i :class="showPw ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
           </template>
+</baseinput>
+</form>
+</div>
+</div>
+</template>
         </BaseInput>
 
         <div class="form-options">
@@ -74,6 +79,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue'

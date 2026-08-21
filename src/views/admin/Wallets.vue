@@ -83,6 +83,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -153,7 +157,7 @@ const confirmAdjust = async () => {
 const viewHistory = (wallet) => window.__toast?.show(`Wallet history for ${wallet.users?.email} - Feature coming soon`)
 
 onMounted(loadWallets)
-</template>
+
 
 </script>
 

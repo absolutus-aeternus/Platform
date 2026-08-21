@@ -4,13 +4,17 @@
     <span v-if="showLabel" class="verified-badge__label">Verified</span>
   </span>
 
+</template>
+</template>
+
+
 <script setup>
 defineProps({
   size: { type: String, default: 'sm', validator: v => ['sm', 'md', 'lg'].includes(v) },
   showLabel: { type: Boolean, default: true },
   tooltip: { type: String, default: 'Verified seller' }
 })
-</template>
+
 
 </script>
 

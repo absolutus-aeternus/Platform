@@ -43,6 +43,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 const loading = ref(true)
@@ -104,7 +108,7 @@ const submitWithdraw = async () => {
   amount.value = 0; address.value = ''
   balance.value = (parseFloat(balance.value) - amount.value).toFixed(2)
 }
-</template>
+
 
 </script>
 

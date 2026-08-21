@@ -28,7 +28,7 @@
           <i class="fas fa-comments"></i>
           <p>Select a user to start chatting</p>
         </div>
-        <template v-else>
+        <div v-else>
           <div class="chat-header">
             <button class="header-back" @click="selectedUser = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
             <div class="chat-user-info">
@@ -53,16 +53,12 @@
             <button @click="sendMessage" class="btn-send" :disabled="!newMessage.trim()"><i class="fas fa-paper-plane"></i></button>
           </div>
           </div>
-        </template>
-      </div>
-      </div>
-      </div>
-      </div>
+        </div>
+</div>
+</div>
+</div>
 </template>
-      </div>
-    </div>
-  </div>
-  </div>
+
 
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue'

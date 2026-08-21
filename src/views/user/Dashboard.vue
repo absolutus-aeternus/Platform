@@ -3,7 +3,7 @@
   <div class="dashboard">
     <h1>My Dashboard</h1>
     <div v-if="loading" class="loading">Loading...</div>
-    <template v-else>
+    <div v-else>
       <div class="stats-grid">
         <div class="stat-card" @click="$router.push('/user/orders')">
           <i class="fas fa-box"></i>
@@ -60,12 +60,10 @@
         </router-link>
       </div>
       </div>
-        </template>
-      </div>
-      </div>
+        </div>
+</div>
 </template>
-  </div>
-  </div>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'

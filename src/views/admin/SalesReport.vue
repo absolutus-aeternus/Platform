@@ -31,6 +31,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -64,7 +68,7 @@ const loadData = async () => {
   } catch (e) { console.error('Sales report error:', e) }
 }
 onMounted(loadData)
-</template>
+
 
 </script>
 

@@ -60,6 +60,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 const loading = ref(true)
@@ -94,7 +98,7 @@ const saveSettings = async () => {
 }
 
 onMounted(loadSettings)
-</template>
+
 
 </script>
 

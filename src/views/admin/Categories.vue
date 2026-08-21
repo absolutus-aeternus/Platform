@@ -88,6 +88,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -156,7 +160,7 @@ const deleteCategory = async (cat) => {
 }
 
 onMounted(loadCategories)
-</template>
+
 
 </script>
 

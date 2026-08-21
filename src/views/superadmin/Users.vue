@@ -85,6 +85,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 const loading = ref(true)
@@ -176,7 +180,7 @@ const resetPassword = async (u) => {
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString() : '-'
 onMounted(loadUsers)
-</template>
+
 
 </script>
 

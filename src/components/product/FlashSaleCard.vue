@@ -38,6 +38,10 @@
     </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed } from 'vue'
 import DiscountTag from '@/components/trust/DiscountTag.vue'
@@ -67,7 +71,7 @@ function formatSales(n) {
   if (n >= 1000) return (n / 1000).toFixed(1) + 'K'
   return n.toString()
 }
-</template>
+
 
 </script>
 

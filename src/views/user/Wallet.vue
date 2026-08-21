@@ -3,7 +3,7 @@
   <div class="wallet">
     <h1>My Wallet</h1>
     <div v-if="loading" class="loading">Loading wallet...</div>
-    <template v-else>
+    <div v-else>
       <div class="balance-card">
         <h2>Balance</h2>
         <div class="balance">${{ wallet.balance || '0.00' }}</div>
@@ -32,12 +32,10 @@
         </div>
       </div>
       </div>
-        </template>
-      </div>
-      </div>
+        </div>
+</div>
 </template>
-  </div>
-  </div>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'

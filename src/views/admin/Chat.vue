@@ -46,7 +46,7 @@
           <span>Monitor and respond to buyer & seller messages</span>
         </div>
         
-        <template v-else>
+        <div v-else>
           <!-- Chat Header -->
           <div class="chat-header">
             <button class="header-back" @click="activeConv = null; showSidebar = true" title="Back"><i class="fas fa-arrow-left"></i></button>
@@ -78,7 +78,7 @@
                     <span v-if="msg.is_admin" class="msg-check" :class="{ read: msg.is_read }">
                       <template v-if="msg.is_read">✓✓  </div>
 
-                      <template v-else>✓  </div>
+                      <div v-else>✓  </div>
 
                     </span>
                   </div>
@@ -96,8 +96,8 @@
             </button>
           </div>
           </div>
-</template>
-      </div>
+</div>
+</div>
       
       <!-- Info Panel -->
       <div class="info-panel" v-if="activeConv">
@@ -146,13 +146,10 @@
     </div>
   </div>
   </div>
-        </template>
-        </template>
-      </div>
-      </div>
-      </div>
-      </div>
+        </div>
 </template>
+</template>
+
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'

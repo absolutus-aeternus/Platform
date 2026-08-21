@@ -26,6 +26,10 @@
     </Transition>
   </Teleport>
 
+</template>
+</template>
+
+
 <script setup>
 import { computed, ref } from 'vue'
 
@@ -67,7 +71,7 @@ function onTouchEnd() {
     emit('update:modelValue', false)
   }
 }
-</template>
+
 
 </script>
 

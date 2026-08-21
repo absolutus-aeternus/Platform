@@ -55,6 +55,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -134,7 +138,7 @@ const editProduct = (product) => {
 }
 
 onMounted(loadProducts)
-</template>
+
 
 </script>
 

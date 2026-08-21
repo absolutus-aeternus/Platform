@@ -4,7 +4,7 @@
     <h1>Order Detail</h1>
     <div v-if="loading" class="loading">Loading...</div>
     <div v-else-if="!order" class="not-found">Order not found</div>
-    <template v-else>
+    <div v-else>
       <div class="order-card">
         <div class="order-header">
           <span>Order #{{ order.order_no }}</span>
@@ -29,12 +29,10 @@
         </div>
       </div>
       </div>
-        </template>
-      </div>
-      </div>
+        </div>
+</div>
 </template>
-  </div>
-  </div>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'

@@ -36,6 +36,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -86,7 +90,7 @@ const handleLogin = async () => {
     loading.value = false
   }
 }
-</template>
+
 
 </script>
 

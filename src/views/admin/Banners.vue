@@ -41,6 +41,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
@@ -76,7 +80,7 @@ const saveBanner = async () => {
 const toggleActive = async (b) => { await supabase.from('banners').update({ is_active: !b.is_active }).eq('id', b.id); await load() }
 const deleteBanner = async (b) => { if (!confirm('Delete banner?')) return; await supabase.from('banners').delete().eq('id', b.id); await load() }
 onMounted(load)
-</template>
+
 
 </script>
 

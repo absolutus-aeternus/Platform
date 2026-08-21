@@ -41,13 +41,17 @@
       <main class="main-content"><router-view /></main>
     </div>
   </div>
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed } from 'vue'
 import { useUserStore } from '@/store/user'
 const userStore = useUserStore()
 const showSidebar = ref(false)
 const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
-</template>
+
 
 </script>
 <style scoped>

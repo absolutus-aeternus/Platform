@@ -105,6 +105,10 @@
   </div>
   </div>
 
+</template>
+</template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 const loading = ref(true)
@@ -175,7 +179,7 @@ const exportCSV = () => {
 }
 
 onMounted(loadLogs)
-</template>
+
 
 </script>
 
