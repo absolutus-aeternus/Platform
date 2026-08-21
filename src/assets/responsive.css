@@ -55,7 +55,8 @@ h2 { font-size: var(--font-xl); }
 h3 { font-size: var(--font-lg); }
 
 /* === Table Responsive === */
-.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap,
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { width: 100%; border-collapse: collapse; font-size: var(--font-sm); }
 th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #eee; white-space: nowrap; }
 
@@ -242,6 +243,10 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
 /* Mobile: < 768px */
 @media (max-width: 767px) {
   :root { --container-padding: 0.75rem; }
+
+  /* Fix table-wrapper overflow for mobile scrolling */
+  .table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+  .table-wrapper table { min-width: 600px; }
   .main-content { padding: var(--gap-md); padding-bottom: calc(var(--tab-bar-height, 56px) + var(--gap-md)); }
   .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: repeat(2, 1fr); gap: var(--space-2, 8px); }
   .hide-mobile { display: none !important; }
