@@ -93,18 +93,35 @@ async function cacheFirst(request, cacheName) {
   }
 }
 
-// Strategy: Network First with Cache
+// Strategy: Network First with Cache (TTL: 5 min for API)
+const API_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 async function networkFirstWithCache(request, cacheName) {
   try {
     const response = await fetch(request);
     if (response.ok) {
       const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+      // Add timestamp header for TTL checking
+      const headers = new Headers(response.headers);
+      headers.set('X-Cached-At', Date.now().toString());
+      const timedResponse = new Response(await response.clone().blob(), {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      });
+      cache.put(request, timedResponse);
     }
     return response;
   } catch (err) {
     const cached = await caches.match(request);
-    if (cached) return cached;
+    if (cached) {
+      const cachedAt = parseInt(cached.headers.get('X-Cached-At') || '0');
+      if (Date.now() - cachedAt < API_CACHE_TTL) {
+        return cached;
+      }
+      // Cache expired, try network again or return stale
+      console.warn('[SW] API cache expired for:', request.url);
+    }
     return new Response(JSON.stringify({ error: 'Offline' }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' },
