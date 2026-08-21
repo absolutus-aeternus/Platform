@@ -15,7 +15,6 @@
   </button>
 
 </template>
-</template>
 
 
 <script setup>

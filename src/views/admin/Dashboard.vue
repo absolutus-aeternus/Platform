@@ -185,7 +185,6 @@
   </div>
 
 </template>
-</template>
 
 
 <script setup>

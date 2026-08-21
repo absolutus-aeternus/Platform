@@ -34,7 +34,7 @@
       <i class="fas fa-chevron-right"></i>
     </button>
   </nav>
-</template>
+
 
 
 <script setup>

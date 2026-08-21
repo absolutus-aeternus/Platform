@@ -16,7 +16,6 @@
   </nav>
 
 </template>
-</template>
 
 
 <script setup>

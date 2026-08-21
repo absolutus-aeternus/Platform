@@ -74,7 +74,6 @@
     <div v-if="loading" class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div>
   </div>
 </template>
-</template>
 
 
 <script setup>

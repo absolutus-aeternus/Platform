@@ -8,7 +8,6 @@
     </div>
   </div>
 </template>
-</template>
 
 
 <script setup>

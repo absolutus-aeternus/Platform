@@ -8,7 +8,6 @@
     </Transition>
   </Teleport>
 </template>
-</template>
 
 
 <script setup>

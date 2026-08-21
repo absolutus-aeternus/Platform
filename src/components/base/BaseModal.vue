@@ -27,7 +27,6 @@
   </Teleport>
 
 </template>
-</template>
 
 
 <script setup>

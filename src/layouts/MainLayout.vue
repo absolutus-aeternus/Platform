@@ -273,7 +273,6 @@
     <MobileTabBar />
   </div>
 </template>
-</template>
 
 
 <script setup>

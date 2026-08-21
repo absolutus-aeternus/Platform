@@ -38,7 +38,7 @@
 </div>
       
   </nav>
-</template>
+
 
 
 <script setup>

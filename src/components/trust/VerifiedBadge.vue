@@ -5,7 +5,6 @@
   </span>
 
 </template>
-</template>
 
 
 <script setup>
