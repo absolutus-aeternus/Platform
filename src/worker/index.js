@@ -23,15 +23,28 @@ export default {
       return json({ error: 'Internal server error', message: e.message }, { status, ...corsHeaders });
     }
 
-    // ─── Helper: CSRF Verification ───
-    function verifyCSRFToken(req) {
-      // Safe methods don't need CSRF
+    // ─── Helper: CSRF Verification (HMAC-SHA256 signed) ───
+    async function verifyCSRFTokenHMAC(req, env) {
       const m = req.method;
       if (['GET', 'HEAD', 'OPTIONS'].includes(m)) return true;
       const cookie = req.headers.get('Cookie') || '';
-      const token = cookie.split(';').find(c => c.trim().startsWith('csrf='))?.split('=')[1];
+      const token = cookie.split(';').find(c => c.trim().startsWith('csrf='))?.split('=')?.[1]?.trim();
       const header = req.headers.get('X-CSRF-Token');
-      return token && header && token === header;
+      if (!token || !header || token !== header) return false;
+      const parts = token.split('.');
+      if (parts.length !== 3) return false;
+      const [payload, ts, sigHex] = parts;
+      const data = payload + '.' + ts;
+      const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY || 'fallback-csrf-secret';
+      try {
+        const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+        const sigBytes = new Uint8Array(sigHex.match(/.{2}/g).map(b => parseInt(b, 16)));
+        const valid = await crypto.subtle.verify('HMAC', key, sigBytes, new TextEncoder().encode(data));
+        if (!valid) return false;
+        const created = parseInt(ts, 36);
+        if (isNaN(created) || Date.now() - created > 86400000) return false;
+        return true;
+      } catch { return false; }
     }
 
     const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
@@ -161,7 +174,7 @@ export default {
         } catch (e) { return json({ error: e.message }, { status: 500, ...corsHeaders }); }
       }
             if (path === '/api/health') {
-        const _csrf = generateCSRFToken(); return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.2' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + _csrf + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
+        const _csrf = await generateCSRFToken(env); return json({ status: 'ok', timestamp: new Date().toISOString(), storage: 'backblaze-b2', version: '2.3' }, { ...corsHeaders, 'Set-Cookie': 'csrf=' + _csrf + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600' });
       }
 
       // ─── B2 File proxy (with 24h auth token caching via Upstash) ───
@@ -210,7 +223,7 @@ export default {
 
       // ─── Upload presign (auth required) ───
       if (path === '/api/upload/presign' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Unauthorized' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -343,7 +356,7 @@ export default {
 
       // ─── Follow Seller (AUTH REQUIRED) ───
       if (path === '/api/follow' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -363,7 +376,7 @@ export default {
 
       // ─── Unfollow Seller (AUTH REQUIRED) ───
       if (path === '/api/follow' && method === 'DELETE') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -387,7 +400,7 @@ export default {
 
       // ─── Wishlist Toggle (POST - auth required) ───
       if (path === '/api/wishlist' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const body = await request.json();
@@ -493,7 +506,7 @@ export default {
 
       // ─── Seller Registration (AUTH REQUIRED) ───
       if (path === '/api/seller/register' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -544,7 +557,7 @@ export default {
 
       // ─── Admin: Approve/Reject Seller (ADMIN ONLY) ───
       if (path === '/api/admin/seller-approval' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -632,7 +645,7 @@ export default {
 
       // ─── Admin: Update Seller Status (ADMIN ONLY) ───
       if (path === '/api/admin/seller/status' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
@@ -669,7 +682,7 @@ export default {
 
       // ─── Checkout (AUTH REQUIRED + PER-USER RATE LIMIT) ───
       if (path === '/api/checkout' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests. Please wait.' }, { status: 429, ...corsHeaders });
@@ -734,7 +747,7 @@ export default {
 
       // ─── Send Email (AUTH REQUIRED) ───
       if (path === '/api/email/send' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
@@ -783,8 +796,28 @@ export default {
       if (path === '/api/webhook/payment' && method === 'POST') {
         try {
           const gateway = url.searchParams.get('gateway') || 'unknown';
-          const body = await request.json();
+          const rawBody = await request.text();
+          const body = JSON.parse(rawBody);
           const signature = request.headers.get('X-Webhook-Signature') || request.headers.get('X-Signature') || '';
+
+          // Verify webhook signature (HMAC-SHA256)
+          const webhookSecret = env.WEBHOOK_SECRET || env.PAYMENT_WEBHOOK_SECRET;
+          if (webhookSecret && signature) {
+            try {
+              const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(webhookSecret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+              const expectedSig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(rawBody));
+              const expectedHex = Array.from(new Uint8Array(expectedSig), b => b.toString(16).padStart(2, '0')).join('');
+              const provided = signature.replace(/^sha256=/, '');
+              if (provided !== expectedHex) {
+                return json({ error: 'Invalid webhook signature' }, { status: 403, ...corsHeaders });
+              }
+            } catch (e) {
+              console.error('Webhook signature verification error:', e.message);
+              return json({ error: 'Signature verification failed' }, { status: 403, ...corsHeaders });
+            }
+          } else if (webhookSecret && !signature) {
+            return json({ error: 'Missing webhook signature' }, { status: 403, ...corsHeaders });
+          }
 
           // Find payment by transaction ID
           const txnId = body.transaction_id || body.orderId || body.id;
@@ -877,7 +910,7 @@ export default {
 
       // ─── Admin: Change User Role (ADMIN ONLY + AUDIT) ───
       if (path === '/api/admin/change-role' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -944,7 +977,7 @@ export default {
 
       // ─── Submit Review (AUTH REQUIRED + VALIDATION) ───
       if (path === '/api/review' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         if (await checkUserRateLimit(user.id)) return json({ error: 'Too many requests' }, { status: 429, ...corsHeaders });
@@ -1021,7 +1054,7 @@ export default {
 
       // ─── Seller: Set Product Markup (AUTH REQUIRED) ───
       if (path === '/api/seller/markup' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -1076,7 +1109,7 @@ export default {
 
       // ─── Seller: Request Payout (AUTH REQUIRED) ───
       if (path === '/api/seller/payout' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const user = await verifyAuth(request);
         if (!user) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         
@@ -1140,7 +1173,7 @@ export default {
 
       // ─── Admin: Approve Commission (ADMIN ONLY) ───
       if (path === '/api/admin/commission/approve' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
@@ -1195,7 +1228,7 @@ export default {
 
       // ─── Admin: Process Payout (ADMIN ONLY) ───
       if (path === '/api/admin/payout/process' && method === 'POST') {
-        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        if (!await verifyCSRFTokenHMAC(request, env)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
@@ -1245,11 +1278,18 @@ export default {
 };
 
 
-// CSRF Token generator (used in /api/health)
-function generateCSRFToken() {
-  const arr = new Uint8Array(32);
+// CSRF Token generator — HMAC-SHA256 signed (used in /api/health)
+async function generateCSRFToken(env) {
+  const arr = new Uint8Array(24);
   crypto.getRandomValues(arr);
-  return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+  const payload = Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+  const ts = Date.now().toString(36);
+  const data = payload + '.' + ts;
+  const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY || 'fallback-csrf-secret';
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(data));
+  const sigHex = Array.from(new Uint8Array(sig), b => b.toString(16).padStart(2, '0')).join('');
+  return data + '.' + sigHex;
 }
 
 
