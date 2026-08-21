@@ -78,15 +78,15 @@ export async function applyReferralCode(userId, code) {
     // Add coins to referred user (profiles table was renamed to users in migration 011)
     // Note: coins column may not exist — use system_params or wallet instead
     try {
-      const { data: wallet } = await supabase
+      const { data: referredWallet } = await supabase
         .from('wallets')
         .select('id, balance')
         .eq('user_id', userId)
         .single()
-      if (wallet) {
+      if (referredWallet) {
         await supabase.from('wallets').update({
-          balance: parseFloat(wallet.balance || 0) + 100
-        }).eq('id', wallet.id)
+          balance: parseFloat(referredWallet.balance || 0) + 100
+        }).eq('id', referredWallet.id)
       }
     } catch (e) {
       console.warn('Failed to add referral coins:', e.message)

@@ -57,6 +57,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
+import { apiFetch } from '@/utils/csrf'
 
 const loading = ref(true)
 const users = ref([])
@@ -87,11 +88,29 @@ const viewUser = (u) => { selectedUser.value = u }
 const editRole = async (u) => {
   const role = prompt(`Change role for ${u.email}\nCurrent: ${u.role || 'MEMBER'}\nOptions: MEMBER, SELLER, ADMIN`, u.role || 'MEMBER')
   if (role && ['MEMBER','SELLER','ADMIN'].includes(role.toUpperCase())) {
-    await supabase.from('users').update({ role: role.toUpperCase() }).eq('id', u.id)
-    await load()
+    try {
+      const resp = await apiFetch('/api/admin/change-role', {
+        method: 'POST',
+        body: JSON.stringify({ userId: u.id, newRole: role.toUpperCase(), reason: 'Admin UI role change' })
+      })
+      const result = await resp.json()
+      if (result.success) { window.__toast?.show('Role updated', 'success'); await load() }
+      else { window.__toast?.show(result.error || 'Failed to change role', 'error') }
+    } catch (e) { window.__toast?.show('Error: ' + e.message, 'error') }
   }
 }
-const deleteUser = async (u) => { if (!confirm(`Delete user ${u.email}?`)) return; await supabase.from('users').delete().eq('id', u.id); await load() }
+const deleteUser = async (u) => {
+  if (!confirm(`Delete user ${u.email}?`)) return
+  try {
+    // Use service role via Worker (admin-only endpoint)
+    const resp = await apiFetch('/api/admin/change-role', {
+      method: 'POST',
+      body: JSON.stringify({ userId: u.id, newRole: 'MEMBER', reason: 'Deletion not supported - role reset instead' })
+    })
+    window.__toast?.show('User role reset. Full deletion requires server-side action.', 'info')
+    await load()
+  } catch (e) { window.__toast?.show('Error: ' + e.message, 'error') }
+}
 onMounted(load)
 
 

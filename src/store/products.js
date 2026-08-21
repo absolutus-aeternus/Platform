@@ -126,7 +126,7 @@ export const useProductStore = defineStore('products', {
         const { data, error } = await supabase
           .from('products')
           .select('*, sellers(name, store_name, logo)')
-          .eq('status', 'published')
+          .eq('status', 'active')
           .order('sales_count', { ascending: false })
           .limit(limit)
         

@@ -95,6 +95,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
+import { apiFetch } from '@/utils/csrf'
 
 const loading = ref(true)
 const sellers = ref([])
@@ -125,8 +126,15 @@ const viewSeller = (seller) => { detailSeller.value = seller }
 const toggleSellerStatus = async (seller) => {
   const newStatus = seller.status === 'active' ? 'suspended' : 'active'
   if (!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Activate'} "${seller.name}"?`)) return
-  try { await supabase.from('sellers').update({ status: newStatus }).eq('id', seller.id) } catch(_e) { console.error('Sellers.vue:', _e); window.__toast?.show('Operation failed', 'error') }
-  await loadSellers()
+  try {
+    const resp = await apiFetch('/api/admin/seller/status', {
+      method: 'POST',
+      body: JSON.stringify({ sellerId: seller.id, status: newStatus })
+    })
+    const result = await resp.json()
+    if (result.success) { window.__toast?.show(`Seller ${newStatus}`, 'success'); await loadSellers() }
+    else { window.__toast?.show(result.error || 'Failed', 'error') }
+  } catch(_e) { console.error('Sellers.vue:', _e); window.__toast?.show('Operation failed', 'error') }
 }
 
 onMounted(loadSellers)

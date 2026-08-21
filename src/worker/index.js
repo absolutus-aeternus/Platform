@@ -630,6 +630,43 @@ export default {
         return json({ data: await resp.json() }, corsHeaders);
       }
 
+      // ─── Admin: Update Seller Status (ADMIN ONLY) ───
+      if (path === '/api/admin/seller/status' && method === 'POST') {
+        if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
+        const _u = await verifyAuth(request);
+        if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
+        const reqRoleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, { headers: getServiceHeaders() });
+        const reqRoleData = await reqRoleResp.json();
+        if (!['ADMIN', 'SUPER_ADMIN'].includes(reqRoleData[0]?.role)) {
+          return json({ error: 'Admin access required' }, { status: 403, ...corsHeaders });
+        }
+        const { sellerId, status } = await request.json();
+        if (!sellerId || !['active', 'suspended', 'pending'].includes(status)) {
+          return json({ error: 'Invalid sellerId or status' }, { status: 400, ...corsHeaders });
+        }
+        await fetch(env.VITE_SUPABASE_URL + '/rest/v1/sellers?id=eq.' + sellerId, {
+          method: 'PATCH',
+          headers: getServiceHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=representation' }),
+          body: JSON.stringify({ status })
+        });
+        // Audit log
+        try {
+          await fetch(env.VITE_SUPABASE_URL + '/rest/v1/audit_logs', {
+            method: 'POST',
+            headers: getServiceHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({
+              actor_id: _u.id,
+              action: 'seller_status_change',
+              target_type: 'seller',
+              target_id: sellerId,
+              new_value: { status },
+              ip_address: request.headers.get('cf-connecting-ip') || null
+            })
+          });
+        } catch (_) {}
+        return json({ success: true, status }, corsHeaders);
+      }
+
       // ─── Checkout (AUTH REQUIRED + PER-USER RATE LIMIT) ───
       if (path === '/api/checkout' && method === 'POST') {
         if (!verifyCSRFToken(request)) return json({ error: 'Invalid CSRF token' }, { status: 403, ...corsHeaders });
@@ -794,7 +831,7 @@ export default {
       if (path === '/api/admin/system-params' && method === 'GET') {
         const _u = await verifyAuth(request);
         if (!_u) return json({ error: 'Authentication required' }, { status: 401, ...corsHeaders });
-        // Check admin role (use service role key)
+        // Check admin role (use service role key to bypass RLS)
         const roleResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/users?select=role&id=eq.' + _u.id, {
           headers: getServiceHeaders()
         });
