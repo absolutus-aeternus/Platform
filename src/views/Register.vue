@@ -59,8 +59,8 @@
       <div class="divider"><span>or sign up with</span></div>
 
       <div class="social-btns">
-        <button class="btn-social" @click="window.__toast?.show('Google signup coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
-        <button class="btn-social" @click="window.__toast?.show('Facebook signup coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
+        <button class="btn-social" @click="showToast('Google signup coming soon', 'info')"><i class="fab fa-google"></i> Google</button>
+        <button class="btn-social" @click="showToast('Facebook signup coming soon', 'info')"><i class="fab fa-facebook-f"></i> Facebook</button>
       </div>
 
       <div class="login-footer">
@@ -87,6 +87,8 @@ const agree = ref(false)
 const loading = ref(false)
 const error = ref('')
 const success = ref('')
+
+const showToast = (msg, type = 'info') => { window.__toast?.show(msg, type) }
 
 const handleRegister = async () => {
   if (!email.value || !email.value.includes('@')) { error.value = 'Please enter a valid email'; return }
