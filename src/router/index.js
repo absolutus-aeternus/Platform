@@ -174,6 +174,7 @@ const routes = [
   },
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
   { path: '/login/admin', name: 'AdminLogin', component: () => import('@/views/admin/Login.vue') },
+  { path: '/login/superadmin', name: 'SuperAdminLogin', component: () => import('@/views/superadmin/Login.vue') },
   { path: '/register', name: 'Register', component: () => import('@/views/Register.vue') },
   { path: '/ratingplus', name: 'RatingPlus', component: () => import('@/views/RatingPlus.vue') },
   { path: '/verification', name: 'Verification', component: () => import('@/views/Verification.vue') },
@@ -220,8 +221,10 @@ router.beforeEach(async (to, from, next) => {
     // ── Auth required but not logged in → redirect to correct login ──
     if (to.meta.requiresAuth && !isAuthenticated) {
       if (to.meta.requiresSeller) return next('/seller/login')
+      if (to.meta.requiresSuperAdmin) return next('/login/superadmin')
       if (to.meta.requiresAdmin) return next('/login/admin')
       if (to.meta.requiresMember) return next('/login')
+      if (to.path.startsWith('/superadmin')) return next('/login/superadmin')
       if (to.path.startsWith('/seller')) return next('/seller/login')
       if (to.path.startsWith('/admin')) return next('/login/admin')
       return next('/login')

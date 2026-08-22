@@ -70,8 +70,13 @@ const handleLogin = async () => {
         await userStore.logout()
         return
       }
-      logLoginEvent({ email: email.value, role: 'ADMIN', login_status: 'success', login_type: 'login' });
-      router.push('/admin')
+      logLoginEvent({ email: email.value, role: userRole, login_status: 'success', login_type: 'login' });
+      // Super Admin → /superadmin, Admin → /admin
+      if (userRole === 'SUPER_ADMIN') {
+        router.push('/superadmin')
+      } else {
+        router.push('/admin')
+      }
     } else {
       const msg = result.msg || 'Login failed'
       if (msg.includes('Invalid login credentials')) {
