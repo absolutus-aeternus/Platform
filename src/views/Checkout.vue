@@ -65,7 +65,7 @@
             <i class="fas fa-exclamation-circle"></i> {{ error }}
           </div>
           <button class="btn-place-order" @click="placeOrder" :disabled="ordering || addresses.length === 0">
-            {{ ordering ? 'Placing Order...' : 'Place Order' }}
+            <i v-if="ordering" class="fas fa-spinner fa-spin"></i> {{ ordering ? 'Placing Order...' : 'Place Order' }}
           </button>
         </div>
       </div>
@@ -84,6 +84,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase, fetchAddresses } from '@/services/supabase'
 import { ensureCSRFToken } from '@/utils/csrf'
+import { workerUrl } from '@/utils/url'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -150,7 +151,7 @@ const placeOrder = async () => {
 
     // Use Worker API (with auth + CSRF verification)
     const csrfToken = await ensureCSRFToken()
-    const resp = await fetch(`${import.meta.env.VITE_WORKER_URL}/api/checkout`, {
+    const resp = await fetch(workerUrl('/api/checkout'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -193,8 +194,8 @@ const placeOrder = async () => {
 .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 .page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
 .checkout-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
-.checkout-form { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.checkout-summary { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 20px; }
+.checkout-form { background: var(--bg-card, #fff); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.checkout-summary { background: var(--bg-card, #fff); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 20px; }
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 14px; font-weight: 500; color: #555; margin-bottom: 6px; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }

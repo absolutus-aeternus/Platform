@@ -37,7 +37,7 @@
 
         <!-- Logo -->
         <router-link to="/" class="logo">
-          <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img" />
+          <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img" />
         </router-link>
 
         <!-- Search Bar -->
@@ -140,7 +140,7 @@
     <div v-if="showMobile" class="mobile-overlay" @click="showMobile = false"></div>
     <aside class="mobile-sidebar" :class="{ open: showMobile }">
       <div class="mobile-header">
-        <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="mobile-logo" />
+        <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="mobile-logo" />
         <button @click="showMobile = false" class="mobile-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
       </div>
       <div class="mobile-user" v-if="userStore.isLoggedIn">
@@ -292,6 +292,7 @@ import ChatWidget from '@/components/ChatWidget.vue'
 import MobileTabBar from '@/components/layout/MobileTabBar.vue'
 import { useDevice } from '@/composables/useDevice'
 import { useDarkMode } from '@/composables/useDarkMode'
+import { workerUrl } from '@/utils/url'
 
 const { isDark, toggle: toggleDark } = useDarkMode()
 
@@ -326,7 +327,7 @@ const currentLang = computed(() => languages.find(l => l.code === locale.value) 
 const navCategories = computed(() => categories.value.slice(0, 10))
 
 const setLocale = (code) => { locale.value = code; localStorage.setItem('locale', code); showLang.value = false }
-const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
 
 const onSearchInput = () => {
   clearTimeout(suggestTimer)
@@ -337,7 +338,7 @@ const onSearchInput = () => {
   }
   suggestTimer = setTimeout(async () => {
     try {
-      const resp = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(searchQuery.value.trim())}&limit=5`)
+      const resp = await fetch(workerUrl(`/api/search?q=${encodeURIComponent(searchQuery.value.trim())}&limit=5`))
       const data = await resp.json()
       suggestions.value = data.hits || data.data || []
       showSuggestions.value = suggestions.value.length > 0
@@ -404,7 +405,7 @@ onMounted(async () => {
 .lang-switch:hover { color: #fff; }
 .theme-toggle { background: none; border: none; color: #ccc; cursor: pointer; padding: 4px 8px; font-size: 14px; transition: color 0.15s; display: flex; align-items: center; }
 .theme-toggle:hover { color: var(--brand-primary, #FF9900); }
-.lang-dropdown { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 200; min-width: 140px; overflow: hidden; }
+.lang-dropdown { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: var(--z-dropdown, 100); min-width: 140px; overflow: hidden; }
 .lang-dropdown div { padding: 0.5rem 0.75rem; font-size: 0.8125rem; color: #333; cursor: pointer; transition: background 0.15s; }
 .lang-dropdown div:hover { background: #f5f5f5; }
 .lang-dropdown div.active { background: var(--brand-primary, #FF9900); color: #fff; }
@@ -414,7 +415,7 @@ onMounted(async () => {
   padding: 0.5rem 0;
   position: sticky;
   top: 0;
-  z-index: 400;
+  z-index: var(--z-header, 400);
   overflow: visible;
 }
 .header.scrolled {
@@ -458,7 +459,7 @@ onMounted(async () => {
   border: 1px solid var(--neutral-200, #E7E7E7);
   border-radius: 0 0 8px 8px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  z-index: 500;
+  z-index: var(--z-search-suggest, 500);
   max-height: 400px;
   overflow-y: auto;
 }
@@ -527,7 +528,7 @@ onMounted(async () => {
 .sub-header {
   position: sticky;
   top: var(--header-height, 60px);
-  z-index: 350;
+  z-index: calc(var(--z-header, 400) - 10);
   background: var(--brand-nav, #232F3E);
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
@@ -543,8 +544,8 @@ onMounted(async () => {
 .promo-link i { color: var(--brand-primary, #FF9900); }
 
 /* ===== MOBILE SIDEBAR ===== */
-.mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; }
-.mobile-sidebar { position: fixed; top: 0; left: 0; width: min(85vw, 22rem); height: 100dvh; background: #fff; z-index: 250; overflow-y: auto; transform: translateX(-100%); transition: transform 0.3s; box-shadow: 0 16px 48px rgba(0,0,0,0.16); }
+.mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: var(--z-modal-backdrop, 700); }
+.mobile-sidebar { position: fixed; top: 0; left: 0; width: min(85vw, 22rem); height: 100dvh; background: #fff; z-index: var(--z-sidebar, 550); overflow-y: auto; transform: translateX(-100%); transition: transform 0.3s; box-shadow: 0 16px 48px rgba(0,0,0,0.16); }
 .mobile-sidebar.open { transform: translateX(0); }
 .mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: var(--brand-dark, #131921); }
 .mobile-logo { height: 1.5rem; width: auto; object-fit: contain; }
@@ -564,13 +565,7 @@ onMounted(async () => {
   padding-top: 0;
 }
 
-/* Mobile: ensure content doesn't get hidden under fixed header and tab bar */
-@media (max-width: 767px) {
-  .main-content {
-    padding-top: calc(var(--header-height, 60px) + 8px);
-    padding-bottom: calc(var(--tab-bar-height, 56px) + 24px);
-  }
-}
+
 .back-to-top { background: #37475a; text-align: center; padding: 0.75rem; cursor: pointer; transition: background 0.2s; }
 .back-to-top:hover { background: #485769; }
 .back-to-top span { color: #fff; font-size: 0.8125rem; }
@@ -595,8 +590,11 @@ onMounted(async () => {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
-  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
   .orders-action { display: none; }
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
   .top-bar { display: none; }
@@ -632,9 +630,12 @@ onMounted(async () => {
   .header-action i { font-size: 1rem; }
 }
 
-/* ===== MOBILE MAIN CONTENT PADDING (for MobileTabBar) ===== */
+/* ===== MOBILE MAIN CONTENT PADDING (for MobileTabBar + safe area) ===== */
 @media (max-width: 767px) {
-  .main-content { padding-bottom: calc(var(--tab-bar-height, 56px) + 16px); }
+  .main-content {
+    padding-top: calc(var(--header-height, 60px) + 8px);
+    padding-bottom: calc(var(--tab-bar-height, 56px) + env(safe-area-inset-bottom, 0px) + 16px);
+  }
 }
 
 img { max-width: 100%; height: auto; }

@@ -51,6 +51,11 @@
               <td>{{ log.action || log.login_type || '-' }}</td>
               <td>{{ log.ip_address || '-' }}</td>
             </tr>
+            <tr v-if="!recentLogs.length">
+              <td colspan="4">
+                <div class="empty-state"><i class="fas fa-clock"></i><p>No recent activity. System events will appear here.</p></div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -151,4 +156,5 @@ header { z-index: 2; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 </style>

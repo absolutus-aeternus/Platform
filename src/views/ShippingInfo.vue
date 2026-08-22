@@ -1,6 +1,16 @@
 <template>
   <div class="shipping-page">
     <div class="container">
+      <div v-if="loading" class="skeleton-wrapper">
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-grid-3">
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+        </div>
+        <div class="skeleton-shimmer skeleton-table"></div>
+      </div>
+      <div v-else>
       <h1><i class="fas fa-truck"></i> Shipping Information</h1>
 
       <div class="info-cards">
@@ -53,13 +63,17 @@
           <div v-if="openFaq === i" class="faq-a">{{ faq.a }}</div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+const loading = ref(true)
+onMounted(() => { loading.value = false })
+
 const openFaq = ref(-1)
 const carriers = [
   { name: 'FedEx', icon: 'fas fa-box', color: '#4D148C' },
@@ -100,4 +114,11 @@ h2 { font-size: 1.125rem; margin: 2rem 0 1rem; }
 .faq-a { padding: 0 1.25rem 1rem; font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; }
 @media (max-width: 768px) { .info-cards { grid-template-columns: 1fr; } .carriers-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 480px) { .carriers-grid { grid-template-columns: repeat(2, 1fr); } }
+.skeleton-wrapper { padding: 1rem 0; }
+.skeleton-title { height: 28px; width: 220px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 24px; }
+.skeleton-card { height: 130px; border-radius: var(--radius-md); }
+.skeleton-table { height: 200px; border-radius: var(--radius-md); }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>

@@ -81,6 +81,7 @@ import ProductCard from '@/components/product/ProductCard.vue'
 import FilterSidebar from '@/components/layout/FilterSidebar.vue'
 import FilterSheet from '@/components/layout/FilterSheet.vue'
 import BasePagination from '@/components/base/BasePagination.vue'
+import { workerUrl } from '@/utils/url'
 
 const route = useRoute()
 const query = ref(route.query.q || '')
@@ -92,7 +93,7 @@ const perPage = 20
 const showFilterSheet = ref(false)
 const activeFilters = ref({ brand: [], price: {}, rating: null, shipping: [] })
 
-const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
 
 const filterSections = [
   {
@@ -161,11 +162,11 @@ const doSearch = async () => {
   page.value = 1
   try {
     if (!query.value.trim()) {
-      const resp = await fetch(`${WORKER_URL}/api/products?sort=sales&limit=40`)
+      const resp = await fetch(workerUrl('/api/products?sort=sales&limit=40'))
       const result = await resp.json()
       products.value = result.data || []
     } else {
-      const resp = await fetch(`${WORKER_URL}/api/search?q=${encodeURIComponent(query.value)}&limit=40`)
+      const resp = await fetch(workerUrl(`/api/search?q=${encodeURIComponent(query.value)}&limit=40`))
       const result = await resp.json()
       products.value = result.hits || []
     }

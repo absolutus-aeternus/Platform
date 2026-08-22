@@ -1,6 +1,21 @@
 <template>
   <div class="page-wrapper">
   <div class="admin-dashboard">
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-title"></div>
+      <div class="skeleton-stats-grid">
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+      </div>
+      <div class="skeleton-shimmer skeleton-section"></div>
+      <div class="skeleton-charts-row">
+        <div class="skeleton-shimmer skeleton-chart"></div>
+        <div class="skeleton-shimmer skeleton-chart-sm"></div>
+      </div>
+    </div>
+    <div v-else>
     <h1>Dashboard</h1>
     
     <!-- Stats Cards -->
@@ -181,6 +196,7 @@
         </table></div>
       </div>
     </div>
+    </div>
   </div>
   </div>
 
@@ -192,6 +208,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 import { fetchRplusStats } from '@/services/rplus'
 
+const loading = ref(true)
 const stats = ref([
   { label: 'Total Revenue', value: '$0', icon: 'fas fa-dollar-sign', color: 'var(--brand-primary, #FF9900)', change: '', trend: 'up' },
   { label: 'Total Orders', value: '0', icon: 'fas fa-shopping-cart', color: '#4ecdc4', change: '', trend: 'up' },
@@ -315,12 +332,25 @@ onMounted(async () => {
     const rpStats = await fetchRplusStats()
     rplusStats.value = rpStats
   } catch (e) { console.warn('[Admin] R+ stats fetch failed:', e.message) }
+
+  loading.value = false
 })
 
 
 </script>
 
 <style scoped>
+.skeleton-wrapper { padding: 0; }
+.skeleton-title { height: 28px; width: 160px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+.skeleton-stat { height: 90px; border-radius: 8px; }
+.skeleton-section { height: 120px; border-radius: 12px; margin-bottom: 24px; }
+.skeleton-charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.skeleton-chart { height: 250px; border-radius: 8px; }
+.skeleton-chart-sm { height: 250px; border-radius: 8px; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 

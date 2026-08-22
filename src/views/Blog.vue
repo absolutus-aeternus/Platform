@@ -1,6 +1,16 @@
 <template>
   <div class="blog-page">
     <div class="container">
+      <div v-if="loading" class="skeleton-wrapper">
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-subtitle"></div>
+        <div class="skeleton-grid">
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+        </div>
+      </div>
+      <div v-else>
       <h1><i class="fas fa-newspaper"></i> Blog & Guides</h1>
       <p class="subtitle">Tips, tutorials, and updates from AllianceHub</p>
 
@@ -33,6 +43,7 @@
         <div class="cat-tags">
           <span class="cat-tag" v-for="cat in categories" :key="cat" @click="selectedCat = selectedCat === cat ? '' : cat" :class="{ active: selectedCat === cat }">{{ cat }}</span>
         </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,8 +51,12 @@
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+const loading = ref(true)
 const selectedCat = ref('')
+onMounted(() => {
+  loading.value = false
+})
 const categories = ['Shopping Tips', 'Seller Guide', 'Product Reviews', 'Tutorials', 'Industry News', 'Promotions']
 const posts = [
   { id: 1, title: 'How to Find the Best Deals on AllianceHub', excerpt: 'Discover insider tips for finding the lowest prices, using flash sales, and stacking coupons for maximum savings.', tag: 'Shopping Tips', date: 'Aug 10, 2026', views: '2.3K', icon: 'fas fa-tags', gradient: 'linear-gradient(135deg, var(--brand-primary, #FF9900), var(--brand-primary-hover, #E68A00))' },
@@ -59,7 +74,7 @@ h1 { font-size: 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: cente
 h1 i { color: var(--brand-primary); }
 .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
 h2 { font-size: 1.125rem; margin: 2rem 0 1rem; }
-.blog-card { background: #fff; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.2s; cursor: pointer; }
+.blog-card { background: var(--bg-card, #fff); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.2s; cursor: pointer; }
 .blog-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .blog-card.featured { display: grid; grid-template-columns: 1fr 1fr; }
 .blog-card.featured .blog-img { min-height: 250px; }
@@ -75,7 +90,14 @@ h2 { font-size: 1.125rem; margin: 2rem 0 1rem; }
 .blog-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
 .blog-list .blog-card { display: flex; flex-direction: column; }
 .cat-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.cat-tag { padding: 0.375rem 0.875rem; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 0.8125rem; cursor: pointer; transition: all 0.15s; }
+.cat-tag { padding: 0.375rem 0.875rem; background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 0.8125rem; cursor: pointer; transition: all 0.15s; }
 .cat-tag.active, .cat-tag:hover { background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
 @media (max-width: 768px) { .blog-card.featured { grid-template-columns: 1fr; } .blog-list { grid-template-columns: 1fr; } }
+.skeleton-wrapper { padding: 1rem 0; }
+.skeleton-title { height: 28px; width: 200px; border-radius: 6px; margin-bottom: 12px; }
+.skeleton-subtitle { height: 16px; width: 300px; border-radius: 4px; margin-bottom: 24px; }
+.skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.skeleton-card { height: 200px; border-radius: var(--radius-md); }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>

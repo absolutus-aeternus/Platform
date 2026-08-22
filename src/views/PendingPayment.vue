@@ -51,7 +51,7 @@ const payNow = async () => {
 }
 </script>
 <style scoped>
-.payment-card { background: white; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; }
+.payment-card { background: var(--bg-card, white); padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; }
 .payment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
 .order-items { margin-bottom: 24px; }
 .order-item { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }

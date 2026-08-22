@@ -22,6 +22,7 @@
     </div>
     
     <div v-if="loading" class="loading">Loading...</div>
+    <div v-else-if="!products.length" class="empty-state"><i class="fas fa-box"></i><p>No products in your inventory yet. Add your first product to get started!</p><router-link to="/seller/product/add" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:6px"><i class="fas fa-plus"></i> Add Product</router-link></div>
     <div v-else class="table-container">
       <table>
         <thead>
@@ -105,7 +106,7 @@ th { background: #f8f8f8; font-weight: 600; }
 .stock-status { padding: 2px 8px; border-radius: 10px; font-size: 12px; }
 .stock-status.ok { background: #d4edda; color: #155724; }
 .stock-status.low { background: #fff3cd; color: #856404; }
-.stock-status.out { background: #f8d7da; color: #721c24; }
+.stock-status.out { background: #f8d7da; color: #721c24; } .empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 /* Responsive */
 @media (max-width: 768px) {

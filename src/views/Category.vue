@@ -36,14 +36,14 @@ onMounted(async () => {
 .container { max-width: 1200px; margin: 0 auto; padding: 16px 12px; }
 .page-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: #222; }
 .loading-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.skeleton-cat { background: #f0f0f0; border-radius: 12px; height: 100px; animation: pulse 1.5s infinite; }
+.skeleton-cat { background: var(--neutral-100, #f0f0f0); border-radius: 12px; height: 100px; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .cat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.cat-card { background: #fff; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cat-card { background: var(--bg-card, #fff); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
 .cat-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #fff; margin: 0 auto 12px; transition: transform 0.3s; }
 .cat-card:hover .cat-icon { transform: scale(1.1); }
-.cat-card h3 { font-size: 14px; color: #333; }
+.cat-card h3 { font-size: 14px; color: var(--text-primary, #333); }
 @media (max-width: 768px) { .cat-grid, .loading-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 480px) { .cat-grid, .loading-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } .cat-card { padding: 16px; } }
 </style>

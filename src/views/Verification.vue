@@ -2,7 +2,7 @@
   <div class="verification-page">
     <div class="bg-video"></div>
     <div class="content">
-      <div class="logo"><img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-verify" /></div>
+      <div class="logo"><img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-verify" /></div>
       <div class="white-box">
         <h1>Your business starts with ALLIANCEHUB</h1>
         <p>What are you waiting for?</p>

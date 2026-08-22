@@ -1,6 +1,12 @@
 <template>
   <div class="page-wrapper">
   <div class="user-download">
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-title"></div>
+      <div class="skeleton-shimmer skeleton-card"></div>
+      <div class="skeleton-shimmer skeleton-card"></div>
+    </div>
+    <div v-else>
     <div class="page-header"><h1>Downloads</h1></div>
     <div v-if="downloads.length === 0" class="empty-state">
       <div class="empty-icon"><i class="fas fa-download"></i></div>
@@ -18,6 +24,7 @@
         <button class="btn-download" @click="downloadFile(dl)"><i class="fas fa-download"></i> Download</button>
       </div>
     </div>
+    </div>
   </div>
   </div>
 
@@ -25,8 +32,10 @@
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+const loading = ref(true)
 const downloads = ref([])
+onMounted(() => { loading.value = false })
 
 const downloadFile = (dl) => {
   if (dl.url) {
@@ -40,6 +49,12 @@ const downloadFile = (dl) => {
 </script>
 
 <style scoped>
+.skeleton-wrapper { padding: 0; }
+.skeleton-title { height: 28px; width: 140px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-card { height: 80px; border-radius: 10px; margin-bottom: 12px; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 header { z-index: 2; }
 .page-header { margin-bottom: 25px; }
 .page-header h1 { margin: 0; }

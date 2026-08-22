@@ -10,7 +10,7 @@
     <div class="login-container animate-in">
       <!-- Logo -->
       <div class="login-logo">
-        <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-seller" />
+        <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-seller" />
         <p class="logo-sub">Seller Center</p>
       </div>
 

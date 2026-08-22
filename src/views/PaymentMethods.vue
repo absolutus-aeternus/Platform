@@ -1,6 +1,17 @@
 <template>
   <div class="payment-methods-page">
     <div class="container">
+      <div v-if="loading" class="skeleton-wrapper">
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-subtitle"></div>
+        <div class="skeleton-grid">
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+        </div>
+      </div>
+      <div v-else>
       <h1><i class="fas fa-credit-card"></i> Payment Methods</h1>
       <p class="subtitle">We accept multiple cryptocurrency payment methods for secure, fast transactions.</p>
 
@@ -45,12 +56,17 @@
           <div class="how-step"><span class="how-num">4</span><p>Receive instant confirmation and order tracking</p></div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script setup>
+import { ref, onMounted } from 'vue'
+const loading = ref(true)
+onMounted(() => { loading.value = false })
+
 const methods = [
   { id: 'binance', name: 'Binance Pay', icon: 'fab fa-bitcoin', color: '#F0B90B', type: 'Crypto', desc: 'Pay with Binance account. Supports 300+ cryptocurrencies with zero fees.' },
   { id: 'okx', name: 'OKX', icon: 'fas fa-exchange-alt', color: '#00C4B3', type: 'Crypto', desc: 'Fast and secure payments through OKX exchange wallet.' },
@@ -87,4 +103,11 @@ h2 i { color: var(--brand-primary); }
 .how-num { width: 28px; height: 28px; background: var(--brand-primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem; flex-shrink: 0; }
 .how-step p { font-size: 0.8125rem; color: var(--text-secondary); margin: 0; }
 @media (max-width: 768px) { .methods-grid { grid-template-columns: 1fr; } .security-grid { grid-template-columns: 1fr; } .how-steps { flex-direction: column; } }
+.skeleton-wrapper { padding: 1rem 0; }
+.skeleton-title { height: 28px; width: 200px; border-radius: 6px; margin-bottom: 12px; }
+.skeleton-subtitle { height: 16px; width: 350px; border-radius: 4px; margin-bottom: 24px; }
+.skeleton-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.skeleton-card { height: 100px; border-radius: var(--radius-md); }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>

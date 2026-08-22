@@ -1,5 +1,10 @@
 <template>
   <div class="credit-application">
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-title"></div>
+      <div class="skeleton-shimmer skeleton-form"></div>
+    </div>
+    <div v-else>
     <h1>Apply for Credit</h1>
     <div class="application-form">
       <div class="form-group">
@@ -30,15 +35,18 @@
       </div>
       <button class="btn-submit" @click="submitApplication" :disabled="!amount || !purpose">Submit Application</button>
     </div>
+    </div>
   </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
+const loading = ref(true)
 const router = useRouter()
+onMounted(() => { loading.value = false })
 const amount = ref(0)
 const purpose = ref('')
 const period = ref('6')
@@ -58,4 +66,9 @@ h1 { margin-bottom: 25px; }
 .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
 .btn-submit { padding: 12px 30px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
 .btn-submit:disabled { background: #ccc; }
+.skeleton-wrapper { padding: 0; }
+.skeleton-title { height: 28px; width: 180px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-form { height: 350px; width: 500px; max-width: 100%; border-radius: 8px; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>

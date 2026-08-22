@@ -24,7 +24,8 @@
       </div>
       <div class="blockchain-section">
         <h2>Payment Channels</h2>
-        <div class="channels">
+        <div v-if="!channels.length" class="empty-state"><i class="fas fa-link"></i><p>No payment channels available yet.</p></div>
+        <div class="channels" v-else>
           <div v-for="ch in channels" :key="ch.id" class="channel-card">
             <h4>{{ ch.coin }} ({{ ch.blockchain_name }})</h4>
             <p>Fee: {{ ch.fee }}%</p>
@@ -83,6 +84,7 @@ h1 { margin-bottom: 25px; }
 .channel-card { padding: 15px; background: #f8f8f8; border-radius: 8px; }
 .channel-card h4 { margin-bottom: 5px; }
 .channel-card p { color: #666; font-size: 14px; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 /* Responsive */
 @media (max-width: 768px) {

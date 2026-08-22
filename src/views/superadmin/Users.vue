@@ -30,6 +30,11 @@
             </tr>
           </thead>
           <tbody>
+            <tr v-if="!users.length">
+              <td colspan="5">
+                <div class="empty-state"><i class="fas fa-users"></i><p>No users found. Adjust your filters or add a new user.</p><button class="btn-primary" @click="showAdd = true" style="display:inline-flex;align-items:center;gap:6px"><i class="fas fa-plus"></i> Add User</button></div>
+              </td>
+            </tr>
             <tr v-for="u in users" :key="u.id">
               <td><strong>{{ u.email }}</strong></td>
               <td>
@@ -92,6 +97,7 @@
 import { ref, onMounted } from 'vue'
 const loading = ref(true)
 import { supabase } from '@/services/supabase'
+import { workerUrl } from '@/utils/url'
 
 const users = ref([])
 const search = ref('')
@@ -159,7 +165,7 @@ const resetPassword = async (u) => {
   const pw = prompt('New password for ' + u.email + ':')
   if (!pw || pw.length < 6) return
   try {
-    const resp = await fetch(`${import.meta.env.VITE_WORKER_URL || ''}/api/admin/change-role`, {
+    const resp = await fetch(workerUrl('/api/admin/change-role'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -220,6 +226,7 @@ onMounted(loadUsers)
 .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
 .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
 .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 @media (max-width: 768px) {
   .sa-page { padding: 16px; }

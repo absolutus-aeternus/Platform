@@ -31,7 +31,7 @@
           </div>
           <div class="log-details" v-if="log.details">{{ log.details }}</div>
         </div>
-        <div v-if="!filteredLogs.length" class="empty">No logs found</div>
+        <div v-if="!filteredLogs.length" class="empty-state"><i class="fas fa-history"></i><p>No audit logs found. System activity will appear here.</p></div>
       </div>
     </div>
   </div>
@@ -98,7 +98,7 @@ header { z-index: 2; }
 .log-action { font-size: 14px; font-weight: 600; color: #1a1a2e; }
 .log-meta { font-size: 12px; color: #888; margin-top: 2px; }
 .log-details { font-size: 12px; color: #666; margin-left: auto; max-width: 300px; text-align: right; }
-.empty { text-align: center; color: #888; padding: 40px; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 .btn-secondary { padding: 10px 20px; background: #f0f0f0; color: #444; border: none; border-radius: 8px; cursor: pointer; }
 @media (max-width: 768px) {
   .sa-page { padding: 16px; }

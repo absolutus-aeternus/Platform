@@ -43,7 +43,7 @@ const sendMessage = () => { sent.value = true; form.value = { name: '', email: '
 </script>
 <style scoped>
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-.contact-card { background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+.contact-card { background: var(--bg-card, #fff); padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
 @media (max-width: 768px) {
   .contact-grid { grid-template-columns: 1fr; gap: 12px; }
 }

@@ -53,8 +53,10 @@ const removeFavorite = async (id) => {
   try {
     await supabase.from('favorites').delete().eq('id', id)
     favorites.value = favorites.value.filter(f => f.id !== id)
+    window.__toast?.show('Removed from favorites', 'info')
   } catch (e) {
     console.error('Failed to remove favorite:', e)
+    window.__toast?.show('Failed to remove', 'error')
   }
 }
 

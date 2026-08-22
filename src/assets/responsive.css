@@ -205,7 +205,7 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
 .empty-state p { margin: 0 0 1.5rem; }
 
 /* === Modal === */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 800; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: var(--z-modal, 800); }
 .modal { background: #fff; border-radius: 16px; padding: 2rem; width: 90vw; max-width: 500px; max-height: 90vh; overflow-y: auto; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .modal-header h3 { margin: 0; font-size: 1.25rem; }
@@ -247,7 +247,7 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
   /* Fix table-wrapper overflow for mobile scrolling */
   .table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
   .table-wrapper table { min-width: 600px; }
-  .main-content { padding: var(--gap-md); padding-bottom: calc(var(--tab-bar-height, 56px) + var(--gap-md)); }
+  .main-content { padding: var(--gap-md); }
   .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: repeat(2, 1fr); gap: var(--space-2, 8px); }
   .hide-mobile { display: none !important; }
   table { font-size: var(--font-xs); }
@@ -270,8 +270,8 @@ th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #ee
   .chip-scroll { gap: 6px; }
   .chip-scroll__item { padding: 5px 12px; font-size: 12px; min-height: 32px; }
 
-  /* Better tap targets for links */
-  a { min-height: 44px; display: inline-flex; align-items: center; }
+  /* Better tap targets for interactive links (buttons, nav) — not footer/text links */
+  button a, .btn, .nav-link, .tab-item { min-height: 44px; display: inline-flex; align-items: center; }
 }
 
 /* Small Mobile: < 480px */

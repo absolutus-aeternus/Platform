@@ -5,8 +5,6 @@
 import { supabase } from '@/services/supabase'
 import { apiFetch } from '@/utils/csrf'
 
-const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
-
 /**
  * Send an email via the worker API
  * @param {string} to - Recipient email
@@ -115,7 +113,7 @@ export async function sendShippingNotification(orderId, trackingNumber, carrier)
 export async function sendPasswordReset(email) {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/#/login-password-reset`
+      redirectTo: `${window.location.origin}/login-password-reset`
     })
 
     if (error) throw error

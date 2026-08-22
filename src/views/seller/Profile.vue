@@ -1,6 +1,9 @@
 <template>
   <div class="page-wrapper">
   <div class="seller-profile">
+    <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+    <div v-else-if="!store.name && !store.description" class="empty-state"><i class="fas fa-store"></i><p>No store profile found. Create your seller account to get started.</p></div>
+    <template v-else>
     <h1>Store Profile</h1>
     <div class="profile-grid">
       <div class="profile-card">
@@ -33,6 +36,7 @@
         <button class="btn-save" @click="saveProfile">Save Profile</button>
       </div>
     </div>
+    </template>
   </div>
   </div>
 
@@ -54,6 +58,7 @@ onMounted(async () => {
     const { data } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).single()
     store.value = data || {}
   }
+  loading.value = false
 })
 
 const saveProfile = async () => {
@@ -87,6 +92,7 @@ h1 { margin-bottom: 25px; }
 .form-group input, .form-group textarea { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
 .form-group textarea { height: 100px; resize: vertical; }
 .btn-save { padding: 12px 30px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 /* Responsive */
 @media (max-width: 768px) {

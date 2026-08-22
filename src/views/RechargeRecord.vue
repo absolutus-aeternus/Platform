@@ -17,7 +17,7 @@
         </tbody>
       </table>
     </div>
-    <div v-else style="text-align:center;padding:60px"><i class="fas fa-history" style="font-size:48px;color:#94a3b8"></i><p style="color:#64748b;margin-top:16px">No recharge records yet</p></div>
+    <div v-else class="empty-state"><i class="fas fa-history"></i><p>No recharge records yet. Your transaction history will appear here.</p></div>
   </div>
 </template>
 
@@ -35,4 +35,4 @@ onMounted(async () => {
   } catch (e) { console.error('Recharge record error:', e) }
 })
 </script>
-<style scoped>.data-table { width: 100%; border-collapse: collapse; } .data-table th { background: #1a1a2e; color: white; padding: 14px 16px; text-align: left; font-size: 13px; } .data-table td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; } .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; } .status-badge.pending { background: #fef3c7; color: #92400e; } .status-badge.completed { background: #d1fae5; color: #065f46; }</style>
+<style scoped>.data-table { width: 100%; border-collapse: collapse; } .data-table th { background: #1a1a2e; color: white; padding: 14px 16px; text-align: left; font-size: 13px; } .data-table td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; } .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; } .status-badge.pending { background: #fef3c7; color: #92400e; } .status-badge.completed { background: #d1fae5; color: #065f46; } .empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }</style>

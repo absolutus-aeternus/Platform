@@ -506,7 +506,7 @@ onUnmounted(() => {
 .discover-tabs button.active { background: #0F1111; color: #fff; border-color: #0F1111; }
 
 /* Sticky filter bar */
-.filter-bar-sticky { position: sticky; top: var(--header-height, 60px); z-index: 360; background: var(--bg); padding: 0.5rem 0; transition: box-shadow 0.2s; }
+.filter-bar-sticky { position: sticky; top: var(--header-height, 60px); z-index: var(--z-sticky, 200); background: var(--bg); padding: 0.5rem 0; transition: box-shadow 0.2s; }
 .filter-bar-sticky--pinned { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .filter-tags { display: flex; gap: 0.5rem; overflow-x: auto; }
 .filter-tags::-webkit-scrollbar { height: 0; }

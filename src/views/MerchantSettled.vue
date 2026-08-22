@@ -70,6 +70,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+import { workerUrl } from '@/utils/url'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -192,12 +193,12 @@ const handleSubmit = async () => {
     if (sellerError) throw sellerError
 
     // Update user role via server-side API (not client-side Supabase call)
-    const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
     try {
       const session = await supabase.auth.getSession()
       const token = session?.data?.session?.access_token
       if (token) {
-        const roleResp = await fetch(`${WORKER_URL}/api/seller/register`, {
+        const roleResp = await fetch(workerUrl('/api/seller/register'), {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ sellerId: seller.data?.id })

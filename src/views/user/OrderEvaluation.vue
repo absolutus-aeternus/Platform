@@ -1,6 +1,9 @@
 <template>
   <div class="page-wrapper">
   <div class="order-evaluation">
+    <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+    <div v-else-if="!orderId && !productId" class="empty-state"><i class="fas fa-star"></i><p>No order or product selected for review.</p><router-link to="/user/orders" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:6px"><i class="fas fa-arrow-left"></i> Go to Orders</router-link></div>
+    <template v-else>
     <div class="page-header"><h1>Write Review</h1></div>
     <div class="eval-container">
       <div class="eval-form">
@@ -34,6 +37,7 @@
         <button class="btn-submit" @click="submitReview" :disabled="!rating || !comment">Submit Review</button>
       </div>
     </div>
+    </template>
   </div>
   </div>
 
@@ -112,6 +116,7 @@ header { z-index: 2; }
 .mini-star.active { color: var(--warning, #B45309); }
 .btn-submit { width: 100%; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; }
 .btn-submit:disabled { background: #ccc; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }

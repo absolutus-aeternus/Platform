@@ -1,6 +1,9 @@
 <template>
   <div class="page-wrapper">
   <div class="product-add">
+    <div v-if="loading" style="text-align:center;padding:60px"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--brand-primary, #FF9900)"></i><p style="margin-top:12px;color:#999">Loading...</p></div>
+    <div v-else-if="!categories.length" class="empty-state"><i class="fas fa-tags"></i><p>No categories available. Please contact an admin to set up categories first.</p></div>
+    <template v-else>
     <h1>Add Product</h1>
     <form @submit.prevent="addProduct" class="product-form">
       <div class="form-group">
@@ -43,6 +46,7 @@
         <button type="submit" class="btn-primary" :disabled="saving">{{ saving ? 'Saving...' : 'Add Product' }}</button>
       </div>
     </form>
+    </template>
   </div>
   </div>
 
@@ -104,6 +108,7 @@ h1 { margin-bottom: 25px; }
 .form-actions button { padding: 10px 25px; border-radius: 4px; cursor: pointer; }
 .btn-primary { background: var(--brand-primary, #FF9900); color: #fff; border: none; }
 .btn-primary:disabled { background: #ccc; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 /* Responsive */
 @media (max-width: 768px) {

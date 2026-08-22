@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { supabase } from '@/services/supabase'
 import { useUserStore } from '@/store/user'
+import { appUrl as buildAppUrl } from '@/utils/url'
 
 const routes = [
   {
@@ -326,11 +327,11 @@ router.afterEach((to) => {
     canonical.rel = 'canonical'
     document.head.appendChild(canonical)
   }
-  canonical.href = `https://alliancehub.dpdns.org${to.fullPath}`
+  canonical.href = buildAppUrl(to.fullPath)
 
   // Update og:url dynamically
   let ogUrl = document.querySelector('meta[property="og:url"]')
-  if (ogUrl) ogUrl.content = `https://alliancehub.dpdns.org${to.fullPath}`
+  if (ogUrl) ogUrl.content = buildAppUrl(to.fullPath)
 
   // Emit navigation event for global sync
   if (window.__syncBus) {

@@ -5,7 +5,7 @@
  * The worker sets a `csrf` cookie on /api/health response.
  */
 
-const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+import { WORKER_URL } from '@/utils/url'
 
 /**
  * Get CSRF token from cookie

@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2 class="logo"><img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:var(--brand-primary, #FF9900);font-weight:400">Super Admin</span></h2>
+        <h2 class="logo"><img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:var(--brand-primary, #FF9900);font-weight:400">Super Admin</span></h2>
         <button class="toggle-btn" @click="sidebarCollapsed = !sidebarCollapsed">
           <i class="fas fa-bars"></i>
         </button>
@@ -230,7 +230,7 @@ const logout = async () => {
 .admin-layout { display: flex; min-height: 100dvh; }
 
 /* Sidebar */
-.sidebar { width: 250px; background: var(--brand-nav, #232F3E); color: #fff; transition: width 0.3s; position: fixed; height: 100dvh; overflow-y: auto; z-index: 100; }
+.sidebar { width: 250px; background: var(--brand-nav, #232F3E); color: #fff; transition: width 0.3s; position: fixed; height: 100dvh; overflow-y: auto; z-index: var(--z-sidebar, 550); }
 .sidebar-collapsed .sidebar { width: 70px; }
 .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
@@ -252,7 +252,7 @@ const logout = async () => {
 .sidebar-collapsed .main-content { margin-left: 70px; }
 
 /* Top Bar */
-.topbar { background: #fff; padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 50; }
+.topbar { background: #fff; padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: var(--z-sticky, 200); }
 .topbar-left { display: flex; align-items: center; gap: 15px; }
 .menu-toggle { background: none; border: none; font-size: 18px; cursor: pointer; color: #666; display: none; }
 .breadcrumb { font-size: 14px; color: #666; }
@@ -267,7 +267,7 @@ const logout = async () => {
 .user-dropdown { display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
 .user-avatar-sm { width: 30px; height: 30px; background: var(--brand-primary, #FF9900); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
 .user-dropdown span { font-size: 13px; color: #666; }
-.dropdown-menu { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 180px; z-index: 100; }
+.dropdown-menu { position: absolute; top: 100%; right: 0; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 180px; z-index: var(--z-dropdown, 100); }
 .dropdown-menu a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #333; text-decoration: none; font-size: 13px; }
 .dropdown-menu a:hover { background: #f5f5f5; }
 .dropdown-divider { height: 1px; background: #eee; margin: 5px 0; }
@@ -280,7 +280,7 @@ const logout = async () => {
   .sidebar {
     transform: translateX(-100%);
     width: 260px;
-    z-index: 200;
+    z-index: var(--z-sidebar, 550);
     transition: transform 0.3s ease;
   }
   .sidebar-collapsed .sidebar {
@@ -306,7 +306,7 @@ const logout = async () => {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
-    z-index: -1;
+    z-index: var(--z-modal-backdrop, 700);
   }
 }
 

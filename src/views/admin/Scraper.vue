@@ -193,6 +193,7 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 import { scrapeProduct } from '@/services/scraper'
+import { workerUrl } from '@/utils/url'
 
 const url = ref('')
 const batchUrls = ref('')
@@ -227,7 +228,7 @@ const scrapeUrl = async () => {
 
   try {
     // Call server-side scraper API
-    const response = await fetch('/api/scrape', {
+    const response = await fetch(workerUrl('/api/scrape'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: url.value })

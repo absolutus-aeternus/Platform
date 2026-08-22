@@ -7,6 +7,7 @@
         <div class="section">
           <h2>Select Payment Channel</h2>
           <div class="channels">
+            <div v-if="!channels.length" class="empty-state"><i class="fas fa-wallet"></i><p>No payment channels available. Please contact support.</p></div>
             <div v-for="ch in channels" :key="ch.id" class="channel-card" :class="{ active: selected === ch.id }" @click="selected = ch.id">
               <div class="ch-icon" :style="{ background: coinColor(ch.coin) }">{{ ch.coin[0] }}</div>
               <div class="ch-info"><strong>{{ ch.coin }}</strong><p>{{ ch.blockchain_name }}</p></div>
@@ -141,6 +142,7 @@ header { z-index: 2; }
 .info-card h3 i { color: var(--brand-primary, #FF9900); }
 .info-card ol { padding-left: 20px; margin: 0; }
 .info-card li { font-size: 13px; color: #666; margin-bottom: 8px; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 
 @media (max-width: 768px) { .container { padding: 0 12px; } h1 { font-size: 1.25rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .form-group input, .form-group select { font-size: 16px; } .modal { width: 95vw; } table { font-size: 12px; } th, td { padding: 8px 10px; } .filters { flex-direction: column; } }
 @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } h1 { font-size: 1.1rem; } .btn { width: 100%; } }

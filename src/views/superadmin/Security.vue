@@ -1,6 +1,18 @@
 <template>
   <div class="page-wrapper">
   <div class="sa-page">
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-title"></div>
+      <div class="skeleton-stats-grid">
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+        <div class="skeleton-shimmer skeleton-stat"></div>
+      </div>
+      <div class="skeleton-shimmer skeleton-section"></div>
+      <div class="skeleton-shimmer skeleton-section"></div>
+    </div>
+    <div v-else>
     <div class="sa-header">
       <h1><i class="fas fa-shield-alt"></i> Security Center</h1>
     </div>
@@ -49,6 +61,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
   </div>
 
@@ -59,6 +72,7 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/services/supabase'
 
+const loading = ref(true)
 const threats = ref(0), loginAttempts = ref(0), successLogins = ref(0), failedLogins = ref(0)
 const events = ref([])
 const formatDate = (d) => d ? new Date(d).toLocaleString() : '-'
@@ -99,12 +113,23 @@ const loadSecurityData = async () => {
   }
 }
 
-onMounted(loadSecurityData)
+onMounted(async () => {
+  await loadSecurityData()
+  loading.value = false
+})
 
 
 </script>
 
 <style scoped>
+.skeleton-wrapper { padding: 24px; max-width: 1400px; margin: 0 auto; }
+.skeleton-title { height: 28px; width: 200px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.skeleton-stat { height: 80px; border-radius: 12px; }
+.skeleton-section { height: 200px; border-radius: 12px; margin-bottom: 20px; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 header { z-index: 2; }
 .sa-page { padding: 24px; max-width: 1400px; margin: 0 auto; }
 .sa-header { margin-bottom: 24px; }

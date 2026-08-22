@@ -5,7 +5,7 @@
     <div class="auth-container animate-in">
       <div class="auth-header">
         <div class="auth-logo">
-          <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin-login" />
+          <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-admin-login" />
           <span class="admin-badge">Customer Service</span>
         </div>
         <p>Customer Service Access Only</p>

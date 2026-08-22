@@ -1,5 +1,5 @@
 // Scraper Service - uses fetch (no cheerio/axios needed in browser)
-const CORS_PROXY = 'https://api.allorigins.win/raw?url='
+const CORS_PROXY = import.meta.env.VITE_CORS_PROXY || 'https://api.allorigins.win/raw?url='
 
 // Allowed domains for scraping (SSRF protection)
 const ALLOWED_DOMAINS = [

@@ -3,7 +3,7 @@
   <div class="order-detail">
     <h1>Order Detail</h1>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-else-if="!order" class="not-found">Order not found</div>
+    <div v-else-if="!order" class="empty-state"><i class="fas fa-shopping-bag"></i><p>Order not found. It may have been removed or you don't have access.</p><router-link to="/user/orders" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:6px"><i class="fas fa-arrow-left"></i> Back to Orders</router-link></div>
     <div v-else>
       <div class="order-card">
         <div class="order-header">
@@ -66,6 +66,7 @@ body, html { overflow-x: hidden; }
 header { z-index: 2; }
 h1 { margin-bottom: 25px; }
 .loading, .not-found { text-align: center; padding: 40px; color: #999; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 .order-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
 .order-header { display: flex; justify-content: space-between; padding: 15px 20px; background: #f8f8f8; }
 .status { padding: 4px 12px; border-radius: 12px; font-size: 12px; text-transform: capitalize; }

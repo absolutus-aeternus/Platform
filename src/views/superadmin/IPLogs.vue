@@ -51,7 +51,7 @@
           </tbody>
         </table>
       </div>
-      <div v-if="!filteredLogs.length" class="empty">No logs found. Login events will appear here.</div>
+      <div v-if="!filteredLogs.length" class="empty-state"><i class="fas fa-network-wired"></i><p>No IP logs found. Login events will appear here.</p></div>
     </div>
 
     <!-- Detail Modal -->
@@ -210,7 +210,7 @@ onMounted(loadLogs)
 .btn-secondary { padding: 10px 16px; background: #f0f0f0; color: #444; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; }
 .btn-sm { padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; background: #f0f0f0; font-size: 11px; }
 .btn-sm:hover { background: #6c5ce7; color: #fff; }
-.empty { text-align: center; color: #888; padding: 40px; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-start; justify-content: center; z-index: 800; padding: 40px; overflow-y: auto; }
 .modal { background: #fff; border-radius: 16px; width: 900px; max-width: 95vw; max-height: 85vh; overflow-y: auto; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #fff; }

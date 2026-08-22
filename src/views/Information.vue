@@ -1,6 +1,15 @@
 <template>
   <div class="page-wrapper">
   <div>
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-hero"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+      </div>
+    </div>
+    <div v-else>
     <section class="info-hero">
       <div class="container">
         <h1 class="info-hero-title">ALLIANCEHUB</h1>
@@ -21,8 +30,16 @@
         <p>Live Chat: Available 24/7 via the chat widget</p>
       </div>
     </section>
+    </div>
   </div>
   </div>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+const loading = ref(true)
+onMounted(() => { loading.value = false })
+</script>
+
 <style scoped>
 .info-hero { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 80px 0; text-align: center; }
 .info-hero-title { font-size: 42px; font-weight: 900; margin-bottom: 16px; }
@@ -42,5 +59,13 @@
   .info-hero-title { font-size: 22px; }
   .info-card { padding: 16px; }
 }
+.skeleton-wrapper { padding: 0; }
+.skeleton-hero { height: 200px; width: 100%; margin-bottom: 0; }
+.skeleton-content { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+.skeleton-title { height: 28px; width: 250px; border-radius: 6px; margin-bottom: 20px; }
+.skeleton-text { height: 16px; width: 100%; border-radius: 4px; margin-bottom: 12px; }
+.skeleton-text.short { width: 60%; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
 </template>

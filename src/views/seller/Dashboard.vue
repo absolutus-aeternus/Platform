@@ -124,7 +124,9 @@
                   </td>
                 </tr>
                 <tr v-if="!recentOrders.length">
-                  <td colspan="6" class="seller-table__empty">No orders yet</td>
+                  <td colspan="6">
+                    <div class="empty-state"><i class="fas fa-shopping-cart"></i><p>No orders yet. Your recent orders will appear here.</p></div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -354,4 +356,5 @@ header { z-index: 2; }
 }
 
 img { max-width: 100%; height: auto; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 </style>

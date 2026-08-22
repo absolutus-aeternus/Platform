@@ -1,6 +1,16 @@
 <template>
   <div class="how-to-buy-page">
     <div class="container">
+      <div v-if="loading" class="skeleton-wrapper">
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-subtitle"></div>
+        <div class="skeleton-grid">
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+          <div class="skeleton-shimmer skeleton-card"></div>
+        </div>
+      </div>
+      <div v-else>
       <h1><i class="fas fa-shopping-basket"></i> How to Buy</h1>
       <p class="subtitle">Follow these simple steps to start shopping on AllianceHub</p>
 
@@ -35,15 +45,18 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
+const loading = ref(true)
 const openFaq = ref(-1)
+onMounted(() => { loading.value = false })
 
 const steps = [
   { icon: 'fas fa-user-plus', title: 'Create Account', desc: 'Sign up for free with your email. Verify your account to unlock all features.', color: 'var(--brand-primary, #FF9900)' },
@@ -101,4 +114,11 @@ h1 i { color: var(--brand-primary); }
 .faq-answer { padding: 0 1.25rem 1rem; font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; }
 @media (max-width: 768px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } .tips-grid { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+.skeleton-wrapper { padding: 1rem 0; }
+.skeleton-title { height: 28px; width: 160px; border-radius: 6px; margin-bottom: 12px; }
+.skeleton-subtitle { height: 16px; width: 320px; border-radius: 4px; margin-bottom: 24px; }
+.skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.skeleton-card { height: 180px; border-radius: var(--radius-md); }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>

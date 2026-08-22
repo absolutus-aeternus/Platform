@@ -71,13 +71,13 @@ onMounted(async () => {
 h1 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
 h1 i { color: var(--brand-primary); }
 .comparison-table-wrapper { overflow-x: auto; }
-.comparison-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+.comparison-table { width: 100%; border-collapse: collapse; background: var(--bg-card, #fff); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
 .comparison-table th, .comparison-table td { padding: 0.875rem 1rem; text-align: left; border-bottom: 1px solid var(--border-light); font-size: 0.8125rem; vertical-align: top; }
-.comparison-table th { background: #f8f9fa; font-weight: 600; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; }
+.comparison-table th { background: var(--neutral-100, #f8f9fa); font-weight: 600; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; }
 .comparison-table th:first-child { min-width: 120px; }
 .comp-product { position: relative; }
 .comp-product img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); }
-.img-placeholder { width: 80px; height: 80px; background: #f0f0f0; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #ccc; }
+.img-placeholder { width: 80px; height: 80px; background: var(--neutral-100, #f0f0f0); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #ccc; }
 .remove-btn { position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; background: var(--danger); color: #fff; border: none; border-radius: 50%; cursor: pointer; font-size: 0.625rem; display: flex; align-items: center; justify-content: center; }
 .price { font-weight: 700; color: var(--brand-primary); font-size: 1rem; }
 .original { text-decoration: line-through; color: var(--text-muted); }

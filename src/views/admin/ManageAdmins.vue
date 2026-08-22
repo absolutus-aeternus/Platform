@@ -86,6 +86,7 @@
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
+import { workerUrl } from '@/utils/url'
 
 const userStore = useUserStore()
 const admins = ref([])
@@ -142,7 +143,7 @@ const createAdmin = async () => {
   }
 }
 
-const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'https://alliancehub-api.absolutus-aeternus.workers.dev'
+
 
 const updateRole = async (user, newRole) => {
   try {
@@ -153,7 +154,7 @@ const updateRole = async (user, newRole) => {
     const reason = prompt(`Reason for changing ${user.email}'s role to ${newRole}:`)
     if (reason === null) return // User cancelled
     
-    const resp = await fetch(`${WORKER_URL}/api/admin/change-role`, {
+    const resp = await fetch(workerUrl('/api/admin/change-role'), {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: user.id, newRole, reason })

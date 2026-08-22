@@ -617,19 +617,19 @@ const chatSeller = () => {
 
 .empty-state { text-align: center; padding: 60px 0; color: #999; }
 .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 12px; display: block; }
-.product-main { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 16px; }
+.product-main { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; background: var(--bg-card, #fff); border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 16px; }
 .product-gallery { position: sticky; top: 80px; }
 .main-image { position: relative; border-radius: 8px; overflow: hidden; background: var(--neutral-100, #f8f8f8); cursor: zoom-in; aspect-ratio: 1/1; }
 .main-image img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; transition: transform 0.1s ease; display: block; }
 .zoom-hint { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: var(--white, #fff); padding: 4px 10px; border-radius: 4px; font-size: 11px; pointer-events: none; }
 
 /* Lightbox */
-.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 900; display: flex; align-items: center; justify-content: center; }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: var(--z-modal, 800); display: flex; align-items: center; justify-content: center; }
 .lightbox__img-wrap { max-width: 90vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; touch-action: pan-y; user-select: none; }
 .lightbox__img { max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: 4px; user-select: none; -webkit-user-drag: none; }
-.lightbox__close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; z-index: 901; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; }
+.lightbox__close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; z-index: calc(var(--z-modal, 800) + 1); padding: 8px 12px; border-radius: 8px; transition: background 0.2s; }
 .lightbox__close:hover { background: rgba(255,255,255,0.2); }
-.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; padding: 16px 12px; border-radius: 4px; transition: background 0.2s; z-index: 901; }
+.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: var(--white, #fff); font-size: 24px; cursor: pointer; padding: 16px 12px; border-radius: 4px; transition: background 0.2s; z-index: calc(var(--z-modal, 800) + 1); }
 .lightbox__nav:hover { background: rgba(255,255,255,0.25); }
 .lightbox__nav--prev { left: 16px; }
 .lightbox__nav--next { right: 16px; }
@@ -664,14 +664,14 @@ const chatSeller = () => {
 .info-rows { margin-bottom: 20px; }
 .info-row { display: flex; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
 .info-row .label { width: 80px; color: #999; flex-shrink: 0; }
-.info-row .value { color: #333; flex: 1; }
+.info-row .value { color: var(--text-primary, #333); flex: 1; }
 .in-stock { color: var(--success, #067D62); }
 .out-stock { color: #ff4757; }
 .seller-link { color: var(--brand-accent, #007185); cursor: pointer; display: flex; align-items: center; gap: 6px; }
 .seller-link:hover { color: #c77a00; text-decoration: underline; }
 .seller-link i { font-size: 10px; }
 .seller-mini-logo { width: 20px; height: 20px; border-radius: 3px; object-fit: cover; }
-.shipping-est { font-size: 13px; color: #333; }
+.shipping-est { font-size: 13px; color: var(--text-primary, #333); }
 .shipping-est strong { color: var(--brand-primary, #FF9900); }
 
 /* Variant Section */
@@ -682,39 +682,39 @@ const chatSeller = () => {
 .size-chart-trigger { font-size: 12px; color: var(--brand-accent, #007185); cursor: pointer; display: flex; align-items: center; gap: 4px; }
 .size-chart-trigger:hover { text-decoration: underline; }
 .variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.variant-chip { padding: 8px 16px; border: 1px solid #ddd; background: #fff; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.variant-chip { padding: 8px 16px; border: 1px solid var(--border, #ddd); background: var(--bg-card, #fff); border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
 .variant-chip:hover { border-color: var(--brand-primary, #FF9900); }
 .variant-chip.active { border-color: var(--brand-primary, #FF9900); background: #fff8f0; color: var(--brand-primary, #FF9900); font-weight: 600; }
 .variant-chip.disabled { opacity: 0.4; cursor: not-allowed; }
 
 .quantity-section { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
 .quantity-section .label { color: #999; font-size: 14px; }
-.qty-control { display: flex; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
-.qty-control button { width: 36px; height: 36px; border: none; background: #f8f8f8; cursor: pointer; font-size: 16px; transition: all 0.2s; }
+.qty-control { display: flex; border: 1px solid var(--border, #ddd); border-radius: 4px; overflow: hidden; }
+.qty-control button { width: 36px; height: 36px; border: none; background: var(--neutral-100, #f8f8f8); cursor: pointer; font-size: 16px; transition: all 0.2s; }
 .qty-control button:hover:not(:disabled) { background: #eee; }
 .qty-control button:disabled { color: #ccc; cursor: not-allowed; }
-.qty-control input { width: 50px; text-align: center; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 14px; }
+.qty-control input { width: 50px; text-align: center; border: none; border-left: 1px solid var(--border, #ddd); border-right: 1px solid var(--border, #ddd); font-size: 14px; }
 .action-row { display: flex; gap: 12px; }
-.btn-add-cart { flex: 1; padding: 14px; background: #fff; color: var(--brand-primary, #FF9900); border: 2px solid var(--brand-primary, #FF9900); border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+.btn-add-cart { flex: 1; padding: 14px; background: var(--bg-card, #fff); color: var(--brand-primary, #FF9900); border: 2px solid var(--brand-primary, #FF9900); border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
 .btn-add-cart:hover { background: #fff8f0; }
 .btn-add-cart:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
 .btn-buy-now { flex: 1; padding: 14px; background: var(--brand-primary, #FF9900); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .btn-buy-now:hover { background: var(--brand-primary-hover, #E68A00); }
 .btn-buy-now:disabled { background: #ccc; cursor: not-allowed; }
-.btn-fav { width: 48px; height: 48px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 18px; color: #999; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.btn-fav { width: 48px; height: 48px; border: 1px solid var(--border, #ddd); background: var(--bg-card, #fff); border-radius: 4px; cursor: pointer; font-size: 18px; color: #999; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
 .btn-fav:hover { border-color: var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); }
-.btn-chat-seller { width: 100%; padding: 10px; background: #fff; color: var(--brand-accent, #007185); border: 1px solid var(--brand-accent, #007185); border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; transition: all 0.2s; }
+.btn-chat-seller { width: 100%; padding: 10px; background: var(--bg-card, #fff); color: var(--brand-accent, #007185); border: 1px solid var(--brand-accent, #007185); border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; transition: all 0.2s; }
 .btn-chat-seller:hover { background: #f0f8ff; border-color: #005f73; }
-.product-tabs { display: flex; background: #fff; border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.product-tabs { display: flex; background: var(--bg-card, #fff); border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .product-tabs button { flex: 1; padding: 14px; background: none; border: none; font-size: 15px; font-weight: 500; color: #666; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
 .product-tabs button.active { color: var(--brand-primary, #FF9900); border-bottom-color: var(--brand-primary, #FF9900); }
-.tab-content { background: #fff; border-radius: 0 0 8px 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); min-height: 200px; }
+.tab-content { background: var(--bg-card, #fff); border-radius: 0 0 8px 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); min-height: 200px; }
 .detail-content h3 { font-size: 16px; margin-bottom: 12px; }
 .detail-content p { color: #555; font-size: 14px; line-height: 1.7; }
 
 /* Review Filter Tabs */
 .review-filter-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-.review-filter-tabs button { padding: 6px 14px; border: 1px solid #ddd; background: #fff; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.review-filter-tabs button { padding: 6px 14px; border: 1px solid var(--border, #ddd); background: var(--bg-card, #fff); border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
 .review-filter-tabs button.active { background: var(--brand-primary, #FF9900); color: #fff; border-color: var(--brand-primary, #FF9900); }
 .review-filter-tabs button:hover:not(.active) { border-color: var(--brand-primary, #FF9900); color: var(--brand-primary, #FF9900); }
 

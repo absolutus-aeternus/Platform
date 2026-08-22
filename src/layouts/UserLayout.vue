@@ -10,7 +10,7 @@
     <header class="user-header">
       <div class="container header-inner">
         <button class="mobile-toggle" @click="showSidebar = !showSidebar"><i class="fas fa-bars"></i></button>
-        <router-link to="/" class="logo"><img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-nav" /></router-link>
+        <router-link to="/" class="logo"><img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-nav" /></router-link>
         <nav class="header-nav">
           <router-link to="/user">Dashboard</router-link>
           <router-link to="/user/orders">Orders</router-link>
@@ -54,7 +54,7 @@ const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
 
 </script>
 <style scoped>
-.user-header { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 0 15px; position: sticky; top: 0; z-index: 100; }
+.user-header { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 0 15px; position: sticky; top: 0; z-index: var(--z-header, 400); }
 .header-inner { display: flex; align-items: center; gap: 20px; height: 56px; }
 .mobile-toggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: #333; }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
@@ -84,9 +84,9 @@ const userEmail = computed(() => userStore.supabaseUser?.email || 'User')
   .mobile-toggle { display: block; }
   .header-nav { display: none; }
   .main-layout { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100dvh; z-index: 200; transition: left 0.3s; }
+  .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100dvh; z-index: var(--z-sidebar, 550); transition: left 0.3s; }
   .sidebar.open { left: 0; }
-  .sidebar.open .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: -1; }
+  .sidebar.open .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: var(--z-modal-backdrop, 700); }
   .sidebar-content { border-radius: 0; height: 100dvh; overflow-y: auto; padding-top: 60px; }
   .user-header { padding: 0 12px; }
   .logo-img-nav { height: 1.5rem; }

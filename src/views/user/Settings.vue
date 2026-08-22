@@ -1,6 +1,11 @@
 <template>
   <div class="page-wrapper">
   <div class="settings">
+    <div v-if="loading" class="skeleton-wrapper">
+      <div class="skeleton-shimmer skeleton-title"></div>
+      <div class="skeleton-shimmer skeleton-form"></div>
+    </div>
+    <div v-else>
     <h1>Settings</h1>
     <div class="settings-form">
       <div class="form-group">
@@ -32,6 +37,7 @@
         <button class="btn-logout" @click="handleLogout">Logout</button>
       </div>
     </div>
+    </div>
   </div>
   </div>
 
@@ -39,11 +45,12 @@
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { supabase } from '@/services/supabase'
 
+const loading = ref(true)
 const router = useRouter()
 const userStore = useUserStore()
 const displayName = ref('')
@@ -86,7 +93,7 @@ const handleLogout = async () => {
   router.push('/login')
 }
 
-
+onMounted(() => { loading.value = false })
 </script>
 
 <style scoped>
@@ -104,6 +111,12 @@ h1 { margin-bottom: 25px; }
 .danger-zone { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
 .danger-zone h3 { color: #ff4757; margin-bottom: 15px; }
 .btn-logout { padding: 10px 25px; background: none; color: #ff4757; border: 1px solid #ff4757; border-radius: 4px; cursor: pointer; }
+
+.skeleton-wrapper { padding: 0; }
+.skeleton-title { height: 28px; width: 120px; border-radius: 6px; margin-bottom: 24px; }
+.skeleton-form { height: 400px; width: 500px; max-width: 100%; border-radius: 8px; }
+.skeleton-shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
 /* Responsive */
 @media (max-width: 768px) {

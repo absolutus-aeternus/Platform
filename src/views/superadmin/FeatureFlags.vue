@@ -8,7 +8,8 @@
     </div>
 
     <div class="section-card">
-      <div class="flag-list">
+      <div v-if="!flags.length" class="empty-state"><i class="fas fa-flag"></i><p>No feature flags configured. Flags will appear here once created.</p></div>
+      <div class="flag-list" v-else>
         <div class="flag-item" v-for="flag in flags" :key="flag.key">
           <div class="flag-info">
             <div class="flag-name">{{ flag.label }}</div>
@@ -82,6 +83,7 @@ header { z-index: 2; }
 .toggle-on { padding: 8px 20px; border: none; border-radius: 20px; background: #00b894; color: #fff; font-weight: 700; cursor: pointer; }
 .toggle-off { padding: 8px 20px; border: none; border-radius: 20px; background: #ddd; color: #666; font-weight: 700; cursor: pointer; }
 .btn-primary { padding: 10px 20px; background: #6c5ce7; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }
 @media (max-width: 768px) {
   .sa-page { padding: 16px; }
   .sa-header { flex-direction: column; gap: 12px; align-items: flex-start; }

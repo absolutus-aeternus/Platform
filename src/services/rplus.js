@@ -1,16 +1,5 @@
 // Rating Plus Service - uses main Supabase
-const RP_URL = import.meta.env.VITE_SUPABASE_URL || 'https://cfzmdvymqqnrzrytcrie.supabase.co'
-const RP_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-
-// SECURITY: Use Supabase client instead of raw REST with anon key
 import { supabase } from '@/services/supabase'
-
-const headers = () => ({
-  'apikey': RP_KEY,
-  'Authorization': `Bearer ${RP_KEY}`,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation'
-})
 
 export const fetchRplusUsers = async (filters = {}) => {
   try {

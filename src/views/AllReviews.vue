@@ -12,7 +12,7 @@
         <span style="font-size:12px;color:#94a3b8">{{ new Date(r.created_at).toLocaleDateString() }}</span>
       </div>
     </div>
-    <div v-else style="text-align:center;padding:60px"><i class="fas fa-star" style="font-size:48px;color:#94a3b8"></i><p style="color:#64748b;margin-top:16px">No reviews yet</p></div>
+    <div v-else class="empty-state"><i class="fas fa-star"></i><p>No reviews yet. Be the first to share your experience!</p></div>
   </div>
 </template>
 
@@ -32,3 +32,4 @@ onMounted(async () => {
   } catch (e) { console.error('All reviews error:', e) }
 })
 </script>
+<style scoped>.empty-state { text-align: center; padding: 60px 16px; color: var(--text-muted, #999); } .empty-state i { font-size: 48px; color: var(--neutral-300, #ddd); margin-bottom: 16px; display: block; } .empty-state p { margin-bottom: 16px; font-size: 15px; }</style>
