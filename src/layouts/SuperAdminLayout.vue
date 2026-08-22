@@ -13,8 +13,8 @@
   <div class="switcher-grid">
     <router-link to="/user" class="switcher-btn"><i class="fas fa-shopping-cart"></i><span>Buyer</span></router-link>
     <router-link to="/seller" class="switcher-btn"><i class="fas fa-store"></i><span>Seller</span></router-link>
-    <router-link to="/admin" class="switcher-btn"><i class="fas fa-shield-alt"></i><span>Admin</span></router-link>
-    <router-link to="/superadmin" class="switcher-btn active"><i class="fas fa-crown"></i><span>Super</span></router-link>
+    <router-link to="/admin-c96e1b19be893a18" class="switcher-btn"><i class="fas fa-shield-alt"></i><span>Admin</span></router-link>
+    <router-link to="/superadmin-a801df7ba25bd032" class="switcher-btn active"><i class="fas fa-crown"></i><span>Super</span></router-link>
     <router-link to="/ratingplus" class="switcher-btn"><i class="fas fa-star"></i><span>R+</span></router-link>
     <router-link to="/" class="switcher-btn"><i class="fas fa-home"></i><span>Site</span></router-link>
   </div>
@@ -24,7 +24,7 @@
         <!-- Main -->
         <div class="nav-section">
           <div class="nav-label">Main</div>
-          <router-link to="/superadmin" class="nav-item" exact-active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032" class="nav-item" exact-active-class="active">
             <i class="fas fa-tachometer-alt"></i> Dashboard
           </router-link>
         </div>
@@ -32,19 +32,19 @@
         <!-- Management -->
         <div class="nav-section">
           <div class="nav-label">Management</div>
-          <router-link to="/superadmin/users" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/users" class="nav-item" active-class="active">
             <i class="fas fa-users-cog"></i> Users
           </router-link>
-          <router-link to="/superadmin/products" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/products" class="nav-item" active-class="active">
             <i class="fas fa-box"></i> Products
           </router-link>
-          <router-link to="/superadmin/orders" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/orders" class="nav-item" active-class="active">
             <i class="fas fa-shopping-bag"></i> Orders
           </router-link>
-          <router-link to="/superadmin/categories" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/categories" class="nav-item" active-class="active">
             <i class="fas fa-tags"></i> Categories
           </router-link>
-          <router-link to="/superadmin/sellers" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/sellers" class="nav-item" active-class="active">
             <i class="fas fa-store"></i> Sellers
           </router-link>
         </div>
@@ -52,16 +52,16 @@
         <!-- Finance -->
         <div class="nav-section">
           <div class="nav-label">Finance</div>
-          <router-link to="/superadmin/transactions" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/transactions" class="nav-item" active-class="active">
             <i class="fas fa-exchange-alt"></i> Transactions
           </router-link>
-          <router-link to="/superadmin/wallets" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/wallets" class="nav-item" active-class="active">
             <i class="fas fa-wallet"></i> Wallets
           </router-link>
-          <router-link to="/superadmin/withdrawals" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/withdrawals" class="nav-item" active-class="active">
             <i class="fas fa-money-bill-wave"></i> Withdrawals
           </router-link>
-          <router-link to="/superadmin/recharges" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/recharges" class="nav-item" active-class="active">
             <i class="fas fa-credit-card"></i> Recharges
           </router-link>
         </div>
@@ -69,13 +69,13 @@
         <!-- Content -->
         <div class="nav-section">
           <div class="nav-label">Content</div>
-          <router-link to="/superadmin/banners" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/banners" class="nav-item" active-class="active">
             <i class="fas fa-image"></i> Banners
           </router-link>
-          <router-link to="/superadmin/coupons" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/coupons" class="nav-item" active-class="active">
             <i class="fas fa-ticket-alt"></i> Coupons
           </router-link>
-          <router-link to="/superadmin/notifications" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/notifications" class="nav-item" active-class="active">
             <i class="fas fa-bell"></i> Notifications
           </router-link>
         </div>
@@ -83,10 +83,10 @@
         <!-- Communication -->
         <div class="nav-section">
           <div class="nav-label">Communication</div>
-          <router-link to="/superadmin/chat" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/chat" class="nav-item" active-class="active">
             <i class="fas fa-comments"></i> Chat
           </router-link>
-          <router-link to="/superadmin/messages" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/messages" class="nav-item" active-class="active">
             <i class="fas fa-envelope"></i> Messages
           </router-link>
         </div>
@@ -94,13 +94,13 @@
         <!-- Reports -->
         <div class="nav-section">
           <div class="nav-label">Reports</div>
-          <router-link to="/superadmin/reports/sales" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/reports/sales" class="nav-item" active-class="active">
             <i class="fas fa-chart-line"></i> Sales Report
           </router-link>
-          <router-link to="/superadmin/reports/products" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/reports/products" class="nav-item" active-class="active">
             <i class="fas fa-chart-bar"></i> Product Report
           </router-link>
-          <router-link to="/superadmin/reports/customers" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/reports/customers" class="nav-item" active-class="active">
             <i class="fas fa-chart-pie"></i> Customer Report
           </router-link>
         </div>
@@ -108,19 +108,19 @@
         <!-- System -->
         <div class="nav-section">
           <div class="nav-label">System</div>
-          <router-link to="/superadmin/settings" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/settings" class="nav-item" active-class="active">
             <i class="fas fa-cogs"></i> Settings
           </router-link>
-          <router-link to="/superadmin/audit-logs" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/audit-logs" class="nav-item" active-class="active">
             <i class="fas fa-history"></i> Audit Logs
           </router-link>
-          <router-link to="/superadmin/security" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/security" class="nav-item" active-class="active">
             <i class="fas fa-shield-alt"></i> Security
           </router-link>
-          <router-link to="/superadmin/feature-flags" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/feature-flags" class="nav-item" active-class="active">
             <i class="fas fa-flag"></i> Feature Flags
           </router-link>
-          <router-link to="/superadmin/ip-logs" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/ip-logs" class="nav-item" active-class="active">
             <i class="fas fa-network-wired"></i> IP Logs
           </router-link>
         </div>
@@ -128,13 +128,13 @@
         <!-- Tools -->
         <div class="nav-section">
           <div class="nav-label">Tools</div>
-          <router-link to="/superadmin/blockchain" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/blockchain" class="nav-item" active-class="active">
             <i class="fas fa-link"></i> Blockchain
           </router-link>
-          <router-link to="/superadmin/scraper" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/scraper" class="nav-item" active-class="active">
             <i class="fas fa-spider"></i> Scraper
           </router-link>
-          <router-link to="/superadmin/logs" class="nav-item" active-class="active">
+          <router-link to="/superadmin-a801df7ba25bd032/logs" class="nav-item" active-class="active">
             <i class="fas fa-file-alt"></i> System Logs
           </router-link>
         </div>
@@ -142,7 +142,7 @@
         <!-- Navigation -->
         <div class="nav-section">
           <div class="nav-label">Navigation</div>
-          <router-link to="/admin" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18" class="nav-item">
             <i class="fas fa-arrow-left"></i> Admin Panel
           </router-link>
           <router-link to="/" class="nav-item">
@@ -176,7 +176,7 @@ const router = useRouter()
 const userStore = useUserStore()
 import { ref } from 'vue'
 const showSidebar = ref(false)
-const handleLogout = async () => { await userStore.logout(); router.push('/login/admin') }
+const handleLogout = async () => { await userStore.logout(); router.push('/login/admin-c96e1b19be893a18') }
 
 
 </script>

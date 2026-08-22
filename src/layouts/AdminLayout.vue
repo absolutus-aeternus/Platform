@@ -9,13 +9,6 @@
         </button>
       </div>
       
-      <div class="portal-switcher" v-if="userStore.isSuperAdmin" style="padding:8px;background:#1a1a2e;display:flex;gap:8px;justify-content:center">
-  <router-link to="/superadmin" style="color:#f39c12;font-size:12px;text-decoration:none"><i class="fas fa-crown"></i> Super Admin</router-link>
-  <router-link to="/seller" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-store"></i> Seller</router-link>
-  <router-link to="/user" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-shopping-cart"></i> Buyer</router-link>
-  <router-link to="/ratingplus" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-star"></i> RatingPlus</router-link>
-  <router-link to="/" style="color:#fff;font-size:12px;text-decoration:none"><i class="fas fa-home"></i> Site</router-link>
-</div>
 <div class="sidebar-user">
         <div class="user-avatar">{{ userEmail[0]?.toUpperCase() || 'A' }}</div>
         <div class="user-info" v-show="!sidebarCollapsed">
@@ -27,12 +20,11 @@
       <nav class="sidebar-nav">
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Main</h5>
-          <router-link to="/admin" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18" class="nav-item">
             <i class="fas fa-tachometer-alt"></i>
             <span v-show="!sidebarCollapsed">Dashboard</span>
           </router-link>
-          <router-link to="/superadmin" class="nav-item" v-if="userStore.isSuperAdmin" style="background:rgba(243,156,18,0.15);color:#f39c12;font-weight:700;margin-bottom:8px"><i class="fas fa-crown"></i> Super Admin Portal</router-link>
-        <router-link to="/admin/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
+        <router-link to="/admin-c96e1b19be893a18/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
             <i class="fas fa-user-shield"></i>
             <span v-show="!sidebarCollapsed">Manage Admins</span>
           </router-link>
@@ -40,23 +32,23 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">E-Commerce</h5>
-          <router-link to="/admin/products" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/products" class="nav-item">
             <i class="fas fa-box"></i>
             <span v-show="!sidebarCollapsed">Products</span>
           </router-link>
-          <router-link to="/admin/orders" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/orders" class="nav-item">
             <i class="fas fa-shopping-cart"></i>
             <span v-show="!sidebarCollapsed">Orders</span>
           </router-link>
-          <router-link to="/admin/categories" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/categories" class="nav-item">
             <i class="fas fa-tags"></i>
             <span v-show="!sidebarCollapsed">Categories</span>
           </router-link>
-          <router-link to="/admin/sellers" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/sellers" class="nav-item">
             <i class="fas fa-store"></i>
             <span v-show="!sidebarCollapsed">Sellers</span>
           </router-link>
-          <router-link to="/admin/customers" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/customers" class="nav-item">
             <i class="fas fa-users"></i>
             <span v-show="!sidebarCollapsed">Customers</span>
           </router-link>
@@ -64,19 +56,19 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Finance</h5>
-          <router-link to="/admin/transactions" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/transactions" class="nav-item">
             <i class="fas fa-exchange-alt"></i>
             <span v-show="!sidebarCollapsed">Transactions</span>
           </router-link>
-          <router-link to="/admin/wallets" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/wallets" class="nav-item">
             <i class="fas fa-wallet"></i>
             <span v-show="!sidebarCollapsed">Wallets</span>
           </router-link>
-          <router-link to="/admin/withdrawals" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/withdrawals" class="nav-item">
             <i class="fas fa-money-bill-wave"></i>
             <span v-show="!sidebarCollapsed">Withdrawals</span>
           </router-link>
-          <router-link to="/admin/recharges" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/recharges" class="nav-item">
             <i class="fas fa-credit-card"></i>
             <span v-show="!sidebarCollapsed">Recharges</span>
           </router-link>
@@ -84,15 +76,15 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Content</h5>
-          <router-link to="/admin/banners" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/banners" class="nav-item">
             <i class="fas fa-image"></i>
             <span v-show="!sidebarCollapsed">Banners</span>
           </router-link>
-          <router-link to="/admin/coupons" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/coupons" class="nav-item">
             <i class="fas fa-ticket-alt"></i>
             <span v-show="!sidebarCollapsed">Coupons</span>
           </router-link>
-          <router-link to="/admin/notifications" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/notifications" class="nav-item">
             <i class="fas fa-bell"></i>
             <span v-show="!sidebarCollapsed">Notifications</span>
           </router-link>
@@ -100,11 +92,11 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Communication</h5>
-          <router-link to="/admin/chat" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/chat" class="nav-item">
             <i class="fas fa-comments"></i>
             <span v-show="!sidebarCollapsed">Live Chat</span>
           </router-link>
-          <router-link to="/admin/messages" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/messages" class="nav-item">
             <i class="fas fa-envelope"></i>
             <span v-show="!sidebarCollapsed">Messages</span>
           </router-link>
@@ -112,15 +104,15 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Reports</h5>
-          <router-link to="/admin/reports/sales" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/reports/sales" class="nav-item">
             <i class="fas fa-chart-line"></i>
             <span v-show="!sidebarCollapsed">Sales Report</span>
           </router-link>
-          <router-link to="/admin/reports/products" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/reports/products" class="nav-item">
             <i class="fas fa-chart-bar"></i>
             <span v-show="!sidebarCollapsed">Product Report</span>
           </router-link>
-          <router-link to="/admin/reports/customers" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/reports/customers" class="nav-item">
             <i class="fas fa-chart-pie"></i>
             <span v-show="!sidebarCollapsed">Customer Report</span>
           </router-link>
@@ -128,7 +120,7 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">⭐ Rating Plus</h5>
-          <router-link to="/admin/chat" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/chat" class="nav-item">
             <i class="fas fa-headset"></i>
             <span v-show="!sidebarCollapsed">R+ Chat (tab)</span>
           </router-link>
@@ -140,19 +132,19 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">System</h5>
-          <router-link to="/admin/settings" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/settings" class="nav-item">
             <i class="fas fa-cog"></i>
             <span v-show="!sidebarCollapsed">Settings</span>
           </router-link>
-          <router-link to="/admin/blockchain" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/blockchain" class="nav-item">
             <i class="fas fa-link"></i>
             <span v-show="!sidebarCollapsed">Blockchain</span>
           </router-link>
-          <router-link to="/admin/scraper" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/scraper" class="nav-item">
             <i class="fas fa-spider"></i>
             <span v-show="!sidebarCollapsed">Product Scraper</span>
           </router-link>
-          <router-link to="/admin/logs" class="nav-item">
+          <router-link to="/admin-c96e1b19be893a18/logs" class="nav-item">
             <i class="fas fa-file-alt"></i>
             <span v-show="!sidebarCollapsed">Activity Logs</span>
           </router-link>
@@ -169,7 +161,7 @@
             <i class="fas fa-bars"></i>
           </button>
           <div class="breadcrumb">
-            <router-link to="/admin">Home</router-link>
+            <router-link to="/admin-c96e1b19be893a18">Home</router-link>
             <span v-if="$route.name !== 'AdminDashboard'"> / {{ $route.name }}</span>
           </div>
         </div>
@@ -179,11 +171,11 @@
             <i class="fas fa-search"></i>
           </div>
           <div class="topbar-actions">
-            <button class="action-btn" @click="$router.push('/admin/notifications')">
+            <button class="action-btn" @click="$router.push('/admin-c96e1b19be893a18/notifications')">
               <i class="fas fa-bell"></i>
               <span class="badge">3</span>
             </button>
-            <button class="action-btn" @click="$router.push('/admin/chat')">
+            <button class="action-btn" @click="$router.push('/admin-c96e1b19be893a18/chat')">
               <i class="fas fa-envelope"></i>
               <span class="badge">5</span>
             </button>
@@ -192,8 +184,8 @@
               <span>{{ userEmail }}</span>
               <i class="fas fa-chevron-down"></i>
               <div v-if="showUserMenu" class="dropdown-menu">
-                <router-link to="/admin/settings"><i class="fas fa-user"></i> Profile</router-link>
-                <router-link to="/admin/settings"><i class="fas fa-cog"></i> Settings</router-link>
+                <router-link to="/admin-c96e1b19be893a18/settings"><i class="fas fa-user"></i> Profile</router-link>
+                <router-link to="/admin-c96e1b19be893a18/settings"><i class="fas fa-cog"></i> Settings</router-link>
                 <div class="dropdown-divider"></div>
                 <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
               </div>

@@ -30,7 +30,7 @@
       </form>
       
       <div class="auth-footer">
-        <router-link to="/login/admin" class="forgot-link">← Admin Login</router-link>
+        <router-link to="/login/admin-c96e1b19be893a18" class="forgot-link">← Admin Login</router-link>
         <span class="divider">|</span>
         <router-link to="/login" class="forgot-link">Buyer Login →</router-link>
       </div>
@@ -71,7 +71,7 @@ const handleLogin = async () => {
         return
       }
       logLoginEvent({ email: email.value, role: 'SUPER_ADMIN', login_status: 'success', login_type: 'superadmin_login' });
-      router.push('/superadmin')
+      router.push('/superadmin-a801df7ba25bd032')
     } else {
       const msg = result.msg || 'Login failed'
       if (msg.includes('Invalid login credentials')) {

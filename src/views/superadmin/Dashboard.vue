@@ -23,17 +23,17 @@
     <div class="section-card">
       <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
       <div class="quick-actions">
-        <button class="qa-btn" @click="$router.push('/superadmin/users')"><i class="fas fa-users-cog"></i> Users</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/products')"><i class="fas fa-box"></i> Products</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/categories')"><i class="fas fa-tags"></i> Categories</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/sellers')"><i class="fas fa-store"></i> Sellers</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/transactions')"><i class="fas fa-exchange-alt"></i> Transactions</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/settings')"><i class="fas fa-cogs"></i> Settings</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/audit-logs')"><i class="fas fa-history"></i> Audit Logs</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/security')"><i class="fas fa-shield-alt"></i> Security</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/feature-flags')"><i class="fas fa-flag"></i> Features</button>
-        <button class="qa-btn" @click="$router.push('/superadmin/ip-logs')"><i class="fas fa-network-wired"></i> IP Logs</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/users')"><i class="fas fa-users-cog"></i> Users</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/products')"><i class="fas fa-box"></i> Products</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/categories')"><i class="fas fa-tags"></i> Categories</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/sellers')"><i class="fas fa-store"></i> Sellers</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/transactions')"><i class="fas fa-exchange-alt"></i> Transactions</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/settings')"><i class="fas fa-cogs"></i> Settings</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/audit-logs')"><i class="fas fa-history"></i> Audit Logs</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/security')"><i class="fas fa-shield-alt"></i> Security</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/feature-flags')"><i class="fas fa-flag"></i> Features</button>
+        <button class="qa-btn" @click="$router.push('/superadmin-a801df7ba25bd032/ip-logs')"><i class="fas fa-network-wired"></i> IP Logs</button>
         <button class="qa-btn" @click="clearCache"><i class="fas fa-broom"></i> Clear Cache</button>
       </div>
     </div>

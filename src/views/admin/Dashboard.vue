@@ -42,8 +42,8 @@
         </div>
       </div>
       <div class="rplus-quick-links">
-        <router-link to="/admin/rating-plus/users" class="rplus-link"><i class="fas fa-users-cog"></i> R+ User Management</router-link>
-        <router-link to="/admin/rating-plus/chat" class="rplus-link"><i class="fas fa-headset"></i> R+ Live Chat</router-link>
+        <router-link to="/admin-c96e1b19be893a18/rating-plus/users" class="rplus-link"><i class="fas fa-users-cog"></i> R+ User Management</router-link>
+        <router-link to="/admin-c96e1b19be893a18/rating-plus/chat" class="rplus-link"><i class="fas fa-headset"></i> R+ Live Chat</router-link>
         <a href="/ratingplus" target="_blank" class="rplus-link"><i class="fas fa-external-link-alt"></i> R+ Landing Page</a>
       </div>
     </div>
@@ -52,27 +52,27 @@
     <div class="quick-nav">
       <h3 style="margin-bottom:12px;font-size:16px">Quick Access</h3>
       <div class="quick-nav-grid">
-        <router-link to="/admin/products" class="quick-nav-item"><i class="fas fa-box"></i><span>Products</span></router-link>
-        <router-link to="/admin/orders" class="quick-nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></router-link>
-        <router-link to="/admin/categories" class="quick-nav-item"><i class="fas fa-tags"></i><span>Categories</span></router-link>
-        <router-link to="/admin/sellers" class="quick-nav-item"><i class="fas fa-store"></i><span>Sellers</span></router-link>
-        <router-link to="/admin/customers" class="quick-nav-item"><i class="fas fa-users"></i><span>Customers</span></router-link>
-        <router-link to="/admin/transactions" class="quick-nav-item"><i class="fas fa-exchange-alt"></i><span>Transactions</span></router-link>
-        <router-link to="/admin/wallets" class="quick-nav-item"><i class="fas fa-wallet"></i><span>Wallets</span></router-link>
-        <router-link to="/admin/withdrawals" class="quick-nav-item"><i class="fas fa-money-bill-wave"></i><span>Withdrawals</span></router-link>
-        <router-link to="/admin/recharges" class="quick-nav-item"><i class="fas fa-credit-card"></i><span>Recharges</span></router-link>
-        <router-link to="/admin/banners" class="quick-nav-item"><i class="fas fa-image"></i><span>Banners</span></router-link>
-        <router-link to="/admin/coupons" class="quick-nav-item"><i class="fas fa-ticket-alt"></i><span>Coupons</span></router-link>
-        <router-link to="/admin/notifications" class="quick-nav-item"><i class="fas fa-bell"></i><span>Notifications</span></router-link>
-        <router-link to="/admin/chat" class="quick-nav-item"><i class="fas fa-comments"></i><span>Live Chat</span></router-link>
-        <router-link to="/admin/messages" class="quick-nav-item"><i class="fas fa-envelope"></i><span>Messages</span></router-link>
-        <router-link to="/admin/reports/sales" class="quick-nav-item"><i class="fas fa-chart-line"></i><span>Sales Report</span></router-link>
-        <router-link to="/admin/reports/products" class="quick-nav-item"><i class="fas fa-chart-bar"></i><span>Product Report</span></router-link>
-        <router-link to="/admin/reports/customers" class="quick-nav-item"><i class="fas fa-chart-pie"></i><span>Customer Report</span></router-link>
-        <router-link to="/admin/settings" class="quick-nav-item"><i class="fas fa-cog"></i><span>Settings</span></router-link>
-        <router-link to="/admin/blockchain" class="quick-nav-item"><i class="fas fa-link"></i><span>Blockchain</span></router-link>
-        <router-link to="/admin/scraper" class="quick-nav-item"><i class="fas fa-spider"></i><span>Scraper</span></router-link>
-        <router-link to="/admin/logs" class="quick-nav-item"><i class="fas fa-file-alt"></i><span>Logs</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/products" class="quick-nav-item"><i class="fas fa-box"></i><span>Products</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/orders" class="quick-nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/categories" class="quick-nav-item"><i class="fas fa-tags"></i><span>Categories</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/sellers" class="quick-nav-item"><i class="fas fa-store"></i><span>Sellers</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/customers" class="quick-nav-item"><i class="fas fa-users"></i><span>Customers</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/transactions" class="quick-nav-item"><i class="fas fa-exchange-alt"></i><span>Transactions</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/wallets" class="quick-nav-item"><i class="fas fa-wallet"></i><span>Wallets</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/withdrawals" class="quick-nav-item"><i class="fas fa-money-bill-wave"></i><span>Withdrawals</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/recharges" class="quick-nav-item"><i class="fas fa-credit-card"></i><span>Recharges</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/banners" class="quick-nav-item"><i class="fas fa-image"></i><span>Banners</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/coupons" class="quick-nav-item"><i class="fas fa-ticket-alt"></i><span>Coupons</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/notifications" class="quick-nav-item"><i class="fas fa-bell"></i><span>Notifications</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/chat" class="quick-nav-item"><i class="fas fa-comments"></i><span>Live Chat</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/messages" class="quick-nav-item"><i class="fas fa-envelope"></i><span>Messages</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/reports/sales" class="quick-nav-item"><i class="fas fa-chart-line"></i><span>Sales Report</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/reports/products" class="quick-nav-item"><i class="fas fa-chart-bar"></i><span>Product Report</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/reports/customers" class="quick-nav-item"><i class="fas fa-chart-pie"></i><span>Customer Report</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/settings" class="quick-nav-item"><i class="fas fa-cog"></i><span>Settings</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/blockchain" class="quick-nav-item"><i class="fas fa-link"></i><span>Blockchain</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/scraper" class="quick-nav-item"><i class="fas fa-spider"></i><span>Scraper</span></router-link>
+        <router-link to="/admin-c96e1b19be893a18/logs" class="quick-nav-item"><i class="fas fa-file-alt"></i><span>Logs</span></router-link>
       </div>
     </div>
     

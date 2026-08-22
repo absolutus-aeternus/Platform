@@ -83,7 +83,7 @@ const routes = [
 
     // Super Admin Portal (full access)
   {
-    path: '/superadmin',
+    path: '/superadmin-a801df7ba25bd032',
     component: () => import('@/layouts/SuperAdminLayout.vue'),
     meta: { requiresAuth: true, requiresSuperAdmin: true },
     children: [
@@ -141,7 +141,7 @@ const routes = [
     ]
   },
   {
-    path: '/admin',
+    path: '/admin-c96e1b19be893a18',
     component: () => import('@/layouts/AdminLayout.vue'),
     meta: { requiresAuth: true, requiresAdmin: true },
     children: [
@@ -173,8 +173,8 @@ const routes = [
     ]
   },
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
-  { path: '/login/admin', name: 'AdminLogin', component: () => import('@/views/admin/Login.vue') },
-  { path: '/login/superadmin', name: 'SuperAdminLogin', component: () => import('@/views/superadmin/Login.vue') },
+  { path: '/login/admin-c96e1b19be893a18', name: 'AdminLogin', component: () => import('@/views/admin/Login.vue') },
+  { path: '/login/superadmin-a801df7ba25bd032', name: 'SuperAdminLogin', component: () => import('@/views/superadmin/Login.vue') },
   { path: '/register', name: 'Register', component: () => import('@/views/Register.vue') },
   { path: '/ratingplus', name: 'RatingPlus', component: () => import('@/views/RatingPlus.vue') },
   { path: '/verification', name: 'Verification', component: () => import('@/views/Verification.vue') },
@@ -221,12 +221,12 @@ router.beforeEach(async (to, from, next) => {
     // ── Auth required but not logged in → redirect to correct login ──
     if (to.meta.requiresAuth && !isAuthenticated) {
       if (to.meta.requiresSeller) return next('/seller/login')
-      if (to.meta.requiresSuperAdmin) return next('/login/superadmin')
-      if (to.meta.requiresAdmin) return next('/login/admin')
+      if (to.meta.requiresSuperAdmin) return next('/login/superadmin-a801df7ba25bd032')
+      if (to.meta.requiresAdmin) return next('/login/admin-c96e1b19be893a18')
       if (to.meta.requiresMember) return next('/login')
-      if (to.path.startsWith('/superadmin')) return next('/login/superadmin')
+      if (to.path.startsWith('/superadmin-a801df7ba25bd032')) return next('/login/superadmin-a801df7ba25bd032')
       if (to.path.startsWith('/seller')) return next('/seller/login')
-      if (to.path.startsWith('/admin')) return next('/login/admin')
+      if (to.path.startsWith('/admin-c96e1b19be893a18')) return next('/login/admin-c96e1b19be893a18')
       return next('/login')
     }
 
@@ -240,19 +240,19 @@ router.beforeEach(async (to, from, next) => {
       // SuperAdmin portal: ONLY SUPER_ADMIN (not ADMIN)
       if (to.meta.requiresSuperAdmin && role !== 'SUPER_ADMIN') {
         if (window.__toast) window.__toast.show('Access denied. Super Admin required.', 'error')
-        return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
+        return next(role === 'ADMIN' ? '/admin-c96e1b19be893a18' : role === 'SELLER' ? '/seller' : '/user')
       }
 
       // RatingPlus portal: only RATING_PLUS (+ SUPER_ADMIN for testing)
       if (to.meta.requiresRatingPlus && role !== 'RATING_PLUS' && role !== 'SUPER_ADMIN') {
         if (window.__toast) window.__toast.show('Access denied. Rating Plus membership required.', 'error')
-        return next(role === 'ADMIN' ? '/admin' : role === 'SELLER' ? '/seller' : '/user')
+        return next(role === 'ADMIN' ? '/admin-c96e1b19be893a18' : role === 'SELLER' ? '/seller' : '/user')
       }
 
       // Seller portal: only SELLER (+ SUPER_ADMIN for testing)
       if (to.meta.requiresSeller && role !== 'SELLER' && role !== 'SUPER_ADMIN') {
         if (window.__toast) window.__toast.show('Access denied. Seller account required.', 'error')
-        return next(role === 'ADMIN' ? '/admin' : '/user')
+        return next(role === 'ADMIN' ? '/admin-c96e1b19be893a18' : '/user')
       }
 
       // Admin portal: ADMIN + SUPER_ADMIN
@@ -264,14 +264,14 @@ router.beforeEach(async (to, from, next) => {
       // Member portal: only MEMBER (+ SUPER_ADMIN for testing)
       if (to.meta.requiresMember && role !== 'MEMBER' && role !== 'SUPER_ADMIN') {
         if (window.__toast) window.__toast.show('Access denied. Member account required.', 'error')
-        return next(role === 'ADMIN' ? '/admin' : '/seller')
+        return next(role === 'ADMIN' ? '/admin-c96e1b19be893a18' : '/seller')
       }
 
       // ── Logged-in user visiting login/register pages → redirect to their portal ──
-      const loginPages = ['/login', '/register', '/login/admin', '/seller/login']
+      const loginPages = ['/login', '/register', '/login/admin-c96e1b19be893a18', '/seller/login']
       if (loginPages.includes(to.path)) {
-        if (role === 'SUPER_ADMIN') return next('/superadmin')
-        if (role === 'ADMIN') return next('/admin')
+        if (role === 'SUPER_ADMIN') return next('/superadmin-a801df7ba25bd032')
+        if (role === 'ADMIN') return next('/admin-c96e1b19be893a18')
         if (role === 'SELLER') return next('/seller')
         return next('/user')
       }
