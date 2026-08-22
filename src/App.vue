@@ -16,6 +16,7 @@ import { useRouter, useRoute } from 'vue-router'
 import GlobalToast from '@/components/GlobalToast.vue'
 import { useUserStore } from '@/store/user'
 import { useGlobalSync } from '@/composables/useGlobalSync'
+import { useTawkChat } from '@/composables/useTawkChat'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -23,6 +24,7 @@ const route = useRoute()
 const toast = ref(null)
 
 const { initSync, disconnect, on: onSync } = useGlobalSync()
+const { initTawk, setUserIdentity, logoutTawk, hideWidget, showWidget } = useTawkChat()
 
 // Track page visits for analytics
 const pageVisits = ref(0)
@@ -54,6 +56,9 @@ onMounted(async () => {
       console.warn('App: initSync failed:', e.message)
     }
   }, 2000)
+
+  // Initialize Tawk.to
+  initTawk()
 })
 
 // Watch for route changes — trigger data refresh
@@ -65,11 +70,31 @@ watch(() => route.path, (newPath, oldPath) => {
   }
 })
 
-// Watch for auth state changes — reconnect sync
+// Watch for auth state changes — reconnect sync + update Tawk
 watch(() => userStore.isLoggedIn, (loggedIn) => {
   disconnect()
   if (loggedIn) {
     setTimeout(() => initSync(userStore.supabaseUser?.id), 500)
+    // Set Tawk.to user identity
+    setUserIdentity({
+      id: userStore.supabaseUser?.id,
+      email: userStore.supabaseUser?.email,
+      username: userStore.userInfo?.username,
+      role: userStore.role,
+      isRatingPlus: userStore.isRatingPlus,
+    })
+  } else {
+    logoutTawk()
+  }
+})
+
+// Watch route changes — hide widget on admin/superadmin pages
+watch(() => route.path, (newPath) => {
+  const isAdminPage = newPath.startsWith('/999/customer-service/999') || newPath.startsWith('/999/super-admin/999')
+  if (isAdminPage) {
+    hideWidget()
+  } else {
+    showWidget()
   }
 })
 

@@ -89,6 +89,9 @@
           <router-link to="/999/super-admin/999/messages" class="nav-item" active-class="active">
             <i class="fas fa-envelope"></i> Messages
           </router-link>
+          <a href="https://dashboard.tawk.to" target="_blank" class="nav-item" style="color:#6c5ce7">
+            <i class="fas fa-headset"></i> Live Chat Support
+          </a>
         </div>
 
         <!-- Reports -->

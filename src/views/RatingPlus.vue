@@ -19,6 +19,9 @@
               <i class="fas fa-comments"></i> Mulai Sekarang
             </button>
             <button class="hero-cta secondary" @click="scrollTo('about')">Pelajari →</button>
+            <button class="hero-cta tawk-btn" @click="openTawkChat()">
+              <i class="fas fa-headset"></i> Tanya CS Rating Plus
+            </button>
           </div>
           <div class="hero-stats">
             <div class="hero-stat"><div class="num">2.500+</div><div class="label">Aktif Partner</div></div>
@@ -210,6 +213,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTawkChat } from '@/composables/useTawkChat'
+
+const { openChat: openTawkChat } = useTawkChat()
 import { useUserStore } from '@/store/user'
 
 const router = useRouter()
@@ -312,6 +318,8 @@ const handleDaftar = async () => {
 .hero-cta.pulse-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,77,0,0.35); }
 .hero-cta.secondary { background: rgba(255,255,255,0.06); color: #f0ece6; border: 1px solid rgba(255,255,255,0.1); }
 .hero-cta.secondary:hover { border-color: var(--brand-primary-hover, #E68A00); color: var(--brand-primary-hover, #E68A00); }
+.hero-cta.tawk-btn { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; box-shadow: 0 4px 16px rgba(108,92,231,0.25); }
+.hero-cta.tawk-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.35); }
 .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .hero-stat { text-align: center; }
 .hero-stat .num { font-size: 1.5rem; font-weight: 800; color: var(--brand-primary-hover, #E68A00); }

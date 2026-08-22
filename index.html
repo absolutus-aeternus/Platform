@@ -16,7 +16,7 @@
   <meta name="twitter:title" content="AllianceHub — Partner Global Dropshippers">
   <meta name="twitter:description" content="Shop millions of products with fast shipping and secure payments.">
   <meta name="theme-color" content="#131921">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.algolia.net https://*.algolianet.com https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms https://embed.tawk.to; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.algolia.net https://*.algolianet.com https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co https://*.tawk.to wss://*.tawk.to; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; frame-src https://embed.tawk.to;">
   <link rel="canonical" href="https://alliancehub.dpdns.org">
   <link rel="icon" type="image/png" href="/favicon.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -78,5 +78,18 @@
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script src="/js/onesignal-init.js" defer></script>
   <script src="/js/loading-hide.js" defer></script>
+  <!-- Tawk.to Live Chat -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {};
+    var Tawk_LoadStart = new Date();
+    (function(){
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/YOUR_TAWK_PROPERTY_ID/YOUR_TAWK_WIDGET_ID';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
 </body>
 </html>
