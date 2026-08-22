@@ -140,7 +140,7 @@
     <div v-if="showMobile" class="mobile-overlay" @click="showMobile = false"></div>
     <aside class="mobile-sidebar" :class="{ open: showMobile }">
       <div class="mobile-header">
-        <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="mobile-logo" />
+        <img loading="lazy" src="/images/logo-classic-circular.svg" alt="AllianceHub" class="mobile-logo" />
         <button @click="showMobile = false" class="mobile-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
       </div>
       <div class="mobile-user" v-if="userStore.isLoggedIn">
@@ -193,6 +193,9 @@
 
       <div class="footer-main">
         <div class="container">
+          <div class="footer-brand">
+            <img loading="lazy" src="/images/logo-globe-connecting.svg" alt="AllianceHub — Connecting Global Markets" class="footer-logo" />
+          </div>
           <div class="footer-grid">
             <div class="footer-col">
               <h4>Customer Service</h4>
@@ -571,6 +574,8 @@ onMounted(async () => {
 .back-to-top span { color: #fff; font-size: 0.8125rem; }
 .footer { background: var(--brand-nav, #232F3E); }
 .footer-main { padding: 2.5rem 0; }
+.footer-brand { text-align: center; margin-bottom: 2rem; }
+.footer-logo { max-width: 320px; width: 100%; height: auto; opacity: 0.9; }
 .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
 .footer-col h4 { font-size: 0.9375rem; font-weight: 700; margin: 0 0 1rem; color: #fff; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }

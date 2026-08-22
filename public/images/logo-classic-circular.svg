@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+ <!-- Background & Outer Rings -->
+ <circle cx="250" cy="250" r="242" fill="#0D1117" stroke="#383015" stroke-width="6"/>
+ <circle cx="250" cy="250" r="232" fill="none" stroke="#000000" stroke-width="10"/>
+
+ <!-- Dashed Stitch Line -->
+ <circle cx="250" cy="250" r="216" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="8,6"/>
+
+ <!-- Emblem Center Circle -->
+ <circle cx="250" cy="210" r="105" fill="none" stroke="#FFC700" stroke-width="3"/>
+
+ <!-- Orbital Ellipses -->
+ <ellipse cx="250" cy="210" rx="98" ry="38" fill="none" stroke="#FFFFFF" stroke-width="2.5" transform="rotate(-25 250 210)"/>
+ <ellipse cx="250" cy="210" rx="98" ry="38" fill="none" stroke="#FFFFFF" stroke-width="2.5" transform="rotate(25 250 210)"/>
+
+ <!-- Central 'A' Outer White Frame -->
+ <path d="M 250 130 L 198 250 A 4 4 0 0 0 202 256 L 225 256 L 250 195 L 275 256 L 298 256 A 4 4 0 0 0 302 250 Z" fill="#FFFFFF"/>
+
+ <!-- Central 'A' Inner Yellow Triangle -->
+ <polygon points="250,148 222,215 278,215" fill="#FFC700"/>
+
+ <!-- Connector Nodes / Dots -->
+ <circle cx="250" cy="125" r="9" fill="#FFC700"/>
+ <circle cx="196" cy="252" r="7" fill="#FFFFFF"/>
+ <circle cx="304" cy="252" r="7" fill="#FFFFFF"/>
+ <circle cx="250" cy="305" r="7" fill="#FFC700"/>
+
+ <!-- Brand Name: AllianceHub -->
+ <text x="250" y="332" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="400" fill="#FFFFFF" letter-spacing="1">Alliance<tspan font-weight="600" fill="#FFC700">Hub</tspan></text>
+
+ <!-- Tagline: MARKETPLACE GLOBAL -->
+ <text x="250" y="358" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#FFC700" letter-spacing="5">MARKETPLACE GLOBAL</text>
+
+ <!-- Bottom Accent Arc Line -->
+ <path d="M 170 395 Q 250 410 330 395" fill="none" stroke="#FFC700" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -9,6 +9,7 @@
     </section>
     <section class="container" style="padding:40px 20px;max-width:800px">
       <div style="background:#fff;padding:32px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);line-height:1.8">
+        <div style="text-align:center;margin-bottom:24px"><img loading="lazy" src="/images/logo-arc-minimal.svg" alt="AllianceHub" style="max-width:400px;width:100%;height:auto" /></div>
         <h2 style="margin-bottom:16px">About AllianceHub</h2>
         <p style="margin-bottom:16px">AllianceHub is a global dropshipping platform connecting sellers with unlimited product sources from worldwide marketplaces. Founded in 2020, we serve sellers in 112+ countries with a catalog of products across every category.</p>
         <h3 style="margin:24px 0 12px">Our Mission</h3>
