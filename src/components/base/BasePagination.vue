@@ -21,8 +21,6 @@
         {{ page }}
       </button>
         </template>
-</nav>
-    
 
     <button
       class="base-pagination__btn"
@@ -33,7 +31,7 @@
       <i class="fas fa-chevron-right"></i>
     </button>
   </nav>
-
+</template>
 
 
 <script setup>

@@ -5,9 +5,8 @@
     :style="skeletonStyle"
     role="presentation"
     aria-hidden="true"
-  />
-
-</div>
+  >
+  </div>
 </template>
 
 

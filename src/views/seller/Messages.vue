@@ -40,10 +40,8 @@
                 <div class="msg-footer">
                   <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                   <span v-if="msg.is_own" class="msg-check" :class="{ read: msg.is_read }">
-                    <template v-if="msg.is_read">✓✓  </div>
-
-                    <div v-else>✓  </div>
-
+                    <template v-if="msg.is_read">✓✓</template>
+                    <template v-else>✓</template>
                   </span>
                 </div>
               </div>
@@ -56,8 +54,9 @@
           </div>
 </div>
 </div>
-</template>
 </div>
+</div>
+</template>
 
 
 <script setup>
