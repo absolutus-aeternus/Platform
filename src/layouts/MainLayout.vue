@@ -37,7 +37,7 @@
 
         <!-- Logo -->
         <router-link to="/" class="logo">
-          <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img" />
+          <img loading="lazy" src="/images/logo-horizontal.svg" alt="AllianceHub" class="logo-img" />
         </router-link>
 
         <!-- Search Bar -->

@@ -5,7 +5,7 @@
     <div v-if="showSidebar" class="mobile-overlay" @click="showSidebar = false"></div>
     <aside class="sa-sidebar" :class="{ open: showSidebar }">
       <div class="sidebar-header">
-        <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="sidebar-logo">
+        <img loading="lazy" src="/images/logo-horizontal.svg" alt="AllianceHub" class="sidebar-logo">
         <span class="sidebar-title">Super Admin</span>
       </div><!-- Portal Switcher -->
 <div class="portal-switcher">

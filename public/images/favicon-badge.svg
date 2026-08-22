@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+ <!-- Background -->
+ <rect width="400" height="400" rx="40" fill="#0A0D14" stroke="#4D4418" stroke-width="3"/>
+
+ <!-- Dashed Circle Outer -->
+ <circle cx="200" cy="200" r="125" fill="none" stroke="#FFC700" stroke-width="5" stroke-dasharray="10,7"/>
+
+ <!-- Orbital Rings -->
+ <ellipse cx="200" cy="200" rx="115" ry="45" fill="none" stroke="#FFFFFF" stroke-width="4" transform="rotate(-25 200 200)"/>
+ <ellipse cx="200" cy="200" rx="115" ry="45" fill="none" stroke="#FFC700" stroke-width="4" transform="rotate(25 200 200)"/>
+
+ <!-- Central A Symbol - White Outer Frame -->
+ <path d="M 200 100 L 138 256 A 6 6 0 0 0 144 266 L 172 266 L 200 186 L 228 266 L 256 266 A 6 6 0 0 0 262 256 Z" fill="#FFFFFF"/>
+
+ <!-- Central A Symbol - Inner Yellow Triangle -->
+ <polygon points="200,118 167,212 233,212" fill="#FFC700"/>
+
+ <!-- Nodes / Dots -->
+ <circle cx="200" cy="96" r="14" fill="#FFC700"/>
+ <circle cx="138" cy="260" r="10" fill="#FFFFFF"/>
+ <circle cx="262" cy="260" r="10" fill="#FFFFFF"/>
+ <circle cx="200" cy="300" r="9" fill="#FFC700"/>
+</svg>

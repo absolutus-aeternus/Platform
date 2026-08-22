@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2 class="logo"><img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:var(--brand-primary, #FF9900);font-weight:400">Super Admin</span></h2>
+        <h2 class="logo"><img loading="lazy" src="/images/logo-horizontal.svg" alt="AllianceHub" class="logo-img-admin" /> <span style="font-size:12px;color:var(--brand-primary, #FF9900);font-weight:400">Super Admin</span></h2>
         <button class="toggle-btn" @click="sidebarCollapsed = !sidebarCollapsed">
           <i class="fas fa-bars"></i>
         </button>

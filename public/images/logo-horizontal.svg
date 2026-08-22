@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="100%" height="100%">
+ <!-- Background -->
+ <rect width="800" height="250" rx="16" fill="#0A0D14"/>
+
+ <!-- Logo Mark Group -->
+ <g transform="translate(30, 0)">
+ <!-- Outer Dashed Circle -->
+ <circle cx="110" cy="125" r="68" fill="none" stroke="#FFC700" stroke-width="3" stroke-dasharray="6,4"/>
+
+ <!-- Orbital Rings -->
+ <ellipse cx="110" cy="125" rx="64" ry="26" fill="none" stroke="#A0AAB8" stroke-width="2.5" transform="rotate(-25 110 125)"/>
+ <ellipse cx="110" cy="125" rx="64" ry="26" fill="none" stroke="#FFC700" stroke-width="2.5" transform="rotate(25 110 125)"/>
+
+ <!-- Central A Symbol - White Outer Frame -->
+ <path d="M 110 70 L 76 156 A 4 4 0 0 0 80 162 L 95 162 L 110 118 L 125 162 L 140 162 A 4 4 0 0 0 144 156 Z" fill="#FFFFFF"/>
+
+ <!-- Central A Symbol - Inner Yellow Triangle -->
+ <polygon points="110,80 92,132 128,132" fill="#FFC700"/>
+
+ <!-- Nodes / Dots -->
+ <circle cx="110" cy="68" r="8" fill="#FFC700"/>
+ <circle cx="76" cy="158" r="6" fill="#FFFFFF"/>
+ <circle cx="144" cy="158" r="6" fill="#FFFFFF"/>
+ <circle cx="110" cy="180" r="5" fill="#FFC700"/>
+ </g>
+
+ <!-- Typography Group -->
+ <g transform="translate(230, 0)">
+ <!-- "Alliance" Text -->
+ <text x="0" y="124" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="54" font-weight="500" fill="#FFFFFF" letter-spacing="0.5">Alliance</text>
+
+ <!-- "Hub" Text -->
+ <text x="188" y="124" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="54" font-weight="700" fill="#FFC700" letter-spacing="0.5">Hub</text>
+
+ <!-- Subtitle "MARKETPLACE GLOBAL" -->
+ <text x="2" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="600" fill="#94A3B8" letter-spacing="6">MARKETPLACE GLOBAL</text>
+
+ <!-- Accent Line -->
+ <line x1="2" y1="182" x2="445" y2="182" stroke="#FFC700" stroke-width="3" stroke-linecap="round"/>
+ </g>
+</svg>

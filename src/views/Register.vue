@@ -4,7 +4,7 @@
     <div class="login-card animate-in">
       <div class="login-header">
         <div class="logo">
-          <img loading="lazy" src="/images/logo-alliance.png" alt="AllianceHub" class="logo-img" />
+          <img loading="lazy" src="/images/logo-horizontal.svg" alt="AllianceHub" class="logo-img" />
         </div>
         <h2>Create Account</h2>
         <p>Join millions of buyers and sellers worldwide</p>
