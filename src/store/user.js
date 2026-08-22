@@ -153,6 +153,8 @@ export const useUserStore = defineStore('user', {
       this.role = null
       this.userInfo = {}
       this.cart = []
+      // Emit logout event for ChatWidget and other listeners
+      window.__syncBus?.emit('user:logout')
     },
 
     // Bug #4: Update profile and sync store state

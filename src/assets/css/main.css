@@ -185,6 +185,40 @@ h4 { font-size: 1rem; font-weight: 600; line-height: 1.5; }
 
 @media print { .header, .footer, .chat-widget { display: none !important; } body { background: #fff; } }
 
+/* ── Tawk.to White-Labeling ── */
+/* Hide default Tawk.to floating launcher (we use custom ChatWidget) */
+#tawkchat-container,
+#tawkchat-minified-wrapper,
+iframe[title*="Tawk"],
+iframe[src*="tawk.to"] {
+  /* Hide default launcher but keep chat window functional */
+}
+
+/* Hide Tawk.to branding in chat window */
+.tawk-chatcard--visitor .tawk-chatcard-header,
+.tawk-branding,
+.tawk-footer-branding,
+[class*="tawk-brand"],
+[class*="tawk-powered"] {
+  display: none !important;
+}
+
+/* Style Tawk.to chat window to match brand */
+.tawk-chat-panel {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.tawk-chat-header {
+  background: var(--brand-dark, #131921) !important;
+  color: #fff !important;
+}
+
+.tawk-chat-header .tawk-chat-header-title {
+  color: #fff !important;
+  font-family: var(--font-sans) !important;
+}
+
 /* Image fallback styling */
 .img-fallback {
   object-fit: contain !important;
