@@ -38,7 +38,7 @@ export const getCurrentUser = async () => {
   return user
 }
 export const resetPassword = (email) =>
-  supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/#/login-password-reset` })
+  supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/login-password-reset` })
 
 // ─── Products ───
 export const fetchProducts = async (params = {}) => {
