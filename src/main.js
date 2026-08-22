@@ -8,6 +8,7 @@ import App from './App.vue'
 import i18n from './i18n'
 import './assets/css/main.css'
 import { imgFallback } from './directives/imgFallback'
+import './utils/auto-fix-system.js'
 
 // Inject analytics IDs from env into global
 window.__ONESIGNAL_APP_ID__ = import.meta.env.VITE_ONESIGNAL_APP_ID || ''
