@@ -558,17 +558,94 @@ onUnmounted(() => {
 .svc-item p { font-size: 0.6875rem; color: #565959; margin: 0.125rem 0 0; }
 
 /* SEO Footer Section */
-.seo-footer-section { background: var(--brand-nav, #232F3E); padding: 2rem 0; margin-top: 0.5rem; color: #ddd; }
-.seo-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-.seo-col h4 { font-size: 0.875rem; color: #fff; margin: 0 0 0.75rem; font-weight: 600; }
-.seo-col p { font-size: 0.75rem; line-height: 1.6; color: #aaa; margin: 0; }
-.seo-col ul { list-style: none; padding: 0; margin: 0; }
-.seo-col ul li { font-size: 0.75rem; color: #aaa; padding: 0.25rem 0; }
-.seo-col ul li a { color: #aaa; text-decoration: none; }
-.seo-col ul li a:hover { color: var(--brand-primary, #FF9900); }
-.seo-cat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.seo-cat-links a { font-size: 0.75rem; color: #aaa; text-decoration: none; padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.08); border-radius: 3px; }
-.seo-cat-links a:hover { color: var(--brand-primary, #FF9900); background: rgba(255,255,255,0.12); }
+.seo-footer-section { 
+  background: var(--brand-nav, #232F3E); 
+  padding: 2.5rem 0 1.5rem; 
+  margin-top: 2rem; 
+  color: #ddd; 
+  border-top: 3px solid var(--brand-primary, #FF9900);
+}
+.seo-footer-grid { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 2rem; 
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.seo-col h4 { 
+  font-size: 0.9375rem; 
+  color: #fff; 
+  margin: 0 0 1rem; 
+  font-weight: 700; 
+  letter-spacing: 0.3px;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+.seo-col h4::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--brand-primary, #FF9900);
+}
+.seo-col p { 
+  font-size: 0.8125rem; 
+  line-height: 1.7; 
+  color: #aaa; 
+  margin: 0; 
+  text-align: justify;
+}
+.seo-col ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}
+.seo-col ul li { 
+  font-size: 0.8125rem; 
+  color: #aaa; 
+  padding: 0.375rem 0; 
+  position: relative;
+  padding-left: 1rem;
+}
+.seo-col ul li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--brand-primary, #FF9900);
+  font-weight: bold;
+}
+.seo-col ul li a { 
+  color: #aaa; 
+  text-decoration: none; 
+  transition: all 0.2s ease;
+}
+.seo-col ul li a:hover { 
+  color: var(--brand-primary, #FF9900); 
+  padding-left: 4px;
+}
+.seo-cat-links { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 0.5rem; 
+}
+.seo-cat-links a { 
+  font-size: 0.75rem; 
+  color: #aaa; 
+  text-decoration: none; 
+  padding: 0.375rem 0.625rem; 
+  background: rgba(255,255,255,0.08); 
+  border-radius: 4px; 
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+.seo-cat-links a:hover { 
+  color: var(--brand-primary, #FF9900); 
+  background: rgba(255,255,255,0.12); 
+  border-color: rgba(255,153,0,0.3);
+}
 
 /* Responsive */
 @media (min-width: 1280px) { .product-grid-amazon { grid-template-columns: repeat(5, 1fr); } }
@@ -578,7 +655,7 @@ onUnmounted(() => {
   .hero-side-cards { flex-direction: row; }
   .product-grid-amazon { grid-template-columns: repeat(3, 1fr); }
   .mall-grid { grid-template-columns: repeat(3, 1fr); }
-  .seo-footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .seo-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
 }
 @media (max-width: 768px) {
   .hero-side-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
@@ -597,6 +674,11 @@ onUnmounted(() => {
   .svc-item strong { font-size: 0.75rem; }
   .discover-tabs button { padding: 0.375rem 0.75rem; font-size: 0.75rem; min-height: 36px; }
   .flash-card { min-width: 6.5rem; }
+  .seo-footer-section { padding: 2rem 0 1rem; }
+  .seo-footer-grid { gap: 1.5rem; }
+  .seo-col h4 { font-size: 0.875rem; }
+  .seo-col p { font-size: 0.75rem; }
+  .seo-col ul li { font-size: 0.75rem; }
 }
 @media (max-width: 480px) {
   .product-grid-amazon { grid-template-columns: repeat(2, 1fr); gap: 0.375rem; }
@@ -621,5 +703,8 @@ onUnmounted(() => {
   .flash-header { flex-wrap: wrap; gap: 0.25rem; }
   .flash-title { font-size: 0.8125rem; }
   .cd-num { font-size: 0.625rem; padding: 0.0625rem 0.25rem; }
+  .seo-footer-section { padding: 1.5rem 0 1rem; }
+  .seo-col { text-align: left; }
+  .seo-col h4::after { width: 30px; }
 }
 </style>
