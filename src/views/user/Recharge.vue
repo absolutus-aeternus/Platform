@@ -76,7 +76,7 @@ onMounted(async () => { try {
   const [ch, wallet, min] = await Promise.all([
     fetchBlockchainChannels(),
     userStore.supabaseUser ? fetchWallet(userStore.supabaseUser.id) : { data: null },
-    supabase.from('system_params').select('value').eq('code', 'min_recharge').single()
+    supabase.from('system_params').select('value').eq('code', 'min_recharge').maybeSingle()
   ])
   channels.value = ch.data || []
   if (wallet.data) balance.value = parseFloat(wallet.data.balance || 0).toFixed(2)

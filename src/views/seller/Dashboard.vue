@@ -207,7 +207,7 @@ onMounted(async () => {
       .from('sellers')
       .select('id')
       .eq('user_id', userStore.supabaseUser.id)
-      .single()
+      .maybeSingle()()
 
     if (seller) {
       // Fetch seller info for rating
@@ -215,7 +215,7 @@ onMounted(async () => {
         .from('sellers')
         .select('rating')
         .eq('id', seller.id)
-        .single()
+        .maybeSingle()()
 
       const [productsRes, ordersRes] = await Promise.all([
         supabase.from('products').select('id, name, images, stock, sales_count, price').eq('seller_id', seller.id),

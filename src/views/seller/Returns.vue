@@ -48,7 +48,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   if (!userStore.supabaseUser) { loading.value = false; return }
-  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (seller) {
     const { data } = await supabase.from('orders').select('*, users(email)').eq('seller_id', seller.id).eq('status', 'return_requested')
     returns.value = (data || []).map(o => ({

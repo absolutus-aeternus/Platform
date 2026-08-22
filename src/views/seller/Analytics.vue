@@ -77,7 +77,7 @@ onMounted(async () => {
       .from('sellers')
       .select('id')
       .eq('user_id', userStore.supabaseUser.id)
-      .single()
+      .maybeSingle()()
 
     if (seller) {
       const [ordersRes, productsRes] = await Promise.all([

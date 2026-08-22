@@ -71,7 +71,7 @@ const load = async () => {
 const confirm = async (r) => {
   if (!confirm(`Confirm recharge of $${r.amount}?`)) return
   try { await supabase.from('recharges').update({ status: 'confirmed', updated_at: new Date().toISOString() }).eq('id', r.id) } catch(_e) { console.error('Recharges.vue:', _e); window.__toast?.show('Operation failed', 'error') }
-  const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', r.user_id).single()
+  const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', r.user_id).maybeSingle()
   if (wallet) await supabase.from('wallets').update({ balance: parseFloat(wallet.balance || 0) + parseFloat(r.amount), updated_at: new Date().toISOString() }).eq('user_id', r.user_id)
   else await supabase.from('wallets').insert({ user_id: r.user_id, balance: parseFloat(r.amount) })
   await load()

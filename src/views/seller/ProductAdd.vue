@@ -75,7 +75,7 @@ const addProduct = async () => {
   if (!userStore.supabaseUser) return
   saving.value = true
   try {
-    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     if (!seller) { window.__toast?.show('Create a seller account first'); return }
     
     const { error } = await supabase.from('products').insert({

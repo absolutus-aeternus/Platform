@@ -105,7 +105,7 @@ export const useOrderStore = defineStore('orders', {
             users(email, username)
           `)
           .eq('id', orderId)
-          .single()
+          .maybeSingle()()
 
         if (error) throw error
 
@@ -177,10 +177,15 @@ export const useOrderStore = defineStore('orders', {
       try {
         const { supabase } = await import('@/services/supabase')
         
+        // BUG-035 FIX: Only update orders belonging to current user (RLS enforcement)
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return { success: false, error: 'Not authenticated' }
+
         const { error } = await supabase
           .from('orders')
           .update({ status, updated_at: new Date().toISOString() })
           .eq('id', orderId)
+          .eq('user_id', user.id) // Only own orders
 
         if (error) throw error
 
@@ -206,6 +211,10 @@ export const useOrderStore = defineStore('orders', {
       try {
         const { supabase } = await import('@/services/supabase')
         
+        // BUG-036 FIX: Only cancel orders belonging to current user
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return { success: false, error: 'Not authenticated' }
+
         const updateData = { status: 'cancelled', updated_at: new Date().toISOString() }
         if (reason) updateData.cancel_reason = reason
         
@@ -213,6 +222,7 @@ export const useOrderStore = defineStore('orders', {
           .from('orders')
           .update(updateData)
           .eq('id', orderId)
+          .eq('user_id', user.id) // Only own orders
 
         if (error) throw error
 

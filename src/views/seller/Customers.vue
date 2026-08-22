@@ -42,7 +42,7 @@ const loading = ref(true)
 onMounted(async () => {
   if (!userStore.supabaseUser) { loading.value = false; return }
   try {
-    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     if (seller) {
       const { data: orders } = await supabase.from('orders').select('user_id, total_amount, created_at, users(email)').eq('seller_id', seller.id)
       const customerMap = {}

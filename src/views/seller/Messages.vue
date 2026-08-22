@@ -84,7 +84,7 @@ const scrollToBottom = () => {
 onMounted(async () => { try {
   if (!userStore.supabaseUser) { loading.value = false; return }
   
-  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (!seller) { loading.value = false; return }
   
   // Get all messages for this seller
@@ -117,7 +117,7 @@ const selectConversation = async (conv) => {
   activeConv.value = conv
   showSidebar.value = false
   
-  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (!seller) return
   
   const { data } = await supabase
@@ -151,7 +151,7 @@ const selectConversation = async (conv) => {
 const sendMessage = async () => {
   if (!newMessage.value.trim() || !activeConv.value) return
   
-  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (!seller) return
   
   const text = newMessage.value.trim()

@@ -55,7 +55,7 @@ const store = ref({})
 
 onMounted(async () => {
   if (userStore.supabaseUser) {
-    const { data } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).single()
+    const { data } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     store.value = data || {}
   }
   loading.value = false

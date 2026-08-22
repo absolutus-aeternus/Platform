@@ -3,8 +3,11 @@
 export function formatPrice(amount, currency = 'USD') {
   const symbols = { USD: '$', EUR: '€', GBP: '£', JPY: '¥', CNY: '¥', IDR: 'Rp', MYR: 'RM', THB: '฿', VND: '₫', PHP: '₱', SGD: 'S$', AUD: 'A$', CAD: 'C$', INR: '₹', BRL: 'R$', MXN: 'MX$', KRW: '₩', TWD: 'NT$', HKD: 'HK$' }
   const symbol = symbols[currency] || '$'
-  if (['JPY', 'KRW', 'VND', 'IDR'].includes(currency)) return `${symbol}${Math.round(amount).toLocaleString()}`
-  return `${symbol}${parseFloat(amount).toFixed(2)}`
+  // BUG-021 FIX: Handle NaN and undefined
+  const val = parseFloat(amount)
+  if (isNaN(val)) return `${symbol}0.00`
+  if (['JPY', 'KRW', 'VND', 'IDR'].includes(currency)) return `${symbol}${Math.round(val).toLocaleString()}`
+  return `${symbol}${val.toFixed(2)}`
 }
 
 export function formatDate(date, options = {}) {
@@ -44,10 +47,14 @@ export function truncate(str, length = 100) {
 }
 
 export function slugify(text) {
+  // BUG-042 FIX: Handle Unicode characters (CJK, Arabic, etc.)
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^a-z0-9\p{L}]+/gu, '-')
     .replace(/(^-|-$)/g, '')
+    .substring(0, 200)
 }
 
 export function debounce(fn, delay = 300) {
@@ -75,8 +82,16 @@ export function generateId() {
 
 export function getImageUrl(images, index = 0) {
   if (!images) return ''
-  if (typeof images === 'string') return images
-  if (Array.isArray(images)) return images[index] || images[0] || ''
+  // BUG-043 FIX: Parse JSON string if needed
+  let parsed = images
+  if (typeof images === 'string') {
+    try {
+      const arr = JSON.parse(images)
+      if (Array.isArray(arr)) return arr[index] || arr[0] || ''
+    } catch {}
+    return images
+  }
+  if (Array.isArray(parsed)) return parsed[index] || parsed[0] || ''
   return ''
 }
 

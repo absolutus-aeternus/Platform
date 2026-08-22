@@ -84,7 +84,7 @@ const updateStatus = async (w, status) => {
   if (!confirm(`${status === 'approved' ? 'Approve' : 'Reject'} this withdrawal of $${w.amount}?`)) return
   try { await supabase.from('withdrawals').update({ status, updated_at: new Date().toISOString() }).eq('id', w.id) } catch(_e) { console.error('Withdrawals.vue:', _e); window.__toast?.show('Operation failed', 'error') }
   if (status === 'approved') {
-    const { data: wallet } = await supabase.from('wallets').select('frozen_balance').eq('user_id', w.user_id).single()
+    const { data: wallet } = await supabase.from('wallets').select('frozen_balance').eq('user_id', w.user_id).maybeSingle()
     if (wallet) {
       try { await supabase.from('wallets').update({ frozen_balance: Math.max(0, parseFloat(wallet.frozen_balance || 0) - parseFloat(w.amount)) }).eq('user_id', w.user_id) } catch(_e) { console.error('Withdrawals.vue:', _e); window.__toast?.show('Operation failed', 'error') }
     }

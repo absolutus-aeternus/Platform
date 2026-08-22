@@ -43,11 +43,14 @@ export const resetPassword = (email) =>
 // ─── Products ───
 export const fetchProducts = async (params = {}) => {
   let query = supabase.from('products').select('*, sellers(name, store_name, logo)')
+  // BUG-013 FIX: Filter by active status by default
+  query = query.eq('status', params.status || 'active')
   if (params.category) query = query.eq('category_id', params.category)
-  if (params.search) { const s = params.search.replace(/%/g, '\%').replace(/_/g, '\_'); query = query.ilike('name', `%${s}%`) }
+  if (params.search) { const s = params.search.replace(/%/g, '\\%').replace(/_/g, '\\_'); query = query.ilike('name', `%${s}%`) }
   if (params.sort === 'price') query = query.order('price', { ascending: true })
-  if (params.sort === 'sales') query = query.order('sales_count', { ascending: false })
-  if (params.sort === 'newest') query = query.order('created_at', { ascending: false })
+  else if (params.sort === 'sales') query = query.order('sales_count', { ascending: false })
+  else if (params.sort === 'rating') query = query.order('rating', { ascending: false })
+  else query = query.order('created_at', { ascending: false })
   const { data, error } = await query.limit(params.limit || 40)
   return { data: data || [], error }
 }
@@ -84,7 +87,8 @@ export const fetchSellers = async (params = {}) => {
 }
 
 export const fetchSellerById = async (id) => {
-  const { data, error } = await supabase.from('sellers').select('*, products(count)').eq('id', id).single()
+  // BUG-026 FIX: Use maybeSingle() to avoid crash on missing seller
+  const { data, error } = await supabase.from('sellers').select('*, products(count)').eq('id', id).maybeSingle()
   return { data, error }
 }
 
@@ -137,8 +141,9 @@ export const fetchOrders = async (userId) => {
 }
 
 export const fetchOrderById = async (orderId) => {
+  // BUG-027 FIX: Use maybeSingle() to avoid crash on missing order
   const { data, error } = await supabase
-    .from('orders').select('*, order_items(*, products(name, images, price))').eq('id', orderId).single()
+    .from('orders').select('*, order_items(*, products(name, images, price))').eq('id', orderId).maybeSingle()
   return { data, error }
 }
 
@@ -204,7 +209,7 @@ export const fetchNotifications = async (userId) => {
 
 // ─── User Profile ───
 export const fetchUserProfile = async (userId) => {
-  const { data, error } = await supabase.from('users').select('*').eq('id', userId).single()
+  const { data, error } = await supabase.from('users').select('*').eq('id', userId).maybeSingle()
   return { data, error }
 }
 
@@ -214,7 +219,8 @@ export const updateUserProfile = async (userId, updates) => {
 
 // ─── Wallet ───
 export const fetchWallet = async (userId) => {
-  const { data, error } = await supabase.from('wallets').select('*').eq('user_id', userId).single()
+  // BUG-028 FIX: Use maybeSingle() — new users may not have a wallet
+  const { data, error } = await supabase.from('wallets').select('*').eq('user_id', userId).maybeSingle()
   return { data, error }
 }
 
@@ -241,7 +247,9 @@ export const fetchBanners = async () => {
 // ─── Search ───
 export const searchProducts = async (keyword, filters = {}) => {
   let query = supabase.from('products').select('*, sellers(name)')
-  if (keyword) { const s = keyword.replace(/%/g, '\%').replace(/_/g, '\_'); query = query.ilike('name', `%${s}%`) }
+  // BUG-014 FIX: Filter by active status
+  query = query.eq('status', 'active')
+  if (keyword) { const s = keyword.replace(/%/g, '\\%').replace(/_/g, '\\_'); query = query.ilike('name', `%${s}%`) }
   if (filters.category) query = query.eq('category_id', filters.category)
   if (filters.minPrice) query = query.gte('price', filters.minPrice)
   if (filters.maxPrice) query = query.lte('price', filters.maxPrice)
@@ -278,7 +286,8 @@ export const fetchWithdrawals = async (userId) => {
 
 // ─── Seller Info ───
 export const fetchSellerInfo = async (sellerId) => {
-  const { data, error } = await supabase.from('sellers').select('*').eq('id', sellerId).single()
+  // BUG-029 FIX: Use maybeSingle() to avoid crash on missing seller
+  const { data, error } = await supabase.from('sellers').select('*').eq('id', sellerId).maybeSingle()
   return { data, error }
 }
 

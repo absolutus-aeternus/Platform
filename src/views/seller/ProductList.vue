@@ -69,7 +69,7 @@ const status = ref('')
 const loadProducts = async () => {
   if (!userStore.supabaseUser) return
   try {
-    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     if (!seller) return
     
     let query = supabase.from('products').select('*').eq('seller_id', seller.id)

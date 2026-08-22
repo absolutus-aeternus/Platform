@@ -65,13 +65,13 @@ const loading = ref(true)
 onMounted(async () => {
   if (!userStore.supabaseUser) { loading.value = false; return }
   try {
-    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+    const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     if (seller) {
       const { data: orders } = await supabase.from('orders').select('total_amount, status, created_at').eq('seller_id', seller.id)
       stats.value.revenue = (orders || []).reduce((sum, o) => sum + parseFloat(o.total_amount || 0), 0).toFixed(2)
       stats.value.pending = (orders || []).filter(o => o.status === 'pending').length
     }
-    const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', userStore.supabaseUser.id).single()
+    const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', userStore.supabaseUser.id).maybeSingle()
     stats.value.balance = wallet?.balance || '0.00'
   } catch (e) {
     console.error('Failed:', e)

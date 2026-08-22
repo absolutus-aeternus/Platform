@@ -77,6 +77,9 @@ export const useProductStore = defineStore('products', {
           .from('products')
           .select('*, sellers(name, store_name, logo)', { count: 'exact' })
         
+        // BUG-013 FIX: Always filter by active status
+        query = query.eq('status', 'active')
+        
         if (this.filters.category) {
           query = query.eq('category_id', this.filters.category)
         }

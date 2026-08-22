@@ -35,7 +35,9 @@ export default {
       if (parts.length !== 3) return false;
       const [payload, ts, sigHex] = parts;
       const data = payload + '.' + ts;
-      const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY || 'fallback-csrf-secret';
+      // BUG-004 FIX: No predictable fallback secret
+      const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!secret) { console.error('CSRF: No secret configured'); return false; }
       try {
         const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
         const sigBytes = new Uint8Array(sigHex.match(/.{2}/g).map(b => parseInt(b, 16)));
@@ -247,17 +249,23 @@ export default {
         const h = { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY };
         const category = url.searchParams.get('category');
         const rawSearch = url.searchParams.get('search');
-        const search = rawSearch ? rawSearch.replace(/%/g, '\%').replace(/_/g, '\_').substring(0, 100).trim() : null;
+        const search = rawSearch ? rawSearch.replace(/%/g, '\\%').replace(/_/g, '\\_').substring(0, 100).trim() : null;
         const sortParam = url.searchParams.get('sort') || 'newest';
         const allowedSorts = ['newest', 'price', 'sales', 'rating'];
         const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
         const rawLimit = parseInt(url.searchParams.get('limit') || '40');
         const limit = isNaN(rawLimit) ? 40 : Math.min(Math.max(rawLimit, 1), 100);
-        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&limit=' + limit;
+        const rawOffset = parseInt(url.searchParams.get('offset') || '0');
+        const offset = isNaN(rawOffset) ? 0 : Math.max(rawOffset, 0);
+        // BUG-047 FIX: Apply status filter
+        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&status=eq.' + statusFilter + '&limit=' + limit;
+        if (offset > 0) q += '&offset=' + offset;
         if (category) q += '&category_id=eq.' + category;
         if (search) q += '&name=ilike.*' + encodeURIComponent(search) + '*';
+        // BUG-049 FIX: Add rating sort
         if (sort === 'price') q += '&order=price.asc';
         else if (sort === 'sales') q += '&order=sales_count.desc';
+        else if (sort === 'rating') q += '&order=rating.desc';
         else q += '&order=created_at.desc';
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?' + q, { headers: h });
         const body = JSON.stringify({ data: await resp.json() });
@@ -291,17 +299,23 @@ export default {
         }
         const rawSearch = url.searchParams.get('search');
         // Sanitize search: escape % and _ to prevent ilike pattern manipulation
-        const search = rawSearch ? rawSearch.replace(/%/g, '\%').replace(/_/g, '\_').substring(0, 100).trim() : null;
+        const search = rawSearch ? rawSearch.replace(/%/g, '\\%').replace(/_/g, '\\_').substring(0, 100).trim() : null;
         const sortParam = url.searchParams.get('sort') || 'newest';
         const allowedSorts = ['newest', 'price', 'sales', 'rating'];
         const sort = allowedSorts.includes(sortParam) ? sortParam : 'newest';
         const rawLimit = parseInt(url.searchParams.get('limit') || '40');
         const limit = isNaN(rawLimit) ? 40 : Math.min(Math.max(rawLimit, 1), 100);
-        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&limit=' + limit;
+        const rawOffset = parseInt(url.searchParams.get('offset') || '0');
+        const offset = isNaN(rawOffset) ? 0 : Math.max(rawOffset, 0);
+        // BUG-047 FIX: Apply status filter to query
+        let q = 'select=id,name,slug,price,original_price,images,status,sales_count,rating,category_id,seller_id,stock,sellers(name,store_name,logo)&status=eq.' + statusFilter + '&limit=' + limit;
+        if (offset > 0) q += '&offset=' + offset;
         if (category) q += '&category_id=eq.' + category;
         if (search) q += '&name=ilike.*' + encodeURIComponent(search) + '*';
+        // BUG-049 FIX: Add rating sort
         if (sort === 'price') q += '&order=price.asc';
         else if (sort === 'sales') q += '&order=sales_count.desc';
+        else if (sort === 'rating') q += '&order=rating.desc';
         else q += '&order=created_at.desc';
         const resp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/products?' + q, { headers: h });
         return json({ data: await resp.json() }, corsHeaders);
@@ -1161,31 +1175,24 @@ export default {
         const limitData = (await limits.json())[0]?.value || { min: 10, max_daily: 1000 };
         if (amount < limitData.min) return json({ error: 'Minimum withdrawal: $' + limitData.min }, { status: 400, ...corsHeaders });
         
-        // Create payout request
+        // BUG-002 FIX: Use atomic RPC to deduct wallet (prevents race condition)
+        const deductResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/atomic_deduct_seller_wallet', {
+          method: 'POST', headers: h,
+          body: JSON.stringify({ p_seller_id: seller.id, p_amount: amount })
+        });
+        const deductResult = (await deductResp.json());
+        
+        if (!deductResult?.success) {
+          return json({ error: deductResult?.error || 'Failed to deduct from wallet' }, { status: 400, ...corsHeaders });
+        }
+        
+        // Create payout request (only after successful deduction)
         const payoutResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts', {
           method: 'POST', headers: h,
           body: JSON.stringify({ seller_id: seller.id, amount, method: payMethod, account_details, status: 'pending' })
         });
-        const payoutData = await payoutResp.json();
         
-        // Deduct from wallet (with optimistic concurrency check)
-        const walletPatchResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + seller.id, {
-          method: 'PATCH', headers: h,
-          body: JSON.stringify({ balance: wallet.balance - amount })
-        });
-        
-        // Rollback: if wallet deduction fails, delete the payout record
-        if (!walletPatchResp.ok) {
-          const payoutId = payoutData?.[0]?.id;
-          if (payoutId) {
-            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?id=eq.' + payoutId, {
-              method: 'DELETE', headers: h
-            });
-          }
-          return json({ error: 'Failed to deduct from wallet. Payout cancelled.' }, { status: 500, ...corsHeaders });
-        }
-        
-        return json({ success: true, remaining_balance: wallet.balance - amount }, corsHeaders);
+        return json({ success: true, remaining_balance: deductResult.new_balance }, corsHeaders);
       }
 
       // ─── Admin: View All Commissions (ADMIN ONLY) ───
@@ -1278,19 +1285,15 @@ export default {
           body: JSON.stringify({ status: newStatus, processed_by: _u.id, processed_at: new Date().toISOString(), notes })
         });
         
-        // If rejected, refund to wallet
+        // If rejected, refund to wallet using atomic RPC (BUG-002 FIX)
         if (action === 'reject') {
           const payoutResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/payouts?select=seller_id,amount&id=eq.' + payout_id, { headers: h });
           const payout = (await payoutResp.json())[0];
           if (payout) {
-            const walletResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + payout.seller_id + '&select=balance', { headers: h });
-            const wallet = (await walletResp.json())[0];
-            if (wallet) {
-              await fetch(env.VITE_SUPABASE_URL + '/rest/v1/seller_wallets?seller_id=eq.' + payout.seller_id, {
-                method: 'PATCH', headers: h,
-                body: JSON.stringify({ balance: wallet.balance + payout.amount })
-              });
-            }
+            await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/atomic_credit_seller_wallet', {
+              method: 'POST', headers: h,
+              body: JSON.stringify({ p_seller_id: payout.seller_id, p_amount: payout.amount })
+            });
           }
         }
         
@@ -1318,7 +1321,9 @@ async function generateCSRFToken(env) {
   const payload = Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
   const ts = Date.now().toString(36);
   const data = payload + '.' + ts;
-  const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY || 'fallback-csrf-secret';
+  // BUG-004 FIX: No predictable fallback secret
+  const secret = env.CSRF_SECRET || env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!secret) throw new Error('CSRF secret not configured');
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(data));
   const sigHex = Array.from(new Uint8Array(sig), b => b.toString(16).padStart(2, '0')).join('');

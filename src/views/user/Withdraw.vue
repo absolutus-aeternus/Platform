@@ -72,7 +72,7 @@ onMounted(async () => { try {
   const [ch, wallet, min, hist] = await Promise.all([
     fetchBlockchainChannels(),
     fetchWallet(userStore.supabaseUser.id),
-    supabase.from('system_params').select('value').eq('code', 'min_withdraw').single(),
+    supabase.from('system_params').select('value').eq('code', 'min_withdraw').maybeSingle(),
     fetchWithdrawals(userStore.supabaseUser.id)
   ])
   channels.value = ch.data || []

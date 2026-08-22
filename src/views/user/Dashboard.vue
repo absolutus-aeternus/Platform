@@ -80,7 +80,7 @@ onMounted(async () => {
   try {
     const [ordersRes, walletRes, favRes, notifRes] = await Promise.all([
       supabase.from('orders').select('id').eq('user_id', uid),
-      supabase.from('wallets').select('balance').eq('user_id', uid).single(),
+      supabase.from('wallets').select('balance').eq('user_id', uid).maybeSingle(),
       supabase.from('favorites').select('id').eq('user_id', uid),
       supabase.from('notifications').select('id').eq('user_id', uid).eq('is_read', false)
     ])

@@ -40,7 +40,7 @@ import { supabase } from '@/services/supabase'
 const route = useRoute()
 const order = ref(null)
 onMounted(async () => { try {
-  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', route.query.order).single()
+  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', route.query.order).maybeSingle()
   loading.value = false
   if (data) order.value = data } catch (e) { console.error("Order load error:", e) }
 })

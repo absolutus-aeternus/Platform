@@ -92,9 +92,11 @@ export async function searchProducts(query, filters = {}) {
 }
 
 export function debounceSearch(callback, delay = 300) {
+  // BUG-024 FIX: Each call creates its own timer closure
+  let timer = null
   return (...args) => {
-    clearTimeout(debounceTimer)
-    debounceTimer = setTimeout(() => callback(...args), delay)
+    clearTimeout(timer)
+    timer = setTimeout(() => callback(...args), delay)
   }
 }
 

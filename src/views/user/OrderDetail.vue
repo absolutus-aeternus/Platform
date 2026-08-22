@@ -44,7 +44,7 @@ const order = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', route.params.id).single()
+  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', route.params.id).maybeSingle()
   order.value = data
   loading.value = false
 })

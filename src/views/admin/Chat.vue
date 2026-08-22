@@ -276,7 +276,7 @@ const loadConversations = async () => {
     // Enrich with user/seller data
     for (const conv of conversations.value) {
       if (conv.role === 'buyer') {
-        const { data: user } = await supabase.from('users').select('id, email, created_at').eq('id', conv.id).single()
+        const { data: user } = await supabase.from('users').select('id, email, created_at').eq('id', conv.id).maybeSingle()
         if (user) {
           conv.email = user.email
           conv.joined = new Date(user.created_at).toLocaleDateString()
@@ -285,11 +285,11 @@ const loadConversations = async () => {
           conv.orders = orders?.length || 0
           conv.totalSpent = (orders || []).reduce((s, o) => s + parseFloat(o.total_amount || 0), 0).toFixed(2)
           
-          const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', conv.id).single()
+          const { data: wallet } = await supabase.from('wallets').select('balance').eq('user_id', conv.id).maybeSingle()
           conv.wallet = wallet?.balance || '0.00'
         }
       } else if (conv.role === 'seller') {
-        const { data: seller } = await supabase.from('sellers').select('id, name, goods_count, sales_count, created_at').eq('id', conv.id).single()
+        const { data: seller } = await supabase.from('sellers').select('id, name, goods_count, sales_count, created_at').eq('id', conv.id).maybeSingle()
         if (seller) {
           conv.products = seller.goods_count || 0
           conv.sales = seller.sales_count || 0

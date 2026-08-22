@@ -120,7 +120,7 @@ const trackOrder = async () => {
       .from('orders')
       .select('*, order_items(*)')
       .eq('order_no', orderNo.value.trim())
-      .single()
+      .maybeSingle()()
     if (err || !data) { error.value = 'Order not found. Please check the order number.'; return }
     order.value = data
   } catch (e) { error.value = 'Failed to fetch order details.' }

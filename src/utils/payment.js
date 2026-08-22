@@ -78,30 +78,21 @@ async function processWalletPayment(orderId, amount, paymentId) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { success: false, error: 'Not authenticated' }
 
-    // Check wallet balance
-    const { data: wallet } = await supabase
-      .from('wallets')
-      .select('id, balance')
-      .eq('user_id', user.id)
-      .single()
+    // BUG-001 FIX: Use atomic RPC to prevent double-spending
+    const { data: deductResult, error: deductError } = await supabase
+      .rpc('atomic_deduct_wallet', { p_user_id: user.id, p_amount: amount })
 
-    if (!wallet || wallet.balance < amount) {
+    if (deductError) throw deductError
+
+    if (!deductResult?.success) {
       // Mark payment as failed
       await supabase.from('payments').update({
         status: 'failed',
-        metadata: { error: 'Insufficient balance', attempted_at: new Date().toISOString() }
+        metadata: { error: deductResult?.error || 'Insufficient balance', attempted_at: new Date().toISOString() }
       }).eq('id', paymentId)
 
-      return { success: false, error: 'Insufficient wallet balance' }
+      return { success: false, error: deductResult?.error || 'Insufficient wallet balance' }
     }
-
-    // Deduct from wallet
-    const { error: deductError } = await supabase
-      .from('wallets')
-      .update({ balance: wallet.balance - amount })
-      .eq('id', wallet.id)
-
-    if (deductError) throw deductError
 
     // Mark payment as completed
     await supabase.from('payments').update({
@@ -110,12 +101,12 @@ async function processWalletPayment(orderId, amount, paymentId) {
       metadata: { method: 'wallet', completed_at: new Date().toISOString() }
     }).eq('id', paymentId)
 
-    // Update order status
+    // BUG-018 FIX: Only update order if still pending
     await supabase.from('orders').update({
       payment_method: 'wallet',
       payment_status: 'paid',
       status: 'paid'
-    }).eq('id', orderId)
+    }).eq('id', orderId).eq('status', 'pending')
 
     return { success: true, paymentId, status: 'completed' }
   } catch (e) {
@@ -205,12 +196,12 @@ export async function handlePaymentWebhook(gateway, payload, signature) {
       }
     }).eq('id', payment.id)
 
-    // Update order on successful payment
+    // BUG-019 FIX: Only update order if still pending (prevent re-activation)
     if (internalStatus === 'completed' && payment.order_id) {
       await supabase.from('orders').update({
         payment_status: 'paid',
         status: 'paid'
-      }).eq('id', payment.order_id)
+      }).eq('id', payment.order_id).eq('status', 'pending')
     }
 
     return { success: true, processed: true, status: internalStatus }
@@ -226,7 +217,7 @@ export async function handlePaymentWebhook(gateway, payload, signature) {
  * Each gateway must provide a valid signature header.
  */
 async function verifyWebhookSignature(gateway, payload, signature) {
-  // Reject if no signature provided
+  // BUG-003 FIX: Reject if no signature provided
   if (!signature || signature.length === 0) {
     console.error(`[Payment] Missing webhook signature for gateway: ${gateway}`)
     return false
@@ -238,23 +229,52 @@ async function verifyWebhookSignature(gateway, payload, signature) {
     case 'okx':
     case 'coinbase':
     case 'metamask': {
-      // For crypto gateways, verify HMAC-SHA256 signature
-      // The shared secret should be stored in env (via Worker)
-      // For now, validate signature format (hex string, min 32 chars)
+      // Validate signature format (hex string, min 32 chars)
       const isValidFormat = /^[a-f0-9]{32,128}$/i.test(signature)
       if (!isValidFormat) {
         console.error(`[Payment] Invalid signature format for ${gateway}`)
         return false
       }
-      // TODO: When gateway-specific secrets are configured, verify HMAC:
-      // const expected = await hmacSHA256(JSON.stringify(payload), gatewaySecret)
-      // return expected === signature
-      console.warn(`[Payment] ${gateway}: Signature format valid but HMAC verification not yet configured`)
-      return true
+      // BUG-003 FIX: Perform actual HMAC-SHA256 verification
+      try {
+        const secret = await getGatewaySecret(gateway)
+        if (!secret) {
+          console.error(`[Payment] No secret configured for gateway: ${gateway}`)
+          return false
+        }
+        const encoder = new TextEncoder()
+        const key = await crypto.subtle.importKey(
+          'raw', encoder.encode(secret),
+          { name: 'HMAC', hash: 'SHA-256' },
+          false, ['sign']
+        )
+        const sig = await crypto.subtle.sign('HMAC', key, encoder.encode(JSON.stringify(payload)))
+        const expected = Array.from(new Uint8Array(sig), b => b.toString(16).padStart(2, '0')).join('')
+        return expected === signature
+      } catch (e) {
+        console.error(`[Payment] HMAC verification error for ${gateway}:`, e.message)
+        return false
+      }
     }
     default:
       console.error(`[Payment] Unknown gateway: ${gateway} — rejecting webhook`)
       return false
+  }
+}
+
+/**
+ * Get gateway-specific webhook secret from Supabase system_params
+ */
+async function getGatewaySecret(gateway) {
+  try {
+    const { data } = await supabase
+      .from('system_params')
+      .select('value')
+      .eq('code', `webhook_secret_${gateway}`)
+      .maybeSingle()
+    return data?.value?.secret || null
+  } catch {
+    return null
   }
 }
 

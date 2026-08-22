@@ -78,7 +78,7 @@ const loadProducts = async () => {
       .from('sellers')
       .select('id')
       .eq('user_id', userStore.supabaseUser.id)
-      .single()
+      .maybeSingle()()
     
     if (seller) {
       const { data } = await supabase
@@ -99,7 +99,7 @@ const addProduct = async () => {
       .from('sellers')
       .select('id')
       .eq('user_id', userStore.supabaseUser.id)
-      .single()
+      .maybeSingle()()
     
     if (!seller) {
       window.__toast?.show('You need to create a seller account first')

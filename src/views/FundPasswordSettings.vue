@@ -27,7 +27,7 @@ const msgColor = ref('#059669')
 onMounted(async () => {
   try {
     const { data: { user } } = await supabase.auth.getUser()
-    if (user) { const { data } = await supabase.from('users').select('safeword').eq('id', user.id).single(); hasExisting.value = !!data?.safeword }
+    if (user) { const { data } = await supabase.from('users').select('safeword').eq('id', user.id).maybeSingle(); hasExisting.value = !!data?.safeword }
   } catch (e) { console.error("FundPasswordSettings.vue error:", e) }
 })
 

@@ -96,7 +96,7 @@ const getGradient = (name) => {
 
 onMounted(async () => {
   try {
-    const { data: seller } = await supabase.from('sellers').select('*').eq('id', route.params.id).single()
+    const { data: seller } = await supabase.from('sellers').select('*').eq('id', route.params.id).maybeSingle()
     store.value = seller || null
 
     if (store.value) {

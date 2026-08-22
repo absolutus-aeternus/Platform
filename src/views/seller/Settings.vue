@@ -55,7 +55,7 @@ const form = ref({
 
 onMounted(async () => { try {
   if (!userStore.supabaseUser) return
-  const { data: seller } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('*').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (seller) {
     sellerId.value = seller.id
     form.value.name = seller.name || ''

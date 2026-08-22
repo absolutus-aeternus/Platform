@@ -27,7 +27,7 @@ const route = useRoute()
 const order = ref(null)
 const timeline = ref([])
 onMounted(async () => { try {
-  const { data } = await supabase.from('orders').select('*').eq('id', route.query.order).single()
+  const { data } = await supabase.from('orders').select('*').eq('id', route.query.order).maybeSingle()
   if (data) {
     order.value = data
     timeline.value = [

@@ -26,7 +26,7 @@ const route = useRoute()
 const record = ref(null)
 onMounted(async () => {
   try {
-    const { data } = await supabase.from('recharges').select('*').eq('id', route.query.id).single()
+    const { data } = await supabase.from('recharges').select('*').eq('id', route.query.id).maybeSingle()
     if (data) record.value = data
   loading.value = false
   } catch (e) { console.error('Recharge details error:', e) }

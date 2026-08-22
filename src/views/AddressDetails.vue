@@ -32,7 +32,7 @@ onMounted(async () => {
   try {
     if (route.query.id) {
       isEdit.value = true
-      const { data } = await supabase.from('addresses').select('*').eq('id', route.query.id).single()
+      const { data } = await supabase.from('addresses').select('*').eq('id', route.query.id).maybeSingle()
       if (data) form.value = data
     }
   } catch (e) { console.error('Load address error:', e) }

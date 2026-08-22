@@ -533,11 +533,20 @@ const postComment = async () => {
 }
 
 const likeComment = async (c) => {
+  // BUG-007 FIX: Require auth, use optimistic UI with server reconciliation
+  if (!userStore.isLoggedIn) { router.push('/login'); return }
+  const wasLiked = c.liked
   c.liked = !c.liked
   c.likes = (c.likes || 0) + (c.liked ? 1 : -1)
   try {
-    await supabase.from('product_comments').update({ likes: c.likes }).eq('id', c.id)
-  } catch (e) { console.warn('Like comment error:', e.message) }
+    const { error } = await supabase.from('product_comments').update({ likes: c.likes }).eq('id', c.id)
+    if (error) throw error
+  } catch (e) {
+    // Rollback on failure
+    c.liked = wasLiked
+    c.likes = (c.likes || 0) + (wasLiked ? 1 : -1)
+    console.warn('Like comment error:', e.message)
+  }
 }
 
 const postReply = async (c) => {
@@ -589,7 +598,19 @@ const handleBuyNow = async () => {
   router.push('/checkout')
 }
 
-const toggleFav = () => { isFav.value = !isFav.value }
+const toggleFav = async () => {
+  // BUG-011 FIX: Persist to backend
+  if (!userStore.isLoggedIn) { router.push('/login'); return }
+  isFav.value = !isFav.value
+  try {
+    const { toggleWishlist } = await import('@/services/supabase')
+    await toggleWishlist(userStore.supabaseUser.id, product.value.id)
+  } catch (e) {
+    // Rollback on failure
+    isFav.value = !isFav.value
+    console.warn('Toggle fav error:', e.message)
+  }
+}
 
 const chatSeller = () => {
   if (!userStore.isLoggedIn) { window.location.hash = '#/login'; return }

@@ -39,7 +39,7 @@ const methods = ['Credit Card', 'PayPal', 'Crypto (BTC/USDT)', 'Bank Transfer']
 onMounted(async () => {
   const orderId = route.query.order
   if (!orderId) { router.push('/user/orders'); return }
-  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', orderId).single()
+  const { data } = await supabase.from('orders').select('*, order_items(*)').eq('id', orderId).maybeSingle()
   if (data) order.value = data
 })
 

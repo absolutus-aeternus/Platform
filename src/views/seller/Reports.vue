@@ -42,7 +42,7 @@ const stats = ref({ revenue: '0.00', orders: 0, products: 0, customers: 0 })
 
 onMounted(async () => { try {
   if (!userStore.supabaseUser) return
-  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).single()
+  const { data: seller } = await supabase.from('sellers').select('id').eq('user_id', userStore.supabaseUser.id).maybeSingle()
   if (seller) {
     const [orders, products, customers] = await Promise.all([
       supabase.from('orders').select('total_amount').eq('seller_id', seller.id),
