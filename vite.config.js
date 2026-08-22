@@ -22,7 +22,6 @@ export default defineConfig({
         manualChunks: {
           'vendor-vue': ['vue', 'vue-router', 'pinia'],
           'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-algolia': ['algoliasearch'],
           'vendor-i18n': ['vue-i18n'],
         },
       },

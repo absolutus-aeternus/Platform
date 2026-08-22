@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.1",
-    "algoliasearch": "^5.28.0",
     "pinia": "^2.3.1",
     "vue": "^3.5.41",
     "vue-i18n": "^11.4.8",

@@ -39,7 +39,7 @@ const flags = ref([
   { key: 'chat_enabled', label: 'Live Chat', description: 'Enable buyer-seller chat', enabled: true },
   { key: 'reviews_enabled', label: 'Product Reviews', description: 'Allow product reviews', enabled: true },
   { key: 'flash_sales', label: 'Flash Sales', description: 'Enable flash sale feature', enabled: true },
-  { key: 'algolia_search', label: 'Algolia Search', description: 'Use Algolia for search', enabled: true },
+  { key: 'algolia_search', label: 'Full-Text Search', description: 'Supabase FTS (replaces Algolia)', enabled: true },
   { key: 'push_notifications', label: 'Push Notifications', description: 'OneSignal web push', enabled: true },
   { key: 'clarity_tracking', label: 'MS Clarity', description: 'Microsoft Clarity analytics', enabled: true },
 ])

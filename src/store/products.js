@@ -146,16 +146,57 @@ export const useProductStore = defineStore('products', {
       this.isLoading = true
       
       try {
-        // Escape % and _ to prevent pattern manipulation
-        const safe = query.replace(/%/g, '\%').replace(/_/g, '\_')
-        const { data, error } = await supabase
-          .from('products')
-          .select('*, sellers(name, store_name)')
-          .ilike('name', `%${safe}%`)
-          .limit(options.limit || 20)
-        
-        if (error) throw error
-        this.searchResults = data || []
+        const limit = options.limit || 20
+        const offset = ((options.page || 1) - 1) * limit
+
+        // 1) Try full-text search first
+        const { data: ftsResults, error: ftsError } = await supabase
+          .rpc('search_products', {
+            search_term: query.trim(),
+            p_limit: limit,
+            p_offset: offset,
+            p_category: options.category || null
+          })
+
+        if (ftsError) throw ftsError
+
+        let results = ftsResults || []
+
+        // 2) Fallback to trigram fuzzy search if FTS returned nothing
+        if (results.length === 0) {
+          const { data: fuzzyResults, error: fuzzyError } = await supabase
+            .rpc('search_products_simple', {
+              search_term: query.trim(),
+              p_limit: limit,
+              p_offset: offset,
+              p_category: options.category || null
+            })
+          if (!fuzzyError && fuzzyResults?.length) {
+            results = fuzzyResults
+          }
+        }
+
+        // Normalize RPC response to match existing UI expectations
+        this.searchResults = results.map(r => ({
+          id: r.id,
+          name: r.name,
+          slug: r.slug,
+          description: r.description,
+          price: r.price,
+          original_price: r.original_price,
+          images: r.images,
+          status: r.status,
+          sales_count: r.sales_count,
+          rating: r.rating,
+          stock: r.stock,
+          category_id: r.category_id,
+          seller_id: r.seller_id,
+          sellers: {
+            name: r.seller_name,
+            store_name: r.store_name,
+            logo: r.seller_logo
+          }
+        }))
       } catch (e) {
         console.error('searchProducts error:', e)
         this.searchResults = []

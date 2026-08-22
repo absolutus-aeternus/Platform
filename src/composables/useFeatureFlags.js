@@ -26,7 +26,7 @@ const DEFAULTS = {
   chat_enabled: true,
   reviews_enabled: true,
   flash_sales: true,
-  algolia_search: true,
+  algolia_search: false,  // Deprecated — replaced by Supabase FTS
   push_notifications: true,
   clarity_tracking: true,
 

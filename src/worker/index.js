@@ -49,7 +49,7 @@ export default {
 
     const allowedOrigins = (env.ALLOWED_ORIGINS || 'https://alliancehub.dpdns.org,https://alliancehub.pages.dev,http://localhost:3000').split(',').map(s => s.trim());
     const origin = request.headers.get('Origin');
-    const cspHeader = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.algolia.net https://*.algolianet.com https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;";
+    const cspHeader = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;";
     const corsHeaders = {
       'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : 'https://alliancehub.dpdns.org',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -467,27 +467,60 @@ export default {
         return json({ data: await resp.json() }, corsHeaders);
       }
 
-      // ─── Algolia Search ───
+      // ─── Search (Supabase Full-Text Search) ───
       if (path === '/api/search' && method === 'GET') {
-        // BUG #5 FIX: Sanitize search input
         const rawQuery = url.searchParams.get('q') || '';
         const query = rawQuery.replace(/[<>"'\\]/g, '').substring(0, 200).trim();
         const limit = Math.min(parseInt(url.searchParams.get('limit') || '20'), 50);
-        if (!query) return json({ hits: [] }, corsHeaders);
+        const offset = parseInt(url.searchParams.get('offset') || '0');
+        const categoryId = url.searchParams.get('category') || null;
+        if (!query) return json({ hits: [], total: 0 }, corsHeaders);
         try {
-          const resp = await fetch('https://' + env.VITE_ALGOLIA_APP_ID + '-dsn.algolia.net/1/indexes/products/query', {
+          // Try weighted full-text search first
+          const rpcResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/search_products', {
             method: 'POST',
-            headers: {
-              'X-Algolia-Application-Id': env.VITE_ALGOLIA_APP_ID,
-              'X-Algolia-API-Key': env.VITE_ALGOLIA_SEARCH_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ query, hitsPerPage: limit })
+            headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ search_term: query, p_limit: limit, p_offset: offset, p_category: categoryId })
           });
-          const data = await resp.json();
-          return json({ hits: data.hits || [] }, corsHeaders);
+          let results = await rpcResp.json();
+          if (!Array.isArray(results)) results = [];
+
+          // Fallback to trigram fuzzy search if FTS returned nothing
+          if (results.length === 0) {
+            const fuzzyResp = await fetch(env.VITE_SUPABASE_URL + '/rest/v1/rpc/search_products_simple', {
+              method: 'POST',
+              headers: { 'apikey': env.VITE_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + env.VITE_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ search_term: query, p_limit: limit, p_offset: offset, p_category: categoryId })
+            });
+            const fuzzyData = await fuzzyResp.json();
+            if (Array.isArray(fuzzyData) && fuzzyData.length) results = fuzzyData;
+          }
+
+          // Normalize to match old Algolia hits format
+          const hits = results.map(r => ({
+            objectID: r.id,
+            id: r.id,
+            name: r.name,
+            slug: r.slug,
+            description: r.description,
+            price: r.price,
+            original_price: r.original_price,
+            images: r.images,
+            status: r.status,
+            sales_count: r.sales_count,
+            rating: r.rating,
+            stock: r.stock,
+            category_id: r.category_id,
+            seller_id: r.seller_id,
+            sellers: { name: r.seller_name, store_name: r.store_name, logo: r.seller_logo },
+            _rank: r.rank ?? r.similarity ?? 0
+          }));
+
+          const total = results[0]?.total_count ?? hits.length;
+          return json({ hits, total }, corsHeaders);
         } catch (e) {
-          return json({ hits: [], error: 'Search unavailable' }, corsHeaders);
+          console.error('Search error:', e.message);
+          return json({ hits: [], total: 0, error: 'Search unavailable' }, corsHeaders);
         }
       }
 

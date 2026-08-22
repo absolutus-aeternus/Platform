@@ -28,8 +28,6 @@ const mockEnv = {
   VITE_SUPABASE_ANON_KEY: 'test-anon-key',
   SUPABASE_SERVICE_ROLE_KEY: 'test-service-key',
   ALLOWED_ORIGINS: 'http://localhost:3000',
-  VITE_ALGOLIA_APP_ID: 'test-app-id',
-  VITE_ALGOLIA_SEARCH_KEY: 'test-search-key',
   CRON_JOB_TOKEN: 'test-cron-token',
 }
 
@@ -170,7 +168,7 @@ describe('Worker API - Route Validation', () => {
     })
 
     it('CSP header includes required directives', () => {
-      const csp = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.algolia.net https://*.algolianet.com https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;"
+      const csp = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.onesignal.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.upstash.io https://alliancehub-api.absolutus-aeternus.workers.dev https://ipapi.co wss://*.supabase.co; font-src 'self' https://cdnjs.cloudflare.com;"
       expect(csp).toContain("default-src 'self'")
       expect(csp).toContain("script-src")
       expect(csp).toContain("connect-src")

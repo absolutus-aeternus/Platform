@@ -43,8 +43,8 @@
           <div v-else-if="filteredProducts.length" class="product-grid">
             <ProductCard
               v-for="p in filteredProducts"
-              :key="p.objectID || p.id"
-              :product="{ ...p, id: p.objectID || p.id }"
+              :key="p.id"
+              :product="p"
             />
           </div>
 
