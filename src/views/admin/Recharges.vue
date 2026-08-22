@@ -30,10 +30,7 @@
               <template v-if="r.status === 'pending'">
                 <button class="btn-sm btn-approve" @click="confirm(r)"><i class="fas fa-check"></i></button>
                 <button class="btn-sm btn-reject" @click="reject(r)"><i class="fas fa-times"></i></button>
-                </div>
-        </div>
-</div>
-</div>
+              </template>
               <span v-else class="done">Done</span>
             </td>
           </tr>

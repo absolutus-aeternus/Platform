@@ -76,10 +76,8 @@
                   <div class="msg-footer">
                     <span class="msg-time">{{ formatTime(msg.created_at) }}</span>
                     <span v-if="msg.is_admin" class="msg-check" :class="{ read: msg.is_read }">
-                      <template v-if="msg.is_read">✓✓  </div>
-
-                      <div v-else>✓  </div>
-
+                      <template v-if="msg.is_read">✓✓</template>
+                      <template v-else>✓</template>
                     </span>
                   </div>
                   <button v-if="msg.is_admin" class="msg-delete" @click="deleteMessage(msg)" title="Delete message"><i class="fas fa-trash"></i></button>
@@ -145,8 +143,6 @@
       </div>
     </div>
   </div>
-  </div>
-        </div>
 </template>
 
 

@@ -30,7 +30,7 @@
     <div class="card">
       <h2><i class="fas fa-truck"></i> Recent Shipments</h2>
       <div v-if="shipments.length === 0" class="empty">No recent shipments</div>
-      <div style="overflow-x:auto;"><table v-else>
+      <div v-else style="overflow-x:auto;"><table>
         <thead><tr><th>Order #</th><th>Customer</th><th>Method</th><th>Tracking #</th><th>Status</th><th>Date</th></tr></thead>
         <tbody>
           <tr v-for="s in shipments" :key="s.id"><td>{{ s.order_no }}</td><td>{{ s.customer }}</td><td>{{ s.method }}</td><td class="tracking">{{ s.tracking || '-' }}</td><td><span class="status" :class="s.status">{{ s.status }}</span></td><td>{{ s.date }}</td></tr>
@@ -39,7 +39,6 @@
     </div>
   </div>
   </div>
-
 </template>
 
 
