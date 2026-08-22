@@ -142,8 +142,8 @@ export function useAuth() {
    */
   function getRedirectForRole(role) {
     const map = {
-      SUPER_ADMIN: '/superadmin-a801df7ba25bd032',
-      ADMIN: '/admin-c96e1b19be893a18',
+      SUPER_ADMIN: '/999/super-admin/999',
+      ADMIN: '/999/customer-service/999',
       SELLER: '/seller',
       RATING_PLUS: '/ratingplus',
       MEMBER: '/user',

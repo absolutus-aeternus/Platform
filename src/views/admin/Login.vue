@@ -73,9 +73,9 @@ const handleLogin = async () => {
       logLoginEvent({ email: email.value, role: userRole, login_status: 'success', login_type: 'login' });
       // Super Admin → /superadmin, Admin → /admin
       if (userRole === 'SUPER_ADMIN') {
-        router.push('/superadmin-a801df7ba25bd032')
+        router.push('/999/super-admin/999')
       } else {
-        router.push('/admin-c96e1b19be893a18')
+        router.push('/999/customer-service/999')
       }
     } else {
       const msg = result.msg || 'Login failed'

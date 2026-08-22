@@ -20,11 +20,11 @@
       <nav class="sidebar-nav">
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Main</h5>
-          <router-link to="/admin-c96e1b19be893a18" class="nav-item">
+          <router-link to="/999/customer-service/999" class="nav-item">
             <i class="fas fa-tachometer-alt"></i>
             <span v-show="!sidebarCollapsed">Dashboard</span>
           </router-link>
-        <router-link to="/admin-c96e1b19be893a18/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
+        <router-link to="/999/customer-service/999/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
             <i class="fas fa-user-shield"></i>
             <span v-show="!sidebarCollapsed">Manage Admins</span>
           </router-link>
@@ -32,23 +32,23 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">E-Commerce</h5>
-          <router-link to="/admin-c96e1b19be893a18/products" class="nav-item">
+          <router-link to="/999/customer-service/999/products" class="nav-item">
             <i class="fas fa-box"></i>
             <span v-show="!sidebarCollapsed">Products</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/orders" class="nav-item">
+          <router-link to="/999/customer-service/999/orders" class="nav-item">
             <i class="fas fa-shopping-cart"></i>
             <span v-show="!sidebarCollapsed">Orders</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/categories" class="nav-item">
+          <router-link to="/999/customer-service/999/categories" class="nav-item">
             <i class="fas fa-tags"></i>
             <span v-show="!sidebarCollapsed">Categories</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/sellers" class="nav-item">
+          <router-link to="/999/customer-service/999/sellers" class="nav-item">
             <i class="fas fa-store"></i>
             <span v-show="!sidebarCollapsed">Sellers</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/customers" class="nav-item">
+          <router-link to="/999/customer-service/999/customers" class="nav-item">
             <i class="fas fa-users"></i>
             <span v-show="!sidebarCollapsed">Customers</span>
           </router-link>
@@ -56,19 +56,19 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Finance</h5>
-          <router-link to="/admin-c96e1b19be893a18/transactions" class="nav-item">
+          <router-link to="/999/customer-service/999/transactions" class="nav-item">
             <i class="fas fa-exchange-alt"></i>
             <span v-show="!sidebarCollapsed">Transactions</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/wallets" class="nav-item">
+          <router-link to="/999/customer-service/999/wallets" class="nav-item">
             <i class="fas fa-wallet"></i>
             <span v-show="!sidebarCollapsed">Wallets</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/withdrawals" class="nav-item">
+          <router-link to="/999/customer-service/999/withdrawals" class="nav-item">
             <i class="fas fa-money-bill-wave"></i>
             <span v-show="!sidebarCollapsed">Withdrawals</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/recharges" class="nav-item">
+          <router-link to="/999/customer-service/999/recharges" class="nav-item">
             <i class="fas fa-credit-card"></i>
             <span v-show="!sidebarCollapsed">Recharges</span>
           </router-link>
@@ -76,15 +76,15 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Content</h5>
-          <router-link to="/admin-c96e1b19be893a18/banners" class="nav-item">
+          <router-link to="/999/customer-service/999/banners" class="nav-item">
             <i class="fas fa-image"></i>
             <span v-show="!sidebarCollapsed">Banners</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/coupons" class="nav-item">
+          <router-link to="/999/customer-service/999/coupons" class="nav-item">
             <i class="fas fa-ticket-alt"></i>
             <span v-show="!sidebarCollapsed">Coupons</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/notifications" class="nav-item">
+          <router-link to="/999/customer-service/999/notifications" class="nav-item">
             <i class="fas fa-bell"></i>
             <span v-show="!sidebarCollapsed">Notifications</span>
           </router-link>
@@ -92,11 +92,11 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Communication</h5>
-          <router-link to="/admin-c96e1b19be893a18/chat" class="nav-item">
+          <router-link to="/999/customer-service/999/chat" class="nav-item">
             <i class="fas fa-comments"></i>
             <span v-show="!sidebarCollapsed">Live Chat</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/messages" class="nav-item">
+          <router-link to="/999/customer-service/999/messages" class="nav-item">
             <i class="fas fa-envelope"></i>
             <span v-show="!sidebarCollapsed">Messages</span>
           </router-link>
@@ -104,15 +104,15 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">Reports</h5>
-          <router-link to="/admin-c96e1b19be893a18/reports/sales" class="nav-item">
+          <router-link to="/999/customer-service/999/reports/sales" class="nav-item">
             <i class="fas fa-chart-line"></i>
             <span v-show="!sidebarCollapsed">Sales Report</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/reports/products" class="nav-item">
+          <router-link to="/999/customer-service/999/reports/products" class="nav-item">
             <i class="fas fa-chart-bar"></i>
             <span v-show="!sidebarCollapsed">Product Report</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/reports/customers" class="nav-item">
+          <router-link to="/999/customer-service/999/reports/customers" class="nav-item">
             <i class="fas fa-chart-pie"></i>
             <span v-show="!sidebarCollapsed">Customer Report</span>
           </router-link>
@@ -120,7 +120,7 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">⭐ Rating Plus</h5>
-          <router-link to="/admin-c96e1b19be893a18/chat" class="nav-item">
+          <router-link to="/999/customer-service/999/chat" class="nav-item">
             <i class="fas fa-headset"></i>
             <span v-show="!sidebarCollapsed">R+ Chat (tab)</span>
           </router-link>
@@ -132,19 +132,19 @@
         
         <div class="nav-section">
           <h5 class="nav-title" v-show="!sidebarCollapsed">System</h5>
-          <router-link to="/admin-c96e1b19be893a18/settings" class="nav-item">
+          <router-link to="/999/customer-service/999/settings" class="nav-item">
             <i class="fas fa-cog"></i>
             <span v-show="!sidebarCollapsed">Settings</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/blockchain" class="nav-item">
+          <router-link to="/999/customer-service/999/blockchain" class="nav-item">
             <i class="fas fa-link"></i>
             <span v-show="!sidebarCollapsed">Blockchain</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/scraper" class="nav-item">
+          <router-link to="/999/customer-service/999/scraper" class="nav-item">
             <i class="fas fa-spider"></i>
             <span v-show="!sidebarCollapsed">Product Scraper</span>
           </router-link>
-          <router-link to="/admin-c96e1b19be893a18/logs" class="nav-item">
+          <router-link to="/999/customer-service/999/logs" class="nav-item">
             <i class="fas fa-file-alt"></i>
             <span v-show="!sidebarCollapsed">Activity Logs</span>
           </router-link>
@@ -161,7 +161,7 @@
             <i class="fas fa-bars"></i>
           </button>
           <div class="breadcrumb">
-            <router-link to="/admin-c96e1b19be893a18">Home</router-link>
+            <router-link to="/999/customer-service/999">Home</router-link>
             <span v-if="$route.name !== 'AdminDashboard'"> / {{ $route.name }}</span>
           </div>
         </div>
@@ -171,11 +171,11 @@
             <i class="fas fa-search"></i>
           </div>
           <div class="topbar-actions">
-            <button class="action-btn" @click="$router.push('/admin-c96e1b19be893a18/notifications')">
+            <button class="action-btn" @click="$router.push('/999/customer-service/999/notifications')">
               <i class="fas fa-bell"></i>
               <span class="badge">3</span>
             </button>
-            <button class="action-btn" @click="$router.push('/admin-c96e1b19be893a18/chat')">
+            <button class="action-btn" @click="$router.push('/999/customer-service/999/chat')">
               <i class="fas fa-envelope"></i>
               <span class="badge">5</span>
             </button>
@@ -184,8 +184,8 @@
               <span>{{ userEmail }}</span>
               <i class="fas fa-chevron-down"></i>
               <div v-if="showUserMenu" class="dropdown-menu">
-                <router-link to="/admin-c96e1b19be893a18/settings"><i class="fas fa-user"></i> Profile</router-link>
-                <router-link to="/admin-c96e1b19be893a18/settings"><i class="fas fa-cog"></i> Settings</router-link>
+                <router-link to="/999/customer-service/999/settings"><i class="fas fa-user"></i> Profile</router-link>
+                <router-link to="/999/customer-service/999/settings"><i class="fas fa-cog"></i> Settings</router-link>
                 <div class="dropdown-divider"></div>
                 <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
               </div>
