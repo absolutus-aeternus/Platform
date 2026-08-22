@@ -72,7 +72,7 @@
         </div>
         <div class="form-group">
           <label>Reason</label>
-          <input v-model="adjustReason" placeholder="Admin adjustment reason">
+          <input v-model="adjustReason" placeholder="Customer Service adjustment reason">
         </div>
         <div class="modal-actions">
           <button class="btn-cancel" @click="adjusting = null">Cancel</button>

@@ -6,14 +6,14 @@
       <div class="auth-header">
         <div class="auth-logo">
           <img loading="lazy" src="/images/logo-alliance.svg" alt="AllianceHub" class="logo-img-admin-login" />
-          <span class="admin-badge">Admin</span>
+          <span class="admin-badge">Customer Service</span>
         </div>
-        <p>Administrator Access Only</p>
+        <p>Customer Service Access Only</p>
       </div>
       
       <form @submit.prevent="handleLogin" class="auth-form">
         <div class="form-group">
-          <label><i class="fas fa-envelope"></i> Admin Email</label>
+          <label><i class="fas fa-envelope"></i> Customer Service Email</label>
           <input v-model="email" type="text" placeholder="admin@alliancehub.com" required>
         </div>
         <div class="form-group">
@@ -23,7 +23,7 @@
         
         <button type="submit" class="btn-submit" :disabled="loading">
           <span v-if="loading" class="spinner"></span>
-          {{ loading ? 'Authenticating...' : 'Admin Login' }}
+          {{ loading ? 'Authenticating...' : 'Customer Service Login' }}
         </button>
         
         <div v-if="error" class="error-msg"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
@@ -66,7 +66,7 @@ const handleLogin = async () => {
       const userRole = result.role || userStore.role
 
       if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN' && userRole !== 'RATING_PLUS') {
-        error.value = 'Access denied. Administrator privileges required.'
+        error.value = 'Access denied. Customer Service privileges required.'
         await userStore.logout()
         return
       }

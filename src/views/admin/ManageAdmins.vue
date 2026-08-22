@@ -2,20 +2,20 @@
   <div class="page-wrapper">
   <div class="manage-admins">
     <div class="page-header">
-      <h1>Manage Admin Accounts</h1>
+      <h1>Manage Customer Service Accounts</h1>
       <button class="btn-primary" @click="showAdd = true">
-        <i class="fas fa-plus"></i> Add Admin
+        <i class="fas fa-plus"></i> Add Customer Service
       </button>
     </div>
 
     <!-- Add Admin Modal -->
     <div v-if="showAdd" class="modal-overlay" @click.self="showAdd = false">
       <div class="modal">
-        <h3>Add New Admin</h3>
+        <h3>Add New Customer Service</h3>
         <form @submit.prevent="createAdmin">
           <div class="form-group">
             <label>Email</label>
-            <input v-model="newAdmin.email" type="email" placeholder="admin@example.com" required>
+            <input v-model="newAdmin.email" type="email" placeholder="cs@example.com" required>
           </div>
           <div class="form-group">
             <label>Password</label>
@@ -25,7 +25,7 @@
             <label>Role</label>
             <select v-model="newAdmin.role">
               <option value="SUPER_ADMIN">Super Admin</option>
-              <option value="ADMIN">Admin</option>
+              <option value="ADMIN">Customer Service</option>
               <option value="SELLER">Seller</option>
               <option value="MEMBER">Member</option>
             </select>
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Admin List -->
-    <div v-if="loading" class="loading">Loading admins...</div>
+    <div v-if="loading" class="loading">Loading customer service accounts...</div>
     <table v-else>
       <thead>
         <tr>
@@ -63,7 +63,7 @@
           <td>
             <select v-if="userStore.isSuperAdmin" :value="user.role" @change="updateRole(user, $event.target.value)" class="role-select">
               <option value="SUPER_ADMIN">Super Admin</option>
-              <option value="ADMIN">Admin</option>
+              <option value="ADMIN">Customer Service</option>
               <option value="SELLER">Seller</option>
               <option value="MEMBER">Member</option>
             </select>
@@ -72,7 +72,7 @@
           </td>
         </tr>
         <tr v-if="admins.length === 0">
-          <td colspan="4" style="text-align:center;padding:20px;color:#999">No admin accounts found</td>
+          <td colspan="4" style="text-align:center;padding:20px;color:#999">No customer service accounts found</td>
         </tr>
       </tbody>
     </table>

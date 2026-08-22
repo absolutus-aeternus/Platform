@@ -13,7 +13,7 @@
         <div class="user-avatar">{{ userEmail[0]?.toUpperCase() || 'A' }}</div>
         <div class="user-info" v-show="!sidebarCollapsed">
           <h4>{{ userEmail }}</h4>
-          <span class="role">{{ userStore.isSuperAdmin ? 'Super Admin' : 'Administrator' }}</span>
+          <span class="role">{{ userStore.isSuperAdmin ? 'Super Admin' : 'Customer Service' }}</span>
         </div>
       </div>
       
@@ -26,7 +26,7 @@
           </router-link>
         <router-link to="/999/customer-service/999/manage-admins" class="nav-item" v-if="userStore.isSuperAdmin">
             <i class="fas fa-user-shield"></i>
-            <span v-show="!sidebarCollapsed">Manage Admins</span>
+            <span v-show="!sidebarCollapsed">Manage Customer Service</span>
           </router-link>
         </div>
         
