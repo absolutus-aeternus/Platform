@@ -1,281 +1,244 @@
-# AllianceHub — Partner Global Dropshippers
+# AllianceHub — Global Dropshipping Marketplace
 
-> Full-stack e-commerce marketplace platform built with Vue 3, Supabase, and Cloudflare.
+Full-stack e-commerce marketplace built with **Vue 3**, **Supabase**, and **Cloudflare Workers**.
 
 [![Deploy](https://github.com/absolutus-aeternus/Platform/actions/workflows/deploy.yml/badge.svg)](https://github.com/absolutus-aeternus/Platform/actions/workflows/deploy.yml)
 [![Security Scan](https://github.com/absolutus-aeternus/Platform/actions/workflows/security-scan.yml/badge.svg)](https://github.com/absolutus-aeternus/Platform/actions/workflows/security-scan.yml)
 
-## 🏗 Architecture
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    Frontend (Vue 3)                   │
-│  Pinia · Vue Router · Vue I18n (9 langs) · PWA       │
-├─────────────────────────────────────────────────────┤
-│              Cloudflare Pages + Workers               │
-│  Edge Cache · Rate Limiting · CSRF · CORS            │
-├─────────────────────────────────────────────────────┤
-│                  Supabase (PostgreSQL)                │
-│  Auth · RLS (50 tables) · Realtime · Storage         │
-├─────────────────────────────────────────────────────┤
-│                   External Services                   │
-│  Backblaze B2 · Algolia · Upstash Redis · Resend     │
-│  OneSignal · Microsoft Clarity                        │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│                   Frontend (Vue 3 + Vite)                 │
+│   Pinia · Vue Router · Vue I18n (9 langs) · PWA          │
+├──────────────────────────────────────────────────────────┤
+│               Cloudflare Workers (API Layer)              │
+│   Edge Cache · Rate Limiting · CSRF · CORS · Proxy       │
+├──────────────────────────────────────────────────────────┤
+│                 Supabase (PostgreSQL)                      │
+│   Auth · RLS · Realtime · Full-Text Search · Storage      │
+├──────────────────────────────────────────────────────────┤
+│                    External Services                       │
+│   Backblaze B2 · Upstash Redis · Resend/Brevo             │
+│   OneSignal · Microsoft Clarity · cron-job.org            │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## 📁 Project Structure
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Vue 3, Pinia, Vue Router, Vue I18n |
+| Build | Vite 5, esbuild |
+| API | Cloudflare Workers (edge) |
+| Database | Supabase (PostgreSQL 15) |
+| Search | PostgreSQL Full-Text Search (tsvector + GIN) with pg_trgm fuzzy fallback |
+| Auth | Supabase Auth + RLS (Row Level Security) |
+| Storage | Backblaze B2 (S3-compatible) |
+| Cache | Upstash Redis (serverless) + Cloudflare Edge Cache |
+| Email | Resend (transactional) + Brevo (SMTP relay) |
+| Push | OneSignal |
+| Analytics | Microsoft Clarity |
+| Cron | cron-job.org |
+| Deploy | Cloudflare Workers + GitHub Actions |
+
+## Project Structure
 
 ```
 Platform/
 ├── src/
-│   ├── components/       # Reusable Vue components
-│   │   ├── base/         # BaseButton, BaseInput, BaseModal, etc.
-│   │   ├── layout/       # DynamicNav, FilterSidebar, MobileTabBar
+│   ├── assets/           # CSS: design tokens, responsive, animations
+│   ├── components/       # Reusable UI components
+│   │   ├── base/         # BaseButton, BaseInput, BaseModal, BasePagination
+│   │   ├── layout/       # DynamicNav, FilterSidebar, MobileTabBar, StickyCTA
 │   │   ├── product/      # ProductCard, FlashSaleCard
 │   │   ├── seller/       # BentoGrid, SalesChart, StatCard
 │   │   └── trust/        # TrustBar, VerifiedBadge, DiscountTag
-│   ├── composables/      # Vue composables (useAuth, useDarkMode, useDevice)
-│   ├── i18n/             # 9 languages (en, id, zh, ja, ko, ar, th, vi, ms)
-│   ├── layouts/          # MainLayout, AdminLayout, SellerLayout, etc.
-│   ├── router/           # Vue Router with RBAC guards
-│   ├── services/         # Supabase client, API services
-│   ├── store/            # Pinia stores (user, cart, orders, products, etc.)
-│   ├── utils/            # Helpers (CSRF, currency, payment, shipping, etc.)
+│   ├── composables/      # useAuth, useDarkMode, useDevice, useFeatureFlags
+│   ├── i18n/             # 9 locales: en, id, zh, ja, ko, ar, th, vi, ms
+│   ├── layouts/          # Admin, Seller, SuperAdmin, User layouts
+│   ├── router/           # Vue Router config
+│   ├── services/         # Supabase client, scraper, rplus
+│   ├── store/            # Pinia stores: cart, orders, products, user, wishlist
+│   ├── utils/            # search, payment, shipping, email, currency, helpers
 │   ├── views/            # 80+ page components
-│   │   ├── admin/        # Admin panel (20+ views)
+│   │   ├── admin/        # Admin panel (16 views)
 │   │   ├── seller/       # Seller dashboard (17 views)
-│   │   ├── superadmin/   # Super admin portal (7 views)
-│   │   └── user/         # User dashboard (13 views)
-│   └── worker/           # Cloudflare Worker (API backend)
+│   │   ├── superadmin/   # Super admin (7 views)
+│   │   └── user/         # User account (12 views)
+│   └── worker/           # Cloudflare Worker (API + edge logic)
 ├── supabase/
-│   ├── migrations/       # 21 SQL migrations
+│   ├── migrations/       # 23 SQL migrations (schema, RLS, FTS)
 │   └── functions/        # Edge functions
-├── functions/            # Cloudflare Pages Functions (proxy)
-├── public/               # Static assets, PWA manifest, service worker
-├── scripts/              # Build, seed, sync, and DB utilities
-└── tests/                # Unit + integration tests
+├── tests/
+│   ├── integration/      # API integration tests
+│   └── unit/             # Composable & store unit tests
+├── scripts/              # QA check script
+└── public/               # Static assets, PWA manifest, service worker
 ```
 
-## 🚀 Quick Start
+## Features
 
-### Prerequisites
-
-- Node.js 20+
-- Supabase project ([supabase.com](https://supabase.com))
-- Cloudflare account ([cloudflare.com](https://cloudflare.com))
-
-### 1. Clone & Install
-
-```bash
-git clone git@github.com:absolutus-aeternus/Platform.git
-cd Platform
-npm install
-```
-
-### 2. Environment Setup
-
-```bash
-cp .env.example .env
-# Fill in your Supabase and Cloudflare credentials
-```
-
-### 3. Database Setup
-
-```bash
-# Option A: Via Supabase CLI
-supabase link --project-ref <your-project-ref>
-supabase db push
-
-# Option B: Via Management API (scripts/supabase-sql.sh)
-export SUPABASE_PROJECT_REF=<your-ref>
-export SUPABASE_ACCESS_TOKEN=<your-token>
-bash scripts/supabase-sql.sh --file supabase/migrations/001_init.sql
-```
-
-### 4. Run Development
-
-```bash
-npm run dev          # Frontend on http://localhost:3000
-npm run worker:dev   # API worker on http://localhost:8788
-```
-
-### 5. Run Tests
-
-```bash
-npm test             # Run once
-npm run test:watch   # Watch mode
-npm run test:coverage # With coverage
-```
-
-## 🔐 Security
-
-### Authentication & Authorization
-
-- **Supabase Auth** — Email/password with JWT tokens
-- **5-tier RBAC**: `SUPER_ADMIN` > `ADMIN` > `SELLER` > `RATING_PLUS` > `MEMBER`
-- **Row Level Security (RLS)** on all 50 database tables
-- **Role escalation prevention** — database trigger blocks client-side role changes
-
-### API Security
-
-- **HMAC-signed CSRF tokens** — cryptographic validation, 24h expiry
-- **Rate limiting** — 60 req/min (IP), 120 req/min (user), 10 req/min (sensitive endpoints)
-- **Payment webhook signature verification** — HMAC-SHA256
-- **Input sanitization** — SQL injection prevention, search pattern escaping
-- **CORS** — strict origin allowlist
-- **CSP** — Content Security Policy with HSTS
-
-### CI/CD Security
-
-- **CodeQL Analysis** — weekly automated code scanning
-- **Dependency Audit** — `npm audit` on every PR
-- **Secret Detection** — regex scan for hardcoded credentials
-- **Automated Tests** — runs before every deploy
-
-## 🗄 Database
-
-### Tables (50)
-
-| Category | Tables |
-|----------|--------|
-| **Core** | users, profiles, products, categories, sellers |
-| **Commerce** | orders, order_items, cart_items, payments, coupons |
-| **User Data** | addresses, wishlists, follows, notifications, bank_cards |
-| **Seller** | seller_products, seller_wallets, commissions, payouts |
-| **Reviews** | evaluations, reviews, review_validations, product_comments |
-| **System** | system_params, audit_logs, login_logs, banners, platform_settings |
-| **Rating Plus** | rating_plus_users, rating_plus_tasks, rating_plus_chat_messages |
-| **Shipping** | shipping_rates |
-
-### Key Functions
-
-- `process_checkout()` — Atomic checkout with stock deduction + idempotency
-- `prevent_role_escalation()` — Trigger blocks unauthorized role changes
-- `validate_coupon()` — Coupon validation with usage tracking
-- `update_stock_on_order()` — Automatic stock deduction on order creation
-- `update_product_rating()` — Recalculates product rating on review changes
-
-## 🛠 API Endpoints
-
-### Public
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/health` | Health check + CSRF token |
-| GET | `/api/products` | List products (edge-cached, 60s) |
-| GET | `/api/product/:slug` | Product detail |
-| GET | `/api/categories` | List categories |
-| GET | `/api/sellers` | List sellers |
-| GET | `/api/sellers/top` | Top sellers with follower counts |
-| GET | `/api/search` | Algolia-powered search |
-| GET | `/api/shipping/estimate` | Shipping rate estimates |
-| GET | `/api/coupons/validate` | Validate coupon code |
-
-### Authenticated
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/api/checkout` | Create order (atomic) |
-| GET | `/api/orders` | User's orders |
-| POST | `/api/follow` | Follow seller |
-| POST | `/api/wishlist` | Toggle wishlist |
-| POST | `/api/review` | Submit review (verified purchase) |
-| POST | `/api/seller/register` | Register as seller |
-| POST | `/api/email/send` | Send email to self |
-
-### Admin Only
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/admin/users` | List all users |
-| POST | `/api/admin/change-role` | Change user role (audited) |
-| GET | `/api/admin/orders` | All orders |
-| POST | `/api/admin/seller-approval` | Approve/reject sellers |
-| GET | `/api/admin/system-params` | System configuration |
-
-## 🌍 Deployment
-
-### Automatic (GitHub Actions)
-
-Push to `main` branch triggers:
-1. `npm ci` → `npm test` → `npm run build`
-2. Deploy frontend to Cloudflare Pages
-3. Deploy API worker to Cloudflare Workers
-4. Apply Supabase migrations
-
-### Manual
-
-```bash
-# Build & deploy frontend
-npm run build
-npx wrangler pages deploy dist --project-name=alliancehub
-
-# Deploy API worker
-npm run worker:deploy
-
-# Apply database migrations
-supabase db push
-```
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_SUPABASE_URL` | Supabase project URL | ✅ |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | ✅ |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server only) | ✅ |
-| `VITE_WORKER_URL` | Cloudflare Worker URL | ✅ |
-| `VITE_ALGOLIA_APP_ID` | Algolia application ID | ⬜ |
-| `VITE_ONESIGNAL_APP_ID` | OneSignal push notifications | ⬜ |
-| `UPSTASH_REDIS_REST_URL` | Redis for rate limiting | ⬜ |
-| `B2_KEY_ID` / `B2_APPLICATION_KEY` | Backblaze B2 storage | ⬜ |
-| `RESEND_API_KEY` | Email service | ⬜ |
-
-## 🧪 Testing
-
-```bash
-npm test                    # Unit tests (Vitest)
-npm run test:watch          # Watch mode
-npm run test:coverage       # Coverage report
-npm run qa                  # QA checks (lint + test + build validation)
-```
-
-### Test Structure
-
-```
-tests/
-├── setup.js                # Test environment setup
-├── unit/
-│   ├── composables.test.js # Composable tests
-│   ├── store.test.js       # Pinia store tests
-│   └── utils.test.js       # Utility function tests
-└── integration/
-    └── api.test.js         # API endpoint tests
-```
-
-## 📱 Features
-
-### Multi-Role Portal System
-- **Buyer Portal** — Shopping, orders, wallet, favorites, reviews
-- **Seller Portal** — Product management, orders, analytics, promotions, shipping
-- **Admin Portal** — User management, reports, system settings, seller approval
-- **Super Admin Portal** — Full access, audit logs, feature flags, security
-
-### E-Commerce Core
-- Product catalog with categories, variants, and flash sales
-- Shopping cart with real-time sync
-- Atomic checkout with stock validation
-- Coupon system (percentage, fixed, free shipping)
+### Marketplace
+- Product catalog with categories, search, filters, and sorting
+- Full-Text Search with weighted ranking (name > description > category) and fuzzy typo tolerance
+- Shopping cart, wishlist, and checkout flow
 - Order tracking and logistics
-- Return/refund management
+- Flash sales and coupon system
+- Multi-seller marketplace with seller registration and approval
+
+### Seller Portal
+- Product management (CRUD, variants, inventory)
+- Order management and fulfillment
+- Sales analytics and reports
+- Coupon and promotion management
+- Shipping rate configuration
+- Wallet and payout system
+
+### Admin Panel
+- User and seller management with role-based access (MEMBER, SELLER, ADMIN, SUPER_ADMIN)
+- Product and category management
+- Order and payment oversight
+- Banner and notification management
+- Audit logs and security monitoring
+- Feature flags (toggle features from UI)
+- IP logging and login tracking
+
+### Security
+- Supabase RLS (Row Level Security) on all tables
+- CSRF protection (HMAC-SHA256 signed tokens)
+- Rate limiting (Upstash Redis + in-memory fallback)
+- Per-user rate limiting on sensitive endpoints
+- Webhook signature verification (HMAC-SHA256)
+- CSP headers (Content Security Policy)
+- Input sanitization and validation
 
 ### Internationalization
 9 languages: English, Indonesian, Chinese, Japanese, Korean, Arabic, Thai, Vietnamese, Malay
 
-### Progressive Web App
-- Service worker with offline support
-- Background sync for pending orders
-- Push notifications (OneSignal)
-- Installable on mobile/desktop
+## Search System
 
-## 📄 License
+Full-Text Search powered by PostgreSQL (replaces Algolia):
 
-Proprietary — © AllianceHub. All rights reserved.
+```sql
+-- Weighted search: name (A) > description (B) > category (C)
+SELECT * FROM search_products('wireless earbuds', 20, 0, NULL);
+
+-- Fuzzy fallback for typos
+SELECT * FROM search_products_simple('earbuds', 20, 0, NULL);
+```
+
+- **tsvector + GIN index** for fast full-text lookups
+- **pg_trgm** for fuzzy/typo-tolerant matching
+- **Auto-update trigger** keeps search index in sync on INSERT/UPDATE
+- **SECURITY DEFINER** bypasses RLS for public search access
+- **Zero external dependencies** — no Algolia, no sync jobs
+
+## Quick Start
+
+```bash
+# Clone
+git clone git@github.com:absolutus-aeternus/Platform.git
+cd Platform
+
+# Install
+npm install
+
+# Environment
+cp .env.example .env
+# Fill in Supabase URL + keys
+
+# Dev server
+npm run dev          # Frontend → http://localhost:3000
+npm run worker:dev   # Worker → http://localhost:8788
+
+# Build
+npm run build
+
+# Test
+npm run test
+```
+
+## Environment Variables
+
+See [`.env.example`](.env.example) for all required variables:
+
+| Variable | Description |
+|---|---|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon/public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role (server-only) |
+| `DATABASE_PASSWORD` | Supabase DB password |
+| `MANAGEMENT_API_TOKEN` | Supabase Management API token |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis URL |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis token |
+| `B2_KEY_ID` / `B2_APPLICATION_KEY` | Backblaze B2 credentials |
+| `RESEND_API_KEY` | Resend email API key |
+| `BREVO_SMTP_KEY` | Brevo SMTP key |
+| `VITE_ONESIGNAL_APP_ID` | OneSignal app ID |
+| `CRON_JOB_TOKEN` | cron-job.org token |
+| `VITE_CLARITY_PROJECT_ID` | Microsoft Clarity project ID |
+| `VITE_WORKER_URL` | Cloudflare Worker URL |
+
+## Deployment
+
+### Cloudflare Workers (API)
+```bash
+npm run worker:deploy
+# Or via GitHub Actions (auto-deploy on push to main)
+```
+
+### Supabase Migrations
+```bash
+# Link project
+supabase link --project-ref <ref>
+
+# Push migrations
+supabase db push
+```
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/health` | GET | Health check |
+| `/api/products` | GET | List products (cached) |
+| `/api/product/:slug` | GET | Product detail |
+| `/api/search?q=` | GET | Full-text search |
+| `/api/categories` | GET | List categories |
+| `/api/sellers` | GET | List sellers |
+| `/api/sellers/top` | GET | Top sellers by followers |
+| `/api/follow` | POST/DELETE | Follow/unfollow seller |
+| `/api/wishlist` | GET/POST | Wishlist toggle |
+| `/api/checkout` | POST | Place order |
+| `/api/orders` | GET | User orders |
+| `/api/coupons/validate` | GET | Validate coupon |
+| `/api/shipping/estimate` | GET | Shipping estimate |
+| `/api/review` | POST | Submit review |
+| `/api/email/send` | POST | Send email |
+| `/api/webhook/payment` | POST | Payment webhook |
+| `/api/admin/*` | Various | Admin endpoints |
+
+## Database
+
+23 migrations in `supabase/migrations/`:
+
+- `001_init.sql` — Core tables (profiles, categories, sellers, products, orders)
+- `002-006` — Feed events, security fixes, commission system
+- `007-013` — RLS hardening, rating system, atomic stock, favorites
+- `014-022` — RLS policies, notifications, comments, audit logs, indexes
+- `023_fulltext_search_products.sql` — Full-Text Search (replaces Algolia)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing`)
+5. Open a Pull Request
+
+## License
+
+[MIT](LICENSE)
