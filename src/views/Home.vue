@@ -446,7 +446,7 @@ onUnmounted(() => {
 .flash-left { display: flex; align-items: center; gap: 0.75rem; }
 .flash-icon { font-size: 1rem; color: var(--brand-primary, #FF9900); }
 .flash-live-badge { width: 32px; height: 32px; border-radius: 50%; animation: pulse-live 2s infinite; }
-@keyframes pulse-live { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); }
+@keyframes pulse-live { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 .flash-title { font-size: 0.9375rem; font-weight: 700; margin: 0; }
 .flash-countdown { display: flex; align-items: center; gap: 0.25rem; }
 .cd-num { background: var(--brand-dark, #131921); color: #fff; padding: 0.125rem 0.375rem; border-radius: 2px; font-weight: 700; font-size: 0.75rem; min-width: 1.25rem; text-align: center; }
